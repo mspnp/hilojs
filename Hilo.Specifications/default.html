@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Jasmine Spec Runner</title>
+
+    <!-- WinJS references -->
+    <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
+    <script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
+    <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
+
+    <!-- Jasmine references -->
+    <link rel="shortcut icon" type="image/png" href="/Jasmine/lib/jasmine-1.2.0/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="/Jasmine/lib/jasmine-1.2.0/jasmine.css">
+    <script src="/Jasmine/lib/jasmine-1.2.0/jasmine.js"></script>
+    <script src="/Jasmine/lib/jasmine-1.2.0/jasmine-html.js"></script>
+
+    <!-- spec framework references -->
+    <script src="/js/spec.helpers.js"></script>
+
+    <!-- include source files here... -->
+    <script src="/js/require.js"></script>
+    <script src="/js/hub.js"></script>
+    <script src="/js/picturesRepository.js"></script>
+
+    <!-- include spec files here... -->
+    <script src="/specs/require.js"></script>
+    <script src="/specs/hub.js"></script>
+    <script src="/specs/picturesRepository.js"></script>
+
+    <script type="text/javascript">
+        (function () {
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
+
+            var htmlReporter = new jasmine.HtmlReporter();
+
+            jasmineEnv.addReporter(htmlReporter);
+
+            jasmineEnv.specFilter = function (spec) {
+                return htmlReporter.specFilter(spec);
+            };
+
+            var currentWindowOnload = window.onload;
+
+            window.onload = function () {
+                if (currentWindowOnload) {
+                    currentWindowOnload();
+                }
+                execJasmine();
+            };
+
+            function execJasmine() {
+                jasmineEnv.execute();
+            }
+
+        })();
+    </script>
+
+</head>
+
+<body>
+    <div id="scratch"></div>
+</body>
+
+</html>

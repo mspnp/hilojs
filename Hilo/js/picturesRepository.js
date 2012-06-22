@@ -1,0 +1,38 @@
+﻿define('Hilo.PicturesRepository', function (require) {
+
+    var // dependencies
+        bulk = require('Windows.Storage.BulkAccess'),
+        storage = require('Windows.Storage'),
+        library = require('Windows.Storage.KnownFolders.picturesLibrary'),
+        search = require('Windows.Storage.Search'),
+        promise = require('WinJS.Promise');
+
+    var // constants
+        imageCount = 6;
+
+    var // query configuration
+        mode = storage.FileProperties.ThumbnailMode.singleItem,
+        minimum_size = 310,
+        options = storage.FileProperties.ThumbnailOptions.none,
+        delayLoad = true,
+        // query setup
+        queryOptions = new search.QueryOptions(search.CommonFileQuery.orderByDate, ['.jpg']),
+        query = library.createFileQueryWithOptions(queryOptions),
+        access = new bulk.FileInformationFactory(query, mode, minimum_size, options, delayLoad);
+
+    function toProjection(item) {
+        return {
+            name: item.name,
+            url: URL.createObjectURL(item.thumbnail)
+        }
+    }
+
+    return {
+        getPreviewImages: function () {
+            return access.getFilesAsync(0, imageCount)
+                .then(function (items) {
+                    return promise.wrap(items.map(toProjection));
+                });
+        }
+    };
+});

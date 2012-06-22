@@ -1,0 +1,46 @@
+﻿.hub section[role=main] {
+    margin-left: 120px;
+}
+
+@media screen and (-ms-view-state: snapped) {
+    .hub section[role=main] {
+        margin-left: 20px;
+    }
+}
+
+@media screen and (-ms-view-state: portrait) {
+    .hub section[role=main] {
+        margin-left: 100px;
+    }
+}
+
+.hub section[role=main] ol {
+    list-style-type: none;
+    margin: 0px;
+    display: block;
+    width: 600px;
+    height: 100%;
+    padding: 0;
+}
+
+    .hub section[role=main] ol li {
+        margin: 0px 10px 10px 0px;
+        display: inline-block;
+        padding: 0px;
+        width: 150px;
+        height: 150px;
+        float: left;
+        background-image: url('/images/Hilo150b.png');
+        background-size: contain;
+    }
+
+        .hub section[role=main] ol li:first-child {
+            width: 310px;
+            height: 310px;
+        }
+
+        .hub section[role=main] ol li div {
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
