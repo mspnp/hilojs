@@ -27,30 +27,19 @@
 
         ready: function (element, image) {
 
-            //todo: the item.url is for the thumb, we need to retrieve the real image
-
             var section = document.querySelector('section[role="main"]');
             section.innerHtml = '';
 
             var img = document.createElement('img');
-            img.src = URL.createObjectURL(image);
             section.appendChild(img);
-
-            var elements = document.querySelectorAll('section');
-            ui.Animation.fadeIn(section);
-        },
-
-        updateLayout: function (element, viewState, lastViewState) {
-            /// <param name='element' domElement='true' />
-            /// <param name='viewState' value='Windows.UI.ViewManagement.ApplicationViewState' />
-            /// <param name='lastViewState' value='Windows.UI.ViewManagement.ApplicationViewState' />
-
-            // TODO: Respond to changes in viewState.
-            debugger;
+            img.src = URL.createObjectURL(image);
+            img.addEventListener('load', function () {
+                ui.Animation.fadeIn(img);
+            });
         },
 
         unload: function () {
-            // TODO: Respond to navigations away from this page.
+            // TODO: unwire any events
         }
     };
 
