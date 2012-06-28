@@ -40,7 +40,7 @@
             }
         });
 
-        return Hilo.PicturesRepository(mock.require).getPreviewImages();
+        Hilo.PicturesRepository(mock.require).getPreviewImages();
     });
 
     it('should include .jpg files', function () {
@@ -49,7 +49,7 @@
             expect(filter).toContain('.jpg');
         });
 
-        return Hilo.PicturesRepository(mock.require).getPreviewImages();
+        Hilo.PicturesRepository(mock.require).getPreviewImages();
     });
 
     it('should order by date', function () {
@@ -72,19 +72,6 @@
         });
 
         return Hilo.PicturesRepository(mock.require);
-    });
-
-    async.it('should retrieve the name and url for each image', function () {
-        mock.asClass('Windows.Storage.BulkAccess.FileInformationFactory', null, {
-            getFilesAsync: function () {
-                return WinJS.Promise.wrap([{ name: '', thumbnail: new Blob() }]);
-            }
-        });
-        return Hilo.PicturesRepository(mock.require).getPreviewImages();
-    }, function (images) {
-        var first = images[0];
-        expect(first.name).toBeDefined('name');
-        expect(first.url).toBeDefined('url');
     });
 
 });

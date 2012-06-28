@@ -31,7 +31,7 @@
         getPreviewImages: function () {
             return access.getFilesAsync(0, imageCount)
                 .then(function (items) {
-                    return promise.wrap(items.map(toProjection));
+                    return promise.wrap(items);
                 });
         }
     };
