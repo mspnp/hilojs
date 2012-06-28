@@ -18,7 +18,7 @@
     list-style-type: none;
     margin: 0px;
     display: block;
-    width: 600px;
+    width: 800px;
     height: 100%;
     padding: 0;
 }
@@ -27,16 +27,16 @@
         margin: 0px 10px 10px 0px;
         display: inline-block;
         padding: 0px;
-        width: 150px;
-        height: 150px;
+        width: 200px;
+        height: 200px;
         float: left;
         background-image: url('/images/Hilo150b.png');
         background-size: contain;
     }
 
         .hub section[role=main] ol li:first-child {
-            width: 310px;
-            height: 310px;
+            width: 410px;
+            height: 410px;
         }
 
         .hub section[role=main] ol li div {
