@@ -16,31 +16,17 @@
         for (registration in root) {
             module = root[registration];
 
-            // Check to see if the module is
-            // a function or an object and only apply it
-            // when it is a function.
-            if (typeof module === 'function') {
-                root[registration] = module(require);
-            }
+            root[registration] = require('Hilo.' + registration);
         }
     }
 
-    document.onreadystatechange = function (evt) {
-        //todo: remove
-        console.log('readyState ' + document.readyState);
-    }
-
-    nav.addEventListener('navigating', function () { console.log('navigating'); }, false);
-    nav.addEventListener('navigated', function () { console.log('navigated'); }, false);
-
     app.addEventListener('loaded', function () {
-        console.log('app loaded');
         if (!Hilo) throw new Error('Expected Hilo to be defined before the Application.loaded event');
         processModules(Hilo);
     }, false);
 
     app.addEventListener('activated', function (args) {
-        console.log('app activated');
+
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched. Initialize
@@ -55,9 +41,12 @@
             }
             args.setPromise(WinJS.UI.processAll().then(function () {
 
-                var n = document.querySelector('#contenthost').winControl;
-                n.addEventListener('afterrender', function () {
-                    Hilo.pages.hub(require);
+                document.querySelector('#contenthost').winControl.addEventListener('afterrender', function () {
+                    for (var page in Hilo.pages) {
+                        if (Hilo.pages[page].isFactory) {
+                            Hilo.pages[page] = require('Hilo.pages.' + page);
+                        }
+                    }
                 }, false);
 
                 if (nav.location) {
