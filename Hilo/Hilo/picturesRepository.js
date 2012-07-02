@@ -29,6 +29,12 @@
     return {
         getPreviewImages: function () {
             return access.getFilesAsync(0, imageCount).then(createViewModels);
+        },
+        // TODO: temp solution to keep the details page working
+        getImageAt: function (index) {
+            return access.getFilesAsync(index, 1).then(function (files) {
+                return promise.wrap(files[0]);
+            });
         }
     };
 });

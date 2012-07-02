@@ -50,7 +50,7 @@
                         el.addEventListener('click', function () {
                             ui.Animation.pointerDown(el).then(function () {
                                 //TODO: we could pass along the query itself
-                                nav.navigate('/Hilo/pages/detail.html', item);
+                                nav.navigate('/Hilo/pages/detail.html', index);
                             });
                         });
                     });
