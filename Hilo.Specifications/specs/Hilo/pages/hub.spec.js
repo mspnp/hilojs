@@ -18,9 +18,10 @@
     });
 
     it('should be defined as a page', function () {
-        expect(pages['/pages/hub/hub.html']).toBeUndefined();
+        var url = '/Hilo/pages/hub.html';
+        expect(pages[url]).toBeUndefined();
         Hilo.pages.hub(mock.require);
-        expect(pages['/pages/hub/hub.html']).toBeDefined();
+        expect(pages[url]).toBeDefined();
     });
 
     it('should define a ready function', function () {

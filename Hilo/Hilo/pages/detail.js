@@ -43,6 +43,6 @@
         }
     };
 
-    pages.define('/pages/detail/detail.html', page);
+    pages.define('/Hilo/pages/detail.html', page);
     return page;
 });

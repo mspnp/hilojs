@@ -10,7 +10,7 @@
 
     function handleMenu(item) {
         // just thining about ways to reduce wiring code
-        nav.navigate('/pages/monthView/monthView.html');
+        //nav.navigate('/pages/monthView/monthView.html');
     }
 
     function setupFlyout() {
@@ -58,7 +58,7 @@
                         el.addEventListener('click', function () {
                             ui.Animation.pointerDown(el).then(function () {
                                 //todo: we could pass along the query itself
-                                nav.navigate('/pages/detail/detail.html', item);
+                                nav.navigate('/Hilo/pages/detail.html', item);
                             });
                         });
                     });
@@ -73,6 +73,6 @@
         }
     };
 
-    pages.define('/pages/hub/hub.html', page);
+    pages.define('/Hilo/pages/hub.html', page);
     return page;
 });

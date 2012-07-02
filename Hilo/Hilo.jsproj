@@ -50,7 +50,17 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="default.css" />
     <Content Include="default.html" />
+    <Content Include="default.js" />
+    <Content Include="Hilo\navigator.js" />
+    <Content Include="Hilo\pages\detail.css" />
+    <Content Include="Hilo\pages\detail.html" />
+    <Content Include="Hilo\pages\detail.js" />
+    <Content Include="Hilo\pages\hub.css" />
+    <Content Include="Hilo\pages\hub.html" />
+    <Content Include="Hilo\pages\hub.js" />
+    <Content Include="Hilo\picturesRepository.js" />
     <Content Include="Hilo_TemporaryKey.pfx" />
     <Content Include="images\Hilo150b.png" />
     <Content Include="images\Hilo30.png" />
@@ -59,20 +69,7 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
-    <Content Include="js\default.js" />
-    <Content Include="css\default.css" />
-    <Content Include="js\navigator.js" />
-    <Content Include="js\require.js" />
-    <Content Include="js\picturesRepository.js" />
-    <Content Include="pages\detail\detail.css" />
-    <Content Include="pages\detail\detail.html" />
-    <Content Include="pages\detail\detail.js" />
-    <Content Include="pages\hub\hub.css" />
-    <Content Include="pages\hub\hub.html" />
-    <Content Include="pages\hub\hub.js" />
-    <Content Include="pages\monthView\monthView.css" />
-    <Content Include="pages\monthView\monthView.html" />
-    <Content Include="pages\monthView\monthView.js" />
+    <Content Include="require.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />
