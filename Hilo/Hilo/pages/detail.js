@@ -32,7 +32,7 @@
 
             var img = document.createElement('img');
             section.appendChild(img);
-            img.src = URL.createObjectURL(image);
+            //img.src = URL.createObjectURL(image);
             img.addEventListener('load', function () {
                 ui.Animation.fadeIn(img);
             });
