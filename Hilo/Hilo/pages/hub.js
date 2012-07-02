@@ -8,57 +8,54 @@
         // Hilo
         repo = require('Hilo.PicturesRepository');
 
-    function handleMenu(item) {
-        // just thining about ways to reduce wiring code
-        //nav.navigate('/pages/monthView/monthView.html');
-    }
+    function setupAppbar() {
+        var appbar = document.querySelector('#appbar').winControl,
+            buttons = document.querySelectorAll('#appbar button');
 
-    function setupFlyout() {
-        var header = document.querySelector('.titlearea'),
-            items = document.querySelectorAll('#navFlyout button');
-
-        Array.prototype.forEach.call(items, function (x) {
+        Array.prototype.forEach.call(buttons, function (x) {
+            //x.winControl.disabled = true;
             x.addEventListener('click', function () {
-                handleMenu(x);
+                //handleMenu(x);
             });
         });
 
-        header.addEventListener('click', function () {
-            var flyout = document.getElementById('navFlyout').winControl;
-            flyout.anchor = header;
-            flyout.placement = 'bottom';
-            flyout.alignment = 'left';
-            flyout.show();
-        }, false);
+    }
+
+    function animateEnterPage() {
+        var elements = document.querySelectorAll('.titlearea, li');
+        ui.Animation.enterPage(elements);
+    }
+
+    function bindImages(items) {
+        var hub = document.querySelector('section[role="main"] ol'),
+            template = document.querySelector('#hub-image-template').winControl;
+
+        items.forEach(function (item, index) {
+
+            var li = document.createElement('li');
+            hub.appendChild(li);
+
+            function attachClick(el) {
+                el.addEventListener('click', function () {
+                    ui.Animation.pointerDown(el).then(function () {
+                        // TODO: we could pass along the query itself
+                        nav.navigate('/Hilo/pages/detail.html', index);
+                    });
+                });
+            }
+
+            template.render(item, li).then(attachClick);
+        });
     }
 
     var page = {
         ready: function (element, options) {
 
-            setupFlyout();
+            setupAppbar();
 
-            repo.getPreviewImages().then(function (items) {
-
-                var hub = document.querySelector('section[role="main"] ol'),
-                    template = document.querySelector('#hub-image-template').winControl;
-
-                items.forEach(function (item, index) {
-
-                    var li = document.createElement('li');
-                    hub.appendChild(li);
-                    template.render(item, li).then(function (el) {
-                        el.addEventListener('click', function () {
-                            ui.Animation.pointerDown(el).then(function () {
-                                //TODO: we could pass along the query itself
-                                nav.navigate('/Hilo/pages/detail.html', index);
-                            });
-                        });
-                    });
-                });
-            }).then(function () {
-                var elements = document.querySelectorAll('.titlearea, li');
-                ui.Animation.enterPage(elements);
-            });
+            repo.getPreviewImages()
+                .then(bindImages)
+                .then(animateEnterPage);
         }
     };
 
