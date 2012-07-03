@@ -14,33 +14,20 @@
     }
 }
 
-.hub section[role=main] ol {
-    list-style-type: none;
-    margin: 0px;
-    display: block;
+.hub section[role=main] #picturesLibrary {
     width: 800px;
     height: 100%;
-    padding: 0;
 }
 
-    .hub section[role=main] ol li {
-        margin: 0px 10px 10px 0px;
-        display: inline-block;
-        padding: 0px;
+    .hub section[role=main] .thumbnail  {
         width: 200px;
         height: 200px;
-        float: left;
         background-image: url('/images/Hilo150b.png');
-        background-size: contain;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
-        .hub section[role=main] ol li:first-child {
+        .hub section[role=main] .thumbnail.first{
             width: 410px;
             height: 410px;
-        }
-
-        .hub section[role=main] ol li div {
-            background-size: cover;
-            width: 100%;
-            height: 100%;
         }

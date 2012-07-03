@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <VisualElements DisplayName="Hilo" Logo="images\Hilo150b.png" SmallLogo="images\Hilo30.png" Description="Hilo Picture Viewer" ForegroundText="light" BackgroundColor="#292929">
-        <DefaultTile ShowName="allLogos" WideLogo="images\Hilo310b.png" ShortName="Hilo" />
+      <VisualElements DisplayName="Hilo JS" Logo="images\Hilo150b.png" SmallLogo="images\Hilo30.png" Description="Hilo JavaScript Picture Viewer" ForegroundText="light" BackgroundColor="#292929">
+        <DefaultTile ShowName="allLogos" WideLogo="images\Hilo310b.png" ShortName="Hilo JS" />
         <SplashScreen Image="images\splashscreen.png" BackgroundColor="#292929" />
       </VisualElements>
     </Application>

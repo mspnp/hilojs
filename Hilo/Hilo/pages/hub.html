@@ -27,19 +27,24 @@
                 </button>
             </div>
 
-            <div id="hub-image-template" data-win-control="WinJS.Binding.Template">
-                <div data-win-bind="style.backgroundImage: url; alt: name">
-                </div>
-            </div>
-
         </header>
 
         <section aria-label="Main content" role="main">
-            <ol>
-            </ol>
+
+            <div id="hub-image-template" data-win-control="WinJS.Binding.Template">
+                <div data-win-bind="style.backgroundImage: url; alt: name; className: className">
+                </div>
+            </div>
+
+            <div id="picturesLibrary"
+                data-win-control="WinJS.UI.ListView"
+                data-win-options="{ 
+                    itemTemplate: select('#hub-image-template'), 
+                    selectionMode: 'single'}" />
+
         </section>
 
-        <div id="appbar" data-win-control="WinJS.UI.AppBar">
+        <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'crop', label:'Crop', icon:'crop', section: 'selection', disabled: true}">
             </button>
             <button data-win-control="WinJS.UI.AppBarCommand" data-win-options="{id:'rotate', label:'Rotate', icon:'rotate', section: 'selection', disabled: true}">

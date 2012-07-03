@@ -8,54 +8,100 @@
         // Hilo
         repo = require('Hilo.PicturesRepository');
 
+    // These settings must correspond to the height and width values specified 
+    // in the css for the items. They need to be the greatest common demoninator
+    // of the various widths and heights.
+    var listViewLayoutSettings = {
+        enableCellSpanning: true,
+        cellWidth: 200,
+        cellHeight: 200
+    };
+
+    var lv,
+        appbar,
+        buttons,
+        page;
+
+    //TODO: temporary implementation
+    var commands = {
+        rotate: function () {
+            var indices = lv.selection.getIndices();
+            nav.navigate('/Hilo/pages/rotate.html', indices[0]);
+        },
+        crop: function () {
+            var indices = lv.selection.getIndices();
+            nav.navigate('/Hilo/pages/crop.html', indices[0]);
+        }
+    };
+
     function setupAppbar() {
-        var appbar = document.querySelector('#appbar').winControl,
-            buttons = document.querySelectorAll('#appbar button');
+        appbar = document.querySelector('#appbar').winControl;
+        buttons = document.querySelectorAll('#appbar button');
 
         Array.prototype.forEach.call(buttons, function (x) {
-            //x.winControl.disabled = true;
-            x.addEventListener('click', function () {
-                //handleMenu(x);
+            x.addEventListener('click', function (args) {
+                commands[args.currentTarget.id]();
             });
         });
-
     }
 
-    function animateEnterPage() {
-        var elements = document.querySelectorAll('.titlearea, li');
-        ui.Animation.enterPage(elements);
+    function setupListView() {
+        lv = document.querySelector('#picturesLibrary').winControl;
+
+        lv.layout.groupInfo = function () { return listViewLayoutSettings };
+        lv.layout.maxRows = 3;
+        lv.addEventListener('iteminvoked', imageNavigated);
+        lv.addEventListener('selectionchanged', imageSelected);
+    }
+
+    function imageSelected(args) {
+
+        var indices = lv.selection.getIndices();
+
+        Array.prototype.forEach.call(buttons, function (x) {
+            x.winControl.disabled = (indices.length === 0);
+        });
+
+        if (indices.length !== 0) {
+            appbar.show();
+        } else {
+            appbar.hide();
+        };
+    }
+
+    function imageNavigated(args) {
+        nav.navigate('/Hilo/pages/detail.html', args.detail.itemIndex);
     }
 
     function bindImages(items) {
-        var hub = document.querySelector('section[role="main"] ol'),
-            template = document.querySelector('#hub-image-template').winControl;
 
-        items.forEach(function (item, index) {
+        if (items.length > 0) {
+            items[0].className = items[0].className + ' first';
+        }
 
-            var li = document.createElement('li');
-            hub.appendChild(li);
-
-            function attachClick(el) {
-                el.addEventListener('click', function () {
-                    ui.Animation.pointerDown(el).then(function () {
-                        // TODO: we could pass along the query itself
-                        nav.navigate('/Hilo/pages/detail.html', index);
-                    });
-                });
-            }
-
-            template.render(item, li).then(attachClick);
-        });
+        lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
     }
 
-    var page = {
+    function animateEnterPage() {
+        var elements = document.querySelectorAll('.titlearea, section[role=main]');
+        ui.Animation.enterPage(elements);
+    }
+
+    // Construct the page object that we want to export.
+    // We store it as a variable before exporting, because we have to 
+    // register the page with the url using `define`.
+    page = {
         ready: function (element, options) {
 
+            setupListView();
             setupAppbar();
 
             repo.getPreviewImages()
                 .then(bindImages)
                 .then(animateEnterPage);
+        },
+        unload: function () {
+            // TODO: 
         }
     };
 

@@ -5,44 +5,53 @@
         ns = WinJS.Namespace,
         klass = WinJS.Class;
 
-    var scratch_area = '#scratch';
+    var scratcn_id = 'scratch',
+        locateScratch = document.querySelector.bind(document, '#' + scratcn_id);
 
-    function async(description, promise, condition) {
-        it(description, function () {
-            var
-                ready = false,
-                results;
-
-            runs(function () {
-                promise().done(function (r) {
-                    ready = true;
-                    results = r;
-                }, function (err) { throw new Error('test failed: ' + err); })
-            });
-
-            waitsFor(function () {
-                return ready;
-            });
-
-            runs(function () {
-                if (condition) condition(results);
-            });
-        });
-    }
-
+    // Clean out the scratch area and build new 
+    // DOM elements based on the given html.
     function dom(html) {
-        var scratch = document.querySelector(scratch_area);
+        var scratch = locateScratch();
         utilities.empty(scratch);
         scratch.innerHTML = html;
     }
 
+    // Finds an existing or appends a new DOM element to the scratch area
+    // and then sets the winControl property with the given mock.
+    function winControl(name, mock) {
+        var target = document.querySelector('#' + name);
+        if (!target) {
+            target = document.createElement('div');
+            target.id = name;
+            locateScratch().appendChild(target);
+        }
+        target.winControl = mock || {};
+        return target.winControl;
+    }
+
+    // Create a new scratch area.
+    function createScratchArea() {
+        var area = document.createElement('div');
+        area.id = scratcn_id;
+        area.style.display = 'none';
+        document.body.appendChild(area);
+    }
+
+    // The `mocking` object will be exported as the public 
+    // interface to the mocks.
     var mocking = klass.define(function () {
-        //todo: what's a better name for `handle`?
         var self = this;
+
+        // If the scratch area does not exist, then we create it.
+        if (!locateScratch()) {
+            createScratchArea();
+        }
+
         self.reset = function () {
             self.mocks = {};
             dom('');
 
+            //todo: what's a better name for `handle`?
             self.handle = ns.defineWithParent.bind(null, self.mocks);
 
             self.handle.require = function (service) {
@@ -70,12 +79,12 @@
             }
 
             self.handle.dom = dom;
+            self.handle.winControl = winControl;
         };
         self.reset();
     });
 
     ns.define('Hilo.specs.helpers', {
-        async: async,
         mocking: mocking
     });
 

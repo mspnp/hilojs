@@ -87,11 +87,8 @@
                             if (oldElement.winControl && oldElement.winControl.unload) {
                                 oldElement.winControl.unload();
                             }
-                            console.log('about to render');
                             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
                         }).then(function parentElement(control) {
-                            console.log('after render');
-
                             that.listeners.dispatchEvent('afterrender', {});
                             that.element.appendChild(newElement);
                             that.element.removeChild(oldElement);

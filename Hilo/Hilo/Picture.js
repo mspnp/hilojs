@@ -12,6 +12,7 @@
         this._initObservable();
         this.addProperty('name', file.name);
         this.addProperty('url', urlFor(file.thumbnail));
+        this.addProperty('className', 'thumbnail');
 
         file.addEventListener('thumbnailupdated', function (args) {
             self.updateProperty('url', urlFor(file.thumbnail));
