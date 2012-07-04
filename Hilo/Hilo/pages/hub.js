@@ -1,7 +1,9 @@
 ﻿define('Hilo.pages.hub', function (require) {
     'use strict';
 
-    var // WinJS
+    var // Windows
+        appViewState = Windows.UI.ViewManagement.ApplicationViewState,
+        // WinJS
         ui = require('WinJS.UI'),
         nav = require('WinJS.Navigation'),
         pages = require('WinJS.UI.Pages'),
@@ -48,8 +50,8 @@
     function setupListView() {
         lv = document.querySelector('#picturesLibrary').winControl;
 
-        lv.layout.groupInfo = function () { return listViewLayoutSettings };
-        lv.layout.maxRows = 3;
+        lv.layout = selectLayout(Windows.UI.ViewManagement.ApplicationView.value);
+
         lv.addEventListener('iteminvoked', imageNavigated);
         lv.addEventListener('selectionchanged', imageSelected);
     }
@@ -87,6 +89,21 @@
         ui.Animation.enterPage(elements);
     }
 
+    function selectLayout(viewState, lastViewState) {
+
+        if (lastViewState === viewState) return;
+
+        if (viewState === appViewState.snapped) {
+            return new WinJS.UI.ListLayout();
+        }
+        else {
+            var layout = new WinJS.UI.GridLayout();
+            layout.groupInfo = function () { return listViewLayoutSettings };
+            layout.maxRows = 3;
+            return layout;
+        }
+    }
+
     // Construct the page object that we want to export.
     // We store it as a variable before exporting, because we have to 
     // register the page with the url using `define`.
@@ -99,6 +116,10 @@
             repo.getPreviewImages()
                 .then(bindImages)
                 .then(animateEnterPage);
+        },
+        updateLayout: function (element, viewState, lastViewState) {
+
+            lv.layout = selectLayout(viewState);
         },
         unload: function () {
             // TODO: 

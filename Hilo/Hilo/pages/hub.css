@@ -2,10 +2,42 @@
     margin-left: 120px;
 }
 
+    .hub section[role=main] #picturesLibrary {
+        height: 100%;
+    }
+
+    .hub section[role=main] .thumbnail {
+        background-image: url('/images/Hilo150b.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+@media screen and (min-width: 400px) {
+    .hub section[role=main] #picturesLibrary {
+        width: 800px;
+    }
+
+    .hub section[role=main] .thumbnail {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .hub section[role=main] .thumbnail.first {
+        width: 410px;
+        height: 410px;
+    }
+}
+
 @media screen and (-ms-view-state: snapped) {
     .hub section[role=main] {
         margin-left: 20px;
+        width: 300px;
     }
+
+        .hub section[role=main] .thumbnail, .hub section[role=main] .thumbnail.first {
+            width: 272px;
+            height: 200px;
+        }
 }
 
 @media screen and (-ms-view-state: portrait) {
@@ -13,21 +45,3 @@
         margin-left: 100px;
     }
 }
-
-.hub section[role=main] #picturesLibrary {
-    width: 800px;
-    height: 100%;
-}
-
-    .hub section[role=main] .thumbnail  {
-        width: 200px;
-        height: 200px;
-        background-image: url('/images/Hilo150b.png');
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-
-        .hub section[role=main] .thumbnail.first{
-            width: 410px;
-            height: 410px;
-        }
