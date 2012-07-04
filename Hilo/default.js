@@ -10,12 +10,9 @@
     WinJS.strictProcessing();
 
     function processModules(root) {
-        var registration,
-            module;
+        var registration;
 
         for (registration in root) {
-            module = root[registration];
-
             root[registration] = require('Hilo.' + registration);
         }
     }
