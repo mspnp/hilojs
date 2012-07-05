@@ -1,4 +1,5 @@
 ﻿define('Hilo.PicturesRepository', function (require) {
+    'use strict';
 
     var // dependencies
         bulk = require('Windows.Storage.BulkAccess'),

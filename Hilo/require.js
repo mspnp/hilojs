@@ -1,4 +1,5 @@
 ﻿(function (global) {
+    'use strict';
 
     // # Simple Service Location
     // This implementation is inspired by [commonjs](http://www.commonjs.org/).

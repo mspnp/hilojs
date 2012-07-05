@@ -1,4 +1,5 @@
 ﻿define('Hilo.Picture', function (require) {
+    'use strict';
 
     var klass = WinJS.Class,
         binding = WinJS.Binding;
