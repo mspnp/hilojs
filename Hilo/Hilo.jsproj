@@ -53,7 +53,7 @@
     <Content Include="default.css" />
     <Content Include="default.html" />
     <Content Include="default.js" />
-    <Content Include="Hilo\navigator.js" />
+    <Content Include="Hilo\PageControlNavigator.js" />
     <Content Include="Hilo\pages\crop.css" />
     <Content Include="Hilo\pages\crop.html" />
     <Content Include="Hilo\pages\crop.js" />

@@ -1,66 +1,66 @@
-﻿(function () {
-    "use strict";
+﻿define('Hilo.PageControlNavigator', function () {
+    'use strict';
 
     var appView = Windows.UI.ViewManagement.ApplicationView;
     var displayProps = Windows.Graphics.Display.DisplayProperties;
     var nav = WinJS.Navigation;
     var ui = WinJS.UI;
     var utils = WinJS.Utilities;
+    var klass = WinJS.Class;
 
-    WinJS.Namespace.define("Application", {
-        PageControlNavigator: WinJS.Class.define(
+    function requirePresenterByLocation(location) {
+        var path = location.replace('.html', '');
+        var moduleName = path.split('/')
+            .filter(function (x) { return x !== '' })
+            .join('.');
+        require(moduleName);
+    }
+
+    return klass.define(
             // Define the constructor function for the PageControlNavigator.
             function PageControlNavigator(element, options) {
-                this.element = element || document.createElement("div");
+
+                this.element = element || document.createElement('div');
                 this.element.appendChild(this._createPageElement());
 
                 this.home = options.home;
                 this.lastViewstate = appView.value;
 
-                var ListenerType = WinJS.Class.mix(null, WinJS.Utilities.eventMixin);
-                this.listeners = new ListenerType();                
-
                 nav.addEventListener('navigated', this._navigated.bind(this), false);
                 window.addEventListener('resize', this._resized.bind(this), false);
-                //nav.onnavigated = this._navigated.bind(this);
-                //window.onresize = this._resized.bind(this);
 
                 document.body.onkeyup = this._keyupHandler.bind(this);
                 document.body.onkeypress = this._keypressHandler.bind(this);
                 document.body.onmspointerup = this._mspointerupHandler.bind(this);
 
-                Application.navigator = this;
+                Hilo.navigator = this;
             }, {
-                /// <field domElement="true" />
+                /// <field domElement='true' />
                 element: null,
-                home: "",
+                home: '',
                 lastViewstate: 0,
-
-                addEventListener: function (eventType, listener, capture) {
-                    this.listeners.addEventListener(eventType, listener, capture);
-                },
 
                 // This function creates a new container for each page.
                 _createPageElement: function () {
-                    var element = document.createElement("div");
-                    element.style.width = "100%";
-                    element.style.height = "100%";
+                    var element = document.createElement('div');
+                    element.style.width = '100%';
+                    element.style.height = '100%';
                     return element;
                 },
 
                 // This function responds to keypresses to only navigate when
                 // the backspace key is not used elsewhere.
                 _keypressHandler: function (args) {
-                    if (args.key === "Backspace") {
+                    if (args.key === 'Backspace') {
                         nav.back();
                     }
                 },
 
                 // This function responds to keyup to enable keyboard navigation.
                 _keyupHandler: function (args) {
-                    if ((args.key === "Left" && args.altKey) || (args.key === "BrowserBack")) {
+                    if ((args.key === 'Left' && args.altKey) || (args.key === 'BrowserBack')) {
                         nav.back();
-                    } else if ((args.key === "Right" && args.altKey) || (args.key === "BrowserForward")) {
+                    } else if ((args.key === 'Right' && args.altKey) || (args.key === 'BrowserForward')) {
                         nav.forward();
                     }
                 },
@@ -89,10 +89,13 @@
                             }
                             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
                         }).then(function parentElement(control) {
-                            that.listeners.dispatchEvent('afterrender', {});
+
+                            // Locate the presenter based on the path we've navigated to
+                            requirePresenterByLocation(args.detail.location);
+
                             that.element.appendChild(newElement);
                             that.element.removeChild(oldElement);
-                            oldElement.innerText = "";
+                            oldElement.innerText = '';
                             that.navigated();
                             parentedComplete();
                         })
@@ -110,14 +113,14 @@
                 // has completed.
                 navigated: function () {
                     // Do application specific on-navigated work here
-                    var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
+                    var backButton = this.pageElement.querySelector('header[role=banner] .win-backbutton');
                     if (backButton) {
                         backButton.onclick = function () { nav.back(); };
 
                         if (nav.canGoBack) {
-                            backButton.removeAttribute("disabled");
+                            backButton.removeAttribute('disabled');
                         } else {
-                            backButton.setAttribute("disabled", "disabled");
+                            backButton.setAttribute('disabled', 'disabled');
                         }
                     }
                 },
@@ -133,5 +136,4 @@
                 }
             }
         )
-    });
-})();
+});

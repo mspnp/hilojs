@@ -1,26 +1,19 @@
 ﻿(function () {
     'use strict';
 
-    var
-        activation = Windows.ApplicationModel.Activation,
+    // # Bootstrapper
+    // This script is responsible for bootstrapping the application.
+
+    var activation = Windows.ApplicationModel.Activation,
 
         app = WinJS.Application,
         nav = WinJS.Navigation;
 
     WinJS.strictProcessing();
 
-    function processModules(root) {
-        var registration;
-
-        for (registration in root) {
-            root[registration] = require('Hilo.' + registration);
-        }
-    }
-
-    app.addEventListener('loaded', function () {
-        if (!Hilo) throw new Error('Expected Hilo to be defined before the Application.loaded event');
-        processModules(Hilo);
-    }, false);
+    app.addEventListener('loaded', function (args) {
+        require('Hilo.PageControlNavigator');
+    });
 
     app.addEventListener('activated', function (args) {
 
@@ -38,19 +31,11 @@
             }
             args.setPromise(WinJS.UI.processAll().then(function () {
 
-                document.querySelector('#contenthost').winControl.addEventListener('afterrender', function () {
-                    for (var page in Hilo.pages) {
-                        if (Hilo.pages[page].isFactory) {
-                            Hilo.pages[page] = require('Hilo.pages.' + page);
-                        }
-                    }
-                }, false);
-
                 if (nav.location) {
                     nav.history.current.initialPlaceholder = true;
                     return nav.navigate(nav.location, nav.state);
                 } else {
-                    return nav.navigate(Application.navigator.home);
+                    return nav.navigate(Hilo.navigator.home);
                 }
             }));
         }
