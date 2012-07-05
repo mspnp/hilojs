@@ -4,7 +4,7 @@
         binding = WinJS.Binding;
 
     function urlFor(blob) {
-        return 'url(' + URL.createObjectURL(blob) + ')';
+        return (blob !== null) ? 'url(' + URL.createObjectURL(blob) + ')' : '';
     }
 
     var base = klass.define(function (file) {

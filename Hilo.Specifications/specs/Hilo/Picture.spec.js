@@ -26,6 +26,18 @@ describe('The view model for a picture', function () {
         expect(viewmodel.url).toMatch(/url\(blob:[\dA-F]{8}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{12}\)/);
     });
 
+    describe('when the underlying thumbnail is not present', function () {
+
+        beforeEach(function () {
+            file.thumbnail = null;
+            viewmodel = new Hilo.Picture(file);
+        });
+
+        it('should set the thumbnail url to an empty string', function () {
+            expect(viewmodel.url).toBe('');
+        });
+    });
+
     describe('when the underlying thumbnail changes', function () {
 
         var initial_thumbnail,
