@@ -199,4 +199,51 @@
             expect(selected_picture_index).toBe(99);
         });
     });
+
+    describe('when snapped', function () {
+
+        var listview;
+        beforeEach(function () {
+            listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
+            var hub = Hilo.pages.hub(mock.require);
+            hub.ready();
+            hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.snapped);
+        });
+
+        it('the ListView should use a ListLayout', function () {
+            expect(listview.layout instanceof WinJS.UI.ListLayout).toBe(true);
+        });
+
+    });
+
+    describe('when filled', function () {
+
+        var listview;
+        beforeEach(function () {
+            listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
+            var hub = Hilo.pages.hub(mock.require);
+            hub.ready();
+            hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.filled);
+        });
+
+        it('the ListView should use a GridLayout', function () {
+            expect(listview.layout instanceof WinJS.UI.GridLayout).toBe(true);
+        });
+
+        it('the ListView should limit to 3 rows', function () {
+            expect(listview.layout.maxRows).toBe(3);
+        });
+
+        it('the ListView should enable cell spanning', function () {
+            var groupInfo = listview.layout.groupInfo();
+            expect(groupInfo.enableCellSpanning).toBe(true);
+        });
+
+        it('the ListView should size cells to 200 x 200', function () {
+            var groupInfo = listview.layout.groupInfo();
+            expect(groupInfo.cellWidth).toBe(200);
+            expect(groupInfo.cellHeight).toBe(200);
+        });
+
+    });
 });

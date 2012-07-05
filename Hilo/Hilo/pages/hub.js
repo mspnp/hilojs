@@ -117,10 +117,11 @@
                 .then(bindImages)
                 .then(animateEnterPage);
         },
-        updateLayout: function (element, viewState, lastViewState) {
 
+        updateLayout: function (element, viewState, lastViewState) {
             lv.layout = selectLayout(viewState);
         },
+
         unload: function () {
             // TODO: 
         }
