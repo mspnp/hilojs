@@ -28,11 +28,11 @@
     var commands = {
         rotate: function () {
             var indices = lv.selection.getIndices();
-            nav.navigate('/Hilo/pages/rotate.html', indices[0]);
+            nav.navigate('/Hilo/pages/rotate/rotate.html', indices[0]);
         },
         crop: function () {
             var indices = lv.selection.getIndices();
-            nav.navigate('/Hilo/pages/crop.html', indices[0]);
+            nav.navigate('/Hilo/pages/crop/crop.html', indices[0]);
         }
     };
 
@@ -72,7 +72,7 @@
     }
 
     function imageNavigated(args) {
-        nav.navigate('/Hilo/pages/detail.html', args.detail.itemIndex);
+        nav.navigate('/Hilo/pages/detail/detail.html', args.detail.itemIndex);
     }
 
     function bindImages(items) {
@@ -127,6 +127,6 @@
         }
     };
 
-    pages.define('/Hilo/pages/hub.html', page);
+    pages.define('/Hilo/pages/hub/hub.html', page);
     return page;
 });

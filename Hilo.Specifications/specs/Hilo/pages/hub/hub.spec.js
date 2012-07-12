@@ -32,7 +32,7 @@
     });
 
     it('should be defined as a page', function () {
-        var url = '/Hilo/pages/hub.html';
+        var url = '/Hilo/pages/hub/hub.html';
         expect(pages[url]).toBeUndefined();
 
         Hilo.pages.hub(mock.require);
@@ -192,7 +192,7 @@
         });
 
         it('should navigate to the detail page', function () {
-            expect(navigated_to).toBe('/Hilo/pages/detail.html');
+            expect(navigated_to).toBe('/Hilo/pages/detail/detail.html');
         });
 
         it('should pass along the index of the selected picture', function () {

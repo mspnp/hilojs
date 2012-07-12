@@ -1,5 +1,7 @@
-﻿define('Hilo.pages.detail', function (require) {
+﻿define('Hilo.pages.crop', function (require) {
     'use strict';
+
+    //TODO: temporary implementation
 
     var // WinJS
         ui = require('WinJS.UI'),
@@ -10,7 +12,7 @@
 
     var page = {
 
-        ready: function (element, selectedIndex) {        
+        ready: function (element, selectedIndex) {
 
             // TODO: expect this implementation to change
 
@@ -25,7 +27,7 @@
 
             repo.getImageAt(selectedIndex).then(function (selected) {
                 img.src = URL.createObjectURL(selected);
-            });            
+            });
         },
 
         unload: function () {
@@ -33,6 +35,6 @@
         }
     };
 
-    pages.define('/Hilo/pages/detail.html', page);
+    pages.define('/Hilo/pages/crop/crop.html', page);
     return page;
 });

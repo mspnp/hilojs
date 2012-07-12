@@ -9,9 +9,10 @@
     var klass = WinJS.Class;
 
     function requirePresenterByLocation(location) {
-        var path = location.replace('.html', '');
-        var moduleName = path.split('/')
-            .filter(function (x) { return x !== '' })
+
+        var moduleName = location.split('/')
+            .slice(0, -1) // omit the last item because the folder and the file name match
+            .filter(function (x) { return x !== '' }) // if the path begins with / then we'll have an empty entry
             .join('.');
         require(moduleName);
     }

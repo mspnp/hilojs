@@ -50,11 +50,11 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="..\Hilo\Hilo\pages\detail.js">
-      <Link>specs\Hilo\pages\detail.js</Link>
+    <Content Include="..\Hilo\Hilo\pages\detail\detail.js">
+      <Link>specs\Hilo\pages\detail\detail.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\pages\hub.js">
-      <Link>specs\Hilo\pages\hub.js</Link>
+    <Content Include="..\Hilo\Hilo\pages\hub\hub.js">
+      <Link>specs\Hilo\pages\hub\hub.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>specs\Hilo\Picture.js</Link>
@@ -75,7 +75,7 @@
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine.js" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\MIT.LICENSE" />
     <Content Include="spec.helpers.js" />
-    <Content Include="specs\Hilo\pages\hub.spec.js" />
+    <Content Include="specs\Hilo\pages\hub\hub.spec.js" />
     <Content Include="specs\Hilo\Picture.spec.js" />
     <Content Include="specs\Hilo\picturesRepository.spec.js" />
     <Content Include="specs\require.spec.js" />
@@ -83,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="specs\Hilo\pages\detail\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
