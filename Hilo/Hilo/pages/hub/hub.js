@@ -110,12 +110,15 @@
     page = {
         ready: function (element, options) {
 
+            WinJS.Resources.processAll();
+
             setupListView();
             setupAppbar();
 
             repo.getPreviewImages()
                 .then(bindImages)
                 .then(animateEnterPage);
+
         },
 
         updateLayout: function (element, viewState, lastViewState) {

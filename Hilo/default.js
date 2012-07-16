@@ -11,8 +11,15 @@
 
     WinJS.strictProcessing();
 
+    Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "en-US"
+    //Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "de-DE"
+
     app.addEventListener('loaded', function (args) {
         require('Hilo.PageControlNavigator');
+    });
+
+    nav.addEventListener('navigated', function () {
+        WinJS.Resources.processAll();
     });
 
     app.addEventListener('activated', function (args) {
