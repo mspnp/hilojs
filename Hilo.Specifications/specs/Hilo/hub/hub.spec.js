@@ -32,15 +32,15 @@
     });
 
     it('should be defined as a page', function () {
-        var url = '/Hilo/pages/hub/hub.html';
+        var url = '/Hilo/hub/hub.html';
         expect(pages[url]).toBeUndefined();
 
-        Hilo.pages.hub(mock.require);
+        Hilo.hub(mock.require);
         expect(pages[url]).toBeDefined();
     });
 
     it('should define a ready function', function () {
-        var page = Hilo.pages.hub(mock.require);
+        var page = Hilo.hub(mock.require);
         expect(page.ready).toBeDefined();
     });
 
@@ -54,7 +54,7 @@
                     return WinJS.Promise.wrap([]);
                 }
             });
-            var page = Hilo.pages.hub(mock.require);
+            var page = Hilo.hub(mock.require);
             page.ready();
         });
 
@@ -79,7 +79,7 @@
                     }
                 });
 
-            hub = Hilo.pages.hub(mock.require);
+            hub = Hilo.hub(mock.require);
             hub.ready();
         });
 
@@ -128,7 +128,7 @@
                     }
                 });
 
-            hub = Hilo.pages.hub(mock.require);
+            hub = Hilo.hub(mock.require);
             hub.ready();
         });
 
@@ -185,14 +185,14 @@
                 }
             });
 
-            var hub = Hilo.pages.hub(mock.require);
+            var hub = Hilo.hub(mock.require);
             hub.ready();
 
             handlers['iteminvoked']({ detail: { itemIndex: 99 } });
         });
 
         it('should navigate to the detail page', function () {
-            expect(navigated_to).toBe('/Hilo/pages/detail/detail.html');
+            expect(navigated_to).toBe('/Hilo/detail/detail.html');
         });
 
         it('should pass along the index of the selected picture', function () {
@@ -205,7 +205,7 @@
         var listview;
         beforeEach(function () {
             listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
-            var hub = Hilo.pages.hub(mock.require);
+            var hub = Hilo.hub(mock.require);
             hub.ready();
             hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.snapped);
         });
@@ -221,7 +221,7 @@
         var listview;
         beforeEach(function () {
             listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
-            var hub = Hilo.pages.hub(mock.require);
+            var hub = Hilo.hub(mock.require);
             hub.ready();
             hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.filled);
         });

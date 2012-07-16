@@ -1,4 +1,4 @@
-﻿define('Hilo.pages.hub', function (require) {
+﻿define('Hilo.hub', function (require) {
     'use strict';
 
     var // Windows
@@ -28,11 +28,11 @@
     var commands = {
         rotate: function () {
             var indices = lv.selection.getIndices();
-            nav.navigate('/Hilo/pages/rotate/rotate.html', indices[0]);
+            nav.navigate('/Hilo/rotate/rotate.html', indices[0]);
         },
         crop: function () {
             var indices = lv.selection.getIndices();
-            nav.navigate('/Hilo/pages/crop/crop.html', indices[0]);
+            nav.navigate('/Hilo/crop/crop.html', indices[0]);
         }
     };
 
@@ -72,7 +72,7 @@
     }
 
     function imageNavigated(args) {
-        nav.navigate('/Hilo/pages/detail/detail.html', args.detail.itemIndex);
+        nav.navigate('/Hilo/detail/detail.html', args.detail.itemIndex);
     }
 
     function bindImages(items) {
@@ -130,6 +130,6 @@
         }
     };
 
-    pages.define('/Hilo/pages/hub/hub.html', page);
+    pages.define('/Hilo/hub/hub.html', page);
     return page;
 });

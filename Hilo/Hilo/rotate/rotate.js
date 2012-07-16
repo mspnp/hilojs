@@ -1,4 +1,4 @@
-﻿define('Hilo.pages.crop', function (require) {
+﻿define('Hilo.rotate', function (require) {
     'use strict';
 
     //TODO: temporary implementation
@@ -35,6 +35,6 @@
         }
     };
 
-    pages.define('/Hilo/pages/crop/crop.html', page);
+    pages.define('/Hilo/rotate.html', page);
     return page;
 });

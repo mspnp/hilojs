@@ -1,4 +1,4 @@
-﻿define('Hilo.pages.detail', function (require) {
+﻿define('Hilo.detail', function (require) {
     'use strict';
 
     var // WinJS
@@ -33,6 +33,6 @@
         }
     };
 
-    pages.define('/Hilo/pages/detail/detail.html', page);
+    pages.define('/Hilo/detail/detail.html', page);
     return page;
 });
