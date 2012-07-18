@@ -1,14 +1,22 @@
 ﻿(function () {
     'use strict';
+
+    // Imports And Constants
+    // ---------------------
+
     var notifications = Windows.UI.Notifications;
+
+    // Public API
+    // ----------
 
     WinJS.Namespace.define('Tiles', {
 
         transmogrifyTile: function (thumbnails) {
 
-            var template = notifications.TileTemplateType.tileWideImageCollection,
-                xml = notifications.TileUpdateManager.getTemplateContent(template),
-                images = xml.getElementsByTagName("image");
+            var template = notifications.TileTemplateType.tileWideImageCollection;
+
+            var xml = notifications.TileUpdateManager.getTemplateContent(template);
+            var images = xml.getElementsByTagName("image");
 
             thumbnails.forEach(function (thumbnail, index) {
                 var element = images.getAt(index);

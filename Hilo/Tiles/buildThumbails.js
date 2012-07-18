@@ -4,10 +4,10 @@
     // Imports And Constants
     // ---------------------
 
-    var applicationData = Windows.Storage.ApplicationData;
-    var creationCollisionOption = Windows.Storage.CreationCollisionOption;
-    var replaceExisting = creationCollisionOption.replaceExisting;
-    var thumbnailFolderName = 'tile-thumbnails';
+    var applicationData = Windows.Storage.ApplicationData,
+        creationCollisionOption = Windows.Storage.CreationCollisionOption,
+        replaceExisting = creationCollisionOption.replaceExisting,
+        thumbnailFolderName = 'tile-thumbnails';
 
     // Private Methods
     // ---------------
@@ -18,7 +18,7 @@
         // partially apply the photocopier to carry the files parameter with it,
         // allowing it to be used as a promise/callback that only needs to have
         // the `folder` parameter supplied.
-        var copyThumbnailsToFolder = Tiles.photoCopier.bind(null, files);
+        var copyThumbnailsToFolder = Tiles.copyImages.bind(null, files);
 
         // Promise to build the thumbnails and return the list of local file paths
         var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, replaceExisting);

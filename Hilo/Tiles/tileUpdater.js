@@ -4,8 +4,8 @@
     // Imports And Constants
     // ---------------------
 
-    var thumbnailFolderName = 'tile-thumbnails';
-    var localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/';
+    var thumbnailFolderName = 'tile-thumbnails',
+        localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/';
 
     // Private Methods
     // ---------------
