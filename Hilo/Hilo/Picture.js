@@ -14,6 +14,7 @@
         this.addProperty('name', file.name);
         this.addProperty('url', urlFor(file.thumbnail));
         this.addProperty('className', 'thumbnail');
+        this.addProperty('src', URL.createObjectURL(file));
 
         file.addEventListener('thumbnailupdated', function (args) {
             self.updateProperty('url', urlFor(file.thumbnail));
