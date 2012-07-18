@@ -4,7 +4,7 @@
 
     WinJS.Namespace.define('Tiles', {
 
-        transmogrify: function (thumbnails) {
+        transmogrifyTile: function (thumbnails) {
 
             var template = notifications.TileTemplateType.tileWideImageCollection,
                 xml = notifications.TileUpdateManager.getTemplateContent(template),
