@@ -6,37 +6,47 @@
     var randomAccessStream = Windows.Storage.Streams.RandomAccessStream;
     var creationCollisionOption = Windows.Storage.CreationCollisionOption;
     var replaceExisting = creationCollisionOption.replaceExisting;
+    var readWrite = Windows.Storage.FileAccessMode.readWrite;
 
     // Private Methods
     // ---------------
 
-    function copyThumbnailsToFolder(files, folder) {
-        var fileBuilderPromises = files.map(function (fileInfo) {
-            var createFile = folder.createFileAsync(fileInfo.name, replaceExisting);
-            return createFile.then(function (newFile) {
+    var photocopier = {
 
-                return newFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (output) {
-                    var input = fileInfo.thumbnail.getInputStreamAt(0);
+        photoCopier: function (files, folder) {
+            
+            var fileBuilderPromises = files.map(function (fileInfo) {
+                var writeThumbnail = photocopier.writeThumbnailToFile.bind(this, fileInfo);
+                var whenFileCreated = folder.createFileAsync(fileInfo.name, replaceExisting);
+                return whenFileCreated.then(writeThumbnail);
+            });
 
-                    return randomAccessStream.copyAsync(input, output).then(function () {
-                        return output.flushAsync().then(function () {
-                            input.close();
-                            output.close();
-                            return fileInfo.name;
-                        });
+            // Join all of the thumbnail file creation promises into 
+            // a single promise that is returned from this method
+            return WinJS.Promise.join(fileBuilderPromises);
+        },
+
+        writeThumbnailToFile: function (fileInfo, thumbnailFile) {
+            var whenFileIsOpen = thumbnailFile.openAsync(readWrite);
+
+            return whenFileIsOpen.then(function (output) {
+                var input = fileInfo.thumbnail.getInputStreamAt(0);
+
+                return randomAccessStream.copyAsync(input, output).then(function () {
+                    return output.flushAsync().then(function () {
+                        input.close();
+                        output.close();
+                        return fileInfo.name;
                     });
                 });
             });
-        });
+        }
 
-        return WinJS.Promise.join(fileBuilderPromises);
-    }
+    };
 
     // Public API
     // ----------
 
-    WinJS.Namespace.define("Tiles", {
-        photoCopier: copyThumbnailsToFolder
-    });
+    WinJS.Namespace.define("Tiles", photocopier);
 
 })();

@@ -22,13 +22,8 @@
 
         // Promise to build the thumbnails and return the list of local file paths
         var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, replaceExisting);
-        return new WinJS.Promise(function (complete, error, progress) {
-
-            whenFolderCreated
-                .then(copyThumbnailsToFolder)
-                .then(complete);
-
-        });
+        return whenFolderCreated
+            .then(copyThumbnailsToFolder)
     }
 
     // Public API
