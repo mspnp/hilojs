@@ -1,51 +1,50 @@
 ﻿(function () {
     'use strict';
 
+    // Imports And Constants
+    // ---------------------
+
     var applicationData = Windows.Storage.ApplicationData;
-    var randomAccessStream = Windows.Storage.Streams.RandomAccessStream;
     var creationCollisionOption = Windows.Storage.CreationCollisionOption;
+    var replaceExisting = creationCollisionOption.replaceExisting;
+
     var thumbnailFolderName = 'tile-thumbnails';
+    var localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/';
+
+    // Private Methods
+    // ---------------
+
+    function getLocalThumbnailPaths(files) {
+        return files.map(function (file) {
+            return localThumbnailFolder + file;
+        });
+    }
+
+    function buildThumbnails(files) {
+        var localFolder = applicationData.current.localFolder;
+
+        // partially apply the photocopier to carry the files parameter with it,
+        // allowing it to be used as a promise/callback that only needs to have
+        // the `folder` parameter supplied.
+        var copyThumbnailsToFolder = Tiles.photoCopier.bind(null, files);
+
+        // Promise to build the thumbnails and return the list of local file paths
+        var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, replaceExisting);
+        return new WinJS.Promise(function(complete, error, progress) {
+
+            whenFolderCreated
+                .then(copyThumbnailsToFolder)
+                .then(getLocalThumbnailPaths)
+                .then(complete);
+
+        });
+    }
+
+    // Public API
+    // ----------
 
     WinJS.Namespace.define('Tiles', {
-
-        buildThumbails: function (files) {
-
-            return new WinJS.Promise(function (complete, error, progress) {
-
-                applicationData.current.localFolder.createFolderAsync(thumbnailFolderName, creationCollisionOption.replaceExisting)
-                    .then(function (folder) {
-
-                        var localThumbnail = 'ms-appdata:///local/' + thumbnailFolderName + '/';
-
-                        var promises = files.map(function (fileInfo) {
-                            var createFile = folder.createFileAsync(fileInfo.name, creationCollisionOption.replaceExisting);
-                            return createFile.then(function (newFile) {
-
-                                return newFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (output) {
-                                    var input = fileInfo.thumbnail.getInputStreamAt(0);
-
-                                    return randomAccessStream.copyAsync(input, output).then(function () {
-                                        return output.flushAsync().then(function () {
-                                            input.close();
-                                            output.close();
-                                            return fileInfo.name;
-                                        });
-                                    });
-                                });
-                            });
-                        });
-
-                        WinJS.Promise.join(promises).then(function (files) {
-                            var paths = files.map(function (file) {
-                                return localThumbnail + file;
-                            });
-                            complete(paths);
-                        });
-
-                    });
-            });
-        }
-
+        buildThumbails: buildThumbnails
     });
 
 })();

@@ -82,6 +82,7 @@
     <Content Include="require.js" />
     <Content Include="Tiles\getImagesForTile.js" />
     <Content Include="Tiles\buildThumbails.js" />
+    <Content Include="Tiles\photocopier.js" />
     <Content Include="Tiles\tileUpdater.js" />
     <Content Include="Tiles\transmogrify.js" />
   </ItemGroup>
