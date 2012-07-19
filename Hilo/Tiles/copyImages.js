@@ -12,7 +12,6 @@
     // ---------------
 
     function copyImages(files, folder) {
-
         var fileBuilderPromises = files.map(function (fileInfo) {
             var writeThumbnail = writeThumbnailToFile.bind(this, fileInfo);
             var whenFileCreated = folder.createFileAsync(fileInfo.name, replaceExisting);
@@ -28,6 +27,7 @@
         var whenFileIsOpen = thumbnailFile.openAsync(readWrite);
 
         return whenFileIsOpen.then(function (output) {
+            debugger;
             var input = fileInfo.thumbnail.getInputStreamAt(0);
 
             return randomAccessStream.copyAsync(input, output).then(function () {
