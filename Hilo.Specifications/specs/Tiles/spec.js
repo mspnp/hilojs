@@ -1,7 +1,7 @@
 ﻿describe("live tile", function () {
 
     describe("when updating the tile", function () {
-        var async = new AsyncSpec(this);
+        var async = new AsyncSpec();
 
         var getImages = function () {
             var path = Windows.ApplicationModel.Package.current.installedLocation.path + "\\images";
@@ -32,10 +32,10 @@
 
         async.beforeEach(function (complete, store) {
             getImages()
-                .then(async.store("files"))
+                .then(async.spec.store("files"))
                 .then(Tiles.buildThumbails)
                 .then(processThumbnailFiles)
-                .then(async.store("fileNames", getFileNames))
+                .then(async.spec.store("fileNames", getFileNames))
                 .then(complete);
         });
 

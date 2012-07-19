@@ -1,10 +1,21 @@
 ﻿(function (global) {
 
-    var constructor = function (spec) {
-        this.spec = spec;
-    }
+    var Spec = WinJS.Class.define(null, {
+        store: function (fieldName, cb) {
+            var that = this;
+            return function (data) {
+                if (cb) { data = cb(data); }
+                that[fieldName] = data;
+                return new WinJS.Promise(function (complete) {
+                    complete(data);
+                });
+            }
+        }
+    });
 
-    var AsyncSpec = WinJS.Class.define(constructor, {
+    var AsyncSpec = WinJS.Class.define(function () {
+        this.spec = new Spec();
+    }, {
         it: function (description, block) {
             var that = this;
             var spec = this.spec;
@@ -19,7 +30,6 @@
                     block(spec);
                 });
             });
-
         },
 
         beforeEach: function (block) {
@@ -32,17 +42,6 @@
 
         complete: function () {
             this.done = true;
-        },
-
-        store: function (fieldName, cb) {
-            var that = this;
-            return function (data) {
-                if (cb) { data = cb(data); }
-                that.spec[fieldName] = data;
-                return new WinJS.Promise(function (complete) {
-                    complete(data);
-                });
-            }
         }
     });
 
