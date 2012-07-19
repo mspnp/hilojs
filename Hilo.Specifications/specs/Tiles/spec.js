@@ -1,7 +1,9 @@
 ﻿describe("live tile", function () {
 
     describe("when updating the tile", function () {
-        var getFiles = function () {
+        var async = new AsyncSpec(this);
+
+        var getImages = function () {
             var path = Windows.ApplicationModel.Package.current.installedLocation.path + "\\images";
             var whenFolder = Windows.Storage.StorageFolder.getFolderFromPathAsync(path);
 
@@ -12,39 +14,34 @@
             });
         };
 
-        beforeEach(function () {
-            var that = this;
-            this.done = false;
+        var getFileNames = function (paths) {
+            return paths.map(function (path) { return path.name });;
+        };
 
-            getFiles()
-               .then(Tiles.buildThumbails)
-               .then(function (paths) {
-                   var thumbnailFolderName = 'tile-thumbnails';
+        var processThumbnailFiles = function (fileNames) {
+            var thumbnailFolderName = 'tile-thumbnails';
+            var files = async.spec.files;
 
-                   var p = paths.map(function (path) {
-                       var fullPath = thumbnailFolderName + '\\' + path;
-                       return Windows.Storage.ApplicationData.current.localFolder.getFileAsync(fullPath);
-                   });
-
-                   WinJS.Promise.join(p).then(function (files) {
-                       that.files = files;
-                       that.paths = paths;
-                       that.done = true;
-                   });
-               });
-        });
-
-        it("should use double quotes because single quotes are dumb", function () {
-
-            waitsFor(function () {
-                return this.done;
+            var p = fileNames.map(function (fileName) {
+                var fullPath = thumbnailFolderName + '\\' + fileName;
+                return Windows.Storage.ApplicationData.current.localFolder.getFileAsync(fullPath);
             });
 
-            runs(function () {
-                var paths = this.paths;
-                this.files.forEach(function (file) {
-                    expect(paths).toContain(file.name);
-                });
+            return WinJS.Promise.join(p);
+        }
+
+        async.beforeEach(function (complete, store) {
+            getImages()
+                .then(async.store("files"))
+                .then(Tiles.buildThumbails)
+                .then(processThumbnailFiles)
+                .then(async.store("fileNames", getFileNames))
+                .then(complete);
+        });
+
+        async.it("should use double quotes because single quotes are dumb", function (spec) {
+            spec.files.forEach(function (file) {
+                expect(spec.fileNames).toContain(file.name);
             });
         });
 
