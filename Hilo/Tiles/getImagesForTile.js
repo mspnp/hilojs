@@ -5,7 +5,8 @@
     // ---------------------
 
     var storage = Windows.Storage,
-        folder = storage.KnownFolders.picturesLibrary;
+        folder = storage.KnownFolders.picturesLibrary,
+        orderByDate = storage.Search.CommonFileQuery.orderByDate;
 
     // Public API
     // ----------
@@ -14,8 +15,7 @@
 
         getImagesForTile: function () {
 
-            var query = storage.Search.CommonFileQuery.orderByDate,
-                queryOptions = new storage.Search.QueryOptions(query, ['.jpg']);
+            var queryOptions = new storage.Search.QueryOptions(orderByDate, ['.jpg']);
 
             var queryResult = folder.createFileQuery(queryOptions);
             var factory = new storage.BulkAccess.FileInformationFactory(queryResult, storage.FileProperties.ThumbnailMode.singleItem);
