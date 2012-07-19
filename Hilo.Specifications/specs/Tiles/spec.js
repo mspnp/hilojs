@@ -30,7 +30,7 @@
             return WinJS.Promise.join(p);
         }
 
-        async.beforeEach(function (complete, store) {
+        async.beforeEach(function (complete) {
             getImages()
                 .then(async.spec.store("files"))
                 .then(Tiles.buildThumbails)
