@@ -51,28 +51,31 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="..\Hilo\Hilo\hub\hub.js">
-      <Link>specs\Hilo\hub\hub.js</Link>
+      <Link>Src\Hilo\hub\hub.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Picture.js">
-      <Link>specs\Hilo\Picture.js</Link>
+      <Link>Src\Hilo\Picture.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\picturesRepository.js">
-      <Link>specs\Hilo\picturesRepository.js</Link>
+      <Link>Src\Hilo\picturesRepository.js</Link>
     </Content>
     <Content Include="..\Hilo\require.js">
-      <Link>specs\require.js</Link>
+      <Link>Src\require.js</Link>
     </Content>
-    <Content Include="..\Hilo\tiles\buildThumbails.js">
-      <Link>specs\Tiles\buildThumbails.js</Link>
+    <Content Include="..\Hilo\Tiles\buildThumbails.js">
+      <Link>Src\Tiles\buildThumbails.js</Link>
     </Content>
-    <Content Include="..\Hilo\tiles\getImagesForTile.js">
-      <Link>specs\Tiles\getImagesForTile.js</Link>
+    <Content Include="..\Hilo\Tiles\copyImages.js">
+      <Link>Src\Tiles\copyImages.js</Link>
     </Content>
-    <Content Include="..\Hilo\tiles\tileUpdater.js">
-      <Link>specs\Tiles\tileUpdater.js</Link>
+    <Content Include="..\Hilo\Tiles\getImagesForTile.js">
+      <Link>Src\Tiles\getImagesForTile.js</Link>
     </Content>
-    <Content Include="..\Hilo\tiles\transmogrify.js">
-      <Link>specs\Tiles\transmogrify.js</Link>
+    <Content Include="..\Hilo\Tiles\tileUpdater.js">
+      <Link>Src\Tiles\tileUpdater.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Tiles\transmogrify.js">
+      <Link>Src\Tiles\transmogrify.js</Link>
     </Content>
     <Content Include="default.html" />
     <Content Include="images\logo.png" />
@@ -93,6 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Src\Hilo\hub\" />
+    <Folder Include="Src\Tiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
