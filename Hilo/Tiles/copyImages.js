@@ -27,16 +27,17 @@
         var whenFileIsOpen = thumbnailFile.openAsync(readWrite);
 
         return whenFileIsOpen.then(function (output) {
-            debugger;
-            var input = fileInfo.thumbnail.getInputStreamAt(0);
 
-            return randomAccessStream.copyAsync(input, output).then(function () {
-                return output.flushAsync().then(function () {
-                    input.close();
-                    output.close();
-                    return fileInfo.name;
+            return fileInfo.getThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.singleItem).then(function (thumbnail) {
+                var input = thumbnail.getInputStreamAt(0);
+                return randomAccessStream.copyAsync(input, output).then(function () {
+                    return output.flushAsync().then(function () {
+                        input.close();
+                        output.close();
+                        return fileInfo.name;
+                    });
                 });
-            });
+            });            
         });
     }
 
