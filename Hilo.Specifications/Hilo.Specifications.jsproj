@@ -82,6 +82,7 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
+    <Content Include="images\too-big-for-tile-image.png" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine-html.js" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine.css" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine.js" />

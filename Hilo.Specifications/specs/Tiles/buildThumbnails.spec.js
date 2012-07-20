@@ -22,6 +22,8 @@
             });
         });
 
+        // For official specifications on tile image sizes, see:
+        // http://msdn.microsoft.com/en-us/library/windows/apps/Hh781198.aspx
         async.it('should create thumbnails equal to or less than 1024 x 1024', function (storage) {
             storage['fileNames'].forEach(function (file) {
 

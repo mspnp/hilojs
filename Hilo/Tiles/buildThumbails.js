@@ -9,6 +9,7 @@
         replaceExisting = creationCollisionOption.replaceExisting,
         randomAccessStream = Windows.Storage.Streams.RandomAccessStream,
         readWrite = Windows.Storage.FileAccessMode.readWrite,
+        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode.singleItem,
         thumbnailFolderName = 'tile-thumbnails';
 
     // Private Methods
@@ -19,7 +20,7 @@
 
         return whenFileIsOpen.then(function (output) {
 
-            return fileInfo.getThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.singleItem).then(function (thumbnail) {
+            return fileInfo.getThumbnailAsync(thumbnailMode).then(function (thumbnail) {
                 var input = thumbnail.getInputStreamAt(0);
                 return randomAccessStream.copyAsync(input, output).then(function () {
                     return output.flushAsync().then(function () {
