@@ -12,7 +12,7 @@
         });
 
         async.it('should write the thumbnails to the tile thumbnails folder', function (storage) {
-            storage.fileNames.forEach(function (file) {
+            storage['fileNames'].forEach(function (file) {
 
                 var thumbnailExists = Shared.thumbnailFileExists(file);
                 async.await(thumbnailExists).then(function (fileExists) {
