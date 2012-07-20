@@ -1,10 +1,10 @@
-﻿describe("live tile", function () {
+﻿describe('live tile', function () {
 
-    describe("when updating the tile", function () {
+    describe('when updating the tile', function () {
         var async = new AsyncSpec();
 
         var getImages = function () {
-            var path = Windows.ApplicationModel.Package.current.installedLocation.path + "\\images";
+            var path = Windows.ApplicationModel.Package.current.installedLocation.path + '\\images';
             var whenFolder = Windows.Storage.StorageFolder.getFolderFromPathAsync(path);
 
             return whenFolder.then(function (folder) {
@@ -32,14 +32,14 @@
 
         async.beforeEach(function (complete) {
             getImages()
-                .then(async.spec.store("files"))
+                .then(async.spec.store('files'))
                 .then(Tiles.buildThumbails)
                 .then(processThumbnailFiles)
-                .then(async.spec.store("fileNames", getFileNames))
+                .then(async.spec.store('fileNames', getFileNames))
                 .then(complete);
         });
 
-        async.it("should use double quotes because single quotes are dumb", function (spec) {
+        async.it('should use double quotes because single quotes are dumb', function (spec) {
             spec.files.forEach(function (file) {
                 expect(spec.fileNames).toContain(file.name);
             });
