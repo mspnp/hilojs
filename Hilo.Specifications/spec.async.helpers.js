@@ -1,6 +1,6 @@
 ﻿(function (global) {
 
-    var Spec = WinJS.Class.define(null, {
+    var Storage = WinJS.Class.define(null, {
         store: function (fieldName, cb) {
             var that = this;
             return function (data) {
@@ -14,11 +14,11 @@
     });
 
     var AsyncSpec = WinJS.Class.define(function () {
-        this.spec = new Spec();
+        this.storage = new Storage();
     }, {
         it: function (description, block) {
             var that = this;
-            var spec = this.spec;
+            var storage = this.storage;
 
             global.it(description, function () {
 
@@ -27,7 +27,7 @@
                 });
 
                 runs(function () {
-                    block(spec);
+                    block(storage);
                 });
             });
         },

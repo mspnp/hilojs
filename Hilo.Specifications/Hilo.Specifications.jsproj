@@ -92,6 +92,7 @@
     <Content Include="specs\Hilo\Picture.spec.js" />
     <Content Include="specs\Hilo\picturesRepository.spec.js" />
     <Content Include="specs\require.spec.js" />
+    <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\buildThumbnails.spec.js" />
     <None Include="Hilo.Specifications_TemporaryKey.pfx" />
   </ItemGroup>
