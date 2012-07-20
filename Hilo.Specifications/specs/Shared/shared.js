@@ -39,12 +39,30 @@
         return promise;
     }
 
+    var getThumbnailSize = function (fileName) {
+        var fullPath = thumbnailFolderName + '\\' + fileName;
+        var fileOpen = Windows.Storage.ApplicationData.current.localFolder.getFileAsync(fullPath);
+
+        var promise = new WinJS.Promise(function (complete) {
+            fileOpen.done(function (fileInfo) {
+                fileInfo.properties.getImagePropertiesAsync().then(function (props) {
+                    complete(props);
+                });
+            }, function () {
+                complete(false);
+            });;
+        });
+
+        return promise;
+    }
+
     // Public API
     // ----------
 
     WinJS.Namespace.define("Shared", {
         getImages: getImages,
         getFileNames: getFileNames,
-        thumbnailFileExists: thumbnailFileExists
+        thumbnailFileExists: thumbnailFileExists,
+        getThumbnailSize: getThumbnailSize
     });
 })();

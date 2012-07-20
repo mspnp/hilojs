@@ -22,6 +22,18 @@
             });
         });
 
+        async.it('should create thumbnails equal to or less than 1024 x 1024', function (storage) {
+            storage['fileNames'].forEach(function (file) {
+
+                var thumbnailExists = Shared.getThumbnailSize(file);
+                async.await(thumbnailExists).then(function (size) {
+                    expect(size.height).toBeLessThan(1025, 'height of ' + file);
+                    expect(size.width).toBeLessThan(1025, 'width of ' + file);
+                });
+
+            });
+        });
+
     });
 
 });
