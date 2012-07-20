@@ -42,6 +42,28 @@
 
         complete: function () {
             this.done = true;
+        },
+
+        await: function (waitingPromise) {
+            var done = false;
+            var count = 0;
+
+            var promise = new WinJS.Promise(function (complete) {
+
+                global.runs(function () {
+                    waitingPromise.then(function () {
+                        complete.apply(null, arguments);
+                        done = true;
+                    });
+                });
+
+                global.waitsFor(function () {
+                    return done;
+                });
+
+            });
+
+            return promise;
         }
     });
 

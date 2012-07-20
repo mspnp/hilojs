@@ -28,23 +28,12 @@
         });
 
         async.it('should write the thumbnails to the tile thumbnails folder', function (storage) {
-            var done = false;
-            var count = 0;
+            storage.fileNames.forEach(function (file) {
 
-            runs(function () {
-                storage.fileNames.forEach(function (file) {
-                    fileExist(file).then(function (fileExists) {
-                        expect(fileExists).toBe(true);
-                        count += 1;
-                        if (count === storage.fileNames.length) {
-                            done = true;
-                        }
-                    });
+                async.await(fileExist(file)).then(function (fileExists) {
+                    expect(fileExists).toBe(true);
                 });
-            });
 
-            waitsFor(function () {
-                return done;
             });
         });
 
