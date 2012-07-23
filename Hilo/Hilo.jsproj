@@ -66,6 +66,7 @@
     <Content Include="Hilo\hub\hub.css" />
     <Content Include="Hilo\hub\hub.html" />
     <Content Include="Hilo\hub\hub.js" />
+    <Content Include="Hilo\imageRepository.js" />
     <Content Include="Hilo\PageControlNavigator.js" />
     <Content Include="Hilo\Picture.js" />
     <Content Include="Hilo\picturesRepository.js" />

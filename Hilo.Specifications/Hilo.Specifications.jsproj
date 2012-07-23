@@ -53,6 +53,9 @@
     <Content Include="..\Hilo\Hilo\hub\hub.js">
       <Link>Src\Hilo\hub\hub.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\imageRepository.js">
+      <Link>Src\Hilo\imageRepository.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>Src\Hilo\Picture.js</Link>
     </Content>
@@ -82,14 +85,31 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
-    <Content Include="images\too-big-for-tile-image.png" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine-html.js" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine.css" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\jasmine.js" />
     <Content Include="Jasmine\lib\jasmine-1.2.0\MIT.LICENSE" />
+    <Content Include="sampleImages\001.jpg" />
+    <Content Include="sampleImages\002.png" />
+    <Content Include="sampleImages\003.bmp" />
+    <Content Include="sampleImages\004.tiff" />
+    <Content Include="sampleImages\005.jpg" />
+    <Content Include="sampleImages\006.jpg" />
+    <Content Include="sampleImages\007.jpg" />
+    <Content Include="sampleImages\008.png" />
+    <Content Include="sampleImages\009.png" />
+    <Content Include="sampleImages\010.png" />
+    <Content Include="sampleImages\011.bmp" />
+    <Content Include="sampleImages\012.bmp" />
+    <Content Include="sampleImages\013.bmp" />
+    <Content Include="sampleImages\014.tiff" />
+    <Content Include="sampleImages\015.tiff" />
+    <Content Include="sampleImages\016.tiff" />
+    <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
     <Content Include="specs\Hilo\hub\hub.spec.js" />
+    <Content Include="specs\Hilo\imageRepository.spec.js" />
     <Content Include="specs\Hilo\Picture.spec.js" />
     <Content Include="specs\Hilo\picturesRepository.spec.js" />
     <Content Include="specs\require.spec.js" />
