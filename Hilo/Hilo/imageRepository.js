@@ -21,6 +21,7 @@
                 var queryResult = folder.createFileQueryWithOptions(queryOptions);
 
                 var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode);
+
                 return factory.getFilesAsync(0, count);
             }
         })
