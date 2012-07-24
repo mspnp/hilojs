@@ -81,6 +81,7 @@
       <Link>Src\Tiles\transmogrify.js</Link>
     </Content>
     <Content Include="default.html" />
+    <Content Include="default.js" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
