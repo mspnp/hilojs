@@ -4,7 +4,7 @@
     // Imports And Constants
     // ---------------------
 
-    var appImagesPath = Windows.ApplicationModel.Package.current.installedLocation.path + '\\images',
+    var appImagesPath = Windows.ApplicationModel.Package.current.installedLocation.path + '\\sampleImages',
         localFolder = Windows.Storage.ApplicationData.current.localFolder,
         replaceExisting = Windows.Storage.CreationCollisionOption.replaceExisting,
         replaceExistingFile = Windows.Storage.NameCollisionOption.replaceExisting,

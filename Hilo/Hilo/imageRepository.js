@@ -12,7 +12,7 @@
             getImages: function (count) {
                 var folder = this.folder;
 
-                var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg']);
+                var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg', '.tiff', '.png', '.bmp']);
                 queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
 
                 var wat = folder.areQueryOptionsSupported(queryOptions);
