@@ -2,7 +2,7 @@
 
     var storage = Windows.Storage,
         thumbnailMode = storage.FileProperties.ThumbnailMode.singleItem,
-        orderByDate = storage.Search.CommonFileQuery.orderByDate;
+        fileQuery = storage.Search.CommonFileQuery.orderByDate;
 
     WinJS.Namespace.define('Hilo', {
         ImageRepository: WinJS.Class.define(function (folder) {
@@ -11,15 +11,17 @@
         {
             getImages: function (count) {
                 var folder = this.folder;
-                //var queryOptions = new storage.Search.QueryOptions(orderByDate, ['.jpg']);
-                var queryOptions = new storage.Search.QueryOptions();
+
+                var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg']);
+                queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
+
                 var wat = folder.areQueryOptionsSupported(queryOptions);
-                var wut = folder.isCommonFileQuerySupported(orderByDate);
+                var wut = folder.isCommonFileQuerySupported(fileQuery);
+
                 var queryResult = folder.createFileQueryWithOptions(queryOptions);
 
                 var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode);
-
-                return factory.getFilesAsync(0, count).done(null, function () { debugger; });
+                return factory.getFilesAsync(0, count);
             }
         })
     });

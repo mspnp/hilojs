@@ -23,13 +23,10 @@
             var updateTile = updater.update.bind(updater);
 
             whenImagesForTileRetrieved
-                // TODO: reset to default tile
                 .then(Tiles.buildThumbails)
                 .then(Tiles.getLocalThumbnailPaths)
-                // TODO: build notifications
-                .then(Tiles.transmogrifyTile) // TODO: this will be invoked multiple times
-                // add notifications to queue
-                .then(updateTile); // TODO: this will be invoked multiple times
+                .then(Tiles.transmogrifyTile)
+                .then(updateTile); 
         }
     }
 

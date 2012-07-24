@@ -5,17 +5,15 @@
 
     async.beforeEach(function (complete) {
 
-        //var folderToSearch = Windows.ApplicationModel.Package.current.installedLocation.path + '\\sampleImages';
-        //var whenFolder = storage.StorageFolder.getFolderFromPathAsync(folderToSearch);
+        var folderToSearch = Windows.Storage.ApplicationData.current.localFolder.path + "\\Indexed";
+        var whenFolder = storage.StorageFolder.getFolderFromPathAsync(folderToSearch);
 
-        //whenFolder.then(function (folder) {
-        var folder = Windows.Storage.ApplicationData.current.temporaryFolder;
-        //var folder = Windows.Storage.KnownFolders.picturesLibrary;
+        whenFolder.then(function (folder) {
             var repo = new Hilo.ImageRepository(folder);
             return repo.getImages(15)
                 .then(async.storage.store('images'))
                 .then(complete);
-        //});
+        });
     });
 
     async.it('get 15 images', function (storage) {
