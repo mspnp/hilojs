@@ -25,6 +25,7 @@
                     promises.push(fileCopy);
                 });
 
+                console.log(promises.length);
                 return WinJS.Promise.join(promises);
             });
         });
@@ -34,9 +35,8 @@
     var copyImagesToIndexedFolder = function () {
         var whenIndexedFolderCreated = localFolder.createFolderAsync(indexedFolderName, replaceExisting);
 
-        var foo = whenIndexedFolderCreated
+        return whenIndexedFolderCreated
             .then(copyImagesFromAppPath);
-        return foo;
     }
 
     var getImages = function () {
