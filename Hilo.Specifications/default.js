@@ -27,9 +27,20 @@
         if (args.detail.kind === activation.ActivationKind.launch) {
             args.setPromise(WinJS.UI.processAll().then(function () {
 
-                Shared.copyImagesToIndexedFolder()
-                    .then(runJasmine);
+                Shared.doesIndexedFolderExist()
+                    .then(function (exists) {
 
+                        var promise;
+
+                        if (exists) {
+                            promise = WinJS.Promise.wrap(exists); /* this is an empty promise */
+                        } else {
+                            promise = Shared.copyImagesToIndexedFolder();
+                        }
+
+                        return promise;
+                    })
+                    .done(runJasmine);
             }));
         }
     }, false);

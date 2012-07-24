@@ -11,11 +11,9 @@
         whenFolder.then(function (folder) {
             var repo = new Hilo.ImageRepository(folder);
 
-            setTimeout(function(){
-                repo.getImages(15)
-                    .then(async.storage.store('images'))
-                    .then(complete);
-            }, 2000);
+            repo.getImages(15)
+                .then(async.storage.store('images'))
+                .then(complete);
         });
     });
 

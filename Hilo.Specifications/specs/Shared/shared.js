@@ -16,6 +16,8 @@
 
     function copyImagesFromAppPath(indexedFolder) {
 
+        // This copies sample images used for the test. Once these images are present in the app's local
+        // data, they should not need to be copied again.
         return Windows.Storage.StorageFolder.getFolderFromPathAsync(appImagesPath).then(function (appImagesFolder) {
            return appImagesFolder.getFilesAsync().then(function (files) {
                 var promises = [];
@@ -25,11 +27,27 @@
                     promises.push(fileCopy);
                 });
 
-                console.log(promises.length);
+               // In addition to copying the files, we also need to provide time for the folder to be indexed.
+                promises.push(WinJS.Promise.timeout(3000));
+
                 return WinJS.Promise.join(promises);
             });
         });
 
+    }
+
+    function doesIndexedFolderExist() {
+        var folderOpen = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync(indexedFolderName);
+
+        var promise = new WinJS.Promise(function (complete) {
+            folderOpen.done(function () {
+                complete(true);
+            }, function () {
+                complete(false);
+            });;
+        });
+
+        return promise;
     }
 
     var copyImagesToIndexedFolder = function () {
@@ -93,6 +111,7 @@
         getImages: getImages,
         getFileNames: getFileNames,
         thumbnailFileExists: thumbnailFileExists,
-        getThumbnailSize: getThumbnailSize
+        getThumbnailSize: getThumbnailSize,
+        doesIndexedFolderExist: doesIndexedFolderExist
     });
 })();
