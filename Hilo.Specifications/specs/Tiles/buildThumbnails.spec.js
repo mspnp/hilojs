@@ -6,7 +6,7 @@
 
         async.beforeEach(function (complete) {
             Shared.getImages()
-                .then(Tiles.buildThumbails)
+                .then(Hilo.Tiles.buildThumbails)
                 .then(async.storage.store('fileNames'))
                 .then(complete);
         });

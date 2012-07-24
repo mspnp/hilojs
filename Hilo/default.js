@@ -21,10 +21,10 @@
     nav.addEventListener('navigated', function () {
         WinJS.Resources.processAll();
     });
-
+yt
     app.addEventListener('activated', function (args) {
 
-        Tiles.update();
+        Hilo.Tiles.update();
 
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {

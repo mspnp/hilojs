@@ -65,20 +65,17 @@
     <Content Include="..\Hilo\require.js">
       <Link>Src\require.js</Link>
     </Content>
-    <Content Include="..\Hilo\Tiles\buildThumbails.js">
-      <Link>Src\Tiles\buildThumbails.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\buildThumbails.js">
+      <Link>Src\Hilo\Tiles\buildThumbails.js</Link>
     </Content>
-    <Content Include="..\Hilo\Tiles\copyImages.js">
-      <Link>Src\Tiles\copyImages.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\getImagesForTile.js">
+      <Link>Src\Hilo\Tiles\getImagesForTile.js</Link>
     </Content>
-    <Content Include="..\Hilo\Tiles\getImagesForTile.js">
-      <Link>Src\Tiles\getImagesForTile.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\tileUpdater.js">
+      <Link>Src\Hilo\Tiles\tileUpdater.js</Link>
     </Content>
-    <Content Include="..\Hilo\Tiles\tileUpdater.js">
-      <Link>Src\Tiles\tileUpdater.js</Link>
-    </Content>
-    <Content Include="..\Hilo\Tiles\transmogrify.js">
-      <Link>Src\Tiles\transmogrify.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\transmogrify.js">
+      <Link>Src\Hilo\Tiles\transmogrify.js</Link>
     </Content>
     <Content Include="default.html" />
     <Content Include="default.js" />
@@ -109,13 +106,14 @@
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
-    <Content Include="specs\Hilo\hub\hub.spec.js" />
-    <Content Include="specs\Hilo\imageRepository.spec.js" />
-    <Content Include="specs\Hilo\Picture.spec.js" />
-    <Content Include="specs\Hilo\picturesRepository.spec.js" />
+    <Content Include="specs\hub\hub.spec.js" />
+    <Content Include="specs\imageRepository.spec.js" />
+    <Content Include="specs\Picture.spec.js" />
+    <Content Include="specs\picturesRepository.spec.js" />
     <Content Include="specs\require.spec.js" />
     <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\buildThumbnails.spec.js" />
+    <Content Include="Src\.gitkeep" />
     <None Include="Hilo.Specifications_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Src\Hilo\hub\" />
-    <Folder Include="Src\Tiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
