@@ -18,16 +18,6 @@
             });
         },
 
-        buildTileNotification: function (thumbnailPaths) {
-            var wideTile = Hilo.Tiles.buildWideTile(thumbnailPaths);
-            var squareTile = Hilo.Tiles.buildSquareTile(thumbnailPaths);
-
-            var transmogrifiedTile = Hilo.Tiles.transmogrify(wideTile, squareTile);
-            var notification = new notifications.TileNotification(transmogrifiedTile);
-
-            return WinJS.Promise.wrap(notification);
-        },
-
         update: function () {
             var updater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
             var whenImagesForTileRetrieved = Hilo.Tiles.getImagesForTile();

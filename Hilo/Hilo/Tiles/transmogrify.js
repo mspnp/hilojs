@@ -17,11 +17,22 @@
         return wideTile;
     }
 
+    function buildTileNotification(thumbnailPaths) {
+        var wideTile = Hilo.Tiles.buildWideTile(thumbnailPaths);
+        var squareTile = Hilo.Tiles.buildSquareTile(thumbnailPaths);
+
+        var transmogrifiedTile = Hilo.Tiles.transmogrify(wideTile, squareTile);
+        var notification = new notifications.TileNotification(transmogrifiedTile);
+
+        return WinJS.Promise.wrap(notification);
+    }
+
     // Public API
     // ----------
 
     WinJS.Namespace.define('Hilo.Tiles', {
-        transmogrify: transmogrify
+        transmogrify: transmogrify,
+        buildTileNotification: buildTileNotification
     });
 
 })();
