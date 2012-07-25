@@ -6,8 +6,7 @@
 
     var thumbnailFolderName = 'tile-thumbnails',
         localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/',
-        notifications = Windows.UI.Notifications,
-        maxNumberOfUpdates = 5;
+        notifications = Windows.UI.Notifications;
 
     // Private Methods
     // ---------------
@@ -26,27 +25,16 @@
             });
         },
 
-        buildTileNotificationList: function (filenames) {
-            var notifications = [];
-
-            for (var i = 1; i <= maxNumberOfUpdates; i++) {
-                var notification = Hilo.Tiles.buildTileNotification(filenames);
-                notifications.push(notification);
-            };
-
-            return WinJS.Promise.wrap(notifications);
-        },
-
         update: function () {
             var picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary;
             var imageRepo = new Hilo.ImageRepository(picturesLibrary);
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
-            var whenImagesForTileRetrieved = imageRepo.getImages(5);
+            var whenImagesForTileRetrieved = imageRepo.getImages(30);
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.buildThumbails)
                 .then(this.getLocalThumbnailPaths)
-                .then(this.buildTileNotificationList)
+                .then(Hilo.Tiles.transmogrify)
                 .then(queueTileUpdates);
         }
     }
@@ -59,10 +47,8 @@
     // Public API
     // ----------
 
-    var TileUpdater = WinJS.Class.define(constructor, tileUpdater);
-
     WinJS.Namespace.define('Hilo.Tiles', {
-        TileUpdater: TileUpdater
+        TileUpdater: WinJS.Class.define(constructor, tileUpdater)
     });
 
 })();

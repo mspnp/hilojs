@@ -4,7 +4,9 @@
     // Imports And Constants
     // ---------------------
 
-    var notifications = Windows.UI.Notifications;
+    var notifications = Windows.UI.Notifications,
+        maxNumberOfUpdates = 5,          // WinRT limits 5 tile notifications per app
+        numberOfImagesPerTileSet = 6;    // 5 for wide tile + 1 for square tile
 
     // Private Methods
     // ---------------
@@ -18,21 +20,50 @@
     }
 
     function buildTileNotification(thumbnailPaths) {
+        var squareTileFile = thumbnailPaths.shift();
+        var squareTile = Hilo.Tiles.buildSquareTile(squareTileFile);
         var wideTile = Hilo.Tiles.buildWideTile(thumbnailPaths);
-        var squareTile = Hilo.Tiles.buildSquareTile(thumbnailPaths);
 
-        var transmogrifiedTile = Hilo.Tiles.transmogrify(wideTile, squareTile);
+        var transmogrifiedTile = transmogrify(wideTile, squareTile);
         var notification = new notifications.TileNotification(transmogrifiedTile);
 
         return notification;
+    }
+
+    
+    function transmogrify(filenames) {
+        var notifications = [];
+
+        for (var i = 1; i <= maxNumberOfUpdates; i++) {
+
+            var tileFileNames = buildImageSetForTile(filenames, numberOfImagesPerTileSet)
+            var notification = buildTileNotification(tileFileNames);
+            notifications.push(notification);
+
+        };
+
+        return WinJS.Promise.wrap(notifications);
+    }
+
+    function buildImageSetForTile(imageNames, numberOfImages) {
+        var imageSet = [];
+
+        var max = Math.max(numberOfImages, imageNames.length) - 1;
+ 
+        for (var i = 1; i <= numberOfImages; i++) {
+            var imageNumber = parseInt(Math.random() * max, 10);
+            var imageName = imageNames[imageNumber];
+            imageSet.push(imageName);
+        }
+
+        return imageSet;
     }
 
     // Public API
     // ----------
 
     WinJS.Namespace.define('Hilo.Tiles', {
-        transmogrify: transmogrify,
-        buildTileNotification: buildTileNotification
+        transmogrify: transmogrify
     });
 
 })();

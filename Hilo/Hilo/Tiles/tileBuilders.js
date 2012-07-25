@@ -23,12 +23,12 @@
         return xml;
     }
 
-    function buildSquareTile(thumbnailFilePaths) {
+    function buildSquareTile(thumbnailFilePath) {
         var template = notifications.TileTemplateType.tileSquareImage;
         var xml = notifications.TileUpdateManager.getTemplateContent(template);
 
         var imageTags = xml.getElementsByTagName("image");
-        imageTags[0].setAttribute("src", thumbnailFilePaths[0]);
+        imageTags[0].setAttribute("src", thumbnailFilePath);
 
         return xml;
     }
