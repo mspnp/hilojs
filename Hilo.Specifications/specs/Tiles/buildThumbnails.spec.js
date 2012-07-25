@@ -2,38 +2,42 @@
 
     describe('when updating the tile', function () {
 
-        var async = new AsyncSpec();
+        var filesNames;
 
-        async.beforeEach(function (complete) {
+        beforeEach(function (done) {
             Shared.getImages()
                 .then(Hilo.Tiles.buildThumbails)
-                .then(async.storage.store('fileNames'))
-                .then(complete);
+                .then(function (result) {
+                    filesNames = result;
+                })
+                .then(done);
         });
 
-        async.it('should write the thumbnails to the tile thumbnails folder', function (storage) {
-            storage['fileNames'].forEach(function (file) {
+        it('should write the thumbnails to the tile thumbnails folder', function (done) {
 
-                var thumbnailExists = Shared.thumbnailFileExists(file);
-                async.await(thumbnailExists).then(function (fileExists) {
-                    expect(fileExists).toBe(true);
+            var all = filesNames.map(function (file) {
+                return Shared.thumbnailFileExists(file).then(function (fileExists) {
+                    expect(fileExists).equal(true);
                 });
-
             });
+
+            WinJS.Promise.join(all).then(function () { done(); });
+
         });
 
         // For official specifications on tile image sizes, see:
         // http://msdn.microsoft.com/en-us/library/windows/apps/Hh781198.aspx
-        async.it('should create thumbnails equal to or less than 1024 x 1024', function (storage) {
-            storage['fileNames'].forEach(function (file) {
+        it('should create thumbnails equal to or less than 1024 x 1024', function (done) {
 
-                var thumbnailExists = Shared.getThumbnailSize(file);
-                async.await(thumbnailExists).then(function (size) {
-                    expect(size.height).toBeLessThan(1025, 'height of ' + file);
-                    expect(size.width).toBeLessThan(1025, 'width of ' + file);
+            var all = filesNames.map(function (file) {
+                return Shared.getThumbnailSize(file).then(function (size) {
+                    expect(size.height).lessThan(1025, 'height of ' + file);
+                    expect(size.width).lessThan(1025, 'width of ' + file);
                 });
-
             });
+
+            WinJS.Promise.join(all).then(function () { done(); });
+
         });
 
     });

@@ -4,15 +4,19 @@
     <title>Jasmine Spec Runner</title>
 
     <!-- WinJS references -->
-  <!--  <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />-->
+    <!--  
+        Since this app is just our test harness, we don't need to use the default styles.
+        <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
+        -->
     <script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
     <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
 
-    <!-- Jasmine references -->
-    <link rel="shortcut icon" type="image/png" href="/Jasmine/lib/jasmine-1.2.0/jasmine_favicon.png">
-    <link rel="stylesheet" type="text/css" href="/Jasmine/lib/jasmine-1.2.0/jasmine.css">
-    <script src="/Jasmine/lib/jasmine-1.2.0/jasmine.js"></script>
-    <script src="/Jasmine/lib/jasmine-1.2.0/jasmine-html.js"></script>
+    <!-- test harness references -->
+    <link rel="stylesheet" type="text/css" href="/lib/mocha.css">
+    <script src="/lib/mocha.js"></script>
+    <script src="/lib/chai.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <!-- We need to tell mocha that we prefer to use the BDD style for defining our tests. -->
 
     <!-- spec framework references -->
     <script src="/spec.helpers.js"></script>
@@ -20,7 +24,7 @@
     <script src="/specs/Shared/shared.js"></script>
 
     <!-- include specs and source files here... -->
-<!--    <script src="/Src/require.js"></script>
+    <!--    <script src="/Src/require.js"></script>
     <script src="/specs/require.spec.js"></script>
 
     <script src="/specs/Hilo/picturesRepository.js"></script>
@@ -44,10 +48,13 @@
     <script src="/specs/imageRepository.spec.js"></script>
 
     <script src="/default.js"></script>
- 
+
 </head>
 
 <body>
+    <div id="mocha">
+        <!-- This div is a hook for the test harness. -->
+    </div>
 </body>
 
 </html>

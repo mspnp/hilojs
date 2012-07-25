@@ -1,9 +1,9 @@
 ﻿describe('image loader', function () {
 
-    var async = new AsyncSpec();
     var storage = Windows.Storage;
+    var images;
 
-    async.beforeEach(function (complete) {
+    beforeEach(function (done) {
 
         var folderToSearch = Windows.Storage.ApplicationData.current.localFolder.path + "\\Indexed";
         var whenFolder = storage.StorageFolder.getFolderFromPathAsync(folderToSearch);
@@ -12,13 +12,14 @@
             var repo = new Hilo.ImageRepository(folder);
 
             repo.getImages(15)
-                .then(async.storage.store('images'))
-                .then(complete);
+                .then(function (result) { images = result; })
+                .then(done);
         });
     });
 
-    async.it('get 15 images', function (storage) {
-        expect(storage.images.length).toBe(15);
+    it('get 15 images', function (done) {
+        expect(images.length).equal(15);
+        done();
     });
 
 });

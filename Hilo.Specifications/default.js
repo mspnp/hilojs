@@ -1,22 +1,9 @@
-﻿(function () {
+﻿(function (globals) {
     'use strict';
 
-    // # Bootstrapper
-    // This script is responsible for bootstrapping the application.
-
-    function runJasmine() {
-        var jasmineEnv = jasmine.getEnv();
-        jasmineEnv.updateInterval = 1000;
-
-        var htmlReporter = new jasmine.HtmlReporter();
-
-        jasmineEnv.addReporter(htmlReporter);
-
-        jasmineEnv.specFilter = function (spec) {
-            return htmlReporter.specFilter(spec);
-        };
-
-        jasmineEnv.execute();
+    function startTestHarness() {
+        globals.expect = chai.expect;
+        mocha.run();
     }
 
     var activation = Windows.ApplicationModel.Activation,
@@ -40,10 +27,10 @@
 
                         return promise;
                     })
-                    .done(runJasmine);
+                    .done(startTestHarness);
             }));
         }
     }, false);
 
     app.start();
-})();
+})(this);
