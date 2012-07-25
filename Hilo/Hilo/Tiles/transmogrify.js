@@ -11,7 +11,7 @@
     // Private Methods
     // ---------------
 
-    function transmogrify(wideTile, squareTile) {
+    function buildCompositeTile(wideTile, squareTile) {
         var squareBinding = squareTile.getElementsByTagName("binding").item(0);
         var node = wideTile.importNode(squareBinding, true);
         wideTile.getElementsByTagName("visual").item(0).appendChild(node);
@@ -24,27 +24,12 @@
         var squareTile = Hilo.Tiles.buildSquareTile(squareTileFile);
         var wideTile = Hilo.Tiles.buildWideTile(thumbnailPaths);
 
-        var transmogrifiedTile = transmogrify(wideTile, squareTile);
-        var notification = new notifications.TileNotification(transmogrifiedTile);
+        var compositeTile = buildCompositeTile(wideTile, squareTile);
+        var notification = new notifications.TileNotification(compositeTile);
 
         return notification;
     }
-
     
-    function transmogrify(filenames) {
-        var notifications = [];
-
-        for (var i = 1; i <= maxNumberOfUpdates; i++) {
-
-            var tileFileNames = buildImageSetForTile(filenames, numberOfImagesPerTileSet)
-            var notification = buildTileNotification(tileFileNames);
-            notifications.push(notification);
-
-        };
-
-        return WinJS.Promise.wrap(notifications);
-    }
-
     function buildImageSetForTile(imageNames, numberOfImages) {
         var imageSet = [];
 
@@ -57,6 +42,20 @@
         }
 
         return imageSet;
+    }
+
+    function transmogrify(filenames) {
+        var notifications = [];
+
+        for (var i = 1; i <= maxNumberOfUpdates; i++) {
+
+            var tileFileNames = buildImageSetForTile(filenames, numberOfImagesPerTileSet)
+            var notification = buildTileNotification(tileFileNames);
+            notifications.push(notification);
+
+        };
+
+        return WinJS.Promise.wrap(notifications);
     }
 
     // Public API
