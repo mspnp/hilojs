@@ -21,7 +21,7 @@
     nav.addEventListener('navigated', function () {
         WinJS.Resources.processAll();
     });
-yt
+    
     app.addEventListener('activated', function (args) {
 
         Hilo.Tiles.update();
