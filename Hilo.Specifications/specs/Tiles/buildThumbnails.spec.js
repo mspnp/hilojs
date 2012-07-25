@@ -21,7 +21,7 @@
                 });
             });
 
-            WinJS.Promise.join(all).then(function () { done(); });
+            Shared.join(all).then(done);
 
         });
 
@@ -36,8 +36,7 @@
                 });
             });
 
-            WinJS.Promise.join(all).then(function () { done(); });
-
+            Shared.join(all).then(done);
         });
 
     });

@@ -17,9 +17,8 @@
         });
     });
 
-    it('get 15 images', function (done) {
+    it('get 15 images', function () {
         expect(images.length).equal(15);
-        done();
     });
 
 });

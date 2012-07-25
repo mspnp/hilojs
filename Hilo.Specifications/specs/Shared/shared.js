@@ -103,6 +103,28 @@
         return promise;
     }
 
+    var join = function (items) {
+        // Some of our tests require us to join together a number of promises,
+        // each invoking an expectation. We want to wait until all are complete,
+        // and then invoke the `done` function provided by Mocha. However, if we
+        // simply chain the `done` function like this:
+        //
+        //    WinJS.Promise.join(promies).then(done);
+        //
+        // Mocha will throw an error because the `done` should only be invoked with
+        // an error object or with no parameters. When joining the promises as 
+        // demonstrated above, we end up passing in an array and thus Mocha throws
+        // an error.
+        //
+        // To avoid this, we insert an additional promise that wraps the joining
+        // and ignores the return value of the joined result.
+        return new WinJS.Promise(function (complete) {
+            WinJS.Promise.join(items).then(function () {
+                complete();
+            });
+        });
+    };
+
     // Public API
     // ----------
 
@@ -112,6 +134,7 @@
         getFileNames: getFileNames,
         thumbnailFileExists: thumbnailFileExists,
         getThumbnailSize: getThumbnailSize,
-        doesIndexedFolderExist: doesIndexedFolderExist
+        doesIndexedFolderExist: doesIndexedFolderExist,
+        join: join
     });
 })();
