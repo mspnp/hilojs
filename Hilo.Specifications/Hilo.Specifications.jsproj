@@ -50,29 +50,35 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\Hilo\Hilo\hub\hub.html">
+      <Link>Hilo\hub\hub.html</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\hub\hub.js">
-      <Link>Src\Hilo\hub\hub.js</Link>
+      <Link>Hilo\hub\hub.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\imageRepository.js">
-      <Link>Src\Hilo\imageRepository.js</Link>
+      <Link>Hilo\imageRepository.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\PageControlNavigator.js">
+      <Link>Hilo\PageControlNavigator.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Picture.js">
-      <Link>Src\Hilo\Picture.js</Link>
+      <Link>Hilo\Picture.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\picturesRepository.js">
-      <Link>Src\Hilo\picturesRepository.js</Link>
+      <Link>Hilo\picturesRepository.js</Link>
     </Content>
     <Content Include="..\Hilo\require.js">
-      <Link>Src\require.js</Link>
+      <Link>require.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Tiles\buildThumbails.js">
-      <Link>Src\Hilo\Tiles\buildThumbails.js</Link>
+      <Link>Hilo\Tiles\buildThumbails.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Tiles\tileUpdater.js">
-      <Link>Src\Hilo\Tiles\tileUpdater.js</Link>
+      <Link>Hilo\Tiles\tileUpdater.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\Tiles\transmogrify.js">
-      <Link>Src\Hilo\Tiles\transmogrify.js</Link>
+      <Link>Hilo\Tiles\transmogrify.js</Link>
     </Content>
     <Content Include="default.html" />
     <Content Include="default.js" />
@@ -85,6 +91,7 @@
     <Content Include="lib\mocha.css" />
     <Content Include="lib\mocha.js" />
     <Content Include="lib\Mocha.LICENSE.txt" />
+    <Content Include="placeholder.html" />
     <Content Include="sampleImages\001.jpg" />
     <Content Include="sampleImages\002.png" />
     <Content Include="sampleImages\003.bmp" />
@@ -111,14 +118,14 @@
     <Content Include="specs\require.spec.js" />
     <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\buildThumbnails.spec.js" />
-    <Content Include="Src\.gitkeep" />
+    <Content Include="Hilo\.gitkeep" />
     <None Include="Hilo.Specifications_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Src\Hilo\hub\" />
+    <Folder Include="Hilo\hub\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

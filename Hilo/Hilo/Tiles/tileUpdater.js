@@ -44,8 +44,6 @@
         this.tileUpdater.enableNotificationQueue(true);
     }
 
-    // Public API
-    // ----------
 
     WinJS.Namespace.define('Hilo.Tiles', {
         TileUpdater: WinJS.Class.define(constructor, tileUpdater)

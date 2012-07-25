@@ -1,14 +1,13 @@
-﻿define('Hilo.hub', function (require) {
+﻿(function () {
     'use strict';
 
-    var // Windows
-        appViewState = Windows.UI.ViewManagement.ApplicationViewState,
-        // WinJS
-        ui = require('WinJS.UI'),
-        nav = require('WinJS.Navigation'),
-        pages = require('WinJS.UI.Pages'),
-        // Hilo
-        repo = require('Hilo.PicturesRepository');
+    // Imports And Constants
+    // ---------------------
+
+    var appViewState = Windows.UI.ViewManagement.ApplicationViewState,
+        ui = WinJS.UI,
+        nav = WinJS.Navigation,
+        pages = WinJS.UI.Pages;
 
     // These settings must correspond to the height and width values specified 
     // in the css for the items. They need to be the greatest common demoninator
@@ -35,6 +34,9 @@
             nav.navigate('/Hilo/crop/crop.html', indices[0]);
         }
     };
+
+    // Private Methods
+    // ---------------
 
     function setupAppbar() {
         appbar = document.querySelector('#appbar').winControl;
@@ -117,9 +119,6 @@
         }
     }
 
-    // Construct the page object that we want to export.
-    // We store it as a variable before exporting, because we have to 
-    // register the page with the url using `define`.
     page = {
         ready: function (element, options) {
 
@@ -128,7 +127,7 @@
             setupListView();
             setupAppbar();
 
-            repo.getPreviewImages()
+            new Hilo.ImageRepository(Windows.Storage.KnownFolders.picturesLibrary).getBindableImages(6)
                 .then(bindImages)
                 .then(animateEnterPage);
 
@@ -143,6 +142,8 @@
         }
     };
 
+    // Public API
+    // ----------
     pages.define('/Hilo/hub/hub.html', page);
-    return page;
-});
+
+}());

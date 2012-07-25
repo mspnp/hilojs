@@ -61,14 +61,12 @@
         var whenFolder = localFolder.getFolderAsync(indexedFolderName);
 
         return whenFolder.then(function (folder) {
-            return folder.getFilesAsync().then(function (files) {
-                return files;
-            });
+            return folder.getFilesAsync();
         });
     };
 
     var getFileNames = function (paths) {
-        return paths.map(function (path) { return path.name });;
+        return paths.map(function (path) { return path.name });
     };
 
     var thumbnailFileExists = function (fileName) {

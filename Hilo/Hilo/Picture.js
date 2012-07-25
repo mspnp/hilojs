@@ -1,7 +1,8 @@
-﻿define('Hilo.Picture', function (require) {
+﻿(function () {
     'use strict';
 
     var klass = WinJS.Class,
+        ns = WinJS.Namespace,
         binding = WinJS.Binding;
 
     function urlFor(blob) {
@@ -25,5 +26,8 @@
         return new base(file);
     }
 
-    return klass.mix(base, binding.dynamicObservableMixin);
-});
+    ns.define('Hilo', {
+        Picture: klass.mix(base, binding.dynamicObservableMixin)
+    });
+
+}());

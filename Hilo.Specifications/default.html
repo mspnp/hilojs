@@ -23,27 +23,29 @@
     <script src="/spec.async.helpers.js"></script>
     <script src="/specs/Shared/shared.js"></script>
 
+    <script src="/Hilo/PageControlNavigator.js"></script>
+
     <!-- include specs and source files here... -->
-    <!--    <script src="/Src/require.js"></script>
+    <!--    <script src="/require.js"></script>
     <script src="/specs/require.spec.js"></script>
 
     <script src="/specs/Hilo/picturesRepository.js"></script>
     <script src="/specs/Hilo/picturesRepository.spec.js"></script>
 
-    <script src="/specs/Hilo/hub/hub.js"></script>
-    <script src="/specs/Hilo/hub/hub.spec.js"></script>
-
     <script src="/specs/Hilo/Picture.js"></script>
     <script src="/specs/Hilo/Picture.spec.js"></script>-->
 
-    <script src="/Src/Hilo/Tiles/buildThumbails.js"></script>
-    <script src="/Src/Hilo/Tiles/copyImages.js"></script>
-    <script src="/Src/Hilo/Tiles/tileUpdater.js"></script>
-    <script src="/Src/Hilo/Tiles/transmogrify.js"></script>
+    <script src="/Hilo/hub/hub.js"></script>
+    <script src="/specs/hub/hub.spec.js"></script>
+
+    <script src="/Hilo/Tiles/buildThumbails.js"></script>
+    <script src="/Hilo/Tiles/copyImages.js"></script>
+    <script src="/Hilo/Tiles/tileUpdater.js"></script>
+    <script src="/Hilo/Tiles/transmogrify.js"></script>
 
     <script src="/specs/Tiles/buildThumbnails.spec.js"></script>
 
-    <script src="/Src/Hilo/imageRepository.js"></script>
+    <script src="/Hilo/imageRepository.js"></script>
     <script src="/specs/imageRepository.spec.js"></script>
 
     <script src="/default.js"></script>
@@ -51,6 +53,13 @@
 </head>
 
 <body>
+
+    <div id="contentHost" 
+        data-win-control="Hilo.PageControlNavigator" 
+        data-win-options="{home: '/placeholder.html'}" 
+        style="display:none">
+    </div>
+
     <div id="mocha">
         <!-- This div is a hook for the test harness. -->
     </div>

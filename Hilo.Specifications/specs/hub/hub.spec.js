@@ -1,249 +1,203 @@
 ﻿describe('The hub view presenter', function () {
     'use strict';
 
-    var pages = {},
-        appbar,
-        mock;
+    var page;
 
-    beforeEach(function () {
-        mock = new Hilo.specs.helpers.mocking().handle;
+    var mockRepository = function () {
+        return {
+            getPreviewImages: Shared.getImages
+        }
+    };
 
-        mock('Hilo.PicturesRepository', {
-            getPreviewImages: function () {
-                return WinJS.Promise.wrap([]);
-            }
-        });
+    beforeEach(function (done) {
+        this.original = Hilo.imageRespository;
+        Hilo.ImageRespository = mockRepository;
 
-        mock('WinJS.UI.Pages', {
-            define: function (url, page) {
-                pages[url] = page;
-            }
-        });
+        WinJS.Navigation.navigate('/Hilo/hub/hub.html');
+        page = WinJS.UI.Pages.get('/Hilo/hub/hub.html');
 
-        mock.dom('<div id="appbar"><button id="rotate" /><button id="crop" /></div>');
-
-        mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
-        appbar = mock.winControl('appbar', {
-            hide: function () { },
-            show: function () { },
-        });
-        mock.winControl('rotate');
-        mock.winControl('crop');
+        setTimeout(done, 500);
     });
 
-    it('should be defined as a page', function () {
-        var url = '/Hilo/hub/hub.html';
-        expect(pages[url]).toBeUndefined();
-
-        Hilo.hub(mock.require);
-        expect(pages[url]).toBeDefined();
+    afterEach(function () {
+        Hilo.ImageRespository = this.original;
     });
 
-    it('should define a ready function', function () {
-        var page = Hilo.hub(mock.require);
-        expect(page.ready).toBeDefined();
-    });
-
-    it('should request preview images when ready', function () {
-        var ready = false;
-
-        runs(function () {
-            mock('Hilo.PicturesRepository', {
-                getPreviewImages: function () {
-                    ready = true;
-                    return WinJS.Promise.wrap([]);
-                }
-            });
-            var page = Hilo.hub(mock.require);
-            page.ready();
-        });
-
-        waitsFor(function () {
-            return ready;
-        });
-    });
-
-    describe('when no picture is selected', function () {
-
-        var handlers = {},
-            hub;
+    describe('when activated', function () {
 
         beforeEach(function () {
 
-            mock.winControl('picturesLibrary',
-                {
-                    layout: {},
-                    selection: { getIndices: function () { return [ /* nothing selected */] } },
-                    addEventListener: function (type, handler) {
-                        handlers[type] = handler;
-                    }
-                });
-
-            hub = Hilo.hub(mock.require);
-            hub.ready();
         });
 
-        it('should hide the appbar', function () {
-
-            var hidden = false;
-            appbar.hide = function () { hidden = true; },
-
-            handlers['selectionchanged']();
-
-            expect(hidden).toBeTruthy();
-        });
-
-        it('should disable the rotate button', function () {
-
-            var btn = mock.winControl('rotate', { disabled: false });
-
-            handlers['selectionchanged']();
-
-            expect(btn.disabled).toBeTruthy();
-        });
-
-        it('should disable the crop button', function () {
-
-            var btn = mock.winControl('crop', { disabled: false });
-
-            handlers['selectionchanged']();
-
-            expect(btn.disabled).toBeTruthy();
+        it('should display images from the picture library', function () {
+            debugger;
         });
     });
 
-    describe('when a picture is selected', function () {
+    //describe('when no picture is selected', function () {
 
-        var handlers = {},
-            hub;
+    //    var handlers = {},
+    //        hub;
 
-        beforeEach(function () {
+    //    beforeEach(function () {
 
-            mock.winControl('picturesLibrary',
-                {
-                    layout: {},
-                    selection: { getIndices: function () { return [0 /* a single item */] } },
-                    addEventListener: function (type, handler) {
-                        handlers[type] = handler;
-                    }
-                });
+    //    });
 
-            hub = Hilo.hub(mock.require);
-            hub.ready();
-        });
+    //    it('should hide the appbar', function () {
 
-        it('should reveal the appbar', function () {
+    //    });
 
-            var revealed = false;
-            appbar.show = function () { revealed = true; },
+    //    it('should disable the rotate button', function () {
 
-             handlers['selectionchanged']();
+    //        var btn = mock.winControl('rotate', { disabled: false });
 
-            expect(revealed).toBeTruthy();
-        });
+    //        handlers['selectionchanged']();
 
-        it('should enable the rotate button', function () {
+    //        expect(btn.disabled).toBeTruthy();
+    //    });
 
-            var btn = mock.winControl('rotate', { disabled: true });
+    //    it('should disable the crop button', function () {
 
-            handlers['selectionchanged']();
+    //        var btn = mock.winControl('crop', { disabled: false });
 
-            expect(btn.disabled).toBeFalsy();
-        });
+    //        handlers['selectionchanged']();
 
-        it('should enable the crop button when a picture is selected', function () {
+    //        expect(btn.disabled).toBeTruthy();
+    //    });
+    //});
 
-            var btn = mock.winControl('crop', { disabled: true });
+    //describe('when a picture is selected', function () {
 
-            handlers['selectionchanged']();
+    //    var handlers = {},
+    //        hub;
 
-            expect(btn.disabled).toBeFalsy();
-        });
-    });
+    //    beforeEach(function () {
 
-    describe('when a picture is invoked (touched or clicked)', function () {
+    //        mock.winControl('picturesLibrary',
+    //            {
+    //                layout: {},
+    //                selection: { getIndices: function () { return [0 /* a single item */] } },
+    //                addEventListener: function (type, handler) {
+    //                    handlers[type] = handler;
+    //                }
+    //            });
 
-        var handlers = {},
-            navigated_to,
-            selected_picture_index;
+    //        hub = Hilo.hub(mock.require);
+    //        hub.ready();
+    //    });
 
-        beforeEach(function () {
+    //    it('should reveal the appbar', function () {
 
-            mock.winControl('picturesLibrary',
-                {
-                    layout: {},
-                    selection: { getIndices: function () { return [0 /* a single item */] } },
-                    addEventListener: function (type, handler) {
-                        handlers[type] = handler;
-                    }
-                });
+    //        var revealed = false;
+    //        appbar.show = function () { revealed = true; },
 
-            mock('WinJS.Navigation', {
-                navigate: function (url, index) {
-                    navigated_to = url;
-                    selected_picture_index = index;
-                }
-            });
+    //         handlers['selectionchanged']();
 
-            var hub = Hilo.hub(mock.require);
-            hub.ready();
+    //        expect(revealed).toBeTruthy();
+    //    });
 
-            handlers['iteminvoked']({ detail: { itemIndex: 99 } });
-        });
+    //    it('should enable the rotate button', function () {
 
-        it('should navigate to the detail page', function () {
-            expect(navigated_to).toBe('/Hilo/detail/detail.html');
-        });
+    //        var btn = mock.winControl('rotate', { disabled: true });
 
-        it('should pass along the index of the selected picture', function () {
-            expect(selected_picture_index).toBe(99);
-        });
-    });
+    //        handlers['selectionchanged']();
 
-    describe('when snapped', function () {
+    //        expect(btn.disabled).toBeFalsy();
+    //    });
 
-        var listview;
-        beforeEach(function () {
-            listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
-            var hub = Hilo.hub(mock.require);
-            hub.ready();
-            hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.snapped);
-        });
+    //    it('should enable the crop button when a picture is selected', function () {
 
-        it('the ListView should use a ListLayout', function () {
-            expect(listview.layout instanceof WinJS.UI.ListLayout).toBe(true);
-        });
+    //        var btn = mock.winControl('crop', { disabled: true });
 
-    });
+    //        handlers['selectionchanged']();
 
-    describe('when filled', function () {
+    //        expect(btn.disabled).toBeFalsy();
+    //    });
+    //});
 
-        var listview;
-        beforeEach(function () {
-            listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
-            var hub = Hilo.hub(mock.require);
-            hub.ready();
-            hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.filled);
-        });
+    //describe('when a picture is invoked (touched or clicked)', function () {
 
-        it('the ListView should use a GridLayout', function () {
-            expect(listview.layout instanceof WinJS.UI.GridLayout).toBe(true);
-        });
+    //    var handlers = {},
+    //        navigated_to,
+    //        selected_picture_index;
 
-        it('the ListView should limit to 3 rows', function () {
-            expect(listview.layout.maxRows).toBe(3);
-        });
+    //    beforeEach(function () {
 
-        it('the ListView should enable cell spanning', function () {
-            var groupInfo = listview.layout.groupInfo();
-            expect(groupInfo.enableCellSpanning).toBe(true);
-        });
+    //        mock.winControl('picturesLibrary',
+    //            {
+    //                layout: {},
+    //                selection: { getIndices: function () { return [0 /* a single item */] } },
+    //                addEventListener: function (type, handler) {
+    //                    handlers[type] = handler;
+    //                }
+    //            });
 
-        it('the ListView should size cells to 200 x 200', function () {
-            var groupInfo = listview.layout.groupInfo();
-            expect(groupInfo.cellWidth).toBe(200);
-            expect(groupInfo.cellHeight).toBe(200);
-        });
+    //        mock('WinJS.Navigation', {
+    //            navigate: function (url, index) {
+    //                navigated_to = url;
+    //                selected_picture_index = index;
+    //            }
+    //        });
 
-    });
+    //        var hub = Hilo.hub(mock.require);
+    //        hub.ready();
+
+    //        handlers['iteminvoked']({ detail: { itemIndex: 99 } });
+    //    });
+
+    //    it('should navigate to the detail page', function () {
+    //        expect(navigated_to).toBe('/Hilo/detail/detail.html');
+    //    });
+
+    //    it('should pass along the index of the selected picture', function () {
+    //        expect(selected_picture_index).toBe(99);
+    //    });
+    //});
+
+    //describe('when snapped', function () {
+
+    //    var listview;
+    //    beforeEach(function () {
+    //        listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
+    //        var hub = Hilo.hub(mock.require);
+    //        hub.ready();
+    //        hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.snapped);
+    //    });
+
+    //    it('the ListView should use a ListLayout', function () {
+    //        expect(listview.layout instanceof WinJS.UI.ListLayout).toBe(true);
+    //    });
+
+    //});
+
+    //describe('when filled', function () {
+
+    //    var listview;
+    //    beforeEach(function () {
+    //        listview = mock.winControl('picturesLibrary', { layout: {}, addEventListener: function (type, handler) { } });
+    //        var hub = Hilo.hub(mock.require);
+    //        hub.ready();
+    //        hub.updateLayout(null, Windows.UI.ViewManagement.ApplicationViewState.filled);
+    //    });
+
+    //    it('the ListView should use a GridLayout', function () {
+    //        expect(listview.layout instanceof WinJS.UI.GridLayout).toBe(true);
+    //    });
+
+    //    it('the ListView should limit to 3 rows', function () {
+    //        expect(listview.layout.maxRows).toBe(3);
+    //    });
+
+    //    it('the ListView should enable cell spanning', function () {
+    //        var groupInfo = listview.layout.groupInfo();
+    //        expect(groupInfo.enableCellSpanning).toBe(true);
+    //    });
+
+    //    it('the ListView should size cells to 200 x 200', function () {
+    //        var groupInfo = listview.layout.groupInfo();
+    //        expect(groupInfo.cellWidth).toBe(200);
+    //        expect(groupInfo.cellHeight).toBe(200);
+    //    });
+
+    //});
 });
