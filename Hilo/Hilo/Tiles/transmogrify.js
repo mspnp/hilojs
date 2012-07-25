@@ -24,7 +24,7 @@
         var transmogrifiedTile = Hilo.Tiles.transmogrify(wideTile, squareTile);
         var notification = new notifications.TileNotification(transmogrifiedTile);
 
-        return WinJS.Promise.wrap(notification);
+        return notification;
     }
 
     // Public API
