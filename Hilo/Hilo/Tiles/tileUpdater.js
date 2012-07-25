@@ -19,19 +19,22 @@
             });
         },
         
-        queueNotification: function (notification) {
-            this.tileUpdater.update(notification);
+        queueTileUpdates: function (notifications) {
+            var that = this;
+            notifications.forEach(function (notification) {
+                that.tileUpdater.update(notification);
+            });
         },
 
-        queueTileUpdates: function (filenames) {
-            var queueNotification = this.queueNotification.bind(this);
+        buildTileNotificationList: function (filenames) {
+            var notifications = [];
+
             for (var i = 1; i <= maxNumberOfUpdates; i++) {
+                var notification = Hilo.Tiles.buildTileNotification(filenames);
+                notifications.push(notification);
+            };
 
-                var whenNotificationIsBuilt = Hilo.Tiles.buildTileNotification(filenames);
-                whenNotificationIsBuilt
-                    .then(queueNotification);
-
-            }
+            return WinJS.Promise.wrap(notifications);
         },
 
         update: function () {
@@ -41,6 +44,7 @@
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.buildThumbails)
                 .then(this.getLocalThumbnailPaths)
+                .then(this.buildTileNotificationList)
                 .then(queueTileUpdates);
         }
     }
