@@ -42,7 +42,7 @@
             var imageRepo = new Hilo.ImageRepository(picturesLibrary);
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
-            var whenImagesForTileRetrieved = imageRepo.getImages(15);
+            var whenImagesForTileRetrieved = imageRepo.getImages(5);
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.buildThumbails)
                 .then(this.getLocalThumbnailPaths)
