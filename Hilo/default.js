@@ -24,7 +24,8 @@
     
     app.addEventListener('activated', function (args) {
 
-        Hilo.Tiles.update();
+        var updater = new Hilo.Tiles.TileUpdater();
+        updater.update();
 
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
