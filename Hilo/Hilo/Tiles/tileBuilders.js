@@ -8,27 +8,27 @@
     // Private Methods
     // ---------------
 
-    function buildWideTile(thumbnails) {
+    function buildWideTile(thumbnailFilePaths) {
 
         var template = notifications.TileTemplateType.tileWideImageCollection;
 
         var xml = notifications.TileUpdateManager.getTemplateContent(template);
         var images = xml.getElementsByTagName("image");
 
-        thumbnails.forEach(function (thumbnail, index) {
+        thumbnailFilePaths.forEach(function (thumbnailFilePath, index) {
             var element = images.getAt(index);
-            element.attributes.getNamedItem('src').innerText = thumbnail;
+            element.attributes.getNamedItem('src').innerText = thumbnailFilePath;
         });
 
         return xml;
     }
 
-    function buildSquareTile(thumbnails) {
+    function buildSquareTile(thumbnailFilePaths) {
         var template = notifications.TileTemplateType.tileSquareImage;
         var xml = notifications.TileUpdateManager.getTemplateContent(template);
 
         var imageTags = xml.getElementsByTagName("image");
-        imageTags[0].setAttribute("src", thumbnails[0]);
+        imageTags[0].setAttribute("src", thumbnailFilePaths[0]);
 
         return xml;
     }

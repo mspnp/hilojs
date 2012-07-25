@@ -74,7 +74,6 @@
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />
     <Content Include="Hilo\Tiles\buildThumbails.js" />
-    <Content Include="Hilo\Tiles\getImagesForTile.js" />
     <Content Include="Hilo\Tiles\tileBuilders.js" />
     <Content Include="Hilo\Tiles\tileUpdater.js" />
     <Content Include="Hilo\Tiles\transmogrify.js" />

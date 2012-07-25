@@ -38,9 +38,11 @@
         },
 
         update: function () {
+            var picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary;
+            var imageRepo = new Hilo.ImageRepository(picturesLibrary);
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
-            var whenImagesForTileRetrieved = Hilo.Tiles.getImagesForTile();
+            var whenImagesForTileRetrieved = imageRepo.getImages(15);
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.buildThumbails)
                 .then(this.getLocalThumbnailPaths)
