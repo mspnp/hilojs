@@ -1,7 +1,6 @@
 ﻿describe('The hub view presenter', function () {
     'use strict';
 
-    var page;
     var promise = WinJS.Promise;
 
     var mockRepository = function () {
@@ -21,7 +20,6 @@
         Hilo.ImageRepository = mockRepository;
 
         WinJS.Navigation.navigate('/Hilo/hub/hub.html');
-        page = WinJS.UI.Pages.get('/Hilo/hub/hub.html');
 
         setTimeout(done, 200);
     });
@@ -38,86 +36,97 @@
         });
     });
 
-    //describe('when no picture is selected', function () {
+    describe('when nothing is selected and selecting a picture', function () {
 
-    //    var handlers = {},
-    //        hub;
+        var revealed = false;
 
-    //    beforeEach(function () {
+        beforeEach(function () {
+            var appbar = document.querySelector('#appbar').winControl;
+            appbar.show = function () { revealed = true; };
 
-    //    });
+            var listView = document.querySelector('#picturesLibrary').winControl;            
 
-    //    it('should hide the appbar', function () {
+            listView.selection.getIndices = function () { return [0 /* the first item is selected */] };
+            listView.dispatchEvent('selectionchanged');
+        });
 
-    //    });
+        it('should reveal the appbar', function () {
+            expect(revealed).equal(true);
+        });
 
-    //    it('should disable the rotate button', function () {
+        it('should enable the rotate button', function () {
+            var button = document.querySelector('#rotate');
+            expect(button.disabled).equal(false);
+        });
 
-    //        var btn = mock.winControl('rotate', { disabled: false });
+        it('should enable the crop button when a picture is selected', function () {
+            var button = document.querySelector('#crop');
+            expect(button.disabled).equal(false);
+        });
+    });
 
-    //        handlers['selectionchanged']();
+    describe('when a picture is selected and deselecting it', function () {
 
-    //        expect(btn.disabled).toBeTruthy();
-    //    });
+        var hidden = false;
 
-    //    it('should disable the crop button', function () {
+        beforeEach(function () {
+            var appbar = document.querySelector('#appbar').winControl;
+            appbar.hide = function () { hidden = true; };
 
-    //        var btn = mock.winControl('crop', { disabled: false });
+            var listView = document.querySelector('#picturesLibrary').winControl;
 
-    //        handlers['selectionchanged']();
+            listView.selection.getIndices = function () { return [ 0 /* the first item is selected */ ] };
+            listView.dispatchEvent('selectionchanged');
 
-    //        expect(btn.disabled).toBeTruthy();
-    //    });
-    //});
+            listView.selection.getIndices = function () { return [] };
+            listView.dispatchEvent('selectionchanged');
+        });
 
-    //describe('when a picture is selected', function () {
+        it('should hide the appbar', function () {
+            expect(hidden).equal(true);
+        });
 
-    //    var handlers = {},
-    //        hub;
+        it('should disable the rotate button', function () {
+            var button = document.querySelector('#rotate');
+            expect(button.disabled).equal(true);
+        });
 
-    //    beforeEach(function () {
+        it('should disable the crop button', function () {
+            var button = document.querySelector('#crop');
+            expect(button.disabled).equal(true);
+        });
+    });
 
-    //        mock.winControl('picturesLibrary',
-    //            {
-    //                layout: {},
-    //                selection: { getIndices: function () { return [0 /* a single item */] } },
-    //                addEventListener: function (type, handler) {
-    //                    handlers[type] = handler;
-    //                }
-    //            });
+    describe('when a picture is selected and selecting another', function () {
 
-    //        hub = Hilo.hub(mock.require);
-    //        hub.ready();
-    //    });
+        var appbarElement;
 
-    //    it('should reveal the appbar', function () {
+        beforeEach(function () {
+            appbarElement = document.querySelector('#appbar');
 
-    //        var revealed = false;
-    //        appbar.show = function () { revealed = true; },
+            var listView = document.querySelector('#picturesLibrary').winControl;
 
-    //         handlers['selectionchanged']();
+            listView.selection.getIndices = function () { return [0 /* the first item is selected */] };
+            listView.dispatchEvent('selectionchanged');
 
-    //        expect(revealed).toBeTruthy();
-    //    });
+            listView.selection.getIndices = function () { return [1 /* the second item is selected */] };
+            listView.dispatchEvent('selectionchanged');
+        });
 
-    //    it('should enable the rotate button', function () {
+        it('should show the appbar', function () {
+            expect(appbarElement.style.visibility).equal('visible');
+        });
 
-    //        var btn = mock.winControl('rotate', { disabled: true });
+        it('should enable the rotate button', function () {
+            var button = document.querySelector('#rotate');
+            expect(button.disabled).equal(false);
+        });
 
-    //        handlers['selectionchanged']();
-
-    //        expect(btn.disabled).toBeFalsy();
-    //    });
-
-    //    it('should enable the crop button when a picture is selected', function () {
-
-    //        var btn = mock.winControl('crop', { disabled: true });
-
-    //        handlers['selectionchanged']();
-
-    //        expect(btn.disabled).toBeFalsy();
-    //    });
-    //});
+        it('should enable the crop button', function () {
+            var button = document.querySelector('#crop');
+            expect(button.disabled).equal(false);
+        });
+    });
 
     //describe('when a picture is invoked (touched or clicked)', function () {
 

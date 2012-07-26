@@ -5,6 +5,7 @@
     // ---------------------
 
     var appViewState = Windows.UI.ViewManagement.ApplicationViewState,
+        knownFolders = Windows.Storage.KnownFolders,
         ui = WinJS.UI,
         nav = WinJS.Navigation,
         pages = WinJS.UI.Pages;
@@ -114,7 +115,8 @@
             setupListView();
             setupAppbar();
 
-            new Hilo.ImageRepository(Windows.Storage.KnownFolders.picturesLibrary).getBindableImages(6)
+            new Hilo.ImageRepository(knownFolders.picturesLibrary)
+                .getBindableImages(6)
                 .then(bindImages)
                 .then(animateEnterPage);
 
