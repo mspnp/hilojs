@@ -39,14 +39,13 @@
         }
     }
 
-    function constructor() {
+    function TileUpdater() {
         this.tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
         this.tileUpdater.enableNotificationQueue(true);
     }
 
-
     WinJS.Namespace.define('Hilo.Tiles', {
-        TileUpdater: WinJS.Class.define(constructor, tileUpdater)
+        TileUpdater: WinJS.Class.define(TileUpdater, tileUpdater)
     });
 
 })();

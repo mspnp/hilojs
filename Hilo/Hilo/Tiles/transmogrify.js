@@ -52,10 +52,9 @@
             var tileFileNames = buildImageSetForTile(filenames, numberOfImagesPerTileSet)
             var notification = buildTileNotification(tileFileNames);
             notifications.push(notification);
-
         };
 
-        return WinJS.Promise.wrap(notifications);
+        return WinJS.Promise.as(notifications);
     }
 
     // Public API
