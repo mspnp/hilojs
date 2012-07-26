@@ -2,35 +2,39 @@
     'use strict';
 
     var page;
+    var promise = WinJS.Promise;
 
     var mockRepository = function () {
         return {
-            getPreviewImages: Shared.getImages
+            getBindableImages: function () {
+                return promise.wrap([{
+                    name: 'some-file.jpg',
+                    url: 'url("some-url")',
+                    className: 'thumbnail'
+                }]);
+            }
         }
     };
 
     beforeEach(function (done) {
-        this.original = Hilo.imageRespository;
-        Hilo.ImageRespository = mockRepository;
+        this.original = Hilo.ImageRepository;
+        Hilo.ImageRepository = mockRepository;
 
         WinJS.Navigation.navigate('/Hilo/hub/hub.html');
         page = WinJS.UI.Pages.get('/Hilo/hub/hub.html');
 
-        setTimeout(done, 500);
+        setTimeout(done, 200);
     });
 
     afterEach(function () {
-        Hilo.ImageRespository = this.original;
+        Hilo.ImageRepository = this.original;
     });
 
     describe('when activated', function () {
 
-        beforeEach(function () {
-
-        });
-
         it('should display images from the picture library', function () {
-            debugger;
+            var item = document.querySelector('.thumbnail');
+            expect(item.style.backgroundImage).equal('url("some-url")');
         });
     });
 

@@ -81,19 +81,6 @@
 
         if (items.length > 0) {
             items[0].className = items[0].className + ' first';
-
-            var notifications = Windows.UI.Notifications;
-
-            var template = notifications.TileTemplateType.tileWideImageAndText01;
-            var tileXml = notifications.TileUpdateManager.getTemplateContent(template);
-
-            var tileImageAttributes = tileXml.getElementsByTagName("image");
-            tileImageAttributes[0].setAttribute("src", items[0].src);
-            tileImageAttributes[0].setAttribute("alt", "mah picture");
-
-            var tileNotification = new notifications.TileNotification(tileXml);
-
-            notifications.TileUpdateManager.createTileUpdaterForApplication().update(tileNotification);
         }
 
         lv.itemDataSource = new WinJS.Binding.List(items).dataSource;

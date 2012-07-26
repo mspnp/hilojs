@@ -26,14 +26,8 @@
     <script src="/Hilo/PageControlNavigator.js"></script>
 
     <!-- include specs and source files here... -->
-    <!--    <script src="/require.js"></script>
-    <script src="/specs/require.spec.js"></script>
-
-    <script src="/specs/Hilo/picturesRepository.js"></script>
-    <script src="/specs/Hilo/picturesRepository.spec.js"></script>
-
-    <script src="/specs/Hilo/Picture.js"></script>
-    <script src="/specs/Hilo/Picture.spec.js"></script>-->
+    <script src="/Hilo/Picture.js"></script>
+    <!--    <script src="/specs/Hilo/Picture.spec.js"></script>-->
 
     <script src="/Hilo/hub/hub.js"></script>
     <script src="/specs/hub/hub.spec.js"></script>
@@ -54,10 +48,10 @@
 
 <body>
 
-    <div id="contentHost" 
-        data-win-control="Hilo.PageControlNavigator" 
-        data-win-options="{home: '/placeholder.html'}" 
-        style="display:none">
+    <div id="contentHost"
+        data-win-control="Hilo.PageControlNavigator"
+        data-win-options="{home: '/placeholder.html'}"
+        style="position: absolute; height: 800px; width: 600px; overflow: hidden; opacity:0">
     </div>
 
     <div id="mocha">

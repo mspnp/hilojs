@@ -6,7 +6,11 @@
         binding = WinJS.Binding;
 
     function urlFor(blob) {
-        return (blob !== null) ? 'url(' + URL.createObjectURL(blob) + ')' : '';
+        var url = '';
+        if (blob) {
+            url = 'url(' + URL.createObjectURL(blob) + ')';
+        }
+        return url;
     }
 
     var base = klass.define(function (file) {
@@ -17,9 +21,9 @@
         this.addProperty('className', 'thumbnail');
         this.addProperty('src', URL.createObjectURL(file));
 
-        file.addEventListener('thumbnailupdated', function (args) {
-            self.updateProperty('url', urlFor(file.thumbnail));
-        });
+        //file.addEventListener('thumbnailupdated', function (args) {
+        //    self.updateProperty('url', urlFor(file.thumbnail));
+        //});
     });
 
     base.from = function (file) {
