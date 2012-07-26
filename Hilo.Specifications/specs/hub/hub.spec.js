@@ -23,7 +23,7 @@
     }
 
     beforeEach(function (done) {
-        this.original = Hilo.ImageRepository;
+        this.originalRepository = Hilo.ImageRepository;
         Hilo.ImageRepository = mockRepository;
 
         WinJS.Navigation.navigate('/Hilo/hub/hub.html');
@@ -32,7 +32,7 @@
     });
 
     afterEach(function () {
-        Hilo.ImageRepository = this.original;
+        Hilo.ImageRepository = this.originalRepository;
     });
 
     describe('when activated', function () {
@@ -135,8 +135,8 @@
             selected_picture_index;
 
         beforeEach(function () {
+            this.originalNavigate = WinJS.Navigation.navigate;
 
-            this.original = WinJS.Navigation.navigate;
             WinJS.Navigation.navigate = function (location, itemIndex) {
                 navigated_to = location;
                 selected_picture_index = itemIndex;
@@ -147,7 +147,7 @@
         });
 
         afterEach(function () {
-            WinJS.Navigation.navigate = this.original;
+            WinJS.Navigation.navigate = this.originalNavigate;
         });
 
         it('should navigate to the detail page', function () {
