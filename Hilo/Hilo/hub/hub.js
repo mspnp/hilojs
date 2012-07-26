@@ -18,10 +18,6 @@
         cellHeight: 200
     };
 
-    var lv,
-        appbar,
-        buttons;
-
     // Private Methods
     // ---------------
 
@@ -33,7 +29,7 @@
 
             Array.prototype.forEach.call(buttons, function (x) {
                 x.addEventListener('click', function (args) {
-                    that.dipatchEvent(args.currentTarget.id);
+                    WinJS.Application.queueEvent("appbar:" + args.currentTarget.id);
                 });
             });
         },
@@ -44,26 +40,26 @@
 
         hide: function () {
             this.appbar.hide();
-        },
-
-        dispatchEvent: function (type, args) {
-            this[type](args);
-        },
-
-        addEventListener: function (type, handler) {
-            this[type] = handler;
         }
     };
 
     var listViewBuilder = {
 
         setup: function () {
-            lv = document.querySelector('#picturesLibrary').winControl;
+            this.lv = document.querySelector('#picturesLibrary').winControl;
 
-            lv.layout = this.selectLayout(appView.value);
+            this.lv.layout = this.selectLayout(appView.value);
 
-            lv.addEventListener('iteminvoked', this.imageNavigated);
-            lv.addEventListener('selectionchanged', this.imageSelected);
+            this.lv.addEventListener('iteminvoked', this.imageNavigated.bind(this));
+            this.lv.addEventListener('selectionchanged', this.imageSelected.bind(this));
+        },
+
+        setDataSource: function (items) {
+            this.lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
+        },
+
+        setViewState: function (viewState) {
+            this.lv.layout = listViewBuilder.selectLayout(viewState);
         },
 
         selectLayout: function (viewState, lastViewState) {
@@ -82,41 +78,31 @@
         },
 
         getIndices: function () {
-            lv.selection.getIndices();
+            return this.lv.selection.getIndices();
         },
 
         imageSelected: function (args) {
-            this.dispatchEvent("selectionChanged", args);
+            var itemIndex = this.getIndices();
+            var hasItemSelected = itemIndex.length > 0;
+            WinJS.Application.queueEvent({ type: "listview:selectionChanged", hasItemSelected: hasItemSelected });
         },
 
         imageNavigated: function (args) {
-           this.dispatchEvent("itemInvoked", args);
-        },
-
-        dispatchEvent: function (type, args) {
-            this[type](args);
-        },
-
-        addEventListener: function (type, handler) {
-            this[type] = handler;
+            WinJS.Application.queueEvent({ type: "listview:itemInvoked", itemIndex: args.detail.itemIndex });
         }
     };
 
     var mediator = WinJS.Class.define(function (appbar, listview) {
         this.listview = listview;
         this.appbar = appbar;
+        var app = WinJS.Application;
 
-        appbar.addEventListener("rotate", this.rotateClicked);
-        appbar.addEventListener("crop", this.cropClicked);
-        listView.addEventListener("selectionChanged", this.selectionChanged);
-        listView.addEventListener("itemInvoked", this.itemClicked);
+        app.addEventListener("appbar:rotate", this.rotateClicked.bind(this));
+        app.addEventListener("appbar:crop", this.cropClicked.bind(this));
+        app.addEventListener("listview:selectionChanged", this.selectionChanged.bind(this));
+        app.addEventListener("listview:itemInvoked", this.itemClicked.bind(this));
 
     }, {
-
-        run: function () {
-            this.listview.setup();
-            this.appbar.setup();
-        },
 
         rotateClicked: function () {
             var indices = this.listview.getIndices();
@@ -129,21 +115,20 @@
         },
 
         selectionChanged: function (args) {
-            var indices = this.listview.getIndices();
-
+            var buttons = document.querySelectorAll('#appbar button');
             Array.prototype.forEach.call(buttons, function (x) {
-                x.winControl.disabled = (indices.length === 0);
+                x.winControl.disabled = !args.hasItemSelected;
             });
 
-            if (indices.length !== 0) {
-                appbar.show();
+            if (args.hasItemSelected) {
+                this.appbar.show();
             } else {
-                appbar.hide();
+                this.appbar.hide();
             }
         },
 
         itemClicked: function (args) {
-            nav.navigate('/Hilo/detail/detail.html', args.detail.itemIndex);
+            nav.navigate('/Hilo/detail/detail.html', args.itemIndex);
         }
     });
 
@@ -152,7 +137,10 @@
 
             WinJS.Resources.processAll();
 
-            new mediator(appbarBuilder, listViewBuilder).run();
+            listViewBuilder.setup();
+            appbarBuilder.setup();
+
+            new mediator(appbarBuilder, listViewBuilder);
 
             new Hilo.ImageRepository(knownFolders.picturesLibrary)
                 .getBindableImages(6)
@@ -161,7 +149,7 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            lv.layout = listViewBuilder.selectLayout(viewState);
+            listViewBuilder.setViewState(viewState);
         },
 
         bindImages: function (items) {
@@ -170,7 +158,7 @@
                 items[0].className = items[0].className + ' first';
             }
 
-            lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
+            listViewBuilder.setDataSource(items);
         },
 
         animateEnterPage: function () {

@@ -28,7 +28,7 @@
 
         WinJS.Navigation.navigate('/Hilo/hub/hub.html');
 
-        setTimeout(done, 200);
+        setTimeout(done, 500);
     });
 
     afterEach(function () {
