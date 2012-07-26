@@ -17,20 +17,23 @@
 
     function writeThumbnailToFile(fileInfo, thumbnailFile) {
         var whenFileIsOpen = thumbnailFile.openAsync(readWrite);
+        var whenThumbailIsReady = fileInfo.getThumbnailAsync(thumbnailMode);
+        var whenEverythingIsReady = WinJS.Promise.join([whenFileIsOpen, whenThumbailIsReady]);
 
-        return whenFileIsOpen.then(function (output) {
+        var input, output;
 
-            return fileInfo.getThumbnailAsync(thumbnailMode).then(function (thumbnail) {
-                var input = thumbnail.getInputStreamAt(0);
-                return randomAccessStream.copyAsync(input, output).then(function () {
-                    return output.flushAsync().then(function () {
-                        input.close();
-                        output.close();
-                        return fileInfo.name;
-                    });
-                });
-            });
+        whenEverythingIsReady.then(function (args) {
+            output = args[0];
+            var thumbnail = args[1];
+            input = thumbnail.getInputStreamAt(0);
+            return randomAccessStream.copyAsync(input, output);
+        }).then(function () {
+            return output.flushAsync();
+        }).then(function () {
+            input.close();
+            output.close();
         });
+
     }
 
     function copyImages(files, folder) {
@@ -57,6 +60,11 @@
         var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, replaceExisting);
         return whenFolderCreated
             .then(copyThumbnailsToFolder)
+            .then(function () {
+                return files.map(function (fileInfo) {
+                    return fileInfo.name;
+                });
+            });
     }
 
     // Public API
