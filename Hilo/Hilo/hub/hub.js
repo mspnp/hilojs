@@ -9,60 +9,25 @@
     // Private Methods
     // ---------------
 
-    var mediator = {
-        run: function (appbar, listview) {
-            this.listview = listview;
-            this.appbar = appbar;
-            var app = WinJS.Application;
-
-            app.addEventListener("appbar:rotate", this.rotateClicked.bind(this));
-            app.addEventListener("appbar:crop", this.cropClicked.bind(this));
-            app.addEventListener("listview:selectionChanged", this.selectionChanged.bind(this));
-            app.addEventListener("listview:itemInvoked", this.itemClicked.bind(this));
-
-        },
-
-        rotateClicked: function () {
-            var indices = this.listview.getIndices();
-            WinJS.Navigation.navigate('/Hilo/rotate/rotate.html', indices[0]);
-        },
-
-        cropClicked: function () {
-            var indices = this.listview.getIndices();
-            WinJS.Navigation.navigate('/Hilo/crop/crop.html', indices[0]);
-        },
-
-        selectionChanged: function (args) {
-            var buttons = document.querySelectorAll('#appbar button');
-            Array.prototype.forEach.call(buttons, function (x) {
-                x.winControl.disabled = !args.hasItemSelected;
-            });
-
-            if (args.hasItemSelected) {
-                this.appbar.show();
-            } else {
-                this.appbar.hide();
-            }
-        },
-
-        itemClicked: function (args) {
-            WinJS.Navigation.navigate('/Hilo/detail/detail.html', args.itemIndex);
-        }
-    };
-
     var page = {
         ready: function (element, options) {
 
+            // I18N resource binding for this page
             WinJS.Resources.processAll();
 
+            // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
             this.appBarController = new Hilo.Hub.AppBarController(appBarEl);
 
+            // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector('#picturesLibrary');
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl);
 
-            mediator.run(this.appBarController, this.listViewController);
+            // Coordinate the parts of the hub view
+            var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(this.appBarController, this.listViewController);
+            hubViewCoordinator.start();
 
+            // Get the images we need and animate the screen to show them
             new Hilo.ImageRepository(knownFolders.picturesLibrary)
                 .getBindableImages(6)
                 .then(this.bindImages.bind(this))
