@@ -9,14 +9,6 @@
         knownFolders = Windows.Storage.KnownFolders,
         nav = WinJS.Navigation;
 
-    // These settings must correspond to the height and width values specified 
-    // in the css for the items. They need to be the greatest common demoninator
-    // of the various widths and heights.
-    var listViewLayoutSettings = {
-        enableCellSpanning: true,
-        cellWidth: 200,
-        cellHeight: 200
-    };
 
     // Private Methods
     // ---------------
@@ -43,66 +35,18 @@
         }
     };
 
-    var listViewBuilder = {
+    var mediator = {
+        run: function (appbar, listview) {
+            this.listview = listview;
+            this.appbar = appbar;
+            var app = WinJS.Application;
 
-        setup: function () {
-            this.lv = document.querySelector('#picturesLibrary').winControl;
+            app.addEventListener("appbar:rotate", this.rotateClicked.bind(this));
+            app.addEventListener("appbar:crop", this.cropClicked.bind(this));
+            app.addEventListener("listview:selectionChanged", this.selectionChanged.bind(this));
+            app.addEventListener("listview:itemInvoked", this.itemClicked.bind(this));
 
-            this.lv.layout = this.selectLayout(appView.value);
-
-            this.lv.addEventListener('iteminvoked', this.imageNavigated.bind(this));
-            this.lv.addEventListener('selectionchanged', this.imageSelected.bind(this));
         },
-
-        setDataSource: function (items) {
-            this.lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
-        },
-
-        setViewState: function (viewState) {
-            this.lv.layout = listViewBuilder.selectLayout(viewState);
-        },
-
-        selectLayout: function (viewState, lastViewState) {
-
-            if (lastViewState === viewState) { return; }
-
-            if (viewState === appViewState.snapped) {
-                return new WinJS.UI.ListLayout();
-            }
-            else {
-                var layout = new WinJS.UI.GridLayout();
-                layout.groupInfo = function () { return listViewLayoutSettings; };
-                layout.maxRows = 3;
-                return layout;
-            }
-        },
-
-        getIndices: function () {
-            return this.lv.selection.getIndices();
-        },
-
-        imageSelected: function (args) {
-            var itemIndex = this.getIndices();
-            var hasItemSelected = itemIndex.length > 0;
-            WinJS.Application.queueEvent({ type: "listview:selectionChanged", hasItemSelected: hasItemSelected });
-        },
-
-        imageNavigated: function (args) {
-            WinJS.Application.queueEvent({ type: "listview:itemInvoked", itemIndex: args.detail.itemIndex });
-        }
-    };
-
-    var mediator = WinJS.Class.define(function (appbar, listview) {
-        this.listview = listview;
-        this.appbar = appbar;
-        var app = WinJS.Application;
-
-        app.addEventListener("appbar:rotate", this.rotateClicked.bind(this));
-        app.addEventListener("appbar:crop", this.cropClicked.bind(this));
-        app.addEventListener("listview:selectionChanged", this.selectionChanged.bind(this));
-        app.addEventListener("listview:itemInvoked", this.itemClicked.bind(this));
-
-    }, {
 
         rotateClicked: function () {
             var indices = this.listview.getIndices();
@@ -130,26 +74,28 @@
         itemClicked: function (args) {
             nav.navigate('/Hilo/detail/detail.html', args.itemIndex);
         }
-    });
+    };
 
     var page = {
         ready: function (element, options) {
 
             WinJS.Resources.processAll();
 
-            listViewBuilder.setup();
+            var listViewEl = document.querySelector('#picturesLibrary');
+            this.listViewController = new Hilo.Hub.ListViewController(listViewEl);
+
             appbarBuilder.setup();
 
-            new mediator(appbarBuilder, listViewBuilder);
+            mediator.run(appbarBuilder, this.listViewController);
 
             new Hilo.ImageRepository(knownFolders.picturesLibrary)
                 .getBindableImages(6)
-                .then(this.bindImages)
+                .then(this.bindImages.bind(this))
                 .then(this.animateEnterPage);
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            listViewBuilder.setViewState(viewState);
+            this.listViewController.setViewState(viewState);
         },
 
         bindImages: function (items) {
@@ -158,7 +104,7 @@
                 items[0].className = items[0].className + ' first';
             }
 
-            listViewBuilder.setDataSource(items);
+            this.listViewController.setDataSource(items);
         },
 
         animateEnterPage: function () {
