@@ -3,7 +3,7 @@
 
     var promise = WinJS.Promise;
 
-    var mockRepository = function () {
+    function mockRepository() {
         return {
             getBindableImages: function () {
                 return promise.wrap([{
@@ -14,6 +14,13 @@
             }
         }
     };
+
+    function setSelectionOnListView(indices) {
+        var listView = document.querySelector('#picturesLibrary').winControl;
+
+        listView.selection.getIndices = function () { return indices };
+        listView.dispatchEvent('selectionchanged');
+    }
 
     beforeEach(function (done) {
         this.original = Hilo.ImageRepository;
@@ -44,10 +51,8 @@
             var appbar = document.querySelector('#appbar').winControl;
             appbar.show = function () { revealed = true; };
 
-            var listView = document.querySelector('#picturesLibrary').winControl;            
-
-            listView.selection.getIndices = function () { return [0 /* the first item is selected */] };
-            listView.dispatchEvent('selectionchanged');
+            /* select the first item */
+            setSelectionOnListView([0]);
         });
 
         it('should reveal the appbar', function () {
@@ -73,13 +78,11 @@
             var appbar = document.querySelector('#appbar').winControl;
             appbar.hide = function () { hidden = true; };
 
-            var listView = document.querySelector('#picturesLibrary').winControl;
+            /* select the first item */
+            setSelectionOnListView([0]);
 
-            listView.selection.getIndices = function () { return [ 0 /* the first item is selected */ ] };
-            listView.dispatchEvent('selectionchanged');
-
-            listView.selection.getIndices = function () { return [] };
-            listView.dispatchEvent('selectionchanged');
+            /* then deselect it */
+            setSelectionOnListView([]);
         });
 
         it('should hide the appbar', function () {
@@ -104,13 +107,11 @@
         beforeEach(function () {
             appbarElement = document.querySelector('#appbar');
 
-            var listView = document.querySelector('#picturesLibrary').winControl;
+            /* select the first item */
+            setSelectionOnListView([0]);
 
-            listView.selection.getIndices = function () { return [0 /* the first item is selected */] };
-            listView.dispatchEvent('selectionchanged');
-
-            listView.selection.getIndices = function () { return [1 /* the second item is selected */] };
-            listView.dispatchEvent('selectionchanged');
+            /* then select the second item */
+            setSelectionOnListView([1]);
         });
 
         it('should show the appbar', function () {
@@ -128,44 +129,35 @@
         });
     });
 
-    //describe('when a picture is invoked (touched or clicked)', function () {
+    describe('when a picture is invoked (touched or clicked)', function () {
 
-    //    var handlers = {},
-    //        navigated_to,
-    //        selected_picture_index;
+        var navigated_to,
+            selected_picture_index;
 
-    //    beforeEach(function () {
+        beforeEach(function () {
 
-    //        mock.winControl('picturesLibrary',
-    //            {
-    //                layout: {},
-    //                selection: { getIndices: function () { return [0 /* a single item */] } },
-    //                addEventListener: function (type, handler) {
-    //                    handlers[type] = handler;
-    //                }
-    //            });
+            this.original = WinJS.Navigation.navigate;
+            WinJS.Navigation.navigate = function (location, itemIndex) {
+                navigated_to = location;
+                selected_picture_index = itemIndex;
+            };
 
-    //        mock('WinJS.Navigation', {
-    //            navigate: function (url, index) {
-    //                navigated_to = url;
-    //                selected_picture_index = index;
-    //            }
-    //        });
+            var listView = document.querySelector('#picturesLibrary').winControl;
+            listView.dispatchEvent('iteminvoked', { detail: { itemIndex: 99 } });
+        });
 
-    //        var hub = Hilo.hub(mock.require);
-    //        hub.ready();
+        afterEach(function () {
+            WinJS.Navigation.navigate = this.original;
+        });
 
-    //        handlers['iteminvoked']({ detail: { itemIndex: 99 } });
-    //    });
+        it('should navigate to the detail page', function () {
+            expect(navigated_to).equal('/Hilo/detail/detail.html');
+        });
 
-    //    it('should navigate to the detail page', function () {
-    //        expect(navigated_to).toBe('/Hilo/detail/detail.html');
-    //    });
-
-    //    it('should pass along the index of the selected picture', function () {
-    //        expect(selected_picture_index).toBe(99);
-    //    });
-    //});
+        it('should pass along the index of the selected picture', function () {
+            expect(selected_picture_index).equal(99);
+        });
+    });
 
     //describe('when snapped', function () {
 
