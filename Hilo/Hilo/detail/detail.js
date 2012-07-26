@@ -1,16 +1,15 @@
-﻿define('Hilo.detail', function (require) {
+﻿(function () {
     'use strict';
 
     var // WinJS
-        ui = require('WinJS.UI'),
-        nav = require('WinJS.Navigation'),
-        pages = require('WinJS.UI.Pages'),
-        // Hilo
-        repo = require('Hilo.PicturesRepository');
+        ui = WinJS.UI,
+        nav = WinJS.Navigation,
+        knownFolders = Windows.Storage.KnownFolders,
+        pages = WinJS.UI.Pages;
 
     var page = {
 
-        ready: function (element, selectedIndex) {        
+        ready: function (element, selectedIndex) {
 
             // TODO: expect this implementation to change
 
@@ -23,9 +22,9 @@
                 ui.Animation.fadeIn(img);
             });
 
-            repo.getImageAt(selectedIndex).then(function (selected) {
+            new Hilo.ImageRepository(knownFolders.picturesLibrary).getImageAt(selectedIndex).then(function (selected) {
                 img.src = URL.createObjectURL(selected);
-            });            
+            });
         },
 
         unload: function () {
@@ -35,4 +34,5 @@
 
     pages.define('/Hilo/detail/detail.html', page);
     return page;
-});
+
+}());
