@@ -50,6 +50,9 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\Hilo\Hilo\hub\appBarController.js">
+      <Link>Hilo\hub\appBarController.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\hub\hub.html">
       <Link>Hilo\hub\hub.html</Link>
     </Content>

@@ -4,36 +4,10 @@
     // Imports And Constants
     // ---------------------
 
-    var appViewState = Windows.UI.ViewManagement.ApplicationViewState,
-        appView = Windows.UI.ViewManagement.ApplicationView,
-        knownFolders = Windows.Storage.KnownFolders,
-        nav = WinJS.Navigation;
-
+    var knownFolders = Windows.Storage.KnownFolders;
 
     // Private Methods
     // ---------------
-
-    var appbarBuilder = {
-        setup: function () {
-            this.appbar = document.querySelector('#appbar').winControl;
-            var buttons = document.querySelectorAll('#appbar button');
-            var that = this;
-
-            Array.prototype.forEach.call(buttons, function (x) {
-                x.addEventListener('click', function (args) {
-                    WinJS.Application.queueEvent("appbar:" + args.currentTarget.id);
-                });
-            });
-        },
-
-        show: function () {
-            this.appbar.show();
-        },
-
-        hide: function () {
-            this.appbar.hide();
-        }
-    };
 
     var mediator = {
         run: function (appbar, listview) {
@@ -72,7 +46,7 @@
         },
 
         itemClicked: function (args) {
-            nav.navigate('/Hilo/detail/detail.html', args.itemIndex);
+            WinJS.Navigation.navigate('/Hilo/detail/detail.html', args.itemIndex);
         }
     };
 
@@ -81,12 +55,13 @@
 
             WinJS.Resources.processAll();
 
+            var appBarEl = document.querySelector("#appbar");
+            this.appBarController = new Hilo.Hub.AppBarController(appBarEl);
+
             var listViewEl = document.querySelector('#picturesLibrary');
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl);
 
-            appbarBuilder.setup();
-
-            mediator.run(appbarBuilder, this.listViewController);
+            mediator.run(this.appBarController, this.listViewController);
 
             new Hilo.ImageRepository(knownFolders.picturesLibrary)
                 .getBindableImages(6)
