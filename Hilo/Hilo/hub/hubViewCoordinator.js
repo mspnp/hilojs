@@ -30,7 +30,7 @@
         },
 
         selectionChanged: function (args) {
-            if (args.hasItemSelected) {
+            if (args.detail.hasItemSelected) {
                 this.appbar.show();
                 this.appbar.enableButtons();
             } else {
@@ -40,7 +40,7 @@
         },
 
         itemClicked: function (args) {
-            this.nav.navigate('/Hilo/detail/detail.html', args.itemIndex);
+            this.nav.navigate('/Hilo/detail/detail.html', args.detail.itemIndex);
         }
     };
 
