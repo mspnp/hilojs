@@ -1,4 +1,8 @@
 ﻿(function () {
+    beforeEach(function (done) {
+        setTimeout(done, 0);
+    });
+
     'use strict';
 
     var utilities = WinJS.Utilities;
