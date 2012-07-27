@@ -121,6 +121,7 @@
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
     <Content Include="specs\hub\hub.spec.js" />
+    <Content Include="specs\hub\hubViewCoordinator.spec.js" />
     <Content Include="specs\imageRepository.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\picturesRepository.spec.js" />
