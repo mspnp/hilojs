@@ -31,7 +31,7 @@
             },
 
             dispatchEvent: function (name, args) {
-                this.handlers[name](args);
+                this.handlers[name]({ detail: args });
             }
         };
 
@@ -42,7 +42,7 @@
             },
 
             dispatchEvent: function (name, args) {
-                this.handlers[name](args);
+                this.handlers[name]({ detail: args });
             }
         };
 
