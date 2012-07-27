@@ -2,10 +2,15 @@
     'use strict';
 
     var hubView, nav, appBar, listView;
-    var app = WinJS.Application;
 
     beforeEach(function () {
-        nav = {};
+        nav = {
+            navigate: function () {
+                nav.navigate.args = arguments;
+                nav.navigate.wasCalled = true;
+            }
+        };
+
         appBar = {
             show: function () {
                 appBar.show.wasCalled = true;
@@ -18,21 +23,37 @@
             },
             disableButtons: function () {
                 appBar.disableButtons.wasCalled = true;
+            },
+
+            handlers: {},
+            addEventListener: function (name, handler) {
+                this.handlers[name] = handler;
+            },
+
+            dispatchEvent: function (name, args) {
+                this.handlers[name](args);
             }
         };
-        listView = {};
 
-        hubView = new Hilo.Hub.HubViewCoordinator(app, nav, appBar, listView);
+        listView = {
+            handlers: {},
+            addEventListener: function (name, handler) {
+                this.handlers[name] = handler;
+            },
+
+            dispatchEvent: function (name, args) {
+                this.handlers[name](args);
+            }
+        };
+
+        hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView);
         hubView.start();
     });
 
     describe('given nothing is selected, when selecting a picture', function () {
 
         beforeEach(function () {
-            app.queueEvent({
-                type: 'listview:selectionChanged',
-                hasItemSelected: true
-            });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
         });
 
         it('should reveal the appbar', function () {
@@ -48,10 +69,8 @@
     describe('when a picture is selected and deselecting it', function () {
 
         beforeEach(function () {
-            app.queueEvent({
-                type: 'listview:selectionChanged',
-                hasItemSelected: false
-            });
+            listView.dispatchEvent('selectionChanged',{ hasItemSelected: true });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: false });
         });
 
         it('should hide the appbar', function () {
@@ -63,5 +82,39 @@
         });
 
     });
+
+    describe('when a picture is selected and selecting another', function () {
+
+        beforeEach(function () {
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
+        });
+
+        it('should reveal the appbar', function () {
+            expect(appBar.show.wasCalled).equals(true);
+        });
+
+        it('should enable the crop & rotate buttons', function () {
+            expect(appBar.enableButtons.wasCalled).equals(true);
+        });
+
+    });
+
+    describe('when a picture is invoked (touched or clicked)', function () {
+
+        beforeEach(function () {
+            listView.dispatchEvent('itemInvoked', { itemIndex: 99 });
+        });
+
+
+        it('should navigate to the detail page', function () {
+            expect(nav.navigate.args[0]).equals('/Hilo/detail/detail.html');
+        });
+
+        it('should pass along the index of the selected picture', function () {
+            expect(nav.navigate.args[1]).equal(99);
+        });
+    });
+
 
 });

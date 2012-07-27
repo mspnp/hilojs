@@ -64,19 +64,22 @@
         imageSelected: function (args) {
             var itemIndex = this.getIndices();
             var hasItemSelected = itemIndex.length > 0;
-            WinJS.Application.queueEvent({ type: "listview:selectionChanged", hasItemSelected: hasItemSelected });
+            this.dispatchEvent("selectionChanged", {hasItemSelected: hasItemSelected });
         },
 
         imageNavigated: function (args) {
-            WinJS.Application.queueEvent({ type: "listview:itemInvoked", itemIndex: args.detail.itemIndex });
+            this.dispatchEvent("itemInvoked", {itemIndex: args.detail.itemIndex });
         }
     };
 
     // Public API
     // ----------
 
+    var Klass = WinJS.Class.define(ListViewController, controllerMethods);
+    Klass = WinJS.Class.mix(Klass, WinJS.Utilities.eventMixin);
+
     WinJS.Namespace.define("Hilo.Hub", {
-        ListViewController: WinJS.Class.define(ListViewController, controllerMethods)
+        ListViewController: Klass
     });
 
 })();

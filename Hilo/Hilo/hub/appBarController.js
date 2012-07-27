@@ -17,7 +17,7 @@
             var that = this;
             Array.prototype.forEach.call(this.buttons, function (x) {
                 x.addEventListener('click', function (args) {
-                    WinJS.Application.queueEvent({ type: "appbar:" + args.currentTarget.id });
+                    this.dispatchEvent(args.currentTarget.id);
                 });
             });
         },
@@ -46,7 +46,10 @@
     // Public API
     // ----------
 
+    var Klass = WinJS.Class.define(AppBarController, controllerMethods);
+    Klass = WinJS.Class.mix(Klass, WinJS.Utilities.eventMixin);
+
     WinJS.Namespace.define("Hilo.Hub", {
-        AppBarController: WinJS.Class.define(AppBarController, controllerMethods)
+        AppBarController: Klass
     });
 })();

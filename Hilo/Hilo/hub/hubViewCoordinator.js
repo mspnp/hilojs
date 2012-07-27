@@ -4,20 +4,19 @@
     // Private Methods
     // ---------------
 
-    function HubViewCoordinator(app, nav, appbar, listview) {
+    function HubViewCoordinator(nav, appbar, listview) {
         this.nav = nav;
-        this.app = app;
         this.listview = listview;
         this.appbar = appbar;
     };
 
     var hubViewMethods = {
         start: function(){
-            this.app.addEventListener("appbar:rotate", this.rotateClicked.bind(this));
-            this.app.addEventListener("appbar:crop", this.cropClicked.bind(this));
+            this.appbar.addEventListener("rotate", this.rotateClicked.bind(this));
+            this.appbar.addEventListener("crop", this.cropClicked.bind(this));
 
-            this.app.addEventListener("listview:selectionChanged", this.selectionChanged.bind(this));
-            this.app.addEventListener("listview:itemInvoked", this.itemClicked.bind(this));
+            this.listview.addEventListener("selectionChanged", this.selectionChanged.bind(this));
+            this.listview.addEventListener("itemInvoked", this.itemClicked.bind(this));
         },
 
         rotateClicked: function () {
