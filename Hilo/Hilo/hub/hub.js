@@ -27,6 +27,22 @@
             var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(this.appBarController, this.listViewController);
             hubViewCoordinator.start();
 
+            // --------------------
+            // There's a disconnect in the style and readability between what is above
+            // this note, and what is below it. This is due to the above being a pub-sub/
+            // event driven style, and the below being a promise-based style.
+            // 
+            // These two styles of flow and coordination in JavaScript lend themselves to
+            // very different application development styles. The code above is very
+            // object oriented, with objects that are decoupled and communicate through
+            // events (a pub-sub system). The code below is very functional, facilitated by
+            // the use of functions as first class entities with callbacks and promises.
+            //
+            // The dichotomy between functional and OO style is jarring in a single file
+            // like this, but it's not invalid. It illustrates options and ideas that can be
+            // used to facilitate different parts of the application.
+            // --------------------
+
             // Get the images we need and animate the screen to show them
             new Hilo.ImageRepository(knownFolders.picturesLibrary)
                 .getBindableImages(6)
