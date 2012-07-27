@@ -17,7 +17,7 @@
             var that = this;
             Array.prototype.forEach.call(this.buttons, function (x) {
                 x.addEventListener('click', function (args) {
-                    this.dispatchEvent(args.currentTarget.id);
+                    that.dispatchEvent(args.currentTarget.id);
                 });
             });
         },

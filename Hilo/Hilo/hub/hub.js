@@ -25,7 +25,6 @@
 
             // Coordinate the parts of the hub view
             var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(
-                WinJS.Application,
                 WinJS.Navigation,
                 this.appBarController,
                 this.listViewController

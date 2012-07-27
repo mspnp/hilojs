@@ -120,6 +120,7 @@
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
+    <Content Include="specs\hub\appBarController.spec.js" />
     <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewCoordinator.spec.js" />
     <Content Include="specs\imageRepository.spec.js" />
