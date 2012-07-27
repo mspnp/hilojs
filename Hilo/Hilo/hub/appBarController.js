@@ -7,15 +7,16 @@
     function AppBarController(el) {
         this.el = el;
         this.appbar = el.winControl;
-        this.buttons = el.querySelector("button");
+        this.setup();
     }
-
+   
     var controllerMethods = {
         setup: function () {
             var that = this;
-            Array.prototype.forEach.call(this.buttons, function (x) {
+            var buttons = this.el.querySelectorAll("button");
+            Array.prototype.forEach.call(buttons, function (x) {
                 x.addEventListener('click', function (args) {
-                    WinJS.Application.queueEvent("appbar:" + args.currentTarget.id);
+                    WinJS.Application.queueEvent({ type: "appbar:" + args.currentTarget.id });
                 });
             });
         },
