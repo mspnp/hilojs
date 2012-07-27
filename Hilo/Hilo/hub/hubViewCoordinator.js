@@ -31,19 +31,12 @@
         },
 
         selectionChanged: function (args) {
-
-            // TODO: get rid of the document.querySelector here. use the
-            // app bar instead, and have it hand me the buttons
-            var buttons = document.querySelectorAll('#appbar button');
-
-            Array.prototype.forEach.call(buttons, function (x) {
-                x.winControl.disabled = !args.hasItemSelected;
-            });
-
             if (args.hasItemSelected) {
                 this.appbar.show();
+                this.appbar.enableButtons();
             } else {
                 this.appbar.hide();
+                this.appbar.disableButtons();
             }
         },
 

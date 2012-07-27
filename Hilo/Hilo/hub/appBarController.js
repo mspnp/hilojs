@@ -7,14 +7,15 @@
     function AppBarController(el) {
         this.el = el;
         this.appbar = el.winControl;
-        this.setup();
+        this.buttons = this.el.querySelectorAll("button");
+
+        this.setupButtonClicks();
     }
    
     var controllerMethods = {
-        setup: function () {
+        setupButtonClicks: function () {
             var that = this;
-            var buttons = this.el.querySelectorAll("button");
-            Array.prototype.forEach.call(buttons, function (x) {
+            Array.prototype.forEach.call(this.buttons, function (x) {
                 x.addEventListener('click', function (args) {
                     WinJS.Application.queueEvent({ type: "appbar:" + args.currentTarget.id });
                 });
@@ -27,6 +28,18 @@
 
         hide: function () {
             this.appbar.hide();
+        },
+
+        enableButtons: function () {
+            Array.prototype.forEach.call(this.buttons, function (x) {
+                x.winControl.disabled = false;
+            });
+        },
+
+        disableButtons: function () {
+            Array.prototype.forEach.call(this.buttons, function (x) {
+                x.winControl.disabled = true;
+            });
         }
     };
 
