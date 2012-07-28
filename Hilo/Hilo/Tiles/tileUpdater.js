@@ -6,6 +6,7 @@
 
     var thumbnailFolderName = 'tile-thumbnails',
         localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/',
+        numberOfImagesToRetrieve = 30,
         notifications = Windows.UI.Notifications;
 
     // Private Methods
@@ -30,7 +31,7 @@
             var imageRepo = new Hilo.ImageRepository(picturesLibrary);
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
-            var whenImagesForTileRetrieved = imageRepo.getImages(30);
+            var whenImagesForTileRetrieved = imageRepo.getImages(numberOfImagesToRetrieve);
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.buildThumbails)
                 .then(this.getLocalThumbnailPaths)

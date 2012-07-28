@@ -6,18 +6,17 @@
 
     var applicationData = Windows.Storage.ApplicationData,
         creationCollisionOption = Windows.Storage.CreationCollisionOption,
-        replaceExisting = creationCollisionOption.replaceExisting,
         randomAccessStream = Windows.Storage.Streams.RandomAccessStream,
-        readWrite = Windows.Storage.FileAccessMode.readWrite,
-        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode.singleItem,
+        fileAccessMode = Windows.Storage.FileAccessMode,
+        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode,
         thumbnailFolderName = 'tile-thumbnails';
 
     // Private Methods
     // ---------------
 
     function writeThumbnailToFile(fileInfo, thumbnailFile) {
-        var whenFileIsOpen = thumbnailFile.openAsync(readWrite);
-        var whenThumbailIsReady = fileInfo.getThumbnailAsync(thumbnailMode);
+        var whenFileIsOpen = thumbnailFile.openAsync(fileAccessMode.readWrite);
+        var whenThumbailIsReady = fileInfo.getThumbnailAsync(thumbnailMode.singleItem);
         var whenEverythingIsReady = WinJS.Promise.join([whenFileIsOpen, whenThumbailIsReady]);
 
         var input, output;
@@ -39,7 +38,7 @@
     function copyImages(files, folder) {
         var fileBuilderPromises = files.map(function (fileInfo) {
             var writeThumbnail = writeThumbnailToFile.bind(this, fileInfo);
-            var whenFileCreated = folder.createFileAsync(fileInfo.name, replaceExisting);
+            var whenFileCreated = folder.createFileAsync(fileInfo.name, creationCollisionOption.replaceExisting);
             return whenFileCreated.then(writeThumbnail);
         });
 
@@ -57,7 +56,7 @@
         var copyThumbnailsToFolder = copyImages.bind(null, files);
 
         // Promise to build the thumbnails and return the list of local file paths
-        var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, replaceExisting);
+        var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, creationCollisionOption.replaceExisting);
         return whenFolderCreated
             .then(copyThumbnailsToFolder)
             .then(function () {

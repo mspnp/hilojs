@@ -4,7 +4,12 @@
 
         var filesNames;
 
-        beforeEach(function (done) {
+        before(function (done) {
+            // Note that this is a `before` block and not a `beforeEach`.
+            // This is because we only need to copy the thumbnails once
+            // for the entire set of assertions.
+            // If we were to copy the files in a `beforeEach`, the tests
+            // would run slower and we would risk creation collisions.
             Shared.getImages()
                 .then(Hilo.Tiles.buildThumbails)
                 .then(function (result) {

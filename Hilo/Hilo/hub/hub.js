@@ -4,7 +4,8 @@
     // Imports And Constants
     // ---------------------
 
-    var knownFolders = Windows.Storage.KnownFolders;
+    var knownFolders = Windows.Storage.KnownFolders,
+        appView = Windows.UI.ViewManagement.ApplicationView;
 
     // Private Methods
     // ---------------
@@ -21,7 +22,7 @@
 
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector('#picturesLibrary');
-            this.listViewController = new Hilo.Hub.ListViewController(listViewEl);
+            this.listViewController = new Hilo.Hub.ListViewController(listViewEl, appView);
 
             // Coordinate the parts of the hub view
             var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(
@@ -56,7 +57,7 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            this.listViewController.setViewState(viewState);
+            this.listViewController.setViewState(viewState, lastViewState);
         },
 
         bindImages: function (items) {

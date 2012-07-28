@@ -123,6 +123,7 @@
     <Content Include="specs\hub\appBarController.spec.js" />
     <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewCoordinator.spec.js" />
+    <Content Include="specs\hub\listViewController.spec.js" />
     <Content Include="specs\imageRepository.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\picturesRepository.spec.js" />

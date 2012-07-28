@@ -4,8 +4,7 @@
     // Imports And Constants
     // ---------------------
 
-    var appViewState = Windows.UI.ViewManagement.ApplicationViewState,
-        appView = Windows.UI.ViewManagement.ApplicationView;
+    var appViewState = Windows.UI.ViewManagement.ApplicationViewState;
 
     // These settings must correspond to the height and width values specified 
     // in the css for the items. They need to be the greatest common demoninator
@@ -19,16 +18,17 @@
     // Private Methods
     // ---------------
 
-    function ListViewController(el) {
+    function ListViewController(el, appView) {
         this.el = el;
         this.lv = el.winControl;
+        this.appView = appView;
         this.setup();
     }
 
     var controllerMethods = {
 
         setup: function () {
-            this.lv.layout = this.selectLayout(appView.value);
+            this.lv.layout = this.selectLayout(this.appView.value);
 
             this.lv.addEventListener('iteminvoked', this.imageNavigated.bind(this));
             this.lv.addEventListener('selectionchanged', this.imageSelected.bind(this));
