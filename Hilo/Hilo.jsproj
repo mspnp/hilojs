@@ -72,7 +72,6 @@
     <Content Include="Hilo\imageRepository.js" />
     <Content Include="Hilo\PageControlNavigator.js" />
     <Content Include="Hilo\Picture.js" />
-    <Content Include="Hilo\picturesRepository.js" />
     <Content Include="Hilo\rotate\rotate.css" />
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />
@@ -87,7 +86,6 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
-    <Content Include="require.js" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />

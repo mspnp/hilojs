@@ -1,21 +1,15 @@
-﻿define('Hilo.crop', function (require) {
+﻿(function () {
     'use strict';
 
     //TODO: temporary implementation
 
-    var // WinJS
-        ui = require('WinJS.UI'),
-        nav = require('WinJS.Navigation'),
-        pages = require('WinJS.UI.Pages'),
-        // Hilo
-        repo = require('Hilo.PicturesRepository');
+    var ui = WinJS.UI,
+        nav = WinJS.Navigation;
 
     var page = {
 
         ready: function (element, selectedIndex) {
-
-            // TODO: expect this implementation to change
-
+            var repo = new Hilo.ImageRepository(Windows.Storage.KnownFolders.picturesLibrary);
             var section = document.querySelector('section[role="main"]');
             section.innerHtml = '';
 
@@ -35,6 +29,5 @@
         }
     };
 
-    pages.define('/Hilo/crop/crop.html', page);
-    return page;
-});
+    WinJS.UI.Pages.define('/Hilo/crop/crop.html', page);
+}());

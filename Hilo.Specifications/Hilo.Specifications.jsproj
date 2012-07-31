@@ -74,12 +74,6 @@
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>Hilo\Picture.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\picturesRepository.js">
-      <Link>Hilo\picturesRepository.js</Link>
-    </Content>
-    <Content Include="..\Hilo\require.js">
-      <Link>require.js</Link>
-    </Content>
     <Content Include="..\Hilo\Hilo\Tiles\buildThumbails.js">
       <Link>Hilo\Tiles\buildThumbails.js</Link>
     </Content>
@@ -126,8 +120,6 @@
     <Content Include="specs\hub\listViewController.spec.js" />
     <Content Include="specs\imageRepository.spec.js" />
     <Content Include="specs\Picture.spec.js" />
-    <Content Include="specs\picturesRepository.spec.js" />
-    <Content Include="specs\require.spec.js" />
     <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\buildThumbnails.spec.js" />
     <Content Include="Hilo\.gitkeep" />
