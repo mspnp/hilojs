@@ -17,14 +17,9 @@
         <header aria-label="Header content" role="banner">
             <button id="backButton" class="win-backbutton" aria-label="Back" disabled></button>
             <h1 class="titlearea win-type-ellipsis">
-                <span id="pageTitle" class="pagetitle" data-win-res="{textContent: 'pageTitle'}"></span>
+                <span id="pageTitle" class="pagetitle" data-win-res="{textContent: 'appTitle'}">
+                </span>
             </h1>
-
-            <div id="navFlyout" data-win-control="WinJS.UI.Menu">
-                <button id="monthYearItem" data-win-control="WinJS.UI.MenuCommand" data-win-options="{label:'By Month/Year'}">
-                </button>
-            </div>
-
         </header>
 
         <section aria-label="Main content" role="main">
@@ -33,6 +28,10 @@
                 <div data-win-bind="style.backgroundImage: url; alt: name; className: className">
                 </div>
             </div>
+
+            <a href="/Hilo/month/month.html">
+                <h2 data-win-res="{textContent: 'myPicturesFolder'}"></h2>
+            </a>
 
             <div id="picturesLibrary"
                 data-win-control="WinJS.UI.ListView"
@@ -43,14 +42,14 @@
         </section>
 
         <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
-            <button 
-                data-win-control="WinJS.UI.AppBarCommand" 
-                data-win-options="{id:'crop', icon:'crop', section: 'selection', disabled: true}"  
-                data-win-res="{winControl: {label:'crop'}}" >
+            <button
+                data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{id:'crop', icon:'crop', section: 'selection', disabled: true}"
+                data-win-res="{winControl: {label:'crop'}}">
             </button>
-            <button 
-                data-win-control="WinJS.UI.AppBarCommand" 
-                data-win-options="{id:'rotate', icon:'rotate', section: 'selection', disabled: true}"  
+            <button
+                data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{id:'rotate', icon:'rotate', section: 'selection', disabled: true}"
                 data-win-res="{winControl: {label:'rotate'}}">
             </button>
         </div>

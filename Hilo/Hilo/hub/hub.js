@@ -10,8 +10,25 @@
     // Private Methods
     // ---------------
 
+    function processLinks() {
+        //TODO: replac ethis temporary solution after we discuss how to define the application flow
+
+        var links = document.querySelectorAll('a');
+        Array.prototype.forEach.call(links, function (a) {
+            var root = 'ms-appx://' + a.host;
+            var url = a.href.replace(root, '');
+            a.href = '#';
+            a.addEventListener('click', function (args) {
+                args.preventDefault();
+                WinJS.Navigation.navigate(url);
+            });
+        });
+    }
+
     var page = {
         ready: function (element, options) {
+
+            processLinks();
 
             // I18N resource binding for this page
             WinJS.Resources.processAll();

@@ -1,5 +1,6 @@
 ﻿{
-    "pageTitle": "Bilder",
+    "appTitle": "Hilo",
+    "myPicturesFolder": "Bilder",
     "crop": "Zuschneiden",
     "rotate": "Rotieren"
 }

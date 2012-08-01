@@ -70,6 +70,9 @@
     <Content Include="Hilo\hub\hubViewCoordinator.js" />
     <Content Include="Hilo\hub\listViewController.js" />
     <Content Include="Hilo\imageRepository.js" />
+    <Content Include="Hilo\month\month.css" />
+    <Content Include="Hilo\month\month.html" />
+    <Content Include="Hilo\month\month.js" />
     <Content Include="Hilo\PageControlNavigator.js" />
     <Content Include="Hilo\Picture.js" />
     <Content Include="Hilo\rotate\rotate.css" />
