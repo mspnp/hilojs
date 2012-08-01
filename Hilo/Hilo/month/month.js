@@ -3,72 +3,16 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------
     var storage = Windows.Storage,
-    promise = WinJS.Promise,
-    thumbnailMode = storage.FileProperties.ThumbnailMode.singleItem,
-    knownFolders = Windows.Storage.KnownFolders;
+        promise = WinJS.Promise,
+        thumbnailMode = storage.FileProperties.ThumbnailMode,
+        knownFolders = Windows.Storage.KnownFolders;
 
-    var myData = [
-    { title: "Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Lavish Lemon Ice", text: "Sorbet", picture: "images/60Lemon.png" },
-    { title: "Lavish Lemon Ice", text: "Sorbet", picture: "images/60Lemon.png" },
-    { title: "Lavish Lemon Ice", text: "Sorbet", picture: "images/60Lemon.png" },
-    { title: "Lavish Lemon Ice", text: "Sorbet", picture: "images/60Lemon.png" },
-    { title: "Marvelous Mint", text: "Gelato", picture: "images/60Mint.png" },
-    { title: "Marvelous Mint", text: "Gelato", picture: "images/60Mint.png" },
-    { title: "Marvelous Mint", text: "Gelato", picture: "images/60Mint.png" },
-    { title: "Marvelous Mint", text: "Gelato", picture: "images/60Mint.png" },
-    { title: "Creamy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Creamy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Creamy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Creamy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Succulent Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Succulent Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Succulent Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Succulent Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Very Vanilla", text: "Ice Cream", picture: "images/60Vanilla.png" },
-    { title: "Very Vanilla", text: "Ice Cream", picture: "images/60Vanilla.png" },
-    { title: "Very Vanilla", text: "Ice Cream", picture: "images/60Vanilla.png" },
-    { title: "Very Vanilla", text: "Ice Cream", picture: "images/60Vanilla.png" },
-    { title: "Orangy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Orangy Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Absolutely Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Absolutely Orange", text: "Sorbet", picture: "images/60Orange.png" },
-    { title: "Triple Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Triple Strawberry", text: "Sorbet", picture: "images/60Strawberry.png" },
-    { title: "Double Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Double Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Double Banana Blast", text: "Low-fat frozen yogurt", picture: "images/60Banana.png" },
-    { title: "Green Mint", text: "Gelato", picture: "images/60Mint.png" }
-    ];
-
-    // Create a WinJS.Binding.List from the array. 
-    var itemsList = new WinJS.Binding.List(myData);
-
-    // Sorts the groups
-    function compareGroups(leftKey, rightKey) {
-        return leftKey.charCodeAt(0) - rightKey.charCodeAt(0);
-    }
-
-    // Returns the group key that an item belongs to
-    function getGroupKey(dataItem) {
-        return dataItem.title.toUpperCase().charAt(0);
-    }
-
-    // Returns the title for a group
-    function getGroupData(dataItem) {
-        return {
-            title: dataItem.title.toUpperCase().charAt(0)
-        };
-    }
-
-    // Create the groups for the ListView from the item data and the grouping functions
-    var groupedItemsList = itemsList.createGrouped(getGroupKey, getGroupData, compareGroups);
-
-    function x() {
+    // Private Methods
+    // ---------------
+    function interim_solution() {
         var folder = knownFolders.picturesLibrary;
         var byMonth = storage.Search.CommonFolderQuery.groupByMonth;
 
@@ -77,42 +21,60 @@
 
         var queryResult = folder.createFolderQueryWithOptions(queryOptions);
 
-        var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode);
         var sds = new WinJS.UI.StorageDataSource(queryResult, {
-            mode: thumbnailMode,
+            mode: thumbnailMode.picturesView,
             requestedThumbnailSize: 256,
             thumbnailOptions: storage.FileProperties.ThumbnailOptions.none,
-            synchronous: true
+            synchronous: false
         });
 
         var listview = document.querySelector('#monthgroup').winControl;
-        listview.itemDataSource = groupedItemsList.dataSource;
-        listview.groupDataSource = groupedItemsList.groups.dataSource;
+        listview.itemDataSource = sds;
+        listview.itemTemplate = function (itemPromise, recycledElement) {
+            var element = recycledElement || document.createElement('div');
 
-        //return factory.getFoldersAsync().then(function (items) {
-        //    return items[0].getFilesAsync().then(function (files) {
-        //        debugger;
-        //    });
-        //});
+            return itemPromise.then(function (item) {
+                var label = document.createElement('div');
+                label.innerText = item.data.name;
+                label.className = 'groupLabel';
+                element.appendChild(label);
+
+                element.style.backgroundColor = 'gray';
+                element.style.width = '200px';
+                element.style.height = '200px';
+
+                return element;
+            });
+        };
+        listview.addEventListener('iteminvoked', fakingTheQuery);
     }
 
-    WinJS.UI.Pages.define("/Hilo/month/month.html", {
-        // This function is called whenever a user navigates to this page. It
-        // populates the page elements with the app's data.
+    function fakingTheQuery(args) {
+        args.detail.itemPromise.then(function (item) {
+            var parts = item.data.name.split(' ');
+            var month = parts[0];
+            var year = parts[1];
+            debugger;
+        });
+    }
+
+    // Public API
+    // ----------
+    var page = {
         ready: function (element, options) {
-            x();
+
+            // I18N resource binding for this page
+            WinJS.Resources.processAll();
+
+            interim_solution();
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            /// <param name="element" domElement="true" />
-            /// <param name="viewState" value="Windows.UI.ViewManagement.ApplicationViewState" />
-            /// <param name="lastViewState" value="Windows.UI.ViewManagement.ApplicationViewState" />
-
-            // TODO: Respond to changes in viewState.
         },
 
         unload: function () {
-            // TODO: Respond to navigations away from this page.
         }
-    });
+    };
+
+    WinJS.UI.Pages.define("/Hilo/month/month.html", page);
 })();

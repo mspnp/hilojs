@@ -1,3 +1,16 @@
 ﻿.month p {
     margin-left: 120px;
 }
+
+.month section[role=main] {
+    margin-left: 120px;
+}
+
+    .month section[role=main] #monthgroup {
+        height: 100%;
+    }
+    
+    .month section[role=main] #monthgroup .groupLabel {
+        font-size: 14pt;
+        margin: 1em;
+    }
