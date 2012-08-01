@@ -56,6 +56,9 @@
     <Content Include="..\Hilo\Hilo\detail\detail.js">
       <Link>Hilo\detail\detail.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\detail\detailPageController.js">
+      <Link>Hilo\detail\detailPageController.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\detail\filmstripController.js">
       <Link>Hilo\detail\filmstripController.js</Link>
     </Content>
@@ -126,6 +129,7 @@
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
+    <Content Include="specs\detail\detailPageController.spec.js" />
     <Content Include="specs\detail\filmstripController.spec.js" />
     <Content Include="specs\detail\flipviewController.spec.js" />
     <Content Include="specs\hub\appBarController.spec.js" />

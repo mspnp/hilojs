@@ -63,6 +63,7 @@
     <Content Include="Hilo\detail\detail.css" />
     <Content Include="Hilo\detail\detail.html" />
     <Content Include="Hilo\detail\detail.js" />
+    <Content Include="Hilo\detail\detailPageController.js" />
     <Content Include="Hilo\detail\filmstripController.js" />
     <Content Include="Hilo\detail\flipviewController.js" />
     <Content Include="Hilo\hub\appBarController.js" />
