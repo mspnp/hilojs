@@ -11,7 +11,7 @@
 
     var detailPageController = {
         run: function () {
-            filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
+            this.filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
         },
 
         imageClicked: function (args) {
