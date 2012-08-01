@@ -34,3 +34,26 @@
     -ms-grid-column: 1;
     -ms-grid-row: 1;
 }
+
+.detail #filmstrip {
+    height: 140px;
+}
+
+.detail .filmstrip-thumbnail {
+    width: 200px;
+    height: 100px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.detail .win-flipview {
+    height: 100%;
+}
+
+.detail .win-backbutton {
+    -ms-grid-column-align: start;
+    -ms-grid-row-align: start;
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+}

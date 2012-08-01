@@ -27,11 +27,15 @@
         <div id="nav" data-win-control="WinJS.UI.AppBar" data-win-options="{ layout:'custom', placement:'top'}">
             <div id="filmstrip"
                 data-win-control="WinJS.UI.ListView"
-                data-win-options="{ 
-                    itemTemplate: select('#filmstrip-thumbnail')}">
-            </div>
+                data-win-options="{itemTemplate: select('#filmstrip-thumbnail')}"
+            ></div>
         </div>
-        
+
+        <header aria-label="Header content" role="banner">
+            <button class="win-backbutton" aria-label="Back" disabled></button>
+            <h1 class="titlearea win-type-ellipsis"></h1>
+        </header>
+                
         <section aria-label="Main content" role="main">
             <div id="image-template" data-win-control="WinJS.Binding.Template">
                 <img src="#" data-win-bind="src: src" />
@@ -43,11 +47,6 @@
                     itemTemplate: select('#image-template')}">
             </div>            
         </section>
-
-        <header aria-label="Header content" role="banner">
-            <button class="win-backbutton" aria-label="Back" disabled></button>
-            <h1 class="titlearea win-type-ellipsis"></h1>
-        </header>
     </div>
 </body>
 </html>
