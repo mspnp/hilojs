@@ -50,6 +50,15 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\Hilo\Hilo\detail\detail.html">
+      <Link>Hilo\detail\detail.html</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\detail\detail.js">
+      <Link>Hilo\detail\detail.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\detail\filmstripController.js">
+      <Link>Hilo\detail\filmstripController.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\hub\appBarController.js">
       <Link>Hilo\hub\appBarController.js</Link>
     </Content>
@@ -114,6 +123,7 @@
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
+    <Content Include="specs\detail\filmstripController.spec.js" />
     <Content Include="specs\hub\appBarController.spec.js" />
     <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewCoordinator.spec.js" />
@@ -130,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hilo\hub\" />
+    <Folder Include="Hilo\detail\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
