@@ -5,9 +5,10 @@
 
     var storage = Windows.Storage,
         promise = WinJS.Promise,
-        thumbnailMode = storage.FileProperties.ThumbnailMode.singleItem,
         knownFolders = Windows.Storage.KnownFolders,
-        fileQuery = storage.Search.CommonFileQuery.orderByDate;
+        fileQuery = storage.Search.CommonFileQuery.orderByDate,
+        thumbnailMode = storage.FileProperties.ThumbnailMode.singleItem,
+        thumbnailSize = 1024;
 
     // Private Methods
     // ---------------
@@ -29,7 +30,7 @@
 
             var queryResult = folder.createFileQueryWithOptions(queryOptions);
 
-            var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode);
+            var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode, thumbnailSize);
 
             return factory.getFilesAsync(0, count);
         },
