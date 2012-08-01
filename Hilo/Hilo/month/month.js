@@ -51,10 +51,24 @@
 
     function fakingTheQuery(args) {
         args.detail.itemPromise.then(function (item) {
-            var parts = item.data.name.split(' ');
-            var month = parts[0];
-            var year = parts[1];
-            debugger;
+            var options = new storage.Search.QueryOptions(storage.Search.CommonFileQuery.orderByDate, ['.jpg', '.tiff', '.png', '.bmp']);
+            options.applicationSearchFilter = 'taken: ' + item.data.name;
+
+            var query = options.saveToString();
+            var selected = 0; // pretend we selected the first image in the result set
+
+            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, selected: selected });
+
+            // here's how we could execute this query to get the images
+            //var options = new storage.Search.QueryOptions();
+            //options.loadFromString(query);
+            //var queryResult = knownFolders.picturesLibrary.createFileQueryWithOptions(options);
+            //var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode.singleItem);
+            //return factory.getFilesAsync(0, 15).then(function (files) {
+            //    debugger;
+            //});
+
+       
         });
     }
 
