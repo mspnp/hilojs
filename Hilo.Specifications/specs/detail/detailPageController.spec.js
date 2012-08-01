@@ -15,6 +15,7 @@
             };
 
             detailPageController = new Hilo.Detail.DetailPageController(flipviewController, filmstripController);
+            detailPageController.run();
         });
 
         describe("when an image has been activated", function () {

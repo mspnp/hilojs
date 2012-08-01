@@ -7,10 +7,13 @@
     function DetailPageController(flipview, filmstrip) {
         this.flipview = flipview;
         this.filmstrip = filmstrip;
-        filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
     }
 
     var detailPageController = {
+        run: function () {
+            filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
+        },
+
         imageClicked: function (args) {
             this.flipview.showImageAt(args.detail.itemIndex);
         }

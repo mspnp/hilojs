@@ -10,13 +10,38 @@
     <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
     
     <link href="detail.css" rel="stylesheet" />
+
+    <script src="filmstripController.js"></script>
+    <script src="flipviewController.js"></script>
+    <script src="detailPageController.js"></script>
     <script src="detail.js"></script>
 </head>
 <body>
     <div class="detail fragment">
+
+        <div id="filmstrip-thumbnail" data-win-control="WinJS.Binding.Template">
+            <div class="filmstrip-thumbnail" data-win-bind="style.backgroundImage: url;">
+            </div>
+        </div>
+
+        <div id="nav" data-win-control="WinJS.UI.AppBar" data-win-options="{ layout:'custom', placement:'top'}">
+            <div id="filmstrip"
+                data-win-control="WinJS.UI.ListView"
+                data-win-options="{ 
+                    itemTemplate: select('#filmstrip-thumbnail')}">
+            </div>
+        </div>
         
         <section aria-label="Main content" role="main">
-            
+            <div id="image-template" data-win-control="WinJS.Binding.Template">
+                <img src="#" data-win-bind="src: src" />
+            </div>
+
+            <div id="flipview"
+                data-win-control="WinJS.UI.FlipView"
+                data-win-options="{ 
+                    itemTemplate: select('#image-template')}">
+            </div>            
         </section>
 
         <header aria-label="Header content" role="banner">
