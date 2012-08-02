@@ -6,8 +6,11 @@
 
     var notifications = Windows.UI.Notifications,
         populateTemplateFor = Hilo.Tiles.populateTemplate,
-        maxNumberOfUpdates = 5,          // WinRT limits 5 tile notifications per app
-        numberOfImagesPerTileSet = 6;    // 5 for wide tile + 1 for square tile
+        maxNumberOfSets = 5,          // WinRT limits 5 tile notifications per app
+        numberOfImagesPerSet = 5;     // `TileWideImageCollection` supports 5 images per tile
+
+    // For more information about the `TileWideImageCollection` template, see:
+    // http://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx#TileWideImageCollection
 
     // Private Methods
     // ---------------
@@ -21,7 +24,9 @@
     }
 
     function buildTileNotification(thumbnailPaths) {
-        var squareTileFile = thumbnailPaths.shift();
+        // The square tile will just display the first image used for wide tile.
+        var squareTileFile = thumbnailPaths[0];
+
         var squareTile = populateTemplateFor.squareTile(squareTileFile);
         var wideTile = populateTemplateFor.wideTile(thumbnailPaths);
 
@@ -30,28 +35,43 @@
 
         return notification;
     }
-    
-    function buildImageSetForTile(imageNames, numberOfImages) {
-        var imageSet = [];
 
-        var max = Math.max(numberOfImages, imageNames.length) - 1;
- 
-        for (var i = 1; i <= numberOfImages; i++) {
-            var imageNumber = parseInt(Math.random() * max, 10);
-            var imageName = imageNames[imageNumber];
-            imageSet.push(imageName);
+    function fisherYatesShuffle(set) {
+        // http://en.wikipedia.org/wiki/Fisher-Yates_shuffle
+
+        var randmon_spot,
+            temp,
+            current;
+
+        for (var i = (set.length - 1) ; i > 0; i--) {
+            // Choose an item randomly from the set.
+            randmon_spot = Math.floor(Math.random() * i);
+            temp = set[randmon_spot];
+
+            // Choose an item based on the current index.
+            // This ensure that each item is choosen at least once.
+            current = set[i];
+
+            // swap the items
+            set[i] = temp;
+            set[randmon_spot] = current;
         }
 
-        return imageSet;
+        return set;
     }
 
-    function creatTileUpdates(filenames) {
-        var notifications = [];
+    function creatTileUpdates(fileNames) {
+        var notifications = [],
+            filesForSet,
+            notification;
 
-        for (var i = 1; i <= maxNumberOfUpdates; i++) {
+        var numberOfPossibleSets = Math.floor(fileNames.length / numberOfImagesPerSet);
+        var numberOfSets = Math.min(numberOfPossibleSets, maxNumberOfSets);
+        var shuffled = fisherYatesShuffle(fileNames);
 
-            var tileFileNames = buildImageSetForTile(filenames, numberOfImagesPerTileSet)
-            var notification = buildTileNotification(tileFileNames);
+        for (var i = numberOfSets; i !== 0; i--) {
+            filesForSet = shuffled.splice(0, numberOfImagesPerSet);
+            notification = buildTileNotification(filesForSet);
             notifications.push(notification);
         };
 
