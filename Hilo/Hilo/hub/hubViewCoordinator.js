@@ -13,11 +13,11 @@
 
     var hubViewMethods = {
         start: function(){
-            this.appbar.addEventListener("rotate", this.rotateClicked.bind(this));
-            this.appbar.addEventListener("crop", this.cropClicked.bind(this));
+            this.appbar.addEventListener('rotate', this.rotateClicked.bind(this));
+            this.appbar.addEventListener('crop', this.cropClicked.bind(this));
 
-            this.listview.addEventListener("selectionChanged", this.selectionChanged.bind(this));
-            this.listview.addEventListener("itemInvoked", this.itemClicked.bind(this));
+            this.listview.addEventListener('selectionChanged', this.selectionChanged.bind(this));
+            this.listview.addEventListener('itemInvoked', this.itemClicked.bind(this));
         },
 
         rotateClicked: function () {
@@ -41,10 +41,11 @@
         },
 
         itemClicked: function (args) {
+            var monthNames = ['January','February','March','April','May','June', 'July', 'August','September','October','November','December'];
             var itemIndex = args.detail.itemIndex;
             var picture = args.detail.item.data;
             var dateTaken = picture.dateTaken;
-            var monthAndYear = dateTaken.getMonth() + " " + dateTaken.getFullYear();
+            var monthAndYear = monthNames[dateTaken.getMonth()] + ' ' + dateTaken.getFullYear();
             var query = this.repo.getQueryForMonthAndYear(monthAndYear);
             this.nav.navigate('/Hilo/detail/detail.html', { itemIndex: itemIndex, query: query });
         }
@@ -53,7 +54,7 @@
     // Public API
     // ----------
 
-    WinJS.Namespace.define("Hilo.Hub", {
+    WinJS.Namespace.define('Hilo.Hub', {
         HubViewCoordinator: WinJS.Class.define(HubViewCoordinator, hubViewMethods)
     });
 
