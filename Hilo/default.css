@@ -3,9 +3,6 @@
 }
 
 body {
-    background-image: url('/images/splashscreen.png');
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
     background-color: #292929;
 }
 
