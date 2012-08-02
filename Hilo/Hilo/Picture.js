@@ -17,6 +17,7 @@
         var self = this;
         this._initObservable();
         this.addProperty('name', file.name);
+        this.addProperty('dateTaken', file.imageProperties.dateTaken);
         this.addProperty('url', urlFor(file.thumbnail));
         this.addProperty('className', 'thumbnail');
         this.addProperty('src', URL.createObjectURL(file));

@@ -33,6 +33,8 @@
             // I18N resource binding for this page
             WinJS.Resources.processAll();
 
+            var repo = new Hilo.ImageRepository(knownFolders.picturesLibrary);
+
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
             this.appBarController = new Hilo.Hub.AppBarController(appBarEl);
@@ -45,7 +47,8 @@
             var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(
                 WinJS.Navigation,
                 this.appBarController,
-                this.listViewController
+                this.listViewController,
+                repo
             );
 
             hubViewCoordinator.start();
@@ -67,8 +70,7 @@
             // --------------------
 
             // Get the images we need and animate the screen to show them
-            new Hilo.ImageRepository(knownFolders.picturesLibrary)
-                .getBindableImages(6)
+            repo.getBindableImages(6)
                 .then(this.bindImages.bind(this))
                 .then(this.animateEnterPage);
         },

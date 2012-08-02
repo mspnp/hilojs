@@ -58,7 +58,7 @@
             var selected = 0; // pretend we selected the first image in the result set
 
             // Navigate to the detail view to show the results of this query with the selected item
-            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, selected: selected });       
+            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, itemIndex: selected });       
         });
     }
 

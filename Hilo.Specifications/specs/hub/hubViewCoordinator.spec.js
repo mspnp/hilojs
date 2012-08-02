@@ -46,7 +46,9 @@
             }
         };
 
-        hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView);
+        var repo = new Hilo.ImageRepository();
+
+        hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView, repo);
         hubView.start();
     });
 
@@ -103,7 +105,12 @@
     describe('when a picture is invoked (touched or clicked)', function () {
 
         beforeEach(function () {
-            listView.dispatchEvent('itemInvoked', { itemIndex: 99 });
+            var item = {
+                data: {
+                    dateTaken: new Date("Jan 5 1973")
+                }
+            };
+            listView.dispatchEvent('itemInvoked', { item: item, itemIndex: 99 });
         });
 
 
@@ -112,7 +119,11 @@
         });
 
         it('should pass along the index of the selected picture', function () {
-            expect(nav.navigate.args[1]).equal(99);
+            expect(nav.navigate.args[1].itemIndex).equal(99);
+        });
+
+        it('should pass along the month/year query for the invoked picture', function () {
+            expect(nav.navigate.args[1].query).exist;
         });
     });
 

@@ -23,8 +23,10 @@
     }
 
     var imageRepository = {
+
         getImages: function (count) {
             var queryOptions = this.getQueryOptions();
+
             return this.getFilesFromOptions(queryOptions, 0, count);
         },
 
@@ -45,24 +47,29 @@
         getQueryForMonthAndYear: function(monthAndYear){
             var options = this.getQueryOptions();
             options.applicationSearchFilter = 'taken: ' + monthAndYear;
+
             return options.saveToString();
         },
 
         getFromQueryString: function (queryString) {
             var options = this.getQueryOptions();
             options.loadFromString(queryString);
-            return this.getFilesFromOptions(options, 0, 15).then(createViewModels);
+
+            return this.getFilesFromOptions(options, 0, 15)
+                .then(createViewModels);
         },
 
         getQueryOptions: function () {
             var queryOptions = new storage.Search.QueryOptions(commonFileQuery.orderByDate, supportedFileTypes);
             queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
+
             return queryOptions
         },
 
         getFilesFromOptions: function (queryOptions, start, count) {
             var queryResult = this.folder.createFileQueryWithOptions(queryOptions);
             var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode.singleItem, thumbnailSize);
+
             return factory.getFilesAsync(start, count);
         }
     };

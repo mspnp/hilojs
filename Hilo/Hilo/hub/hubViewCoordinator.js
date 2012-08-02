@@ -4,10 +4,11 @@
     // Private Methods
     // ---------------
 
-    function HubViewCoordinator(nav, appbar, listview) {
+    function HubViewCoordinator(nav, appbar, listview, repo) {
         this.nav = nav;
         this.listview = listview;
         this.appbar = appbar;
+        this.repo = repo;
     };
 
     var hubViewMethods = {
@@ -40,7 +41,12 @@
         },
 
         itemClicked: function (args) {
-            this.nav.navigate('/Hilo/detail/detail.html', args.detail.itemIndex);
+            var itemIndex = args.detail.itemIndex;
+            var picture = args.detail.item.data;
+            var dateTaken = picture.dateTaken;
+            var monthAndYear = dateTaken.getMonth() + " " + dateTaken.getFullYear();
+            var query = this.repo.getQueryForMonthAndYear(monthAndYear);
+            this.nav.navigate('/Hilo/detail/detail.html', { itemIndex: itemIndex, query: query });
         }
     };
 

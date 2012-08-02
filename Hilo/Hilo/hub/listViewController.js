@@ -68,7 +68,13 @@
         },
 
         imageNavigated: function (args) {
-            this.dispatchEvent("itemInvoked", {itemIndex: args.detail.itemIndex });
+            var that = this;
+            args.detail.itemPromise.then(function (item) {
+                that.dispatchEvent("itemInvoked", {
+                    item: item,
+                    itemIndex: args.detail.itemIndex
+                });
+            });
         }
     };
 
