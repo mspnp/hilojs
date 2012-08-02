@@ -13,7 +13,7 @@
     // Private Methods
     // ---------------
 
-    function constructor (folder) {
+    function ImageRepository (folder) {
         this.folder = folder;
     }
 
@@ -28,11 +28,7 @@
             var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg', '.tiff', '.png', '.bmp']);
             queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
 
-            var queryResult = folder.createFileQueryWithOptions(queryOptions);
-
-            var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode, thumbnailSize);
-
-            return factory.getFilesAsync(0, count);
+            return this.getFilesFromOptions(queryOptions, 0, count);
         },
 
         getBindableImages: function (count) {
@@ -47,13 +43,23 @@
             var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg', '.tiff', '.png', '.bmp']);
             queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
 
-            var queryResult = folder.createFileQueryWithOptions(queryOptions);
-
-            var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode);
-
-            return factory.getFilesAsync(index, 1).then(function (files) {
-                return promise.wrap(files[0]);
+            return this.getFilesFromOptions(queryOptions, index, 1).then(function (files) {
+                return WinJS.Promise.wrap(files[0]);
             });
+        },
+
+        getFromOptionsString: function (queryOptionsString) {
+            var options = new storage.Search.QueryOptions();
+            options.loadFromString(queryOptionsString);
+            return this.getFilesFromOptions(options, 0, 15).then(function (files) {
+                debugger;
+            });
+        },
+
+        getFilesFromOptions: function (queryOptions, start, count) {
+            var queryResult = knownFolders.picturesLibrary.createFileQueryWithOptions(queryOptions);
+            var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode.singleItem, thumbnailSize);
+            return factory.getFilesAsync(start, count);
         }
     };
 
@@ -61,7 +67,7 @@
     // ----------
 
     WinJS.Namespace.define('Hilo', {
-        ImageRepository: WinJS.Class.define(constructor, imageRepository)
+        ImageRepository: WinJS.Class.define(ImageRepository, imageRepository)
     });
 
 })();
