@@ -9,32 +9,21 @@
 
     var page = {
 
-        ready: function (element, selectedIndex) {
+        ready: function (element, options) {
             var repo = new Hilo.ImageRepository(knownFolders.picturesLibrary);
 
-            repo.getBindableImages(15).then(function (images) {
-                var filmstripEl = document.querySelector("#filmstrip");
-                var filmstrip = new Hilo.Detail.FilmstripController(filmstripEl, images);
+            repo.getFromQueryString(options.query).then(this.showImages.bind(this));
+        },
 
-                var flipviewEl = document.querySelector("#flipview");
-                var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
+        showImages: function (images) {
+            var filmstripEl = document.querySelector("#filmstrip");
+            var filmstrip = new Hilo.Detail.FilmstripController(filmstripEl, images);
 
-                var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip);
-                detailPageController.run();
-            });
+            var flipviewEl = document.querySelector("#flipview");
+            var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
 
-            //var section = document.querySelector('section[role="main"]');
-            //section.innerHtml = '';
-
-            //var img = document.createElement('img');
-            //section.appendChild(img);
-            //img.addEventListener('load', function () {
-            //    ui.Animation.fadeIn(img);
-            //});
-
-            //new Hilo.ImageRepository(knownFolders.picturesLibrary).getImageAt(selectedIndex).then(function (selected) {
-            //    img.src = URL.createObjectURL(selected);
-            //});
+            var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip);
+            detailPageController.run();
         },
 
         unload: function () {

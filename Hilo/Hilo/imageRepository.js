@@ -6,9 +6,10 @@
     var storage = Windows.Storage,
         promise = WinJS.Promise,
         knownFolders = Windows.Storage.KnownFolders,
-        fileQuery = storage.Search.CommonFileQuery.orderByDate,
+        commonFileQuery = storage.Search.CommonFileQuery,
         thumbnailMode = storage.FileProperties.ThumbnailMode.singleItem,
-        thumbnailSize = 1024;
+        thumbnailSize = 1024,
+        supportedFileTypes = ['.jpg', '.tiff', '.png', '.bmp'];
 
     // Private Methods
     // ---------------
@@ -23,11 +24,7 @@
 
     var imageRepository = {
         getImages: function (count) {
-            var folder = this.folder;
-
-            var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg', '.tiff', '.png', '.bmp']);
-            queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
-
+            var queryOptions = this.getQueryOptions();
             return this.getFilesFromOptions(queryOptions, 0, count);
         },
 
@@ -37,10 +34,7 @@
 
         // TODO: temp solution to keep the details page working
         getImageAt: function (index) {
-
-            var folder = this.folder;
-
-            var queryOptions = new storage.Search.QueryOptions(fileQuery, ['.jpg', '.tiff', '.png', '.bmp']);
+            var queryOptions = this.getQueryOptions();
             queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
 
             return this.getFilesFromOptions(queryOptions, index, 1).then(function (files) {
@@ -48,16 +42,26 @@
             });
         },
 
-        getFromOptionsString: function (queryOptionsString) {
-            var options = new storage.Search.QueryOptions();
-            options.loadFromString(queryOptionsString);
-            return this.getFilesFromOptions(options, 0, 15).then(function (files) {
-                debugger;
-            });
+        getQueryForMonthAndYear: function(monthAndYear){
+            var options = this.getQueryOptions();
+            options.applicationSearchFilter = 'taken: ' + monthAndYear;
+            return options.saveToString();
+        },
+
+        getFromQueryString: function (queryString) {
+            var options = this.getQueryOptions();
+            options.loadFromString(queryString);
+            return this.getFilesFromOptions(options, 0, 15).then(createViewModels);
+        },
+
+        getQueryOptions: function () {
+            var queryOptions = new storage.Search.QueryOptions(commonFileQuery.orderByDate, supportedFileTypes);
+            queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
+            return queryOptions
         },
 
         getFilesFromOptions: function (queryOptions, start, count) {
-            var queryResult = knownFolders.picturesLibrary.createFileQueryWithOptions(queryOptions);
+            var queryResult = this.folder.createFileQueryWithOptions(queryOptions);
             var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode.singleItem, thumbnailSize);
             return factory.getFilesAsync(start, count);
         }

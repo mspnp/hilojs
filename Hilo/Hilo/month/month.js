@@ -4,7 +4,8 @@
     "use strict";
 
     // Imports And Constants
-    // ---------
+    // ---------------------
+
     var storage = Windows.Storage,
         promise = WinJS.Promise,
         thumbnailMode = storage.FileProperties.ThumbnailMode,
@@ -12,6 +13,7 @@
 
     // Private Methods
     // ---------------
+
     function interim_solution() {
         var folder = knownFolders.picturesLibrary;
         var byMonth = storage.Search.CommonFolderQuery.groupByMonth;
@@ -46,29 +48,17 @@
                 return element;
             });
         };
-        listview.addEventListener('iteminvoked', fakingTheQuery);
+        listview.addEventListener('iteminvoked', itemInvoked);
     }
 
-    function fakingTheQuery(args) {
+    function itemInvoked(args) {
         args.detail.itemPromise.then(function (item) {
-            var options = new storage.Search.QueryOptions(storage.Search.CommonFileQuery.orderByDate, ['.jpg', '.tiff', '.png', '.bmp']);
-            options.applicationSearchFilter = 'taken: ' + item.data.name;
-
-            var query = options.saveToString();
+            var repo = new Hilo.ImageRepository(knownFolders.picturesLibrary);
+            var query = repo.getQueryForMonthAndYear(item.data.name);
             var selected = 0; // pretend we selected the first image in the result set
 
-            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, selected: selected });
-
-            // here's how we could execute this query to get the images
-            //var options = new storage.Search.QueryOptions();
-            //options.loadFromString(query);
-            //var queryResult = knownFolders.picturesLibrary.createFileQueryWithOptions(options);
-            //var factory = new storage.BulkAccess.FileInformationFactory(queryResult, thumbnailMode.singleItem);
-            //return factory.getFilesAsync(0, 15).then(function (files) {
-            //    debugger;
-            //});
-
-       
+            // Navigate to the detail view to show the results of this query with the selected item
+            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, selected: selected });       
         });
     }
 
