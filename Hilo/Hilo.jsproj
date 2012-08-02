@@ -81,10 +81,10 @@
     <Content Include="Hilo\rotate\rotate.css" />
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />
-    <Content Include="Hilo\Tiles\buildThumbails.js" />
-    <Content Include="Hilo\Tiles\tileBuilders.js" />
-    <Content Include="Hilo\Tiles\tileUpdater.js" />
-    <Content Include="Hilo\Tiles\transmogrify.js" />
+    <Content Include="Hilo\Tiles\createTileFriendlyImages.js" />
+    <Content Include="Hilo\Tiles\populateTemplate.js" />
+    <Content Include="Hilo\Tiles\TileUpdater.js" />
+    <Content Include="Hilo\Tiles\creatTileUpdates.js" />
     <Content Include="images\Hilo150b.png" />
     <Content Include="images\Hilo30.png" />
     <Content Include="images\Hilo310b.png" />

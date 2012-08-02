@@ -89,14 +89,17 @@
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>Hilo\Picture.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\Tiles\buildThumbails.js">
-      <Link>Hilo\Tiles\buildThumbails.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\createTileFriendlyImages.js">
+      <Link>Hilo\Tiles\createTileFriendlyImages.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\Tiles\tileUpdater.js">
-      <Link>Hilo\Tiles\tileUpdater.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\populateTemplate.js">
+      <Link>Hilo\Tiles\populateTemplate.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\Tiles\transmogrify.js">
-      <Link>Hilo\Tiles\transmogrify.js</Link>
+    <Content Include="..\Hilo\Hilo\Tiles\creatTileUpdates.js">
+      <Link>Hilo\Tiles\creatTileUpdates.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\Tiles\TileUpdater.js">
+      <Link>Hilo\Tiles\TileUpdater.js</Link>
     </Content>
     <Content Include="default.html" />
     <Content Include="default.js" />
@@ -139,7 +142,7 @@
     <Content Include="specs\imageRepository.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\Shared\shared.js" />
-    <Content Include="specs\Tiles\buildThumbnails.spec.js" />
+    <Content Include="specs\Tiles\createTileFriendlyImages.spec.js" />
     <Content Include="Hilo\.gitkeep" />
     <None Include="Hilo.Specifications_TemporaryKey.pfx" />
   </ItemGroup>
