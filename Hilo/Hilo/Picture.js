@@ -22,9 +22,9 @@
         this.addProperty('className', 'thumbnail');
         this.addProperty('src', URL.createObjectURL(file));
 
-        //file.addEventListener('thumbnailupdated', function (args) {
-        //    self.updateProperty('url', urlFor(file.thumbnail));
-        //});
+        file.addEventListener('thumbnailupdated', function (args) {
+            self.updateProperty('url', urlFor(file.thumbnail));
+        });
     });
 
     base.from = function (file) {
