@@ -15,8 +15,12 @@
         this._settings = {};
         this._set('folder', folder);
         this._set('fileTypes', ['.jpg', '.png', '.bmp', '.tiff', '.gif']);
+        this._set('prefetchOption', storage.FileProperties.PropertyPrefetchOptions.imageProperties);
+
+        this._set('thumbnailOptions', Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
         this._set('thumbnailMode', storage.FileProperties.ThumbnailMode.singleItem);
         this._set('thumbnailSize', 1024);
+
         this._set('sortOrder', commonFileQuery.orderByDate);
         this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
         this._set('startingIndex', 0);
@@ -44,6 +48,12 @@
         imageAt: function (index) {
             this._set('startingIndex', index);
             this._set('count', 1);
+            return this;
+        },
+
+        prefetchOptions: function (attributeArray) {
+            this._set('prefetchOption', storage.FileProperties.PropertyPrefetchOptions.none);
+            this._set('prefetchAttributes', attributeArray);
             return this;
         },
 
@@ -93,6 +103,9 @@
         _buildQueryOptions: function () {
             var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
             queryOptions.indexerOption = this.settings.indexerOption;
+
+            queryOptions.setPropertyPrefetch(this.settings.prefectOption, this.settings.prefetchAttributes);
+            queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
                 queryOptions.applicationSearchFilter = 'taken: ' + this.settings.monthAndYear;
