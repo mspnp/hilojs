@@ -19,7 +19,6 @@
         this._set('thumbnailSize', 1024);
         this._set('sortOrder', commonFileQuery.orderByDate);
         this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
-        this._set('count', 15);
     }
 
     ImageQueryBuilder.deserialize = function (serializedQueryObject) {
@@ -34,6 +33,10 @@
 
         count: function(count){
             return this._set('count', count);
+        },
+
+        forMonthAndYear: function (monthAndYear) {
+            return this._set('monthAndYear', monthAndYear);
         },
 
         _set: function(key, value){
@@ -56,7 +59,11 @@
 
     var queryObjectMethods = {
         execute: function () {
-            return this.fileQuery.getFilesAsync(0, this.settings.count);
+            if (this.settings.count) {
+                return this.fileQuery.getFilesAsync(0, this.settings.count);
+            } else {
+                return this.fileQuery.getFilesAsync();
+            }
         },
 
         serialize: function () {
@@ -66,6 +73,10 @@
         _buildQueryOptions: function () {
             var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
             queryOptions.indexerOption = this.settings.indexerOption;
+
+            if (this.settings.monthAndYear) {
+                queryOptions.applicationSearchFilter = 'taken: ' + this.settings.monthAndYear;
+            }
 
             return queryOptions;
         },
