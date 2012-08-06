@@ -3,7 +3,9 @@
 
     var klass = WinJS.Class,
         ns = WinJS.Namespace,
-        binding = WinJS.Binding;
+        binding = WinJS.Binding,
+        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
+
 
     function urlFor(blob) {
         var url = '';
@@ -17,12 +19,15 @@
         var self = this;
         this._initObservable();
         this.addProperty('name', file.name);
-        
-        if (file.imageProperties) {
-            this.addProperty('dateTaken', file.imageProperties.dateTaken);
-        }
 
-        this.addProperty('url', urlFor(file.thumbnail));
+        file.properties.getImagePropertiesAsync().then(function (properties) {
+            self.addProperty('dateTaken', properties.dateTaken);
+        });
+
+        file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
+            self.addProperty('url', urlFor(file.thumbnail));
+        });
+
         this.addProperty('className', 'thumbnail');
         this.addProperty('src', URL.createObjectURL(file));
 
