@@ -10,9 +10,8 @@
     var page = {
 
         ready: function (element, options) {
-            var repo = new Hilo.ImageRepository(knownFolders.picturesLibrary);
-
-            repo.getFromQueryString(options.query).then(this.showImages.bind(this));
+            var query = options.query;
+            query.execute().then(this.showImages.bind(this));
         },
 
         showImages: function (images) {

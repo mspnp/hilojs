@@ -20,6 +20,7 @@
         this._set('sortOrder', commonFileQuery.orderByDate);
         this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
         this._set('startingIndex', 0);
+        this._set('bindable', false);
     }
 
     ImageQueryBuilder.deserialize = function (serializedQueryObject) {
@@ -30,6 +31,10 @@
         
         build: function () {
             return new Query(this._settings);
+        },
+
+        bindable: function () {
+            return this._set('bindable', true);
         },
 
         count: function(count){
@@ -66,10 +71,18 @@
 
     var queryObjectMethods = {
         execute: function () {
+            var queryPromise;
+
             if (this.settings.count) {
-                return this.fileQuery.getFilesAsync(this.settings.startingIndex, this.settings.count);
+                queryPromise = this.fileQuery.getFilesAsync(this.settings.startingIndex, this.settings.count);
             } else {
-                return this.fileQuery.getFilesAsync();
+                queryPromise = this.fileQuery.getFilesAsync();
+            }
+
+            if (this.settings.bindable) {
+                return queryPromise.then(this._createViewModels);
+            } else {
+                return queryPromise;
             }
         },
 
@@ -90,6 +103,10 @@
 
         _buildFileQuery: function () {
             return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
+        },
+
+        _createViewModels: function (files) {
+            return WinJS.Promise.wrap(files.map(Hilo.Picture.from));
         }
     };
 
