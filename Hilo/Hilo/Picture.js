@@ -19,21 +19,19 @@
         var self = this;
         this._initObservable();
         this.addProperty('name', file.name);
+        this.addProperty('url', '');
+        this.addProperty('dateTaken', '');
 
         file.properties.getImagePropertiesAsync().then(function (properties) {
             self.addProperty('dateTaken', properties.dateTaken);
         });
 
         file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-            self.addProperty('url', urlFor(file.thumbnail));
+            self.updateProperty('url', urlFor(thumbnail));
         });
 
         this.addProperty('className', 'thumbnail');
         this.addProperty('src', URL.createObjectURL(file));
-
-        file.addEventListener('thumbnailupdated', function (args) {
-            self.updateProperty('url', urlFor(file.thumbnail));
-        });
     });
 
     base.from = function (file) {
