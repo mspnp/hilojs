@@ -2,7 +2,7 @@
 
     var queryBuilder;
 
-    beforeEach(function(done){
+    beforeEach(function (done) {
         var whenFolderIsReady = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
 
         whenFolderIsReady.then(function (folder) {
@@ -14,7 +14,7 @@
     describe("when building a query", function () {
         var query;
 
-        beforeEach(function(){
+        beforeEach(function () {
             query = queryBuilder.build();
         });
 
@@ -35,6 +35,21 @@
                 expect(images.length).equals(1);
                 done();
             });
+        });
+    });
+
+    describe("when serializing and then deserializing a query object", function () {
+        var deserializedQuery, serializedQuery;
+
+        beforeEach(function () {
+            var query = queryBuilder.build();
+
+            serializedQuery = query.serialize();
+            deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
+        });
+
+        it("should restore all of the options for the query", function () {
+            expect(deserializedQuery.settings).deep.equals(serializedQuery);
         });
     });
 

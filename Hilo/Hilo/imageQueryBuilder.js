@@ -8,8 +8,8 @@
         search = Windows.Storage.Search,
         commonFileQuery = storage.Search.CommonFileQuery;
 
-    // Private Methods
-    // ---------------
+    // Image Query Builder
+    // -------------------
 
     function ImageQueryBuilder(folder) {
         this._settings = {};
@@ -21,6 +21,10 @@
         this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
         this._set('count', 15);
     }
+
+    ImageQueryBuilder.deserialize = function (serializedQueryObject) {
+        return new Query(serializedQueryObject);
+    };
 
     var imageQueryBuilderMethods = {
         
@@ -53,6 +57,10 @@
     var queryObjectMethods = {
         execute: function () {
             return this.fileQuery.getFilesAsync(0, this.settings.count);
+        },
+
+        serialize: function () {
+            return this.settings;
         },
 
         _buildQueryOptions: function () {
