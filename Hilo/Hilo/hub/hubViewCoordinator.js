@@ -44,7 +44,7 @@
             var monthNames = ['January','February','March','April','May','June', 'July', 'August','September','October','November','December'];
             var itemIndex = args.detail.itemIndex;
             var picture = args.detail.item.data;
-            var dateTaken = picture.dateTaken;
+            var dateTaken = picture.itemDate;
             var monthAndYear = monthNames[dateTaken.getMonth()] + ' ' + dateTaken.getFullYear();
 
             this.queryBuilder

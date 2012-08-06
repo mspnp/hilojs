@@ -112,7 +112,7 @@
         beforeEach(function () {
             var item = {
                 data: {
-                    dateTaken: new Date("Jan 5 1973")
+                    itemDate: new Date("Jan 5 1973")
                 }
             };
             listView.dispatchEvent('itemInvoked', { item: item, itemIndex: 99 });

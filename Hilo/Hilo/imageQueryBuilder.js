@@ -14,7 +14,7 @@
     function ImageQueryBuilder(folder) {
         this._settings = {};
         this._set('folder', folder);
-        this._set('fileTypes', ['.jpg', '.png', '.bmp', '.tiff', '.gif']);
+        this._set('fileTypes', ['.jpg', '.jpeg', '.tiff', '.png', '.bmp', '.gif']);
         this._set('prefetchOption', storage.FileProperties.PropertyPrefetchOptions.imageProperties);
 
         this._set('thumbnailOptions', Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
@@ -108,7 +108,7 @@
             queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
-                queryOptions.applicationSearchFilter = 'taken: ' + this.settings.monthAndYear;
+                queryOptions.applicationSearchFilter = 'System.ItemDate: ' + this.settings.monthAndYear;
             }
 
             return queryOptions;

@@ -47,7 +47,7 @@
         });
 
         it('should configure the query for the specified month and year', function () {
-            expect(query.queryOptions.applicationSearchFilter).equals('taken: Jan 2012');
+            expect(query.queryOptions.applicationSearchFilter).equals('System.ItemDate: Jan 2012');
         });
     });
 
