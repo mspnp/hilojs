@@ -53,7 +53,7 @@
 
     function itemInvoked(args) {
         args.detail.itemPromise.then(function (item) {
-            var repo = new Hilo.ImageRepository(knownFolders.picturesLibrary);
+            var queryBuilder = new Hilo.ImageQueryBuilder(knownFolders.picturesLibrary);
             var query = repo.getQueryForMonthAndYear(item.data.name);
             var selected = 0; // pretend we selected the first image in the result set
 

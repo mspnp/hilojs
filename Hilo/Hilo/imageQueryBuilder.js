@@ -19,6 +19,7 @@
         this._set('thumbnailSize', 1024);
         this._set('sortOrder', commonFileQuery.orderByDate);
         this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
+        this._set('startingIndex', 0);
     }
 
     ImageQueryBuilder.deserialize = function (serializedQueryObject) {
@@ -33,6 +34,12 @@
 
         count: function(count){
             return this._set('count', count);
+        },
+
+        imageAt: function (index) {
+            this._set('startingIndex', index);
+            this._set('count', 1);
+            return this;
         },
 
         forMonthAndYear: function (monthAndYear) {
@@ -60,7 +67,7 @@
     var queryObjectMethods = {
         execute: function () {
             if (this.settings.count) {
-                return this.fileQuery.getFilesAsync(0, this.settings.count);
+                return this.fileQuery.getFilesAsync(this.settings.startingIndex, this.settings.count);
             } else {
                 return this.fileQuery.getFilesAsync();
             }

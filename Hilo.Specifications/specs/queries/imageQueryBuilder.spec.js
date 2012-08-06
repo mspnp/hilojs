@@ -24,6 +24,33 @@
     });
 
 
+    describe('when serializing and then deserializing a query object', function () {
+        var deserializedQuery, serializedQuery;
+
+        beforeEach(function () {
+            var query = queryBuilder.build();
+
+            serializedQuery = query.serialize();
+            deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
+        });
+
+        it('should restore all of the options for the query', function () {
+            expect(deserializedQuery.settings).deep.equals(serializedQuery);
+        });
+    });
+
+    describe('when specifying a month and year for images', function () {
+        var query;
+
+        beforeEach(function () {
+            query = queryBuilder.forMonthAndYear('Jan 2012').build();
+        });
+
+        it('should configure the query for the specified month and year', function () {
+            expect(query.queryOptions.applicationSearchFilter).equals('taken: Jan 2012');
+        });
+    });
+
     describe('when executing a query that specifies the number of images to load', function () {
         var query;
 
@@ -54,32 +81,19 @@
         });
     });
 
-    describe('when serializing and then deserializing a query object', function () {
-        var deserializedQuery, serializedQuery;
-
-        beforeEach(function () {
-            var query = queryBuilder.build();
-
-            serializedQuery = query.serialize();
-            deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
-        });
-
-        it('should restore all of the options for the query', function () {
-            expect(deserializedQuery.settings).deep.equals(serializedQuery);
-        });
-    });
-
-    describe('when specifying a month and year for images', function () {
+    describe('when specifying the index of a specific image to load', function () {
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.forMonthAndYear('Jan 2012').build();
+            query = queryBuilder.imageAt(1).build();
         });
 
-        it('should configure the query for the specified month and year', function () {
-            expect(query.queryOptions.applicationSearchFilter).equals('taken: Jan 2012');
+        it('should only load that one image when executing', function (done) {
+            query.execute().then(function (images) {
+                expect(images.length).equals(1);
+                done();
+            });
         });
     });
-
  
 });
