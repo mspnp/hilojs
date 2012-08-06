@@ -95,5 +95,18 @@
             });
         });
     });
- 
+
+    describe('when specifying the images should be bindable', function () {
+        var query;
+
+        beforeEach(function () {
+            query = queryBuilder.bindable().build();
+        });
+
+        it('should return instances of bindable Picture objects', function () {
+            query.execute().then(function (images) {
+                expect(images[0]).to.be.a('Picture');
+            });
+        });
+    });
 });

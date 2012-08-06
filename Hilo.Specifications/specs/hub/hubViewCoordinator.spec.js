@@ -3,7 +3,7 @@
 
     var hubView, nav, appBar, listView;
 
-    beforeEach(function () {
+    beforeEach(function (done) {
         nav = {
             navigate: function () {
                 nav.navigate.args = arguments;
@@ -46,10 +46,15 @@
             }
         };
 
-        var repo = new Hilo.ImageRepository();
+        var whenFolderIsReady = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync('Indexed');
 
-        hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView, repo);
-        hubView.start();
+        whenFolderIsReady.then(function (folder) {
+            var queryBuilder = new Hilo.ImageQueryBuilder(folder);
+
+            hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView, queryBuilder);
+            hubView.start();
+            done();
+        });
     });
 
     describe('given nothing is selected, when selecting a picture', function () {
