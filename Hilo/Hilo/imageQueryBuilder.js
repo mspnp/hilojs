@@ -104,7 +104,7 @@
             var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
             queryOptions.indexerOption = this.settings.indexerOption;
 
-            queryOptions.setPropertyPrefetch(this.settings.prefectOption, this.settings.prefetchAttributes);
+            queryOptions.setPropertyPrefetch(this.settings.prefetchOption, this.settings.prefetchAttributes);
             queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
