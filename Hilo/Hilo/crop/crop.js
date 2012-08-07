@@ -22,7 +22,7 @@
             });
 
             queryBuilder.build().execute().then(function (selected) {
-                img.src = URL.createObjectURL(selected);
+                img.src = URL.createObjectURL(selected[0]);
             });
         },
 
