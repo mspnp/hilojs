@@ -27,22 +27,14 @@
 
         setImageIndex: function (itemIndex) {
             this.selectedImageIndex = itemIndex;
-            this.show();
+            this.appbar.show();
             this.enableButtons();
         },
 
         clearImageIndex: function () {
             this.selectedImageIndex = -1;
-            this.hide();
-            this.disableButtons();
-        },
-
-        show: function () {
-            this.appbar.show();
-        },
-
-        hide: function () {
             this.appbar.hide();
+            this.disableButtons();
         },
 
         enableButtons: function () {
