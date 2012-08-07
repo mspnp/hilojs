@@ -6,7 +6,7 @@
 
     <link href="hub.css" rel="stylesheet" />
 
-    <script src="appBarController.js"></script>
+    <script src="/Hilo/controls/ImageNav/ImageNavController.js"></script>
     <script src="listViewController.js"></script>
     <script src="hubViewCoordinator.js"></script>
     <script src="hub.js"></script>
@@ -41,19 +41,7 @@
 
         </section>
 
-        <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
-            <button
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{id:'crop', icon:'crop', section: 'selection', disabled: true}"
-                data-win-res="{winControl: {label:'crop'}}">
-            </button>
-            <button
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{id:'rotate', icon:'rotate', section: 'selection', disabled: true}"
-                data-win-res="{winControl: {label:'rotate'}}">
-            </button>
-        </div>
-
+        <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/ImageNav/ImageNav.html'}"></section>
     </div>
 </body>
 </html>

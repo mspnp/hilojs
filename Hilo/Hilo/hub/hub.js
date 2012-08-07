@@ -37,7 +37,7 @@
 
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
-            this.appBarController = new Hilo.Hub.AppBarController(appBarEl);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl);
 
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector('#picturesLibrary');
@@ -46,7 +46,7 @@
             // Coordinate the parts of the hub view
             var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(
                 WinJS.Navigation,
-                this.appBarController,
+                imageNav,
                 this.listViewController,
                 queryBuilder
             );

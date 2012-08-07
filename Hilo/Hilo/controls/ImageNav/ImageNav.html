@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ImageNav</title>
+
+    <link href="SelectedImageNavigation.css" rel="stylesheet" />
+    <script src="SelectedImageNavigation.js"></script>
+</head>
+<body>
+    <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
+        <button
+            data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'crop', icon:'crop', section: 'selection', disabled: true}"
+            data-win-res="{winControl: {label:'crop'}}">
+        </button>
+        <button
+            data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'rotate', icon:'rotate', section: 'selection', disabled: true}"
+            data-win-res="{winControl: {label:'rotate'}}">
+        </button>
+    </div>
+</body>
+</html>

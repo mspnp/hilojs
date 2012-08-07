@@ -1,6 +1,6 @@
-﻿describe('app bar controller', function () {
+﻿describe('image nav controller', function () {
     
-    var appBarController, el, button;
+    var controller, el, button;
 
     beforeEach(function () {
         button = {
@@ -20,14 +20,14 @@
             }
         };
 
-        appBarController = new Hilo.Hub.AppBarController(el);
+        controller = new Hilo.Controls.ImageNav.ImageNavController(el);
     });
 
-    describe('given the app bar is shown and buttons are enabled, when clicking a button', function () {
+    describe('given the image nav is shown and buttons are enabled, when clicking a button', function () {
         var cropTriggered;
 
         beforeEach(function () {
-            appBarController.addEventListener('crop', function () {
+            controller.addEventListener('crop', function () {
                 cropTriggered = true;
             });
 

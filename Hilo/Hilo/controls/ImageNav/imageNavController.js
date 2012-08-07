@@ -4,7 +4,7 @@
     // Private Methods
     // ---------------
 
-    function AppBarController(el) {
+    function ImageNavController(el) {
         this.el = el;
         this.appbar = el.winControl;
         this.buttons = this.el.querySelectorAll("button");
@@ -12,7 +12,7 @@
         this.setupButtonClicks();
     }
    
-    var controllerMethods = {
+    var imageNavControllerMethods = {
         setupButtonClicks: function () {
             var that = this;
             Array.prototype.forEach.call(this.buttons, function (x) {
@@ -46,10 +46,7 @@
     // Public API
     // ----------
 
-    var Klass = WinJS.Class.define(AppBarController, controllerMethods);
-    Klass = WinJS.Class.mix(Klass, WinJS.Utilities.eventMixin);
-
-    WinJS.Namespace.define("Hilo.Hub", {
-        AppBarController: Klass
+    WinJS.Namespace.define("Hilo.Controls.ImageNav", {
+        ImageNavController: WinJS.Class.mix(ImageNavController, imageNavControllerMethods, WinJS.Utilities.eventMixin)
     });
 })();
