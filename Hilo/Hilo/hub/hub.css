@@ -1,8 +1,12 @@
 ﻿.hub section[role=main] {
-    margin-left: 120px;
 }
 
+    .hub section[role=main] h2 {
+        margin-left: 120px;
+    }
+
     .hub section[role=main] #picturesLibrary {
+        margin-left: 120px;
         height: 100%;
     }
 
@@ -21,11 +25,11 @@
         width: 200px;
         height: 200px;
     }
-    
-    .hub section[role=main] .thumbnail.first {
-        width: 410px;
-        height: 410px;
-    }
+
+        .hub section[role=main] .thumbnail.first {
+            width: 410px;
+            height: 410px;
+        }
 }
 
 @media screen and (-ms-view-state: snapped) {
