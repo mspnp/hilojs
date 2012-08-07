@@ -10,6 +10,10 @@
     var page = {
 
         ready: function (element, options) {
+            // I18N resource binding for this page
+            WinJS.Resources.processAll();
+
+            // load the images from the specified query, and show them
             var query = options.query;
             query.execute().then(this.showImages.bind(this));
         },
@@ -20,6 +24,10 @@
 
             var flipviewEl = document.querySelector("#flipview");
             var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
+
+            var imageNavEl = document.querySelector("#appbar");
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl);
+            imageNav.enableButtons();
 
             var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip);
             detailPageController.run();
