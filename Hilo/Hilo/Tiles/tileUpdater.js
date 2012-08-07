@@ -30,13 +30,20 @@
 
     var thumbnailFolderName = 'tile-thumbnails',
         localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/',
+        picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary,
+        notifications = Windows.UI.Notifications,
         numberOfImagesToRetrieve = 30,
-        notifications = Windows.UI.Notifications;
+        tileUpdateManager = Windows.UI.Notifications.TileUpdateManager;
 
     // Private Methods
     // ---------------
 
-    var members = {
+    var TileUpdater = function () {
+        this.tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
+        this.tileUpdater.enableNotificationQueue(true);
+    };
+
+    var tileUpdaterMethods = {
         getLocalImagePaths: function (files) {
             return files.map(function (file) {
                 return localThumbnailFolder + file;
@@ -51,15 +58,15 @@
         },
 
         update: function () {
-            var picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary;
-            var imageRepo = new Hilo.ImageRepository(picturesLibrary);
-
             // Bind the function to a context, so that `this` will be resolved
             // when it is invoked in the promise.
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
-            var whenImagesForTileRetrieved = imageRepo.getImages(numberOfImagesToRetrieve);
+            // Build a query to get the number of images needed for the tiles
+            var queryBuilder = new Hilo.ImageQueryBuilder(picturesLibrary);
+            queryBuilder.count(numberOfImagesToRetrieve);
 
+            var whenImagesForTileRetrieved = queryBuilder.build().execute();
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.createTileFriendlyImages)
                 .then(this.getLocalImagePaths)
@@ -68,16 +75,11 @@
         }
     }
 
-    var TileUpdater = WinJS.Class.define(function () {
-        this.tileUpdater = Windows.UI.Notifications.TileUpdateManager.createTileUpdaterForApplication();
-        this.tileUpdater.enableNotificationQueue(true);
-    }, members);
-
     // Public API
     // ----------
 
     WinJS.Namespace.define('Hilo.Tiles', {
-        TileUpdater: TileUpdater
+        TileUpdater: WinJS.Class.define(TileUpdater, tileUpdaterMethods)
     });
 
 })();

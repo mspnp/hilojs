@@ -83,9 +83,6 @@
     <Content Include="..\Hilo\Hilo\imageQueryBuilder.js">
       <Link>Hilo\imageQueryBuilder.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\imageRepository.js">
-      <Link>Hilo\imageRepository.js</Link>
-    </Content>
     <Content Include="..\Hilo\Hilo\PageControlNavigator.js">
       <Link>Hilo\PageControlNavigator.js</Link>
     </Content>
@@ -141,7 +138,6 @@
     <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewCoordinator.spec.js" />
     <Content Include="specs\hub\listViewController.spec.js" />
-    <Content Include="specs\imageRepository.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
     <Content Include="specs\Shared\shared.js" />
