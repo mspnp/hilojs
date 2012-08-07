@@ -6,11 +6,6 @@
         beforeEach(function () {
             el = {
                 winControl: {
-                    selection: {
-                        getIndices: function () {
-                            return [0];
-                        },
-                    },
                     handlers: {},
                     addEventListener: function (type, handler) {
                         this.handlers[type] = handler;
@@ -36,7 +31,11 @@
             beforeEach(function () {
                 filmstripController.addEventListener("imageInvoked", handler);
 
-                el.winControl.dispatchEvent("iteminvoked", {});
+                el.winControl.dispatchEvent("iteminvoked", {
+                    detail: {
+                        itemIndex: 1
+                    }
+                });
             });
 
             it("should trigger an imageInvoked event", function () {
@@ -44,7 +43,7 @@
             });
 
             it("should tell me the index of the clicked item", function () {
-                expect(handler.args.itemIndex).equals(0);
+                expect(handler.args.itemIndex).equals(1);
             });
         });
 

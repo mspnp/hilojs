@@ -27,10 +27,10 @@
             return this.winControl.selection.getIndices();
         },
 
-        itemClicked: function () {
-            var indices = this.getSelectedIndices();
+        itemClicked: function (args) {
+            var selectedIndex = args.detail.itemIndex;
             this.dispatchEvent("imageInvoked", {
-                itemIndex: indices[0]
+                itemIndex: selectedIndex
             });
         }
     }
