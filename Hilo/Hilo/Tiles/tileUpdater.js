@@ -66,6 +66,10 @@
             var queryBuilder = new Hilo.ImageQueryBuilder(picturesLibrary);
             queryBuilder.count(numberOfImagesToRetrieve);
 
+            // What follows is a chain of promises. These outline a number of 
+            // asychronous operations that are executed in order. For more 
+            // information on how promises work, see the readme.txt in the 
+            // root of this project.
             var whenImagesForTileRetrieved = queryBuilder.build().execute();
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.createTileFriendlyImages)
