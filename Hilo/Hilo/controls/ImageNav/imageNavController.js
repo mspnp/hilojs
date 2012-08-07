@@ -1,25 +1,40 @@
 ﻿(function () {
     'use strict';
 
-    // Private Methods
-    // ---------------
+    // Constructor Function
+    // --------------------
 
-    function ImageNavController(el) {
+    function ImageNavController(el, nav) {
         this.el = el;
         this.appbar = el.winControl;
-        this.buttons = this.el.querySelectorAll("button");
+        this.nav = nav;
 
-        this.setupButtonClicks();
+        this.setupButtons();
     }
+
+    // Methods
+    // -------
    
     var imageNavControllerMethods = {
-        setupButtonClicks: function () {
-            var that = this;
-            Array.prototype.forEach.call(this.buttons, function (x) {
-                x.addEventListener('click', function (args) {
-                    that.dispatchEvent(args.currentTarget.id);
-                });
-            });
+
+        setupButtons: function () {
+            this.rotate = this.el.querySelector("#rotate");
+            this.rotate.addEventListener('click', this.rotateClicked.bind(this));
+
+            this.crop = this.el.querySelector("#crop");
+            this.crop.addEventListener('click', this.cropClicked.bind(this));
+        },
+
+        setImageIndex: function (itemIndex) {
+            this.selectedImageIndex = itemIndex;
+            this.show();
+            this.enableButtons();
+        },
+
+        clearImageIndex: function () {
+            this.selectedImageIndex = -1;
+            this.hide();
+            this.disableButtons();
         },
 
         show: function () {
@@ -31,16 +46,22 @@
         },
 
         enableButtons: function () {
-            Array.prototype.forEach.call(this.buttons, function (x) {
-                x.winControl.disabled = false;
-            });
+            this.rotate.winControl.disabled = false;
+            this.crop.winControl.disabled = false;
         },
 
         disableButtons: function () {
-            Array.prototype.forEach.call(this.buttons, function (x) {
-                x.winControl.disabled = true;
-            });
-        }
+            this.rotate.winControl.disabled = true;
+            this.crop.winControl.disabled = true;
+        },
+
+        rotateClicked: function () {
+            this.nav.navigate('/Hilo/rotate/rotate.html', this.selectedImageIndex);
+        },
+
+        cropClicked: function () {
+            this.nav.navigate('/Hilo/crop/crop.html', this.selectedImageIndex);
+        },
     };
 
     // Public API

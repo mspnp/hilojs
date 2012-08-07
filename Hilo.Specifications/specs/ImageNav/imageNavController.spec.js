@@ -1,41 +1,50 @@
 ﻿describe('image nav controller', function () {
     
-    var controller, el, button;
+    var controller, el, crop, rotate, nav;
+    var EventClass = WinJS.Class.mix(function () { }, { winControl: {} }, WinJS.Utilities.eventMixin);
 
     beforeEach(function () {
-        button = {
-            handlers: {},
-            addEventListener: function (type, handler) {
-                this.handlers[type] = handler;
-            },
-            dispatchEvent: function (type, args) {
-                this.handlers[type](args);
+        nav = {
+            navigate: function () {
+                nav.navigate.args = arguments;
+                nav.navigate.wasCalled = true;
             }
         };
+
+        crop = new EventClass();
+        rotate = new EventClass();
 
         el = {
-            winControl: {},
-            querySelectorAll: function () {
-                return [button];
+            winControl: {
+                show: function () { },
+                hide: function () { }
+            },
+            querySelector: function (selector) {
+                if (selector === "#rotate") {
+                    return rotate;
+                } else {
+                    return crop;
+                }
             }
         };
 
-        controller = new Hilo.Controls.ImageNav.ImageNavController(el);
+        controller = new Hilo.Controls.ImageNav.ImageNavController(el, nav);
     });
 
-    describe('given the image nav is shown and buttons are enabled, when clicking a button', function () {
+    describe('given an image is selected, when clicking crop', function () {
         var cropTriggered;
 
         beforeEach(function () {
-            controller.addEventListener('crop', function () {
-                cropTriggered = true;
-            });
-
-            button.dispatchEvent('click', { currentTarget: { id: 'crop' } });
+            controller.setImageIndex(1);
+            crop.dispatchEvent('click');
         });
 
-        it('should dispatch the event for that button', function () {
-            expect(cropTriggered).equals(true);
+        it('should navigate to the crop page', function () {
+            expect(nav.navigate.args[0]).equals('/Hilo/crop/crop.html');
+        });
+
+        it('should include the selected image index in the navigation args', function () {
+            expect(nav.navigate.args[1]).equals(1);
         });
     });
 });

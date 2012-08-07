@@ -37,7 +37,7 @@
 
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl, WinJS.Navigation);
 
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector('#picturesLibrary');

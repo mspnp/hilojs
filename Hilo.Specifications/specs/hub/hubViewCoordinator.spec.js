@@ -1,7 +1,7 @@
 ﻿describe('hub view coordinator', function () {
     'use strict';
 
-    var hubView, nav, appBar, listView;
+    var hubView, nav, imageNav, listView;
 
     beforeEach(function (done) {
         nav = {
@@ -11,27 +11,14 @@
             }
         };
 
-        appBar = {
-            show: function () {
-                appBar.show.wasCalled = true;
-            },
-            hide: function () {
-                appBar.hide.wasCalled = true;
-            },
-            enableButtons: function () {
-                appBar.enableButtons.wasCalled = true;
-            },
-            disableButtons: function () {
-                appBar.disableButtons.wasCalled = true;
+        imageNav = {
+            setImageIndex: function (index) {
+                imageNav.setImageIndex.wasCalled = true;
+                imageNav.setImageIndex.itemIndex = index;
             },
 
-            handlers: {},
-            addEventListener: function (name, handler) {
-                this.handlers[name] = handler;
-            },
-
-            dispatchEvent: function (name, args) {
-                this.handlers[name]({ detail: args });
+            clearImageIndex: function () {
+                imageNav.clearImageIndex.wasCalled = true;
             }
         };
 
@@ -51,7 +38,7 @@
         whenFolderIsReady.then(function (folder) {
             var queryBuilder = new Hilo.ImageQueryBuilder(folder);
 
-            hubView = new Hilo.Hub.HubViewCoordinator(nav, appBar, listView, queryBuilder);
+            hubView = new Hilo.Hub.HubViewCoordinator(nav, imageNav, listView, queryBuilder);
             hubView.start();
             done();
         });
@@ -60,15 +47,12 @@
     describe('given nothing is selected, when selecting a picture', function () {
 
         beforeEach(function () {
-            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true, itemIndex: 1 });
         });
 
-        it('should reveal the appbar', function () {
-            expect(appBar.show.wasCalled).equals(true);
-        });
-
-        it('should enable the crop & rotate buttons', function () {
-            expect(appBar.enableButtons.wasCalled).equals(true);
+        it('should set the image index and show the app bar', function () {
+            expect(imageNav.setImageIndex.wasCalled).equals(true);
+            expect(imageNav.setImageIndex.itemIndex).equals(1);
         });
 
     });
@@ -81,11 +65,7 @@
         });
 
         it('should hide the appbar', function () {
-            expect(appBar.hide.wasCalled).equals(true);
-        });
-
-        it('should disable the crop & rotate button', function () {
-            expect(appBar.disableButtons.wasCalled).equals(true);
+            expect(imageNav.clearImageIndex.wasCalled).equals(true);
         });
 
     });
@@ -93,16 +73,13 @@
     describe('when a picture is selected and selecting another', function () {
 
         beforeEach(function () {
-            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
-            listView.dispatchEvent('selectionChanged', { hasItemSelected: true });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true, itemIndex: 0 });
+            listView.dispatchEvent('selectionChanged', { hasItemSelected: true, itemIndex: 1 });
         });
 
         it('should reveal the appbar', function () {
-            expect(appBar.show.wasCalled).equals(true);
-        });
-
-        it('should enable the crop & rotate buttons', function () {
-            expect(appBar.enableButtons.wasCalled).equals(true);
+            expect(imageNav.setImageIndex.wasCalled).equals(true);
+            expect(imageNav.setImageIndex.itemIndex).equals(1);
         });
 
     });

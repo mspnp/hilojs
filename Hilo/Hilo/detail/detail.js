@@ -26,10 +26,10 @@
             var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
 
             var imageNavEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation);
             imageNav.enableButtons();
 
-            var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip);
+            var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip, imageNav);
             detailPageController.run();
         },
 
