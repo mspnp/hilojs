@@ -22,7 +22,6 @@
                     controller.gotoImage(itemIndex);
                 });
         },
-
         showImages: function (images) {
             var filmstripEl = document.querySelector("#filmstrip");
             var filmstrip = new Hilo.Detail.FilmstripController(filmstripEl, images);
