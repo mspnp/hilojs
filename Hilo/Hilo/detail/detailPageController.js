@@ -4,9 +4,10 @@
     // Private Methods
     // ---------------
 
-    function DetailPageController(flipview, filmstrip) {
+    function DetailPageController(flipview, filmstrip, imageNav) {
         this.flipview = flipview;
         this.filmstrip = filmstrip;
+        this.imageNav = imageNav;
     }
 
     var detailPageController = {
@@ -15,7 +16,9 @@
         },
 
         imageClicked: function (args) {
-            this.flipview.showImageAt(args.detail.itemIndex);
+            var itemIndex = args.detail.itemIndex;
+            this.flipview.showImageAt(itemIndex);
+            this.imageNav.setImageIndex(itemIndex);
         }
     };
 

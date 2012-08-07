@@ -47,4 +47,22 @@
             expect(nav.navigate.args[1]).equals(1);
         });
     });
+
+    describe('given an image is selected, when clicking rotate', function () {
+        var cropTriggered;
+
+        beforeEach(function () {
+            controller.setImageIndex(2);
+            rotate.dispatchEvent('click');
+        });
+
+        it('should navigate to the crop page', function () {
+            expect(nav.navigate.args[0]).equals('/Hilo/rotate/rotate.html');
+        });
+
+        it('should include the selected image index in the navigation args', function () {
+            expect(nav.navigate.args[1]).equals(2);
+        });
+    });
+
 });

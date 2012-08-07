@@ -1,11 +1,18 @@
 ﻿describe("Detail page", function () {
     describe("detail page controller", function () {
 
-        var detailPageController, filmstripController, flipviewController;
+        var detailPageController, filmstripController, flipviewController, imageNav;
+        var EventClass = WinJS.Class.mix(function () { }, WinJS.Utilities.eventMixin);
 
         beforeEach(function () {
-            var FilmStrip = WinJS.Class.mix(function () { }, WinJS.Utilities.eventMixin);
-            filmstripController = new FilmStrip();
+            filmstripController = new EventClass();
+
+            imageNav = {
+                setImageIndex: function (index) {
+                    imageNav.setImageIndex.wasCalled = true;
+                    imageNav.setImageIndex.itemIndex = index;
+                }
+            }
             
             flipviewController = {
                 showImageAt: function (index) {
@@ -14,7 +21,7 @@
                 }
             };
 
-            detailPageController = new Hilo.Detail.DetailPageController(flipviewController, filmstripController);
+            detailPageController = new Hilo.Detail.DetailPageController(flipviewController, filmstripController, imageNav);
             detailPageController.run();
         });
 
@@ -26,6 +33,11 @@
             it("should show the image", function () {
                 expect(flipviewController.showImageAt.wasCalled).equals(true);
                 expect(flipviewController.showImageAt.itemIndex).equals(1);
+            });
+
+            it("should set the selected image for the image navigation controller", function () {
+                expect(imageNav.setImageIndex.wasCalled).equals(true);
+                expect(imageNav.setImageIndex.itemIndex).equals(1);
             });
         });
 
