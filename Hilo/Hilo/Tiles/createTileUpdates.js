@@ -60,7 +60,7 @@
         return set;
     }
 
-    function creatTileUpdates(fileNames) {
+    function createTileUpdates(fileNames) {
         var notifications = [],
             filesForSet,
             notification;
@@ -82,7 +82,7 @@
     // ----------
 
     WinJS.Namespace.define('Hilo.Tiles', {
-        creatTileUpdates: creatTileUpdates
+        createTileUpdates: createTileUpdates
     });
 
 })();

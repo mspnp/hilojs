@@ -87,7 +87,7 @@
     <Content Include="Hilo\Tiles\createTileFriendlyImages.js" />
     <Content Include="Hilo\Tiles\populateTemplate.js" />
     <Content Include="Hilo\Tiles\TileUpdater.js" />
-    <Content Include="Hilo\Tiles\creatTileUpdates.js" />
+    <Content Include="Hilo\Tiles\createTileUpdates.js" />
     <Content Include="images\Hilo150b.png" />
     <Content Include="images\Hilo30.png" />
     <Content Include="images\Hilo310b.png" />

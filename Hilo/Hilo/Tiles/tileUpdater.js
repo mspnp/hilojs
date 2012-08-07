@@ -74,7 +74,7 @@
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.createTileFriendlyImages)
                 .then(this.getLocalImagePaths)
-                .then(Hilo.Tiles.creatTileUpdates)
+                .then(Hilo.Tiles.createTileUpdates)
                 .then(queueTileUpdates);
         }
     }
