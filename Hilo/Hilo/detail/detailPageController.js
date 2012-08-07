@@ -19,6 +19,11 @@
             var itemIndex = args.detail.itemIndex;
             this.flipview.showImageAt(itemIndex);
             this.imageNav.setImageIndex(itemIndex);
+        },
+
+        gotoImage: function (itemIndex) {
+            this.flipview.showImageAt(itemIndex);
+            this.imageNav.setImageIndex(itemIndex);
         }
     };
 

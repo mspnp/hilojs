@@ -20,19 +20,14 @@
         this._initObservable();
         this.addProperty('name', file.name);
         this.addProperty('url', '');
-        this.addProperty('dateTaken', '');
         this.addProperty('itemDate', '');
-
-        file.getBasicPropertiesAsync().then(function (properties) {
-            self.updateProperty('itemDate', properties.itemDate);
-        });
-
-        file.properties.getImagePropertiesAsync().then(function (properties) {
-            self.updateProperty('dateTaken', properties.dateTaken);
-        });
 
         file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
             self.updateProperty('url', urlFor(thumbnail));
+        });
+
+        file.properties.retrievePropertiesAsync(['System.ItemDate']).then(function (retrieved) {
+            self.updateProperty('itemDate', retrieved.lookup('System.ItemDate'));
         });
 
         this.addProperty('className', 'thumbnail');

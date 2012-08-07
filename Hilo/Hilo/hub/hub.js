@@ -72,6 +72,7 @@
             // Get the images we need and animate the screen to show them
             queryBuilder
                 .bindable()
+                .prefetchOptions(['System.ItemDate'])
                 .count(6)
 
             var query = queryBuilder.build();
@@ -89,6 +90,22 @@
             if (items.length > 0) {
                 items[0].className = items[0].className + ' first';
             }
+
+            // We need to know the index of the image with respect to
+            // to the group (month/year) so that we can select it
+            // when we navigate to the detail page.
+            var lastGroup = '';
+            var indexInGroup = 0;
+            items.forEach(function (item) {
+                var group = item.itemDate.getMonth() + ' ' + item.itemDate.getFullYear();
+                if (group !== lastGroup) {
+                    lastGroup = group;
+                    indexInGroup = 0;
+                }
+
+                item.groupIndex = indexInGroup;
+                indexInGroup++;
+            });
 
             this.listViewController.setDataSource(items);
         },
