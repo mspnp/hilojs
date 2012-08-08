@@ -3,6 +3,9 @@
 (function () {
     "use strict";
 
+    // Page Header Control
+    // -------------------
+
     // This control provides a common implementation for the header of a page,
     // including the page title, and back button. The back button is facilitated
     // by the `navigation.js` file, while the page title is set by passing a
