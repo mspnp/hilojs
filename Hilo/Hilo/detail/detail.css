@@ -1,9 +1,5 @@
-﻿.detail section[role=main] {
-    -ms-grid-row: 1;
-    -ms-grid-row-span: 2;
-    -ms-grid-columns: 1fr;
-    -ms-grid-rows: 1fr;
-    display: -ms-grid;
+﻿.detail.fragment {
+    -ms-grid-rows: 128px 1fr 128px;
 }
 
 @media screen and (-ms-view-state: snapped) {
@@ -18,14 +14,10 @@
     }
 }
 
-
 .detail img {
     max-height: 100%;
     max-width: 100%;
-    -ms-grid-column-align: center;
-    -ms-grid-row-align: center;
-    -ms-grid-column: 1;
-    -ms-grid-row: 1;
+    margin-top: 100px;
 }
 
 .detail .win-backbutton {
