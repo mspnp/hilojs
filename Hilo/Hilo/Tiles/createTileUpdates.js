@@ -4,8 +4,7 @@
     // Imports And Constants
     // ---------------------
 
-    var notifications = Windows.UI.Notifications,
-        populateTemplateFor = Hilo.Tiles.populateTemplate,
+    var populateTemplateFor = Hilo.Tiles.populateTemplate,
         maxNumberOfSets = 5,          // WinRT limits 5 tile notifications per app
         numberOfImagesPerSet = 5;     // `TileWideImageCollection` supports 5 images per tile
 
@@ -31,7 +30,7 @@
         var wideTile = populateTemplateFor.wideTile(thumbnailPaths);
 
         var compositeTile = buildCompositeTile(wideTile, squareTile);
-        var notification = new notifications.TileNotification(compositeTile);
+        var notification = new Windows.UI.Notifications.TileNotification(compositeTile);
 
         return notification;
     }

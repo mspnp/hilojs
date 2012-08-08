@@ -31,9 +31,8 @@
     var thumbnailFolderName = 'tile-thumbnails',
         localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/',
         picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary,
-        notifications = Windows.UI.Notifications,
-        numberOfImagesToRetrieve = 30,
-        tileUpdateManager = Windows.UI.Notifications.TileUpdateManager;
+        tileUpdateManager = Windows.UI.Notifications.TileUpdateManager,
+        numberOfImagesToRetrieve = 30;
 
     // Private Methods
     // ---------------
