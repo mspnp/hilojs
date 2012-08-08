@@ -50,6 +50,15 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\Hilo\Hilo\controls\Header\Header.css">
+      <Link>Hilo\controls\Header\Header.css</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\controls\Header\Header.html">
+      <Link>Hilo\controls\Header\Header.html</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\controls\Header\Header.js">
+      <Link>Hilo\controls\Header\Header.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\controls\ImageNav\ImageNav.css">
       <Link>Hilo\controls\ImageNav\ImageNav.css</Link>
     </Content>
@@ -158,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hilo\controls\ImageNav\" />
+    <Folder Include="Hilo\controls\Header\" />
     <Folder Include="Hilo\hub\" />
     <Folder Include="Hilo\detail\" />
   </ItemGroup>
