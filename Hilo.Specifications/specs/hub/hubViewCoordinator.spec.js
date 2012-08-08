@@ -3,7 +3,11 @@
 
     var hubView, nav, imageNav, listView;
 
+    var EventClass = WinJS.Class.mix(function () { }, WinJS.Utilities.eventMixin);
+
     beforeEach(function (done) {
+        listView = new EventClass();
+
         nav = {
             navigate: function () {
                 nav.navigate.args = arguments;
@@ -19,17 +23,6 @@
 
             clearImageIndex: function () {
                 imageNav.clearImageIndex.wasCalled = true;
-            }
-        };
-
-        listView = {
-            handlers: {},
-            addEventListener: function (name, handler) {
-                this.handlers[name] = handler;
-            },
-
-            dispatchEvent: function (name, args) {
-                this.handlers[name]({ detail: args });
             }
         };
 
@@ -89,10 +82,11 @@
         beforeEach(function () {
             var item = {
                 data: {
-                    itemDate: new Date("Jan 5 1973")
+                    itemDate: new Date("Jan 5 1973"),
+                    groupIndex: 99
                 }
             };
-            listView.dispatchEvent('itemInvoked', { item: item, itemIndex: 99 });
+            listView.dispatchEvent('itemInvoked', { item: item });
         });
 
 

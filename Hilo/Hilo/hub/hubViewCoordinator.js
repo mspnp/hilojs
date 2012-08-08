@@ -27,8 +27,8 @@
 
         itemClicked: function (args) {
             var monthNames = ['January','February','March','April','May','June', 'July', 'August','September','October','November','December'];
-            var itemIndex = args.detail.item.data.groupIndex;
             var picture = args.detail.item.data;
+            var itemIndex = picture.groupIndex;
             var dateTaken = picture.itemDate;
             var monthAndYear = monthNames[dateTaken.getMonth()] + ' ' + dateTaken.getFullYear();
 
