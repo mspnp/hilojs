@@ -12,15 +12,11 @@
     <script src="hub.js"></script>
 </head>
 <body>
-
     <div class="fragment hub">
-        <header aria-label="Header content" role="banner">
-            <button id="backButton" class="win-backbutton" aria-label="Back" disabled></button>
-            <h1 class="titlearea win-type-ellipsis">
-                <span id="pageTitle" class="pagetitle" data-win-res="{textContent: 'appTitle'}">
-                </span>
-            </h1>
-        </header>
+
+        <div data-win-control="WinJS.UI.HtmlControl" 
+             data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'appTitle' }">
+        </div>
 
         <section aria-label="Main content" role="main">
 

@@ -57,6 +57,9 @@
     <Content Include="default.css" />
     <Content Include="default.html" />
     <Content Include="default.js" />
+    <Content Include="Hilo\controls\Header\Header.css" />
+    <Content Include="Hilo\controls\Header\Header.html" />
+    <Content Include="Hilo\controls\Header\Header.js" />
     <Content Include="Hilo\controls\ImageNav\imageNavController.js" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.css" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.html" />
