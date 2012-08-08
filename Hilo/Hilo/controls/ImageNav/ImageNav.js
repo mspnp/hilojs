@@ -30,7 +30,7 @@
     //
     // ```js
     // var imageNavEl = document.querySelectory("#some-id");
-    // var imageNav = new Hilo.Controls.ImageNavController(imageNavEl, WinJS.Navigation);
+    // var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation);
     // ```
     //
     // See the `imageNavController.js` file for more information on the API for
