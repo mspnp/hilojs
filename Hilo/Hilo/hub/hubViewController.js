@@ -4,7 +4,7 @@
     // Private Methods
     // ---------------
 
-    function HubViewCoordinator(nav, imageNav, listview, queryBuilder) {
+    function HubViewController(nav, imageNav, listview, queryBuilder) {
         this.nav = nav;
         this.imageNav = imageNav;
         this.listview = listview;
@@ -45,7 +45,7 @@
     // ----------
 
     WinJS.Namespace.define('Hilo.Hub', {
-        HubViewCoordinator: WinJS.Class.define(HubViewCoordinator, hubViewMethods)
+        HubViewController: WinJS.Class.define(HubViewController, hubViewMethods)
     });
 
 })();

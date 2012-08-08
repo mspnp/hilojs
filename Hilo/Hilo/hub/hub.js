@@ -44,14 +44,14 @@
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl, appView);
 
             // Coordinate the parts of the hub view
-            var hubViewCoordinator = new Hilo.Hub.HubViewCoordinator(
+            var hubViewController = new Hilo.Hub.HubViewController(
                 WinJS.Navigation,
                 imageNav,
                 this.listViewController,
                 queryBuilder
             );
 
-            hubViewCoordinator.start();
+            hubViewController.start();
 
             // --------------------
             // There's a disconnect in the style and readability between what is above

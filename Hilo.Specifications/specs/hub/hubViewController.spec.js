@@ -1,4 +1,4 @@
-﻿describe('hub view coordinator', function () {
+﻿describe('hub view controller', function () {
     'use strict';
 
     var hubView, nav, imageNav, listView;
@@ -31,7 +31,7 @@
         whenFolderIsReady.then(function (folder) {
             var queryBuilder = new Hilo.ImageQueryBuilder(folder);
 
-            hubView = new Hilo.Hub.HubViewCoordinator(nav, imageNav, listView, queryBuilder);
+            hubView = new Hilo.Hub.HubViewController(nav, imageNav, listView, queryBuilder);
             hubView.start();
             done();
         });

@@ -73,7 +73,7 @@
     <Content Include="Hilo\hub\hub.css" />
     <Content Include="Hilo\hub\hub.html" />
     <Content Include="Hilo\hub\hub.js" />
-    <Content Include="Hilo\hub\hubViewCoordinator.js" />
+    <Content Include="Hilo\hub\hubViewController.js" />
     <Content Include="Hilo\hub\listViewController.js" />
     <Content Include="Hilo\imageQueryBuilder.js" />
     <Content Include="Hilo\month\month.css" />
