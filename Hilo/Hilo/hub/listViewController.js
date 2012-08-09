@@ -28,10 +28,6 @@
     // 1. `el` - the DOM element for the `WinJS.UI.ListView` to control
     // 2. `appView` - a reference to [Windows.UI.ViewManagement.ApplicationView][2]
     //
-    // This object requires a collaborator that can listen to the events that 
-    // it triggers. The collaborator (in this case, the `Hilo.Hub.HubViewController`)
-    // determines how other parts of the page will behave based on the events raised 
-    // by this controller.
     //
     // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/br211837.aspx
     // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.viewmanagement.applicationview
