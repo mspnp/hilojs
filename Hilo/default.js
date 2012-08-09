@@ -5,7 +5,6 @@
     // This script is responsible for bootstrapping the application.
 
     var activation = Windows.ApplicationModel.Activation,
-
         app = WinJS.Application,
         nav = WinJS.Navigation;
 
@@ -20,13 +19,14 @@
     
     app.addEventListener('activated', function (args) {
 
-        var updater = new Hilo.Tiles.TileUpdater();
-        updater.update();
-
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
-                // TODO: This application has been newly launched. Initialize
-                // your application here.
+                
+                // When the app is launched, we want to update its tile
+                // on the start screen
+                var tileUpdater = new Hilo.Tiles.TileUpdater();
+                tileUpdater.update();
+
             } else {
                 // TODO: This application has been reactivated from suspension.
                 // Restore application state here.

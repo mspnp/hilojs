@@ -37,11 +37,13 @@
     // Private Methods
     // ---------------
 
+    // The constructor function for `TileUpdater`
     var TileUpdater = function () {
         this.tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
         this.tileUpdater.enableNotificationQueue(true);
     };
 
+    // The members for `TileUpdater`.
     var tileUpdaterMethods = {
         getLocalImagePaths: function (files) {
             return files.map(function (file) {

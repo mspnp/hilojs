@@ -49,8 +49,9 @@
             return whenFileCreated.then(copyThumbnailToFile);
         });
 
-        // Join all of the file copy promises into 
-        // a single promise that is returned from this method
+        // We now want to wait until all of the files are finished 
+        // copying. We can "join" the file copy promises into 
+        // a single promise that is returned from this method.
         return WinJS.Promise.join(allFilesCopied);
     };
 
@@ -63,16 +64,27 @@
     function createTileFriendlyImages(files) {
         var localFolder = applicationData.current.localFolder;
 
+        // We utilize the concept of [Partial Application][1], specifically
+        // using the [`bind`][2] method available on functions in JavaScript.
+        // `bind` allows us to take an existing function and to create a new 
+        // one with arguments that been already been supplied (or rather
+        // "applied") ahead of time.
+        //
+        // [1]: http://en.wikipedia.org/wiki/Partial_application 
+        // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
+
         // Partially apply `copyFilesToFolder` to carry the files parameter with it,
         // allowing it to be used as a promise/callback that only needs to have
         // the `targetFolder` parameter supplied.
         var copyThumbnailsToFolder = copyFilesToFolder.bind(null, files);
 
-        // Partially apply `returnFileNamesFor`, because it does not
-        // use the output from the preceding promise.
+        // Partially apply `returnFileNamesFor` using `files`. Note that the
+        // resulting function does not require any more arguments and hence 
+        // it will not use the output from the preceding promise when it is
+        // finally invoked.
         var returnFileNames = returnFileNamesFor.bind(null, files);
 
-        // Promise to build the thumbnails and return the list of local file paths
+        // Promise to build the thumbnails and return the list of local file paths.
         var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, creationCollisionOption.replaceExisting);
 
         return whenFolderCreated

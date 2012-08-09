@@ -11,6 +11,8 @@
 
     function buildWideTile(thumbnailFilePaths) {
 
+        // For more information about the `TileWideImageCollection` template, see:
+        // http://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx#TileWideImageCollection
         var template = templates.tileWideImageCollection;
 
         var xml = tileUpdateManager.getTemplateContent(template);
@@ -25,6 +27,8 @@
     }
 
     function buildSquareTile(thumbnailFilePath) {
+        // For more information about the `TileSquareImage` template, see:
+        // http://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx#square_image-only_templates
         var template = templates.tileSquareImage;
         var xml = tileUpdateManager.getTemplateContent(template);
 
