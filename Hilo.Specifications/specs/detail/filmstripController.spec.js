@@ -12,7 +12,7 @@
                     },
                     dispatchEvent: function (type, args) {
                         if (!this.handlers[type]) {
-                            throw new Error("Handler for '" + type + "' not found.")
+                            throw new Error("Handler for " + type + " not found.")
                         }
                         this.handlers[type](args);
                     }

@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     //TODO: temporary implementation
 
@@ -12,12 +12,12 @@
             var queryBuilder = new Hilo.ImageQueryBuilder(Windows.Storage.KnownFolders.picturesLibrary);
             queryBuilder.imageAt(selectedIndex);
 
-            var section = document.querySelector('section[role="main"]');
-            section.innerHtml = '';
+            var section = document.querySelector("section[role='main']");
+            section.innerHtml = "";
 
-            var img = document.createElement('img');
+            var img = document.createElement("img");
             section.appendChild(img);
-            img.addEventListener('load', function () {
+            img.addEventListener("load", function () {
                 ui.Animation.fadeIn(img);
             });
 
@@ -31,5 +31,5 @@
         }
     };
 
-    WinJS.UI.Pages.define('/Hilo/crop/crop.html', page);
+    WinJS.UI.Pages.define("/Hilo/crop/crop.html", page);
 }());

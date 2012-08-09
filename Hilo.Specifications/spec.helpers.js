@@ -3,12 +3,12 @@
         setTimeout(done, 0);
     });
 
-    'use strict';
+    "use strict";
 
     var utilities = WinJS.Utilities;
 
-    var scratcn_id = 'scratch',
-        locateScratch = document.querySelector.bind(document, '#' + scratcn_id);
+    var scratcn_id = "scratch",
+        locateScratch = document.querySelector.bind(document, "#" + scratcn_id);
 
     // Clean out the scratch area and build new 
     // DOM elements based on the given html.
@@ -27,14 +27,14 @@
 
     // Create a new scratch area.
     function createScratchArea() {
-        var area = document.createElement('div');
+        var area = document.createElement("div");
         area.id = scratcn_id;
-        area.style.display = 'none';
+        area.style.display = "none";
         document.body.appendChild(area);
         return area;
     }
 
-    WinJS.Namespace.define('Hilo.specs.helpers', {
+    WinJS.Namespace.define("Hilo.specs.helpers", {
         dom: dom
     });
 

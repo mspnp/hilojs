@@ -30,25 +30,25 @@
             synchronous: false
         });
 
-        var listview = document.querySelector('#monthgroup').winControl;
+        var listview = document.querySelector("#monthgroup").winControl;
         listview.itemDataSource = sds;
         listview.itemTemplate = function (itemPromise, recycledElement) {
-            var element = recycledElement || document.createElement('div');
+            var element = recycledElement || document.createElement("div");
 
             return itemPromise.then(function (item) {
-                var label = document.createElement('div');
+                var label = document.createElement("div");
                 label.innerText = item.data.name;
-                label.className = 'groupLabel';
+                label.className = "groupLabel";
                 element.appendChild(label);
 
-                element.style.backgroundColor = 'gray';
-                element.style.width = '200px';
-                element.style.height = '200px';
+                element.style.backgroundColor = "gray";
+                element.style.width = "200px";
+                element.style.height = "200px";
 
                 return element;
             });
         };
-        listview.addEventListener('iteminvoked', itemInvoked);
+        listview.addEventListener("iteminvoked", itemInvoked);
     }
 
     function itemInvoked(args) {
@@ -64,7 +64,7 @@
             var selected = 0; //HACK: pretend we clicked on the first image in the group
 
             // Navigate to the detail view to show the results of this query with the selected item
-            WinJS.Navigation.navigate('/Hilo/detail/detail.html', { query: query, itemIndex: selected });
+            WinJS.Navigation.navigate("/Hilo/detail/detail.html", { query: query, itemIndex: selected });
         });
     }
 

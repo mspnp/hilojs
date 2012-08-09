@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     var // WinJS
         ui = WinJS.UI,
@@ -45,7 +45,7 @@
         }
     };
 
-    pages.define('/Hilo/detail/detail.html', page);
+    pages.define("/Hilo/detail/detail.html", page);
     return page;
 
 }());

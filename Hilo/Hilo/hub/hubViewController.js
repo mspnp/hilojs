@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Hub View Controller Constructor
     // -------------------------------
@@ -47,8 +47,8 @@
             // 
             // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
             //
-            this.listview.addEventListener('selectionChanged', this.selectionChanged.bind(this));
-            this.listview.addEventListener('itemInvoked', this.itemClicked.bind(this));
+            this.listview.addEventListener("selectionChanged", this.selectionChanged.bind(this));
+            this.listview.addEventListener("itemInvoked", this.itemClicked.bind(this));
         },
 
         // The callback method for item selection in the listview changing.
@@ -73,7 +73,7 @@
         itemClicked: function (args) {
 
             // TODO: find a better way to handle converting month numbers in to month names
-            var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             // get the `Hilo.Picture` item that was bound to the invoked image
             var picture = args.detail.item.data;
@@ -83,7 +83,7 @@
             // TODO: get the actual item index based on the query that is built
             var itemIndex = picture.groupIndex;
             var dateTaken = picture.itemDate;
-            var monthAndYear = monthNames[dateTaken.getMonth()] + ' ' + dateTaken.getFullYear();
+            var monthAndYear = monthNames[dateTaken.getMonth()] + " " + dateTaken.getFullYear();
 
             // Build a query to get all images from the month and year of this image
             this.queryBuilder
@@ -94,14 +94,14 @@
 
             // Navigate to the detail view, specifying the month query to
             // show, and the index of the individual item that was invoked
-            this.nav.navigate('/Hilo/detail/detail.html', { itemIndex: itemIndex, query: query });
+            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
         }
     };
 
     // Public API
     // ----------
 
-    WinJS.Namespace.define('Hilo.Hub', {
+    WinJS.Namespace.define("Hilo.Hub", {
         HubViewController: WinJS.Class.define(HubViewController, hubViewControllerMethods)
     });
 

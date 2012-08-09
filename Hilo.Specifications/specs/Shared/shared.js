@@ -4,19 +4,19 @@
     // Imports And Constants
     // ---------------------
 
-    var appImagesPath = Windows.ApplicationModel.Package.current.installedLocation.path + '\\sampleImages',
+    var appImagesPath = Windows.ApplicationModel.Package.current.installedLocation.path + "\\sampleImages",
         localFolder = Windows.Storage.ApplicationData.current.localFolder,
         replaceExisting = Windows.Storage.CreationCollisionOption.replaceExisting,
         replaceExistingFile = Windows.Storage.NameCollisionOption.replaceExisting,
-        indexedFolderName = 'Indexed',
-        thumbnailFolderName = 'tile-thumbnails';
+        indexedFolderName = "Indexed",
+        thumbnailFolderName = "tile-thumbnails";
 
     // Private Methods
     // ---------------
 
     function copyImagesFromAppPath(indexedFolder) {
 
-        // This copies sample images used for the test. Once these images are present in the app's local
+        // This copies sample images used for the test. Once these images are present in the app"s local
         // data, they should not need to be copied again.
         return Windows.Storage.StorageFolder.getFolderFromPathAsync(appImagesPath).then(function (appImagesFolder) {
            return appImagesFolder.getFilesAsync().then(function (files) {
@@ -70,7 +70,7 @@
     };
 
     var thumbnailFileExists = function (fileName) {
-        var fullPath = indexedFolderName + '\\' + fileName;
+        var fullPath = indexedFolderName + "\\" + fileName;
         var fileOpen = Windows.Storage.ApplicationData.current.localFolder.getFileAsync(fullPath);
 
         var promise = new WinJS.Promise(function (complete) {
@@ -85,7 +85,7 @@
     }
 
     var getThumbnailSize = function (fileName) {
-        var fullPath = thumbnailFolderName + '\\' + fileName;
+        var fullPath = thumbnailFolderName + "\\" + fileName;
         var fileOpen = Windows.Storage.ApplicationData.current.localFolder.getFileAsync(fullPath);
 
         var promise = new WinJS.Promise(function (complete) {

@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // General Explanation
     // -------------------
@@ -28,8 +28,8 @@
     // Imports And Constants
     // ---------------------
 
-    var thumbnailFolderName = 'tile-thumbnails',
-        localThumbnailFolder = 'ms-appdata:///local/' + thumbnailFolderName + '/',
+    var thumbnailFolderName = "tile-thumbnails",
+        localThumbnailFolder = "ms-appdata:///local/" + thumbnailFolderName + "/",
         picturesLibrary = Windows.Storage.KnownFolders.picturesLibrary,
         tileUpdateManager = Windows.UI.Notifications.TileUpdateManager,
         numberOfImagesToRetrieve = 30;
@@ -83,7 +83,7 @@
     // Public API
     // ----------
 
-    WinJS.Namespace.define('Hilo.Tiles', {
+    WinJS.Namespace.define("Hilo.Tiles", {
         TileUpdater: WinJS.Class.define(TileUpdater, tileUpdaterMethods)
     });
 

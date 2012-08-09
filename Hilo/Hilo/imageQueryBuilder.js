@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Imports And Constants
     // ---------------------
@@ -24,7 +24,7 @@
     //
     // A query object is an alternative to the more tradditional "repository"
     // object, which encapsulates all query logic behind methods such as
-    // `getImagesByType('.jpg')`, `getFirstNImages(10)`, etc. Instead of
+    // `getImagesByType(".jpg")`, `getFirstNImages(10)`, etc. Instead of
     // providing a fixed set of methods that are restricted to one implementation,
     // the image query builder provides a set of default options that can be
     // changed as needed, by calling the methods on the builder. Once the builder
@@ -53,18 +53,18 @@
 
     function ImageQueryBuilder(folder) {
         this._settings = {};
-        this._set('folder', folder);
-        this._set('fileTypes', ['.jpg', '.jpeg', '.tiff', '.png', '.bmp', '.gif']);
-        this._set('prefetchOption', storage.FileProperties.PropertyPrefetchOptions.imageProperties);
+        this._set("folder", folder);
+        this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
+        this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
 
-        this._set('thumbnailOptions', Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
-        this._set('thumbnailMode', storage.FileProperties.ThumbnailMode.singleItem);
-        this._set('thumbnailSize', 1024);
+        this._set("thumbnailOptions", Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
+        this._set("thumbnailMode", storage.FileProperties.ThumbnailMode.singleItem);
+        this._set("thumbnailSize", 1024);
 
-        this._set('sortOrder', commonFileQuery.orderByDate);
-        this._set('indexerOption', search.IndexerOption.useIndexerWhenAvailable);
-        this._set('startingIndex', 0);
-        this._set('bindable', false);
+        this._set("sortOrder", commonFileQuery.orderByDate);
+        this._set("indexerOption", search.IndexerOption.useIndexerWhenAvailable);
+        this._set("startingIndex", 0);
+        this._set("bindable", false);
     }
 
     // A type method ("static" in C#) that deserializes a set of queryBuilder
@@ -97,17 +97,17 @@
         // which is required when the resulting image objects must be
         // bound to a UI element, such as a `ListView`.
         bindable: function () {
-            return this._set('bindable', true);
+            return this._set("bindable", true);
         },
 
         // Set the number of images to retrieve. Setting this will
         // override the `imageAt` setting.
         count: function (count) {
-            this._set('startingIndex', 0);
-            return this._set('count', count);
+            this._set("startingIndex", 0);
+            return this._set("count", count);
         },
 
-        // Load a specific image by the image's index. The index
+        // Load a specific image by the image"s index. The index
         // comes from the final set of images that are loaded, and
         // accounts for all other query options. Therefore, changing
         // any query option has the potential to change the index of
@@ -115,8 +115,8 @@
         //
         // Setting the `imageAt` option will override the `count` option.
         imageAt: function (index) {
-            this._set('startingIndex', index);
-            this._set('count', 1);
+            this._set("startingIndex", index);
+            this._set("count", 1);
             return this;
         },
 
@@ -127,17 +127,17 @@
         //
         // [4]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd561977(v=vs.85).aspx
         prefetchOptions: function (attributeArray) {
-            this._set('prefetchOption', storage.FileProperties.PropertyPrefetchOptions.none);
-            this._set('prefetchAttributes', attributeArray);
+            this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.none);
+            this._set("prefetchAttributes", attributeArray);
             return this;
         },
 
         // Only pictures taken within the specified month and year will
         // be loaded. The `monthAndYear` parameter should be a string that
-        // contains both the month's name and the year in 4-digit form:
+        // contains both the month"s name and the year in 4-digit form:
         // `Jan 2012`, `August 2001`, etc.
         forMonthAndYear: function (monthAndYear) {
-            return this._set('monthAndYear', monthAndYear);
+            return this._set("monthAndYear", monthAndYear);
         },
 
         // Internal method to set a key / value pair, used for
@@ -226,7 +226,7 @@
             queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
-                queryOptions.applicationSearchFilter = 'System.ItemDate: ' + this.settings.monthAndYear;
+                queryOptions.applicationSearchFilter = "System.ItemDate: " + this.settings.monthAndYear;
             }
 
             return queryOptions;

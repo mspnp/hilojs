@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Imports And Constants
     // ---------------------
@@ -80,7 +80,7 @@
     // Public API
     // ----------
 
-    WinJS.Namespace.define('Hilo.Tiles', {
+    WinJS.Namespace.define("Hilo.Tiles", {
         createTileUpdates: createTileUpdates
     });
 

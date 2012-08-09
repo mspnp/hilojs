@@ -1,5 +1,5 @@
 ﻿(function (globals) {
-    'use strict';
+    "use strict";
 
     function startTestHarness() {
         globals.expect = chai.expect;
@@ -10,7 +10,7 @@
         app = WinJS.Application,
         nav = WinJS.Navigation;
 
-    app.addEventListener('activated', function (args) {
+    app.addEventListener("activated", function (args) {
         if (args.detail.kind === activation.ActivationKind.launch) {
             args.setPromise(WinJS.UI.processAll().then(function () {
 

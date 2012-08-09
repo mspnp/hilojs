@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     var klass = WinJS.Class,
         ns = WinJS.Namespace,
@@ -8,9 +8,9 @@
 
 
     function urlFor(blob) {
-        var url = '';
+        var url = "";
         if (blob) {
-            url = 'url(' + URL.createObjectURL(blob) + ')';
+            url = "url(" + URL.createObjectURL(blob) + ")";
         }
         return url;
     }
@@ -18,27 +18,27 @@
     var base = klass.define(function (file) {
         var self = this;
         this._initObservable();
-        this.addProperty('name', file.name);
-        this.addProperty('url', '');
-        this.addProperty('itemDate', '');
+        this.addProperty("name", file.name);
+        this.addProperty("url", "");
+        this.addProperty("itemDate", "");
 
         file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-            self.updateProperty('url', urlFor(thumbnail));
+            self.updateProperty("url", urlFor(thumbnail));
         });
 
-        file.properties.retrievePropertiesAsync(['System.ItemDate']).then(function (retrieved) {
-            self.updateProperty('itemDate', retrieved.lookup('System.ItemDate'));
+        file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
+            self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
         });
 
-        this.addProperty('className', 'thumbnail');
-        this.addProperty('src', URL.createObjectURL(file));
+        this.addProperty("className", "thumbnail");
+        this.addProperty("src", URL.createObjectURL(file));
     });
 
     base.from = function (file) {
         return new base(file);
     }
 
-    ns.define('Hilo', {
+    ns.define("Hilo", {
         Picture: klass.mix(base, binding.dynamicObservableMixin)
     });
 

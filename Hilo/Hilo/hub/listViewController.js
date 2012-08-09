@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Imports And Constants
     // ---------------------
@@ -19,7 +19,7 @@
     // --------------------------------
 
     // The list view controller manages the contents and interactions of
-    // the Hub page's list view. It listens to events from the 
+    // the Hub page"s list view. It listens to events from the 
     // [WinJS.UI.ListView][1] control and determines what to do based on
     // the specific event. 
     //
@@ -56,8 +56,8 @@
             // 
             // [3]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
             //
-            this.lv.addEventListener('iteminvoked', this.imageNavigated.bind(this));
-            this.lv.addEventListener('selectionchanged', this.imageSelected.bind(this));
+            this.lv.addEventListener("iteminvoked", this.imageNavigated.bind(this));
+            this.lv.addEventListener("selectionchanged", this.imageSelected.bind(this));
         },
 
         // Event handler for selecting an image
@@ -84,7 +84,7 @@
             this.lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
         },
 
-        // Change the layout of the list view based on the application's
+        // Change the layout of the list view based on the application"s
         // [application view state][4]. 
         // 
         // [4]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.viewmanagement.applicationviewstate

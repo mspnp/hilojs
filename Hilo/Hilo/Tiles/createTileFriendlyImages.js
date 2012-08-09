@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Imports And Constants
     // ---------------------
@@ -9,7 +9,7 @@
         randomAccessStream = Windows.Storage.Streams.RandomAccessStream,
         fileAccessMode = Windows.Storage.FileAccessMode,
         thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode,
-        thumbnailFolderName = 'tile-thumbnails';
+        thumbnailFolderName = "tile-thumbnails";
 
     // Private Methods
     // ---------------
@@ -95,7 +95,7 @@
     // Public API
     // ----------
 
-    WinJS.Namespace.define('Hilo.Tiles', {
+    WinJS.Namespace.define("Hilo.Tiles", {
         createTileFriendlyImages: createTileFriendlyImages
     });
 

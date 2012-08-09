@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // # Bootstrapper
     // This script is responsible for bootstrapping the application.
@@ -13,11 +13,11 @@
     Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "en-US"
     //Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "de-DE"
 
-    nav.addEventListener('navigated', function () {
+    nav.addEventListener("navigated", function () {
         WinJS.Resources.processAll();
     });
     
-    app.addEventListener('activated', function (args) {
+    app.addEventListener("activated", function (args) {
 
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
@@ -47,7 +47,7 @@
         }
     }, false);
 
-    app.addEventListener('checkpoint', function (args) {
+    app.addEventListener("checkpoint", function (args) {
         // TODO: This application is about to be suspended. Save any state
         // that needs to persist across suspensions here. If you need to 
         // complete an asynchronous operation before your application is 

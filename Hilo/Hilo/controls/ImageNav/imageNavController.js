@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Constructor Function
     // --------------------
@@ -24,22 +24,22 @@
         // Find the "crop" and "rotate" buttons and set up click handlers on them
         setupButtons: function () {
             this.rotate = this.el.querySelector("#rotate");
-            this.rotate.addEventListener('click', this._rotateClicked.bind(this));
+            this.rotate.addEventListener("click", this._rotateClicked.bind(this));
 
             this.crop = this.el.querySelector("#crop");
-            this.crop.addEventListener('click', this._cropClicked.bind(this));
+            this.crop.addEventListener("click", this._cropClicked.bind(this));
         },
 
         // Internal method. Handles the `click` event of the "#rotate" HTML element
         // and calls the navigation to go to the rotate page.
         _rotateClicked: function () {
-            this.nav.navigate('/Hilo/rotate/rotate.html', this.selectedImageIndex);
+            this.nav.navigate("/Hilo/rotate/rotate.html", this.selectedImageIndex);
         },
 
         // Internal method. Handles the `click` event of the "#crop" HTML element
         // and calls the navigation to go to the crop page.
         _cropClicked: function () {
-            this.nav.navigate('/Hilo/crop/crop.html', this.selectedImageIndex);
+            this.nav.navigate("/Hilo/crop/crop.html", this.selectedImageIndex);
         },
 
         // Set the currently selected image index. This tells the ImageNav control

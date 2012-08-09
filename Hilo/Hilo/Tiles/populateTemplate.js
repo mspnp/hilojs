@@ -1,5 +1,5 @@
 ﻿(function () {
-    'use strict';
+    "use strict";
 
     // Imports And Variables
     // ---------------------
@@ -20,7 +20,7 @@
 
         thumbnailFilePaths.forEach(function (thumbnailFilePath, index) {
             var element = images.getAt(index);
-            element.attributes.getNamedItem('src').innerText = thumbnailFilePath;
+            element.attributes.getNamedItem("src").innerText = thumbnailFilePath;
         });
 
         return xml;
@@ -41,7 +41,7 @@
     // Export Public API
     // -----------------
 
-    WinJS.Namespace.define('Hilo.Tiles.populateTemplate', {
+    WinJS.Namespace.define("Hilo.Tiles.populateTemplate", {
         wideTile: buildWideTile,
         squareTile: buildSquareTile
     });

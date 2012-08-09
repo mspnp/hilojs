@@ -13,11 +13,11 @@
     // 
     // ```html
     // <div data-win-control="WinJS.UI.HtmlControl" 
-    //       data-win-options="{uri: '/Hilo/Controls/Header/Header.html, titleResource: 'someResource'}"
+    //       data-win-options="{uri: "/Hilo/Controls/Header/Header.html, titleResource: "someResource"}"
     //  ></div>
     // ```
     //
-    // The `titleResource` is used to look up the resource string in the application's
+    // The `titleResource` is used to look up the resource string in the application"s
     // localization resources. The name that is provided for this parameter is the key 
     // that is used to look up the resource. 
 
