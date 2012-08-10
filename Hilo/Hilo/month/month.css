@@ -14,3 +14,9 @@
         font-size: 14pt;
         margin: 1em;
     }
+
+    .month section[role=main] .thumbnail {
+        background-image: url('/images/Hilo150b.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }

@@ -6,7 +6,6 @@
         binding = WinJS.Binding,
         thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
 
-
     function urlFor(blob) {
         var url = "";
         if (blob) {
@@ -16,9 +15,9 @@
     }
 
     var base = klass.define(function (file) {
-    	var self = this;
+        var self = this;
 
-    	this.storageFile = file;
+        this.storageFile = file;
 
         this._initObservable();
         this.addProperty("name", file.name);
@@ -34,7 +33,6 @@
         });
 
         this.addProperty("className", "thumbnail");
-        this.addProperty("src", URL.createObjectURL(file));
     });
 
     base.from = function (file) {

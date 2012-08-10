@@ -6,6 +6,9 @@
 
     <link href="month.css" rel="stylesheet" />
     <script src="month.js"></script>
+    <script src="members.js"></script>
+    <script src="groups.js"></script>
+
 </head>
 <body>
     <div class="month fragment">
@@ -15,8 +18,23 @@
         </div>
 
         <section aria-label="Main content" role="main">
-            <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{}">
+
+            <div id="monthItemTemplate" data-win-control="WinJS.Binding.Template">
+                <div data-win-bind="style.backgroundImage: url; className: className" style="width:200px; height:200px">
+                </div>
             </div>
+
+            <div id="monthGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
+                <span data-win-bind="innerText: title">
+                </span> (<span data-win-bind="innerText: count"></span>)
+            </div>
+
+            <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
+                    itemTemplate: select('#monthItemTemplate'), 
+                    groupHeaderTemplate: select('#monthGroupHeaderTemplate'), 
+                    selectionMode: 'single'}">
+            </div>
+
         </section>
 
     </div>

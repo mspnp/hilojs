@@ -1,6 +1,4 @@
-﻿// For an introduction to the Page Control template, see the following documentation:
-// http://go.microsoft.com/fwlink/?LinkId=232511
-(function () {
+﻿(function () {
     "use strict";
 
     // Imports And Constants
@@ -15,39 +13,10 @@
     // ---------------
 
     function interim_solution() {
-        var folder = knownFolders.picturesLibrary;
-        var byMonth = storage.Search.CommonFolderQuery.groupByMonth;
-
-        var queryOptions = new storage.Search.QueryOptions(byMonth);
-        queryOptions.indexerOption = Windows.Storage.Search.IndexerOption.useIndexerWhenAvailable;
-
-        var queryResult = folder.createFolderQueryWithOptions(queryOptions);
-
-        var sds = new WinJS.UI.StorageDataSource(queryResult, {
-            mode: thumbnailMode.picturesView,
-            requestedThumbnailSize: 256,
-            thumbnailOptions: storage.FileProperties.ThumbnailOptions.none,
-            synchronous: false
-        });
-
         var listview = document.querySelector("#monthgroup").winControl;
-        listview.itemDataSource = sds;
-        listview.itemTemplate = function (itemPromise, recycledElement) {
-            var element = recycledElement || document.createElement("div");
+        listview.groupDataSource = new Hilo.month.Groups();
+        listview.itemDataSource = new Hilo.month.Members();
 
-            return itemPromise.then(function (item) {
-                var label = document.createElement("div");
-                label.innerText = item.data.name;
-                label.className = "groupLabel";
-                element.appendChild(label);
-
-                element.style.backgroundColor = "gray";
-                element.style.width = "200px";
-                element.style.height = "200px";
-
-                return element;
-            });
-        };
         listview.addEventListener("iteminvoked", itemInvoked);
     }
 
