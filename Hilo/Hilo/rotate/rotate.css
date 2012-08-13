@@ -1,3 +1,13 @@
 ﻿.rotate p {
     margin-left: 120px;
 }
+
+.rotatable {
+    transition-property: transform;
+    transition-duration: 1s;
+    transition-delay: 0s;
+}
+
+#rotateCounterclockwise .win-commandicon {
+    transform: rotateY(180deg)
+}

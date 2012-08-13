@@ -8,7 +8,7 @@
     <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
     <script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
     <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
-    
+
     <link href="rotate.css" rel="stylesheet" />
     <script src="rotate.js"></script>
 </head>
@@ -20,8 +20,22 @@
                 <span class="pagetitle">Welcome to rotate</span>
             </h1>
         </header>
+
         <section aria-label="Main content" role="main">
-            <p>Content goes here.</p>
+            <img src="#" id="image" class="rotatable" height="480" width="640" />
+
+            <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
+                <button
+                    id="rotateCounterclockwise"
+                    data-win-control="WinJS.UI.AppBarCommand"
+                    data-win-options="{icon:'rotate', section: 'selection', label: 'Counter-Clockwise'}">
+                </button>
+                <button
+                    id="rotateClockwise"
+                    data-win-control="WinJS.UI.AppBarCommand"
+                    data-win-options="{icon:'rotate', section: 'selection', label: 'Clockwise'}">
+                </button>
+            </div>
         </section>
     </div>
 </body>
