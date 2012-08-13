@@ -16,7 +16,7 @@
 
     .month section[role=main] .zoomPanel .win-horizontal.win-viewport .win-surface {
         margin-bottom: 60px;
-        margin-left: 120px;
+        margin-left: 50px;
         margin-right: 120px;
     }
 
@@ -24,4 +24,5 @@
         padding: 0;
         margin: 0;
         padding-bottom: 20px;
+        margin-left: 70px;
     }
