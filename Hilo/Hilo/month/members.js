@@ -5,30 +5,29 @@
     // ---------------------
     var knownFolders = Windows.Storage.KnownFolders;
     var commonFileQuery = Windows.Storage.Search.CommonFileQuery;
-
-    var propertyPrefetchOptions = Windows.Storage.FileProperties.PropertyPrefetchOptions,
-        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode,
-        thumbnailOptions = Windows.Storage.FileProperties.ThumbnailOptions,
-        thumbnailSize = 128;
-
-    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var propertyPrefetchOptions = Windows.Storage.FileProperties.PropertyPrefetchOptions;
 
     // Private Methods
     // ---------------
 
-    function toListViewItem(vm) {
+    function groupKeyFor(vm) {
+        // TODO: this is hard-coded to the local
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         var monthAndYear = monthNames[vm.itemDate.getMonth()] + ' ' + vm.itemDate.getFullYear();
+        return monthAndYear;
+    }
+
+    function toListViewItem(vm) {
         return {
             key: vm.name,
             data: vm,
-            groupKey: monthAndYear
+            groupKey: groupKeyFor(vm)
         };
     }
 
     var DataAdapter = WinJS.Class.define(function () {
         var queryOptions = new Windows.Storage.Search.QueryOptions(commonFileQuery.orderByDate, [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
         queryOptions.setPropertyPrefetch(propertyPrefetchOptions.basicProperties, ['System.ItemDate']);
-        //queryOptions.setThumbnailPrefetch(thumbnailMode.singleItem, thumbnailSize, thumbnailOptions.none);
 
         this.query = knownFolders.picturesLibrary.createFileQueryWithOptions(queryOptions);
 
@@ -38,11 +37,6 @@
             var self = this;
             var start = requestIndex - countBefore
             var count = 1 + countBefore + countAfter;
-            if (start < 0) {
-                //count -= start;
-                //start = 0;
-                debugger;
-            }
 
             return this.query.getFilesAsync(start, count).then(function (files) {
                 var vm = WinJS.Promise.as().then(function () {

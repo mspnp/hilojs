@@ -20,20 +20,38 @@
         <section aria-label="Main content" role="main">
 
             <div id="monthItemTemplate" data-win-control="WinJS.Binding.Template">
-                <div data-win-bind="style.backgroundImage: url; className: className" style="width:200px; height:200px">
+                <div data-win-bind="style.backgroundImage: url; className: className" style="width: 200px; height: 200px">
                 </div>
             </div>
 
             <div id="monthGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
-                <span data-win-bind="innerText: title">
-                </span> (<span data-win-bind="innerText: count"></span>)
+                <span data-win-bind="innerText: title"></span>(<span data-win-bind="innerText: count"></span>)
             </div>
 
-            <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
+            <div id="zoomItemTemplate" data-win-control="WinJS.Binding.Template">
+                <div data-win-bind="innerText: title" style="width: 200px; height: 200px"></div>
+            </div>
+
+            <div id="zoomGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
+                <span data-win-bind="innerText: title"></span>
+            </div>
+
+            <div class="zoomPanel" data-win-control="WinJS.UI.SemanticZoom">
+
+                <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
                     itemTemplate: select('#monthItemTemplate'), 
                     groupHeaderTemplate: select('#monthGroupHeaderTemplate'), 
                     selectionMode: 'single'}">
+                </div>
+
+                <div id="monthzoom" data-win-control="WinJS.UI.ListView" data-win-options="{ 
+                    itemTemplate: select('#zoomItemTemplate'), 
+                    groupHeaderTemplate: select('#zoomGroupHeaderTemplate'), 
+                    selectionMode: 'single'}">
+                </div>
+
             </div>
+
 
         </section>
 

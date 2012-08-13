@@ -1,22 +1,27 @@
-﻿.month p {
-    margin-left: 120px;
+﻿.month section[role=main] .thumbnail {
+    background-image: url('/images/Hilo150b.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
-.month section[role=main] {
-    margin-left: 120px;
+.month section[role=main] .zoomPanel {
+    /* 
+        The semantic zoom control produces a container that will collapse,
+        and consequently the list view controls inside will only be one row
+        tall. We want them to use all of the available space, so we tell the
+        semantic zoom to use all of the available height.        
+        */
+    height: 100%;
 }
 
-    .month section[role=main] #monthgroup {
-        height: 100%;
-    }
-    
-    .month section[role=main] #monthgroup .groupLabel {
-        font-size: 14pt;
-        margin: 1em;
+    .month section[role=main] .zoomPanel .win-horizontal.win-viewport .win-surface {
+        margin-bottom: 60px;
+        margin-left: 120px;
+        margin-right: 120px;
     }
 
-    .month section[role=main] .thumbnail {
-        background-image: url('/images/Hilo150b.png');
-        background-size: cover;
-        background-repeat: no-repeat;
+    .month section[role=main] .zoomPanel .win-listview .win-groupheader {
+        padding: 0;
+        margin: 0;
+        padding-bottom: 20px;
     }

@@ -18,6 +18,15 @@
         listview.itemDataSource = new Hilo.month.Members();
 
         listview.addEventListener("iteminvoked", itemInvoked);
+
+        var zoom = document.querySelector("#monthzoom").winControl;
+        var years = WinJS.UI.computeDataSourceGroups(new Hilo.month.Groups(), function (item) {
+            return item.groupKey
+        }, function (item) {
+            return { title: item.groupKey }
+        });
+        zoom.itemDataSource = years;
+        zoom.groupDataSource = years.groups;
     }
 
     function itemInvoked(args) {

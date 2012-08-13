@@ -23,8 +23,13 @@
 
     var firstIndices = [];
 
-    function getGroupKeyFor(folder) {
+    function getKeyFor(folder) {
         return folder.name.replace(/\u200E/g, '');
+    }
+
+    function getGroupKeyFor(folder) {
+        // Extract just the year for grouping on the semantic zoom.
+        return folder.name.split(' ')[1];
     }
 
     function toGroup(folder, index) {
@@ -36,12 +41,13 @@
         return getCount.then(function (count) {
 
             var result = {
-                key: getGroupKeyFor(folder),
+                key: getKeyFor(folder),
                 firstItemIndexHint: null, // we need to set this later
                 data: {
                     title: folder.name,
                     count: count
                 },
+                groupKey: getGroupKeyFor(folder)
             };
 
             return result;
