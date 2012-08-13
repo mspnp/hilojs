@@ -62,18 +62,60 @@
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
             var self = this,
                 start = Math.max(0, requestIndex - countBefore),
-                count = 5 + countBefore + countAfter;
+                count = 1 + countBefore + countAfter;
 
-            // TODO: can we retrieve these from a cache instead of querying the file system again?
-            //var cached = cache.byIndex[requestIndex];
-            //if (cached) {
-            //    return WinJS.Promise.as({
-            //        items: [cached],
-            //        offset: 0,
-            //        absoluteIndex: requestIndex
-            //    });
-            //}
+            var cached = cache.byIndex[start];
+            if (cached) {
+                return this.fromCache(start, count, requestIndex - start);
+            }
 
+            var buildResult = this.buildResult.bind(this);
+
+            return this.fetch(start, count)
+                .then(buildResult);
+        },
+
+        getCount: function () {
+            var self = this;
+            return this.query.getItemCountAsync().then(function (count) {
+                self.totalCount = count;
+                return count;
+            });
+        },
+
+        itemsFromKey: function (key, countBefore, countAfter) {
+            var index = cache.byKey[key];
+
+            return this.itemsFromIndex(index, countBefore, countAfter);
+        },
+
+        fromCache: function (start, count, offset) {
+            var found = [];
+            var index;
+            var item;
+            var self = this;
+
+            for (index = start; index <= (start + count) ; index++) {
+                item = cache.byIndex[index];
+                if (!item) {
+                    break;
+                }
+                found.push(item);
+            }
+
+            if (found.length != count) {
+                var nextStart = start + found.length;
+                var nextCount = count - found.length;
+                return this.fetch(nextStart, nextCount).then(function (groups) {
+                    found.concat(groups);
+                    return self.buildResult(found, offset, start);
+                });
+            }
+
+            return self.buildResult(found, offset, start);
+        },
+
+        fetch: function (start, count) {
             return this.query.getFoldersAsync(start, count)
                 .then(function (folders) {
                     return WinJS.Promise.join(folders.map(toGroup));
@@ -81,7 +123,7 @@
                 .then(function (groups) {
 
                     groups.forEach(function (group, index) {
-                            
+
                         var groupIndex = start + index;
                         var nextFirstIndex = (groupIndex > 0) ? firstIndices[groupIndex - 1] : 0;
                         group.firstItemIndexHint = nextFirstIndex;
@@ -95,41 +137,24 @@
                     });
 
                     return groups;
-                })
-                .then(function (items) {
-
-                    var result = {
-                        items: items,
-                        offset: requestIndex - start,
-                        absoluteIndex: start
-                    };
-
-                    if (self.totalCount) {
-                        result.totalCount = self.totalCount;
-                    }
-
-                    return result;
                 });
+
         },
 
-        getCount: function () {
-            var self = this;
-            return this.query.getItemCountAsync().then(function (count) {
-                self.totalCount = count;
-                return count;
-            });
-        },
+        buildResult: function (items, offset, absoluteIndex) {
 
-        itemsFromKey: function (key, countBefore, countAfter) {
-            var index = cache.byKey[key];
-            if (!index) {
-                // NOTE: it is possible that a group may be requested by key before it is 
-                // ever requested by index. I believe this happens when an item from the 
-                // group is retrieved before the group has been retrieved.
-                debugger;
+            var result = {
+                items: items,
+                offset: offset,
+                absoluteIndex: absoluteIndex
+            };
+
+            if (this.totalCount) {
+                result.totalCount = this.totalCount;
             }
-            return this.itemsFromIndex(index, countBefore, countAfter);
-        }
+
+            return WinJS.Promise.as(result);
+        },
     });
 
     var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function () {

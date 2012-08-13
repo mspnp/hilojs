@@ -13,14 +13,16 @@
     // ---------------
 
     function interim_solution() {
+        var groups = new Hilo.month.Groups();
+
         var listview = document.querySelector("#monthgroup").winControl;
-        listview.groupDataSource = new Hilo.month.Groups();
+        listview.groupDataSource = groups;
         listview.itemDataSource = new Hilo.month.Members();
 
         listview.addEventListener("iteminvoked", itemInvoked);
 
         var zoom = document.querySelector("#monthzoom").winControl;
-        var years = WinJS.UI.computeDataSourceGroups(new Hilo.month.Groups(), function (item) {
+        var years = WinJS.UI.computeDataSourceGroups(groups, function (item) {
             return item.groupKey
         }, function (item) {
             return { title: item.groupKey }

@@ -27,7 +27,7 @@
 
     var DataAdapter = WinJS.Class.define(function () {
         var queryOptions = new Windows.Storage.Search.QueryOptions(commonFileQuery.orderByDate, [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
-        queryOptions.setPropertyPrefetch(propertyPrefetchOptions.basicProperties, ['System.ItemDate']);
+        //queryOptions.setPropertyPrefetch(propertyPrefetchOptions.basicProperties, ['System.ItemDate']);
 
         this.query = knownFolders.picturesLibrary.createFileQueryWithOptions(queryOptions);
 
