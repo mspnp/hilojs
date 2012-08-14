@@ -1,15 +1,13 @@
 ﻿describe("rotate menu controller", function () {
-	var WinControlStub = WinJS.Class.mix(function () { this.winControl = this }, WinJS.Utilities.eventMixin);
-
 	var menuController, el, saveButton, cancelButton, clockwiseButton, counterClockwiseButton;
 
 	beforeEach(function () {
-		saveButton = new WinControlStub();
-		cancelButton = new WinControlStub();
-		clockwiseButton = new WinControlStub();
-		counterClockwiseButton = new WinControlStub();
+		saveButton = new Specs.WinControlStub();
+		cancelButton = new Specs.WinControlStub();
+		clockwiseButton = new Specs.WinControlStub();
+		counterClockwiseButton = new Specs.WinControlStub();
 
-		el = new WinControlStub();
+		el = new Specs.WinControlStub();
 
 		el.show = function () {
 			el.show.wasCalled = true;

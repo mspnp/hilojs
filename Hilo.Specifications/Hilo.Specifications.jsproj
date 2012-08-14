@@ -162,7 +162,6 @@
     <Content Include="sampleImages\015.tiff" />
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
-    <Content Include="spec.async.helpers.js" />
     <Content Include="spec.helpers.js" />
     <Content Include="specs\detail\detailPageController.spec.js" />
     <Content Include="specs\detail\filmstripController.spec.js" />
@@ -175,6 +174,7 @@
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
     <Content Include="specs\Rotate\menuController.spec.js" />
     <Content Include="specs\Rotate\rotateController.spec.js" />
+    <Content Include="specs\Shared\MocksAndStubs.js" />
     <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\createTileFriendlyImages.spec.js" />
     <Content Include="Hilo\.gitkeep" />
