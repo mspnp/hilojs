@@ -17,10 +17,24 @@
 	var rotateControllerMethods = {
 		bindToEvents: function () {
 			this.menuController.addEventListener("rotate", this.rotateImage.bind(this));
+			this.menuController.addEventListener("reset", this.resetImage.bind(this));
 		},
 
 		rotateImage: function (args) {
 			this.rotationDegrees += args.detail.rotateDegrees;
+			this._setRotation();
+		},
+
+		resetImage: function(){
+			this.rotationDegrees = 0;
+			this._setRotation();
+		},
+
+		showImage: function (url) {
+			this.el.src = url;
+		},
+
+		_setRotation: function () {
 			var rotation = "rotate(" + this.rotationDegrees + "deg)";
 			this.el.style.transform = rotation;
 		}

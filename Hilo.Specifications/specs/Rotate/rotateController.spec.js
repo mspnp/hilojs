@@ -5,7 +5,6 @@
 	beforeEach(function () {
 		el = new Specs.WinControlStub();
 		el.style = {
-			transform: "rotate(0deg)"
 		};
 
 		menuController = new Specs.EventStub();
@@ -34,6 +33,16 @@
 
 		it("should reset the image rotation back to 0", function () {
 			expect(el.style.transform).equals("rotate(0deg)");
+		});
+	});
+
+	describe("when showing an image", function () {
+		beforeEach(function () {
+			rotateController.showImage("a url");
+		});
+
+		it("should set the image source", function () {
+			expect(el.src).equals("a url");
 		});
 	});
 
