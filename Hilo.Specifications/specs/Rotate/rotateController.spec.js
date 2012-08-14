@@ -1,0 +1,3 @@
+﻿describe("rotate controller", function () {
+
+});

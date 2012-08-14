@@ -107,6 +107,21 @@
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>Hilo\Picture.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\rotate\menuController.js">
+      <Link>Hilo\rotate\menuController.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\rotate\rotate.css">
+      <Link>Hilo\rotate\rotate.css</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\rotate\rotate.html">
+      <Link>Hilo\rotate\rotate.html</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\rotate\rotate.js">
+      <Link>Hilo\rotate\rotate.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\rotate\rotateController.js">
+      <Link>Hilo\rotate\rotateController.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\Tiles\createTileFriendlyImages.js">
       <Link>Hilo\Tiles\createTileFriendlyImages.js</Link>
     </Content>
@@ -158,6 +173,8 @@
     <Content Include="specs\ImageNav\imageNavController.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
+    <Content Include="specs\Rotate\menuController.spec.js" />
+    <Content Include="specs\Rotate\rotateController.spec.js" />
     <Content Include="specs\Shared\shared.js" />
     <Content Include="specs\Tiles\createTileFriendlyImages.spec.js" />
     <Content Include="Hilo\.gitkeep" />
@@ -167,6 +184,7 @@
     <Folder Include="Hilo\controls\Header\" />
     <Folder Include="Hilo\hub\" />
     <Folder Include="Hilo\detail\" />
+    <Folder Include="Hilo\rotate\" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
