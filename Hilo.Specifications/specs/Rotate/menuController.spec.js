@@ -118,19 +118,19 @@
 	});
 
 	describe("when clicking cancel", function () {
-		var cancelHandler, imageRotateHandler;
+		var cancelHandler, imageResetHandler;
 
 		beforeEach(function () {
 			cancelHandler = function () {
 				cancelHandler.wasCalled = true;
 			}
 
-			imageRotateHandler = function (args) {
-				imageRotateHandler.args = args.detail;
+			imageResetHandler = function (args) {
+				imageResetHandler.wasCalled = true;
 			};
 
 			menuController._enableButtons();
-			menuController.addEventListener("rotate", imageRotateHandler);
+			menuController.addEventListener("reset", imageResetHandler);
 			menuController.addEventListener("cancel", cancelHandler);
 
 			cancelButton.dispatchEvent("click");
@@ -141,7 +141,7 @@
 		});
 
 		it("should reset the rotation back to the default", function () {
-			expect(imageRotateHandler.args.rotateDegrees).equals(0);
+			expect(imageResetHandler.wasCalled).equals(true);
 		});
 
 		it("should disable the save button", function () {

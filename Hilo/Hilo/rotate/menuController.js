@@ -61,11 +61,7 @@
 
 		cancelChanges: function () {
 			this._disableButtons();
-
-			this.dispatchEvent("rotate", {
-				rotateDegrees: rotateDefaultInDegrees
-			});
-
+			this.dispatchEvent("reset", {});
 			this.dispatchEvent("cancel", {});
 		},
 
