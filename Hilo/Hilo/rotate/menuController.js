@@ -1,5 +1,11 @@
 ﻿(function () {
 	"use strict";
+	
+	// Imports And Constants
+	// ---------------------
+	var rotateClockwiseInDegrees = 90,
+		rotateCounterClockwiseInDegrees = -90,
+		rotateDefaultInDegrees = 0;
 
 	// Menu Controller Constructor
 	// ---------------------------
@@ -34,7 +40,7 @@
 			this._enableButtons();
 
 			this.dispatchEvent("rotate", {
-				rotateDegrees: 90
+				rotateDegrees: rotateClockwiseInDegrees
 			});
 		},
 
@@ -42,15 +48,22 @@
 			this._enableButtons();
 
 			this.dispatchEvent("rotate", {
-				rotateDegrees: -90
+				rotateDegrees: rotateCounterClockwiseInDegrees
 			});
 		},
 
 		saveChanges: function () {
+			this._disableButtons();
 			this.dispatchEvent("save", {});
 		},
 
 		cancelChanges: function () {
+			this._disableButtons();
+
+			this.dispatchEvent("rotate", {
+				rotateDegrees: rotateDefaultInDegrees
+			});
+
 			this.dispatchEvent("cancel", {});
 		},
 

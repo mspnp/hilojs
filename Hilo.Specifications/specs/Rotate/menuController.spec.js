@@ -92,6 +92,7 @@
 				saveHandler.wasCalled = true;
 			}
 
+			menuController._enableButtons();
 			menuController.addEventListener("save", saveHandler);
 
 			saveButton.dispatchEvent("click");
@@ -100,16 +101,30 @@
 		it("should trigger image save", function () {
 			expect(saveHandler.wasCalled).equals(true);
 		});
+
+		it("should disable the save button", function () {
+			expect(saveButton.disabled).equals(true);
+		});
+
+		it("should disable the cancel button", function () {
+			expect(cancelButton.disabled).equals(true);
+		});
 	});
 
 	describe("when clicking cancel", function () {
-		var cancelHandler;
+		var cancelHandler, imageRotateHandler;
 
 		beforeEach(function () {
 			cancelHandler = function () {
 				cancelHandler.wasCalled = true;
 			}
 
+			imageRotateHandler = function (args) {
+				imageRotateHandler.args = args.detail;
+			};
+
+			menuController._enableButtons();
+			menuController.addEventListener("rotate", imageRotateHandler);
 			menuController.addEventListener("cancel", cancelHandler);
 
 			cancelButton.dispatchEvent("click");
@@ -117,6 +132,18 @@
 
 		it("should trigger to cancel the image changes", function () {
 			expect(cancelHandler.wasCalled).equals(true);
+		});
+
+		it("should reset the rotation back to the default", function () {
+			expect(imageRotateHandler.args.rotateDegrees).equals(0);
+		});
+
+		it("should disable the save button", function () {
+			expect(saveButton.disabled).equals(true);
+		});
+
+		it("should disable the cancel button", function () {
+			expect(cancelButton.disabled).equals(true);
 		});
 	});
 
