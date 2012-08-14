@@ -26,8 +26,15 @@
 		});
 	});
 
-	describe("when resetting rotation back to the original", function(){
-		it("should reset the image rotation back to 0");
+	describe("when resetting rotation back to the original", function () {
+
+		beforeEach(function () {
+			menuController.dispatchEvent("reset");
+		});
+
+		it("should reset the image rotation back to 0", function () {
+			expect(el.style.transform).equals("rotate(0deg)");
+		});
 	});
 
 });
