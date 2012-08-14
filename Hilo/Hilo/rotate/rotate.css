@@ -8,6 +8,6 @@
     transition-delay: 0s;
 }
 
-#rotateCounterclockwise .win-commandicon {
+#rotateClockwise .win-commandicon {
     transform: rotateY(180deg)
 }

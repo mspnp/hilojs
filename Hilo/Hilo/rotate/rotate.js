@@ -12,37 +12,24 @@
             var queryBuilder = new Hilo.ImageQueryBuilder(Windows.Storage.KnownFolders.picturesLibrary);
             queryBuilder.imageAt(selectedIndex);
 
-            var section = document.querySelector("section[role='main']");
-            section.innerHtml = "";
-
             var img = document.querySelector("#image");
-
             queryBuilder.build().execute().then(function (selected) {
                 img.src = URL.createObjectURL(selected[0]);
             });
 
-            var clock = document.querySelector("#rotateClockwise");
-            var counter = document.querySelector("#rotateCounterclockwise");
-            document.querySelector("#appbar").winControl.show();
+            var menuEl = document.querySelector("#appbar");
+            var menuController = new Hilo.Rotate.MenuController(menuEl);
+
+            menuController.addEventListener("rotate", function (args) {
+            	rotateImage(args.detail.rotateDegrees);
+            });
 
             var rotation = 0;
-
             function rotateImage(angle) {
                 var style = "rotate(" + rotation + "deg)";
                 img.style.transform = style;
                 console.log(style);
             }
-
-            clock.addEventListener("click", function (args) {
-                rotation += 90;
-                rotateImage(rotation);
-            });
-
-            counter.addEventListener("click", function (args) {
-                rotation -= 90;
-                rotateImage(rotation);
-            });
-
         },
 
         unload: function () {

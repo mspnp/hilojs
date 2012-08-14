@@ -10,7 +10,9 @@
     <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
 
     <link href="rotate.css" rel="stylesheet" />
+
     <script src="rotate.js"></script>
+    <script src="menuController.js"></script>
 </head>
 <body>
     <div class="rotate fragment">
@@ -26,14 +28,24 @@
 
             <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
                 <button
-                    id="rotateCounterclockwise"
+                    id="clockwise"
                     data-win-control="WinJS.UI.AppBarCommand"
-                    data-win-options="{icon:'rotate', section: 'selection', label: 'Counter-Clockwise'}">
+                    data-win-options="{icon:'orientation', section: 'selection', label: 'Clockwise'}">
                 </button>
                 <button
-                    id="rotateClockwise"
+                    id="counterClockwise"
                     data-win-control="WinJS.UI.AppBarCommand"
-                    data-win-options="{icon:'rotate', section: 'selection', label: 'Clockwise'}">
+                    data-win-options="{icon:'orientation', section: 'selection', label: 'Counter-Clockwise'}">
+                </button>
+                <button
+                    id="save"
+                    data-win-control="WinJS.UI.AppBarCommand"
+                    data-win-options="{icon:'save', section: 'selection', label: 'Save'}">
+                </button>
+                <button
+                    id="cancel"
+                    data-win-control="WinJS.UI.AppBarCommand"
+                    data-win-options="{icon:'cancel', section: 'selection', label: 'Cancel'}">
                 </button>
             </div>
         </section>

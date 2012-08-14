@@ -13,7 +13,9 @@
 	function MenuController(el) {
 		this.el = el;
 		this.menu = el.winControl;
+
 		this.setupButtons();
+		this.menu.show();
 	}
 
 	// Menu Controller Methods

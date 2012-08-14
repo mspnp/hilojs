@@ -9,13 +9,17 @@
 		clockwiseButton = new WinControlStub();
 		counterClockwiseButton = new WinControlStub();
 
-		el = {
-			querySelector: function (selector) {
-				if (selector === "#save") { return saveButton; }
-				if (selector === "#cancel") { return cancelButton; }
-				if (selector === "#clockwise") { return clockwiseButton; }
-				if (selector === "#counterClockwise") { return counterClockwiseButton; }
-			}
+		el = new WinControlStub();
+
+		el.show = function () {
+			el.show.wasCalled = true;
+		};
+
+		el.querySelector = function (selector) {
+			if (selector === "#save") { return saveButton; }
+			if (selector === "#cancel") { return cancelButton; }
+			if (selector === "#clockwise") { return clockwiseButton; }
+			if (selector === "#counterClockwise") { return counterClockwiseButton; }
 		};
 
 		menuController = new Hilo.Rotate.MenuController(el);
@@ -29,6 +33,10 @@
 
 		it("should disable the cancel button", function () {
 			expect(cancelButton.disabled).equals(true);
+		});
+
+		it("should show the app bar", function () {
+			expect(el.show.wasCalled).equals(true);
 		});
 	});
 
