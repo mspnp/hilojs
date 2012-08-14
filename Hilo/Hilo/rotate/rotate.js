@@ -26,6 +26,7 @@
 
             var rotation = 0;
             function rotateImage(angle) {
+            	rotation += angle;
                 var style = "rotate(" + rotation + "deg)";
                 img.style.transform = style;
                 console.log(style);
