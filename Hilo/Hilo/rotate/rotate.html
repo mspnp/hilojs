@@ -17,12 +17,10 @@
 </head>
 <body>
     <div class="rotate fragment">
-        <header aria-label="Header content" role="banner">
-            <button id="backButton" class="win-backbutton" aria-label="Back" disabled></button>
-            <h1 class="titlearea win-type-ellipsis">
-                <span class="pagetitle">Welcome to rotate</span>
-            </h1>
-        </header>
+
+        <div data-win-control="WinJS.UI.HtmlControl" 
+             data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'rotate' }">
+        </div>
 
         <section aria-label="Main content" role="main">
             <img src="#" id="image" class="rotatable" height="480" width="640" />
