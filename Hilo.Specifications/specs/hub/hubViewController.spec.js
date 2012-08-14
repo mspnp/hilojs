@@ -3,10 +3,8 @@
 
     var hubView, nav, imageNav, listView;
 
-    var EventClass = WinJS.Class.mix(function () { }, WinJS.Utilities.eventMixin);
-
     beforeEach(function (done) {
-        listView = new EventClass();
+    	listView = new Specs.WinControlStub();
 
         nav = {
             navigate: function () {

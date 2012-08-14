@@ -1,7 +1,6 @@
 ﻿describe("image nav controller", function () {
     
     var controller, el, crop, rotate, nav;
-    var EventClass = WinJS.Class.mix(function () { }, { winControl: {} }, WinJS.Utilities.eventMixin);
 
     beforeEach(function () {
         nav = {
@@ -11,8 +10,8 @@
             }
         };
 
-        crop = new EventClass();
-        rotate = new EventClass();
+        crop = new Specs.WinControlStub();
+        rotate = new Specs.WinControlStub();
 
         el = {
             winControl: {

@@ -4,9 +4,7 @@
         var flipviewController, el;
 
         beforeEach(function () {
-            el = {
-                winControl: {}
-            };
+        	el = new Specs.WinControlStub();
 
             flipviewController = new Hilo.Detail.FlipviewController(el);
         });

@@ -7,11 +7,8 @@
 
         beforeEach(function () {
             var appView = {};
-            el = {
-                winControl: {
-                    addEventListener: function () { }
-                }               
-            };
+            el = new Specs.WinControlStub();
+            el.winControl.addEventListener = function () { };
 
             var listviewController = new Hilo.Hub.ListViewController(el, appView);
             listviewController.setViewState(Windows.UI.ViewManagement.ApplicationViewState.snapped);
@@ -28,12 +25,8 @@
         var el;
 
         beforeEach(function () {
-            var appView = {};
-            el = {
-                winControl: {
-                    addEventListener: function () { }
-                }
-            };
+        	var appView = {};
+        	el = new Specs.WinControlStub();
 
             var listviewController = new Hilo.Hub.ListViewController(el, appView);
             listviewController.setViewState(Windows.UI.ViewManagement.ApplicationViewState.filled);

@@ -2,10 +2,9 @@
     describe("detail page controller", function () {
 
         var detailPageController, filmstripController, flipviewController, imageNav;
-        var EventClass = WinJS.Class.mix(function () { }, WinJS.Utilities.eventMixin);
 
         beforeEach(function () {
-            filmstripController = new EventClass();
+        	filmstripController = new Specs.WinControlStub();
 
             imageNav = {
                 setImageIndex: function (index) {

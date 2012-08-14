@@ -4,21 +4,7 @@
         var filmstripController, el;
 
         beforeEach(function () {
-            el = {
-                winControl: {
-                    handlers: {},
-                    addEventListener: function (type, handler) {
-                        this.handlers[type] = handler;
-                    },
-                    dispatchEvent: function (type, args) {
-                        if (!this.handlers[type]) {
-                            throw new Error("Handler for " + type + " not found.")
-                        }
-                        this.handlers[type](args);
-                    }
-                }
-            };
-
+        	el = new Specs.WinControlStub();
             filmstripController = new Hilo.Detail.FilmstripController(el);
         });
 
@@ -32,9 +18,7 @@
                 filmstripController.addEventListener("imageInvoked", handler);
 
                 el.winControl.dispatchEvent("iteminvoked", {
-                    detail: {
-                        itemIndex: 1
-                    }
+                	itemIndex: 1
                 });
             });
 
@@ -43,7 +27,7 @@
             });
 
             it("should tell me the index of the clicked item", function () {
-                expect(handler.args.itemIndex).equals(1);
+            	expect(handler.args.itemIndex).equals(1);
             });
         });
 
