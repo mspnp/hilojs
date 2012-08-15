@@ -66,24 +66,28 @@
 
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
 
-            var self = this,
-                start = Math.max(0, requestIndex - countBefore),
-                count = 1 + countBefore + countAfter;
+            var start = Math.max(0, requestIndex - countBefore),
+                count = 1 + countBefore + countAfter,
+                offset = requestIndex - start;
 
             var collectGroups;
 
             // First, we'll check for items in the cache
-            var cached = this.fromCache(start, count, requestIndex - start);
+            var cached = this.fromCache(start, count, offset);
 
             // If we still need items that weren't in the cache,
             // we'll setup a promise to fetch them from WinRT and
             // append them to any items we found in the cache.
             if (cached.nextCount > 0) {
-                collectGroups = this.fetch(cached.nextStart, cached.nextCount)
+
+                collectGroups = this
+                    .fetch(cached.nextStart, cached.nextCount)
                     .then(function (groups) {
                         return WinJS.Promise.as(cached.items.concat(groups));
                     });
+
             } else {
+
                 // If everything we needed was just in the cache, we'll
                 // simply wrap that in a promise without querying the
                 // file system.
@@ -92,7 +96,7 @@
 
             // Finally, we'll take the items we collected and build a result that
             // the list view understands.
-            var buildResult = this.buildResult.bind(this, countBefore, start);
+            var buildResult = this.buildResult.bind(this, offset, start);
 
             return collectGroups.then(buildResult);
         },
