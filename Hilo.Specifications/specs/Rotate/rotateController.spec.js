@@ -1,15 +1,19 @@
 ﻿describe("rotate controller", function () {
 
-	var rotateController, el, menuController;
+	var rotateController, el, menuController, imageLoaderPromise;
 
 	beforeEach(function () {
 		el = new Specs.WinControlStub();
 		el.style = {
 		};
 
+		imageLoaderPromise = new WinJS.Promise(function (done) {
+			done({});
+		});
+
 		menuController = new Specs.EventStub();
 
-		rotateController = new Hilo.Rotate.RotateController(el, menuController);
+		rotateController = new Hilo.Rotate.RotateController(el, menuController, imageLoaderPromise);
 	});
 
 	describe("when rotating an image", function () {
