@@ -1,5 +1,10 @@
 ﻿(function () {
-    "use strict";
+	"use strict";
+	
+	// Imports And Constants
+	// ---------------------
+	
+	var knownFolders = Windows.Storage.KnownFolders;
 
     // Hub View Controller Constructor
     // -------------------------------
@@ -28,7 +33,7 @@
         this.nav = nav;
         this.imageNav = imageNav;
         this.listview = listview;
-        this.queryBuilder = queryBuilder
+        this.queryBuilder = queryBuilder;
     };
 
     // Hub View Controller Methods
@@ -85,15 +90,14 @@
             var dateTaken = picture.itemDate;
             var monthAndYear = monthNames[dateTaken.getMonth()] + " " + dateTaken.getFullYear();
 
-            // Build a query to get all images from the month and year of this image
-            this.queryBuilder
-                .bindable()
-                .forMonthAndYear(monthAndYear);
-
-            var query = this.queryBuilder.build();
+        	// Build the query for the month and year of the invoked image
+            var query = this.queryBuilder
+				.bindable()
+				.forMonthAndYear(monthAndYear)
+				.build(knownFolders.picturesLibrary);
 
             // Navigate to the detail view, specifying the month query to
-            // show, and the index of the individual item that was invoked
+        	// show, and the index of the individual item that was invoked
             this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
         }
     };

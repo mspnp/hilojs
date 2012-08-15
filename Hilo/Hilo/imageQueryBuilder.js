@@ -36,10 +36,10 @@
     // var queryBuilder = new Hilo.ImageQueryBuilder(folderToQuery);
     //
     // queryBuilder
-    //   .count(10)                   // only get 10 images
-    //   .forMonthAndYear("Aug 2012"); // only images taken in August 2012
-    //
-    // var query = queryBuilder.build();
+	//   .count(10)                   // only get 10 images
+	//   .forMonthAndYear("Aug 2012"); // only images taken in August 2012
+	//
+	// var query = queryBuilder.build(storageFolder);
     // query.execute();
     // ```
     // 
@@ -51,9 +51,8 @@
     //
     // [3]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/freeze
 
-    function ImageQueryBuilder(folder) {
-        this._settings = {};
-        this._set("folder", folder);
+    function ImageQueryBuilder() {
+    	this._settings = {};
         this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
         this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
 
@@ -88,12 +87,15 @@
     var imageQueryBuilderMethods = {
     
         // Build the query object with all of the settings that have
-        // been configured for this builder.
-        build: function () {
+    	// been configured for this builder.  
+    	//
+    	// The StorageFolder to load the images from must be specified.
+    	build: function (storageFolder) {
+    		this._set("folder", storageFolder);
             return new Query(this._settings);
         },
 
-        // Creates "bindable" objects using the `Hilo.Picture` object,
+    	// Creates "bindable" objects using the `Hilo.Picture` object,
         // which is required when the resulting image objects must be
         // bound to a UI element, such as a `ListView`.
         bindable: function () {
@@ -251,7 +253,7 @@
 
         // Internal method. Converts a QueryOptions object in to a file query.
         _buildFileQuery: function () {
-            return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
+        	return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
         },
 
         // Internal method. Wraps the original `StorageFile` objects in 

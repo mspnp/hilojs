@@ -9,7 +9,7 @@
     var page = {
 
         ready: function (element, selectedIndex) {
-            var queryBuilder = new Hilo.ImageQueryBuilder(Windows.Storage.KnownFolders.picturesLibrary);
+            var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder.imageAt(selectedIndex);
 
             var section = document.querySelector("section[role='main']");
@@ -21,7 +21,8 @@
                 ui.Animation.fadeIn(img);
             });
 
-            queryBuilder.build().execute().then(function (selected) {
+            var query = queryBuilder.build(Windows.Storage.KnownFolders.picturesLibrary);
+            query.execute().then(function (selected) {
                 img.src = URL.createObjectURL(selected[0]);
             });
         },

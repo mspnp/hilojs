@@ -15,10 +15,11 @@
             var img = document.querySelector("#image");
             var rotateController = new Hilo.Rotate.RotateController(img, menuController);
 
-            var queryBuilder = new Hilo.ImageQueryBuilder(Windows.Storage.KnownFolders.picturesLibrary);
+            var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder.imageAt(selectedIndex);
 
-            queryBuilder.build().execute().then(function (selected) {
+            var query = queryBuilder.build(Windows.Storage.KnownFolders.picturesLibrary);
+            query.execute().then(function (selected) {
             	var url = URL.createObjectURL(selected[0]);
             	rotateController.showImage(url);
             });

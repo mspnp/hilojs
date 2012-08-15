@@ -33,8 +33,6 @@
             // I18N resource binding for this page
             WinJS.Resources.processAll();
 
-            var queryBuilder = new Hilo.ImageQueryBuilder(knownFolders.picturesLibrary);
-
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl, WinJS.Navigation);
@@ -42,6 +40,9 @@
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector("#picturesLibrary");
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl, appView);
+
+			// Build a query 
+            var queryBuilder = new Hilo.ImageQueryBuilder()
 
             // Coordinate the parts of the hub view
             var hubViewController = new Hilo.Hub.HubViewController(
@@ -75,7 +76,7 @@
                 .prefetchOptions(["System.ItemDate"])
                 .count(6)
 
-            var query = queryBuilder.build();
+            var query = queryBuilder.build(knownFolders.picturesLibrary);
             query.execute()
                 .then(this.bindImages.bind(this))
                 .then(this.animateEnterPage);

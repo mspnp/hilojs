@@ -64,14 +64,14 @@
             var queueTileUpdates = this.queueTileUpdates.bind(this);
 
             // Build a query to get the number of images needed for the tiles
-            var queryBuilder = new Hilo.ImageQueryBuilder(picturesLibrary);
+            var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder.count(numberOfImagesToRetrieve);
 
             // What follows is a chain of promises. These outline a number of 
             // asychronous operations that are executed in order. For more 
             // information on how promises work, see the readme.txt in the 
-            // root of this project.
-            var whenImagesForTileRetrieved = queryBuilder.build().execute();
+        	// root of this project.
+            var whenImagesForTileRetrieved = queryBuilder.build(picturesLibrary).execute();
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.createTileFriendlyImages)
                 .then(this.getLocalImagePaths)

@@ -27,9 +27,9 @@
         var whenFolderIsReady = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
 
         whenFolderIsReady.then(function (folder) {
-            var queryBuilder = new Hilo.ImageQueryBuilder(folder);
+        	var queryBuilder = new Hilo.ImageQueryBuilder()
 
-            hubView = new Hilo.Hub.HubViewController(nav, imageNav, listView, queryBuilder);
+        	hubView = new Hilo.Hub.HubViewController(nav, imageNav, listView, queryBuilder);
             hubView.start();
             done();
         });

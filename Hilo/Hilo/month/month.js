@@ -55,12 +55,12 @@
         args.detail.itemPromise.then(function (item) {
 
             // Build a query to represent the month/year group that was selected
-            var queryBuilder = new Hilo.ImageQueryBuilder(knownFolders.picturesLibrary);
+            var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder
                 .bindable()                          // ensure the images are data-bind-able
                 .forMonthAndYear(item.data.name);    // only load images for the month and year group we selected
 
-            var query = queryBuilder.build();
+            var query = queryBuilder.build(knownFolders.picturesLibrary);
             var selected = 0; //HACK: pretend we clicked on the first image in the group
 
             // Navigate to the detail view to show the results of this query with the selected item

@@ -1,12 +1,13 @@
 ﻿describe("image query builder", function () {
 
-    var queryBuilder;
+    var queryBuilder, storageFolder;
 
     beforeEach(function (done) {
-        var whenFolderIsReady = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
+    	queryBuilder = new Hilo.ImageQueryBuilder();
 
-        whenFolderIsReady.then(function (folder) {
-            queryBuilder = new Hilo.ImageQueryBuilder(folder);
+    	var whenFolder = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
+    	whenFolder.then(function (folder) {
+    		storageFolder = folder;
             done();
         });
     });
@@ -15,7 +16,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.build();
+        	query = queryBuilder.build(storageFolder);
         });
 
         it("should return a query object that can be executed", function () {
@@ -28,7 +29,7 @@
         var deserializedQuery, serializedQuery;
 
         beforeEach(function () {
-            var query = queryBuilder.build();
+            var query = queryBuilder.build(storageFolder);
 
             serializedQuery = query.serialize();
             deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
@@ -43,7 +44,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.forMonthAndYear("Jan 2012").build();
+        	query = queryBuilder.forMonthAndYear("Jan 2012").build(storageFolder);
         });
 
         it("should configure the query for the specified month and year", function () {
@@ -55,7 +56,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.count(1).build();
+            query = queryBuilder.count(1).build(storageFolder);
         });
 
         it("should load the specified number of images", function (done) {
@@ -70,7 +71,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.build();
+            query = queryBuilder.build(storageFolder);
         });
 
         it("should load all images in the folder", function (done) {
@@ -85,7 +86,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.imageAt(1).build();
+            query = queryBuilder.imageAt(1).build(storageFolder);
         });
 
         it("should only load that one image when executing", function (done) {
@@ -100,7 +101,7 @@
         var query;
 
         beforeEach(function () {
-            query = queryBuilder.bindable().build();
+            query = queryBuilder.bindable().build(storageFolder);
         });
 
         it("should return instances of bindable Picture objects", function () {
