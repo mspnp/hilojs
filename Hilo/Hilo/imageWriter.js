@@ -1,6 +1,13 @@
 ﻿(function () {
 	"use strict";
 
+	// Much of this code and the comments found within it are borrowed from the 
+	// [Simple imaging sample][1] for building a simple image processing 
+	// application. See that sample for a more complete list of what can be done 
+	// with imaging in Metro applications.
+	//
+	// [1]: http://code.msdn.microsoft.com/windowsapps/Simple-Imaging-Sample-a2dec2b0
+
 	// Helper Methods
 	// --------------
 
@@ -30,14 +37,17 @@
 	// Image Writer Constructor
 	// ------------------------
 
-	function ImageWriter() {
+	function ImageRotator() {
 	}
 
 	// Image Writer Methods
 	// --------------------
 
-	var imageWriterMethods = {
-		save: function (file) {
+	var imageRotatorMethods = {
+
+		// Rotate an image to the specified degrees
+		rotate: function (file, degrees) {
+			degrees = this.normalizeDegrees(degrees);
 
 			// Keep data in-scope across multiple asynchronous methods.
 			var originalWidth,
@@ -47,6 +57,7 @@
 				fileStream,
 				useEXIFOrientation;
 
+			var that = this;
 			var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
 
 			// Create a new encoder and initialize it with data from the original file.
@@ -98,11 +109,9 @@
 				encoder.isThumbnailGenerated = true;
 
 				if (useEXIFOrientation) {
-					// If the file format supports EXIF orientation ("System.Photo.Orientation") then
-					// update the orientation flag to reflect any user-specified rotation.
-					// Otherwise, perform a hard rotate using BitmapTransform.
-					var newOrientation = Windows.Storage.FileProperties.PhotoOrientation.normal;
-					var netExifOrientation = newOrientation;
+					// EXIF is supported, so update the orientation flag to reflect 
+					// the user-specified rotation.
+					var netExifOrientation = that.getEXIFRotation(degrees);
 
 					// BitmapProperties requires the application to explicitly declare the type
 					// of the property to be written - this is different from FileProperties which
@@ -118,10 +127,11 @@
 
 					return encoder.bitmapProperties.setPropertiesAsync(properties);
 				} else {
-					debugger;
-					var rotation = Windows.Graphics.Imaging.BitmapRotation.none;
-					var foo = encoder.bitmapTransform.rotation = rotation;
-					return foo;
+
+					// EXIF is not supported, so rever to bitmap rotation
+					var rotation = that.getBitmapRotation(degrees);
+					return encoder.bitmapTransform.rotation = rotation;
+
 				}
 
 			}).then(function () {
@@ -156,6 +166,67 @@
 				fileStream && fileStream.close();
 
 			});
+		},
+
+		// Converts a number of degrees in to a [PhotoOrientation][2] for
+		// files that support EXIF properties.
+		//
+		// [2]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.fileproperties.photoorientation.aspx
+		//
+		getEXIFRotation: function (degrees) {
+			var rotation; 
+
+			if (degrees === 0) {
+				rotation = Windows.Storage.FileProperties.PhotoOrientation.normal;
+			} else {
+				rotation = Windows.Storage.FileProperties.PhotoOrientation["rotate" + degrees];
+			}
+			
+			return rotation;
+		},
+
+		// Converts a number of degrees in to a [BitmapRotation][3] for
+		// files that do not support EXIF properties.
+		//
+		// [3]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmaprotation.aspx
+		//
+		getBitmapRotation: function (degrees) {
+			var rotation; 
+
+			if (degrees === 0) {
+				rotation = Windows.Graphics.Imaging.BitmapRotation.none;
+			} else {
+				rotation = Windows.Graphics.Imaging.BitmapRotation["clockwise" + degrees + "Degrees"];
+			}
+			
+			return rotation;
+		},
+
+		// Normalizes any number to a value that fall within
+		// 0 to 359 degrees.
+		//
+		// Examples: 
+		//   45 -> 90
+		//   90 -> 90
+		//   100 -> 90
+		//   180 -> 180
+		//   250 -> 270
+		//   359 -> 0
+		//   360 -> 0
+		//   720 -> 0
+		normalizeDegrees: function (degrees) {
+			var result;
+
+			// round to the nearest 90 degrees
+			var remainder = degrees % 90;
+			if (remainder < 45) {
+				result = degrees - remainder;
+			} else {
+				result = degrees + (90 - remainder);
+			}
+
+			// Normalize to 0..359
+			return result % 360;
 		}
 
 	};
@@ -164,6 +235,6 @@
 	// ----------
 
 	WinJS.Namespace.define("Hilo", {
-		ImageWriter: WinJS.Class.define(ImageWriter, imageWriterMethods)
+		ImageRotator: WinJS.Class.define(ImageRotator, imageRotatorMethods)
 	});
 })();
