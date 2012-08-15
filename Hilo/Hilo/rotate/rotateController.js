@@ -4,11 +4,16 @@
 	// Constructor Function
 	// --------------------
 
-	function RotateController(el, menuController) {
+	function RotateController(el, menuController, imageLoaderPromise) {
 		this.el = el;
 		this.rotationDegrees = 0;
 		this.menuController = menuController;
 		this.bindToEvents();
+
+		var that = this;
+		imageLoaderPromise.then(function (storageFile) {
+			that.imageFile = storageFile[0];
+		});
 	}
 
 	// Methods
@@ -18,6 +23,7 @@
 		bindToEvents: function () {
 			this.menuController.addEventListener("rotate", this.rotateImage.bind(this));
 			this.menuController.addEventListener("reset", this.resetImage.bind(this));
+			this.menuController.addEventListener("save", this.saveImage.bind(this));
 		},
 
 		rotateImage: function (args) {
@@ -32,6 +38,11 @@
 
 		showImage: function (url) {
 			this.el.src = url;
+		},
+
+		saveImage: function () {
+			var imageWriter = new Hilo.ImageWriter();
+			imageWriter.save(this.imageFile);
 		},
 
 		_setRotation: function () {

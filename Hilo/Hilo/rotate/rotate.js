@@ -9,17 +9,19 @@
     var page = {
 
         ready: function (element, selectedIndex) {
+            var queryBuilder = new Hilo.ImageQueryBuilder();
+            var query = queryBuilder
+				.imageAt(selectedIndex)
+				.build(Windows.Storage.KnownFolders.picturesLibrary);
+            var fileLoader = query.execute();
+
             var menuEl = document.querySelector("#appbar");
             var menuController = new Hilo.Rotate.MenuController(menuEl);
 
-            var img = document.querySelector("#image");
-            var rotateController = new Hilo.Rotate.RotateController(img, menuController);
+            var imgEl = document.querySelector("#image");
+            var rotateController = new Hilo.Rotate.RotateController(imgEl, menuController, fileLoader);
 
-            var queryBuilder = new Hilo.ImageQueryBuilder();
-            queryBuilder.imageAt(selectedIndex);
-
-            var query = queryBuilder.build(Windows.Storage.KnownFolders.picturesLibrary);
-            query.execute().then(function (selected) {
+            fileLoader.then(function (selected) {
             	var url = URL.createObjectURL(selected[0]);
             	rotateController.showImage(url);
             });
