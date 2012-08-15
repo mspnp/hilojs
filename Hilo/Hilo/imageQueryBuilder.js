@@ -157,8 +157,22 @@
     // the use of the ImageQueryBuilder. 
 
     function QueryObject(settings) {
-        // Duplicate and freeze the settings
-        var dupSettings = Object.create(settings);
+    	// Duplicate and the settings by copying them
+    	// from the original, to a new object. This is
+    	// a shallow copy only.
+		//
+    	// This prevents the original queryBuilder object
+    	// from modifying the settings that have been
+		// sent to this query object.
+    	var dupSettings = {};
+    	for (var attr in settings) {
+    		if (settings.hasOwnProperty(attr)) {
+    			dupSettings[attr] = settings[attr];
+    		}
+    	}
+
+    	// Freeze the settings to prevent them from being
+    	// modified in this query object.
         this.settings = Object.freeze(dupSettings);
 
         // Build the query options and file query
