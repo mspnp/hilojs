@@ -12,12 +12,25 @@
     // Private Methods
     // ---------------
 
+    function groupKeyFor(model) {
+        // TODO: this is hard-coded to the local
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var date = model.itemDate;
+        var monthAndYear = monthNames[date.getMonth()] + ' ' + date.getFullYear();
+
+        return monthAndYear;
+    }
+
     function interim_solution() {
+
+        var queryBuilder = new Hilo.ImageQueryBuilder(knownFolders.picturesLibrary);
+
         var groups = new Hilo.month.Groups();
+        var members = new Hilo.month.Members(queryBuilder, groupKeyFor);
 
         var listview = document.querySelector("#monthgroup").winControl;
         listview.groupDataSource = groups;
-        listview.itemDataSource = new Hilo.month.Members();
+        listview.itemDataSource = members;
 
         listview.addEventListener("iteminvoked", itemInvoked);
 
