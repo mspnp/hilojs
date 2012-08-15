@@ -4,12 +4,12 @@
     // Private Methods
     // ---------------
 
-    var DataAdapter = WinJS.Class.define(function (queryBuilder, identifyMonthGroup) {
+    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, identifyMonthGroup) {
 
         this.query = queryBuilder
             .prefetchOptions(['System.ItemDate'])
             .bindable()
-            .build();
+            .build(folder);
 
         this.totalCount;
         this.identifyMonthGroup = identifyMonthGroup;
@@ -62,8 +62,8 @@
         }
     });
 
-    var Members = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, identifyMonthGroup) {
-        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, identifyMonthGroup));
+    var Members = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, identifyMonthGroup) {
+        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, folder, identifyMonthGroup));
     });
 
     // Export Public API

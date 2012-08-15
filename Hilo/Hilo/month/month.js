@@ -23,10 +23,9 @@
 
     function interim_solution() {
 
-        var queryBuilder = new Hilo.ImageQueryBuilder(knownFolders.picturesLibrary);
-
-        var groups = new Hilo.month.Groups();
-        var members = new Hilo.month.Members(queryBuilder, groupKeyFor);
+        var queryBuilder = new Hilo.ImageQueryBuilder();
+        var groups = new Hilo.month.Groups(queryBuilder, knownFolders.picturesLibrary);
+        var members = new Hilo.month.Members(queryBuilder, knownFolders.picturesLibrary, groupKeyFor);
 
         var listview = document.querySelector("#monthgroup").winControl;
         listview.groupDataSource = groups;

@@ -4,7 +4,6 @@
     // Imports And Variables
     // ---------------------
     var search = Windows.Storage.Search,
-        knownFolders = Windows.Storage.KnownFolders,
         commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
     // Private Methods
@@ -27,39 +26,15 @@
         return folder.name.split(' ')[1];
     }
 
-    function toGroup(folder) {
-
-        // todo: can we pass in the ImageQueryBuilder?
-        // and provide the folder when we call build?
-        var queryBuilder = new Hilo.ImageQueryBuilder(folder);
-
-        var query = queryBuilder.build();
-        var getCount = query.fileQuery.getItemCountAsync();
-
-        return getCount.then(function (count) {
-
-            var result = {
-                key: getKeyFor(folder),
-                firstItemIndexHint: null, // we need to set this later
-                data: {
-                    title: folder.name,
-                    count: count
-                },
-                groupKey: getGroupKeyFor(folder)
-            };
-
-            return result;
-        });
-    }
-
-    var DataAdapter = WinJS.Class.define(function () {
+    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder) {
 
         // The query builder doesn't currently support the folder query. Since this is
         // an entirely different base for the query and since this is the only place in 
         // in the application where it is needed, we did not folder it back into the
         // query builder.
         var queryOptions = new search.QueryOptions(commonFolderQuery.groupByMonth);
-        this.query = knownFolders.picturesLibrary.createFolderQueryWithOptions(queryOptions);
+        this.query = folder.createFolderQueryWithOptions(queryOptions);
+        this.queryBuilder = queryBuilder;
 
         this.totalCount;
     }, {
@@ -146,10 +121,12 @@
         },
 
         fetch: function (start, count) {
+            var convert = this.toListViewHeaderGroup.bind(this);
+
             return this.query
                 .getFoldersAsync(start, count)
                 .then(function (folders) {
-                    return WinJS.Promise.join(folders.map(toGroup));
+                    return WinJS.Promise.join(folders.map(convert));
                 })
                 .then(function (groups) {
 
@@ -185,6 +162,27 @@
 
         },
 
+        toListViewHeaderGroup: function (folder) {
+
+            var query = this.queryBuilder.build(folder);
+            var getCount = query.fileQuery.getItemCountAsync();
+
+            return getCount.then(function (count) {
+
+                var result = {
+                    key: getKeyFor(folder),
+                    firstItemIndexHint: null, // we need to set this later
+                    data: {
+                        title: folder.name,
+                        count: count
+                    },
+                    groupKey: getGroupKeyFor(folder)
+                };
+
+                return result;
+            });
+        },
+
         buildResult: function (offset, absoluteIndex, items) {
             // Package the data in a format that the 
             // consuming control (a list view) can
@@ -203,8 +201,8 @@
         },
     });
 
-    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function () {
-        this._baseDataSourceConstructor(new DataAdapter());
+    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder) {
+        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, folder));
     });
 
     // Export Public API
