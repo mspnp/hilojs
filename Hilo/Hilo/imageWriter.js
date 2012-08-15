@@ -217,6 +217,12 @@
 		normalizeDegrees: function (degrees) {
 			var result;
 
+			// convert negative (counter-clockwise 
+			// rotation) to positive (clockwise)
+			if (degrees < 0) {
+				degrees = 360 - Math.abs(degrees);
+			}
+
 			// round to the nearest 90 degrees
 			var remainder = degrees % 90;
 			if (remainder < 45) {
