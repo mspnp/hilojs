@@ -3,15 +3,9 @@
 
     // Imports And Variables
     // ---------------------
-    var knownFolders = Windows.Storage.KnownFolders;
-    var propertyPrefetchOptions = Windows.Storage.FileProperties.PropertyPrefetchOptions,
-        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode.singleItem,
-        thumbnailOptions = Windows.Storage.FileProperties.ThumbnailOptions,
-        thumbnailSize = 256,
-        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery,
-        supportedFileTypes = ['.jpg', '.tiff', '.png', '.bmp'];
-
-    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var search = Windows.Storage.Search,
+        knownFolders = Windows.Storage.KnownFolders,
+        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
     // Private Methods
     // ---------------
@@ -23,6 +17,7 @@
 
     var firstIndices = [];
 
+    //todo: improve
     function getKeyFor(folder) {
         return folder.name.replace(/\u200E/g, '');
     }
@@ -34,9 +29,12 @@
 
     function toGroup(folder, index) {
 
-        //TODO: this query needs a filter
-        var getCount = folder.createItemQuery().getItemCountAsync();
-        //var getCount = folder.createItemQueryWithOptions().getItemCountAsync();
+        // todo: can we pass in the ImageQueryBuilder?
+        // and provide the folder when we call build?
+        var queryBuilder = new Hilo.ImageQueryBuilder(folder);
+
+        var query = queryBuilder.build();
+        var getCount = query.fileQuery.getItemCountAsync();
 
         return getCount.then(function (count) {
 
@@ -55,32 +53,57 @@
     }
 
     var DataAdapter = WinJS.Class.define(function () {
-        var queryOptions = new Windows.Storage.Search.QueryOptions(commonFolderQuery.groupByMonth);
+
+        // The query builder doesn't currently support the folder query. Since this is
+        // an entirely different base for the query and since this is the only place in 
+        // in the application where it is needed, we did not folder it back into the
+        // query builder.
+        var queryOptions = new search.QueryOptions(commonFolderQuery.groupByMonth);
         this.query = knownFolders.picturesLibrary.createFolderQueryWithOptions(queryOptions);
+
         this.totalCount;
     }, {
+
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
             var self = this,
                 start = Math.max(0, requestIndex - countBefore),
                 count = 1 + countBefore + countAfter;
 
-            var cached = cache.byIndex[start];
-            if (cached) {
-                return this.fromCache(start, count, requestIndex - start);
+            var collectGroups;
+
+            // First, we'll check for items in the cache
+            var cached = this.fromCache(start, count, requestIndex - start);
+
+            // If we still need items that weren't in the cache,
+            // we'll setup a promise to fetch them from WinRT and
+            // append them to any items we found in the cache.
+            if (cached.nextCount > 0) {
+                collectGroups = this.fetch(cached.nextStart, cached.nextCount)
+                    .then(function (groups) {
+                        return WinJS.Promise.as(cached.items.concat(groups));
+                    });
+            } else {
+                // If everything we needed was just in the cache, we'll
+                // simply wrap that in a promise without querying the
+                // file system.
+                collectGroups = WinJS.Promise.as(cached.items);
             }
 
-            var buildResult = this.buildResult.bind(this);
+            // Finally, we'll take the items we collected and build a result that
+            // the list view understands.
+            var buildResult = this.buildResult.bind(this, countBefore, start);
 
-            return this.fetch(start, count)
-                .then(buildResult);
+            return collectGroups.then(buildResult);
         },
 
         getCount: function () {
             var self = this;
-            return this.query.getItemCountAsync().then(function (count) {
-                self.totalCount = count;
-                return count;
-            });
+            return this.query
+                .getItemCountAsync()
+                .then(function (count) {
+                    self.totalCount = count;
+                    return count;
+                });
         },
 
         itemsFromKey: function (key, countBefore, countAfter) {
@@ -90,10 +113,9 @@
         },
 
         fromCache: function (start, count, offset) {
-            var found = [];
-            var index;
-            var item;
-            var self = this;
+            var found = [],
+                index,
+                item;
 
             for (index = start; index <= (start + count) ; index++) {
                 item = cache.byIndex[index];
@@ -103,26 +125,23 @@
                 found.push(item);
             }
 
-            if (found.length != count) {
-                var nextStart = start + found.length;
-                var nextCount = count - found.length;
-                return this.fetch(nextStart, nextCount).then(function (groups) {
-                    found.concat(groups);
-                    return self.buildResult(found, offset, start);
-                });
+            return {
+                items: found,
+                nextStart: start + found.length,
+                nextCount: count - found.length
             }
-
-            return self.buildResult(found, offset, start);
         },
 
         fetch: function (start, count) {
-            return this.query.getFoldersAsync(start, count)
+            return this.query
+                .getFoldersAsync(start, count)
                 .then(function (folders) {
                     return WinJS.Promise.join(folders.map(toGroup));
                 })
                 .then(function (groups) {
 
                     groups.forEach(function (group, index) {
+                        //todo: filter out groups with no counts?
 
                         var groupIndex = start + index;
                         var nextFirstIndex = (groupIndex > 0) ? firstIndices[groupIndex - 1] : 0;
@@ -141,7 +160,7 @@
 
         },
 
-        buildResult: function (items, offset, absoluteIndex) {
+        buildResult: function (offset, absoluteIndex, items) {
 
             var result = {
                 items: items,
