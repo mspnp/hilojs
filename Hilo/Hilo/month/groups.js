@@ -27,7 +27,7 @@
         return folder.name.split(' ')[1];
     }
 
-    function toGroup(folder, index) {
+    function toGroup(folder) {
 
         // todo: can we pass in the ImageQueryBuilder?
         // and provide the folder when we call build?
@@ -65,6 +65,7 @@
     }, {
 
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
+
             var self = this,
                 start = Math.max(0, requestIndex - countBefore),
                 count = 1 + countBefore + countAfter;
@@ -107,6 +108,8 @@
         },
 
         itemsFromKey: function (key, countBefore, countAfter) {
+            // Look up the index in the cache for the given key,
+            // and then delegate back to `itemsFromIndex`.
             var index = cache.byKey[key];
 
             return this.itemsFromIndex(index, countBefore, countAfter);
@@ -117,14 +120,20 @@
                 index,
                 item;
 
+            // Locate the items in the cache
             for (index = start; index <= (start + count) ; index++) {
                 item = cache.byIndex[index];
+                // As soon as we hit an index that is not 
+                // present in the cache, we exit the loop
                 if (!item) {
                     break;
                 }
                 found.push(item);
             }
 
+            // In addition to returning the items from the cache,
+            // we also include some meta data about what was _not_
+            // found in the cache.
             return {
                 items: found,
                 nextStart: start + found.length,
@@ -140,28 +149,42 @@
                 })
                 .then(function (groups) {
 
-                    groups.forEach(function (group, index) {
-                        //todo: filter out groups with no counts?
+                    return groups
+                        //.filter(function (group) {
+                        //    return group.data.count > 0;
+                        //})
+                        .map(function (group, index) {
+                            // For each group we need to determine the index of
+                            // its first item in the `picturesLibrary` as a whole.
 
-                        var groupIndex = start + index;
-                        var nextFirstIndex = (groupIndex > 0) ? firstIndices[groupIndex - 1] : 0;
-                        group.firstItemIndexHint = nextFirstIndex;
-                        firstIndices[groupIndex] = group.firstItemIndexHint + group.data.count;
+                            // The `index` here is an offest from the `start`.
+                            var groupIndex = start + index;
 
-                        // cache by index
-                        cache.byIndex[groupIndex] = group;
+                            // If this the first group, then we know the first item index is 0.
+                            // Otherwise, we grab the value that was calculate on the _previous_
+                            // iteration.
+                            var nextFirstIndex = (groupIndex === 0) ? 0 : firstIndices[groupIndex - 1];
+                            group.firstItemIndexHint = nextFirstIndex;
 
-                        // cache by key
-                        cache.byKey[group.key] = groupIndex;
-                    });
+                            // Now we calculate the first item index of the _next_ group.
+                            firstIndices[groupIndex] = group.firstItemIndexHint + group.data.count;
 
-                    return groups;
+                            // Cache the group itself by its index.
+                            cache.byIndex[groupIndex] = group;
+
+                            // Cache the index of the group by its key.
+                            cache.byKey[group.key] = groupIndex;
+
+                            return group;
+                        });
                 });
 
         },
 
         buildResult: function (offset, absoluteIndex, items) {
-
+            // Package the data in a format that the 
+            // consuming control (a list view) can
+            // process.
             var result = {
                 items: items,
                 offset: offset,
