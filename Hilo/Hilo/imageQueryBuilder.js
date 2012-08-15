@@ -184,13 +184,16 @@
         // ```
         //
         // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
-        execute: function () {
+        execute: function (start, count) {
             var queryPromise;
 
-            if (this.settings.count) {
+            start = start || this.settings.startingIndex;
+            count = count || this.settings.count;
+
+            if (count) {
                 // Limit the query to a set number of files to be returned, which accounts
                 // for both the `count(n)` and `imageAt(n)` settings from the query builder.
-                queryPromise = this.fileQuery.getFilesAsync(this.settings.startingIndex, this.settings.count);
+                queryPromise = this.fileQuery.getFilesAsync(start, count);
             } else {
                 queryPromise = this.fileQuery.getFilesAsync();
             }
