@@ -1,54 +1,56 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>rotate</title>
+	<meta charset="utf-8" />
+	<title>rotate</title>
 
-    <!-- WinJS references -->
-    <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
-    <script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
-    <script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
+	<!-- WinJS references -->
+	<link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
+	<script src="//Microsoft.WinJS.1.0.RC/js/base.js"></script>
+	<script src="//Microsoft.WinJS.1.0.RC/js/ui.js"></script>
 
-    <link href="rotate.css" rel="stylesheet" />
+	<link href="rotate.css" rel="stylesheet" />
 
-    <script src="rotate.js"></script>
-    <script src="menuController.js"></script>
-    <script src="rotateController.js"></script>
+	<script src="rotate.js"></script>
+	<script src="menuController.js"></script>
+	<script src="rotateController.js"></script>
 	<script src="/Hilo/imageWriter.js"></script>
 </head>
 <body>
-    <div class="rotate fragment">
+	<div class="rotate fragment">
 
-        <div data-win-control="WinJS.UI.HtmlControl" 
-             data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'rotate' }">
-        </div>
+		<div data-win-control="WinJS.UI.HtmlControl"
+			data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'rotate' }">
+		</div>
 
-        <section aria-label="Main content" role="main">
-            <img src="#" id="image" class="rotatable" />
-        </section>
+		<section aria-label="Main content" role="main">
+			<div class="content-wrapper">
+				<img src="#" id="image" class="rotatable" />
+			</div>
+		</section>
 
-        <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
-            <button
-                id="clockwise"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'orientation', section: 'selection', label: 'Clockwise'}">
-            </button>
-            <button
-                id="counterClockwise"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'orientation', section: 'selection', label: 'Counter-Clockwise'}">
-            </button>
-            <button
-                id="save"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'save', section: 'selection', label: 'Save'}">
-            </button>
-            <button
-                id="cancel"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'cancel', section: 'selection', label: 'Cancel'}">
-            </button>
-        </div>
-    </div>
+		<div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
+			<button
+				id="clockwise"
+				data-win-control="WinJS.UI.AppBarCommand"
+				data-win-options="{icon:'orientation', section: 'selection', label: 'Clockwise'}">
+			</button>
+			<button
+				id="counterClockwise"
+				data-win-control="WinJS.UI.AppBarCommand"
+				data-win-options="{icon:'orientation', section: 'selection', label: 'Counter-Clockwise'}">
+			</button>
+			<button
+				id="save"
+				data-win-control="WinJS.UI.AppBarCommand"
+				data-win-options="{icon:'save', section: 'selection', label: 'Save'}">
+			</button>
+			<button
+				id="cancel"
+				data-win-control="WinJS.UI.AppBarCommand"
+				data-win-options="{icon:'cancel', section: 'selection', label: 'Cancel'}">
+			</button>
+		</div>
+	</div>
 </body>
 </html>
