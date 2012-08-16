@@ -16,7 +16,10 @@
     }
 
     var base = klass.define(function (file) {
-        var self = this;
+    	var self = this;
+
+    	this.storageFile = file;
+
         this._initObservable();
         this.addProperty("name", file.name);
         this.addProperty("url", "");

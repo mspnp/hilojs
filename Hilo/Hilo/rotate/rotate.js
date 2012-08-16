@@ -8,21 +8,21 @@
 
     var page = {
 
-        ready: function (element, selectedIndex) {
-            var queryBuilder = new Hilo.ImageQueryBuilder();
-            var query = queryBuilder
-				.imageAt(selectedIndex)
-				.build(Windows.Storage.KnownFolders.picturesLibrary);
+    	ready: function (element, options) {
+    		var selectedIndex = options.itemIndex;
+    		var query = options.query;
             var fileLoader = query.execute();
 
             var menuEl = document.querySelector("#appbar");
             var menuController = new Hilo.Rotate.MenuController(menuEl);
 
-            var imgEl = document.querySelector("#image");
-            var rotateController = new Hilo.Rotate.RotateController(imgEl, menuController, fileLoader);
-
             fileLoader.then(function (selected) {
-            	var url = URL.createObjectURL(selected[0]);
+            	var storageFile = selected[selectedIndex].storageFile;
+            	var imgEl = document.querySelector("#image");
+
+            	var rotateController = new Hilo.Rotate.RotateController(imgEl, menuController, storageFile);
+
+            	var url = URL.createObjectURL(storageFile);
             	rotateController.showImage(url);
             });
         },

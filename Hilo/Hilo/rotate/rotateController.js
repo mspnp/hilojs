@@ -4,16 +4,13 @@
 	// Constructor Function
 	// --------------------
 
-	function RotateController(el, menuController, imageLoaderPromise) {
+	function RotateController(el, menuController, storageFile) {
 		this.el = el;
-		this.rotationDegrees = 0;
 		this.menuController = menuController;
-		this.bindToEvents();
+		this.imageFile = storageFile;
+		this.rotationDegrees = 0;
 
-		var that = this;
-		imageLoaderPromise.then(function (storageFile) {
-			that.imageFile = storageFile[0];
-		});
+		this.bindToEvents();
 	}
 
 	// Methods

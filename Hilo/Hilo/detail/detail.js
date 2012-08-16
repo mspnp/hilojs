@@ -17,13 +17,13 @@
             var query = options.query;
             var itemIndex = options.itemIndex;
             query.execute()
-                .then(this.showImages.bind(this))
+                .then(this.showImages.bind(this, query))
                 .then(function (controller) {
                     controller.gotoImage(itemIndex);
                 });
         },
 
-        showImages: function (images) {
+        showImages: function (query, images) {
             var filmstripEl = document.querySelector("#filmstrip");
             var filmstrip = new Hilo.Detail.FilmstripController(filmstripEl, images);
 
@@ -31,7 +31,7 @@
             var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
 
             var imageNavEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation, query);
             imageNav.enableButtons();
 
             var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip, imageNav);
