@@ -229,6 +229,7 @@
     // -----------------
 
     WinJS.Namespace.define('Hilo.month', {
+        GroupsDataAdapter: DataAdapter,
         Groups: Groups
     });
 
