@@ -27,7 +27,8 @@
 		},
 
 		rotateImage: function (args) {
-			this.rotationDegrees += args.detail.rotateDegrees;
+			var rotateDegrees = args.detail.rotateDegrees;
+			this.rotationDegrees += rotateDegrees;
 			this._setRotation();
 		},
 
