@@ -43,7 +43,12 @@
         });
 
         it("should include the selected image index in the navigation args", function () {
-            expect(nav.navigate.args[1]).equals(1);
+            expect(nav.navigate.args[1].itemIndex).equals(1);
+        });
+
+        it("should include the query to pull the image from", function () {
+        	var args = nav.navigate.args[1];
+        	expect(args.hasOwnProperty("query")).equals(true);
         });
     });
 
@@ -60,7 +65,12 @@
         });
 
         it("should include the selected image index in the navigation args", function () {
-            expect(nav.navigate.args[1]).equals(2);
+        	expect(nav.navigate.args[1].itemIndex).equals(2);
+        });
+
+        it("should include the query to pull the image from", function () {
+        	var args = nav.navigate.args[1];
+        	expect(args.hasOwnProperty("query")).equals(true);
         });
     });
 
