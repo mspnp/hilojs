@@ -11,13 +11,13 @@
     	ready: function (element, options) {
     		var selectedIndex = options.itemIndex;
     		var query = options.query;
-            var fileLoader = query.execute();
+            var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");
             var menuController = new Hilo.Rotate.MenuController(menuEl);
 
             fileLoader.then(function (selected) {
-            	var storageFile = selected[selectedIndex].storageFile;
+            	var storageFile = selected[0].storageFile;
             	var imgEl = document.querySelector("#image");
 
             	var rotateController = new Hilo.Rotate.RotateController(imgEl, menuController, storageFile);
