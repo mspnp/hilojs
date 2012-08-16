@@ -29,7 +29,7 @@
         var deserializedQuery, serializedQuery;
 
         beforeEach(function () {
-            var query = queryBuilder.build(storageFolder);
+        	var query = queryBuilder.build(storageFolder);
 
             serializedQuery = query.serialize();
             deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
@@ -44,70 +44,121 @@
         var query;
 
         beforeEach(function () {
-        	query = queryBuilder.forMonthAndYear("Jan 2012").build(storageFolder);
+        	query = queryBuilder
+				.forMonthAndYear("Jan 2012")
+				.build(storageFolder);
         });
 
         it("should configure the query for the specified month and year", function () {
-            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate: Jan 2012");
+        	expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate: Jan 2012");
         });
     });
 
     describe("when executing a query that specifies the number of images to load", function () {
-        var query;
+        var queryResult;
 
         beforeEach(function () {
-            query = queryBuilder.count(1).build(storageFolder);
+        	queryResult = queryBuilder
+				.count(1)
+				.build(storageFolder)
+        		.execute();
         });
 
         it("should load the specified number of images", function (done) {
-            query.execute().then(function (images) {
+            queryResult.then(function (images) {
                 expect(images.length).equals(1);
                 done();
-            });
+    		}).done(null, done);
         });
     });
 
     describe("when executing a query that does not specifies the number of images to load", function () {
-        var query;
+        var queryResult;
 
         beforeEach(function () {
-            query = queryBuilder.build(storageFolder);
+        	queryResult = queryBuilder
+				.build(storageFolder)
+				.execute();
         });
 
         it("should load all images in the folder", function (done) {
-            query.execute().then(function (images) {
+            queryResult.then(function (images) {
                 expect(images.length).equals(17);
                 done();
-            });
+    		}).done(null, done);
         });
     });
 
     describe("when specifying the index of a specific image to load", function () {
-        var query;
+        var queryResult;
 
         beforeEach(function () {
-            query = queryBuilder.imageAt(1).build(storageFolder);
+        	queryResult = queryBuilder
+				.imageAt(1)
+				.build(storageFolder)
+				.execute();
         });
 
         it("should only load that one image when executing", function (done) {
-            query.execute().then(function (images) {
-                expect(images.length).equals(1);
+        	queryResult.then(function (images) {
+        		expect(images.length).equals(1);
                 done();
-            });
+    		}).done(null, done);
         });
     });
 
     describe("when specifying the images should be bindable", function () {
-        var query;
+    	var queryResult;
+
+    	beforeEach(function () {
+    		queryResult = queryBuilder
+				.bindable()
+				.build(storageFolder)
+				.execute();
+        });
+
+    	it("should return instances of bindable Picture objects", function (done) {
+    		queryResult.then(function (images) {
+    			var image = images[0];
+    			expect(image instanceof Hilo.Picture).equals(true);
+            	done();
+    		}).done(null, done);
+        });
+    });
+
+    describe("when building a query with an image index", function () {
+        var queryResult;
 
         beforeEach(function () {
-            query = queryBuilder.bindable().build(storageFolder);
+        	queryResult = queryBuilder
+				.imageAt(0)
+				.build(storageFolder)
+        		.execute();
         });
 
-        it("should return instances of bindable Picture objects", function () {
-            query.execute().then(function (images) {
-                expect(images[0]).to.be.a("Picture");
-            });
+    	it("should load the one specified image", function (done) {
+            queryResult.then(function (images) {
+            	expect(images.length).equals(1);
+            	done();
+    		}).done(null, done);
+    	});
+    });
+
+    describe("when executing an already built query and specifying an image index", function () {
+    	var queryResult;
+    	var imageIndex = 0;
+
+    	beforeEach(function () {
+    		queryResult = queryBuilder
+				.build(storageFolder)
+	        	.execute(imageIndex);
         });
+
+    	it("should load the one specified image", function (done) {
+    		queryResult.then(function (images) {
+    			expect(images.length).equals(1);
+    			done();
+    		}).done(null, done);
+    	});
     });
 });

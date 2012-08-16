@@ -200,11 +200,26 @@
         // ```
         //
         // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
-        execute: function (start, count) {
+    	execute: function () {
+    		var start, count;
             var queryPromise;
 
-            start = start || this.settings.startingIndex;
-            count = count || this.settings.count;
+            switch (arguments.length){
+            	case (0): {
+            		start = this.settings.startingIndex;
+            		count = this.settings.count;
+            		break;
+            	}
+            	case (1): {
+            		start = arguments[0];
+            		count = 1;
+            		break;
+				}
+            	case (2): {
+            		start = arguments[0];
+            		count = arguments[1];
+            	}
+            } 
 
             if (count) {
                 // Limit the query to a set number of files to be returned, which accounts
