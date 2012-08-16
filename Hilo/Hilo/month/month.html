@@ -28,15 +28,15 @@
                 <span data-win-bind="innerText: title"></span>(<span data-win-bind="innerText: count"></span>)
             </div>
 
-            <div id="zoomItemTemplate" data-win-control="WinJS.Binding.Template">
-                <div data-win-bind="innerText: title" style="width: 200px; height: 200px"></div>
+            <div id="yearItemTemplate" data-win-control="WinJS.Binding.Template">
+                <div class="yearMonthItem"><span data-win-bind="innerText: title"></span></div>
             </div>
 
-            <div id="zoomGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
+            <div id="yearGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
                 <span data-win-bind="innerText: title"></span>
             </div>
 
-            <div class="zoomPanel" data-win-control="WinJS.UI.SemanticZoom">
+            <div class="semanticZoomContainer" data-win-control="WinJS.UI.SemanticZoom">
 
                 <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
                     itemTemplate: select('#monthItemTemplate'), 
@@ -44,9 +44,10 @@
                     selectionMode: 'single'}">
                 </div>
 
-                <div id="monthzoom" data-win-control="WinJS.UI.ListView" data-win-options="{ 
-                    itemTemplate: select('#zoomItemTemplate'), 
-                    groupHeaderTemplate: select('#zoomGroupHeaderTemplate'), 
+                <div id="yeargroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
+                    layout: {type: WinJS.UI.GridLayout},
+                    itemTemplate: select('#yearItemTemplate'), 
+                    groupHeaderTemplate: select('#yearGroupHeaderTemplate'), 
                     selectionMode: 'single'}">
                 </div>
 

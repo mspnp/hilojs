@@ -9,38 +9,41 @@
         thumbnailMode = storage.FileProperties.ThumbnailMode,
         knownFolders = Windows.Storage.KnownFolders;
 
+    var getMonthYearFrom = Hilo.dateFormatter.getMonthYearFrom;
+
     // Private Methods
     // ---------------
 
-    function groupKeyFor(model) {
-        // TODO: this is hard-coded to the local
-        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var date = model.itemDate;
-        var monthAndYear = monthNames[date.getMonth()] + ' ' + date.getFullYear();
+    function setupMonthGroupListView(groups, members) {
+        var listview = document.querySelector("#monthgroup").winControl;
+        listview.groupDataSource = groups;
+        listview.itemDataSource = members;
+        listview.addEventListener("iteminvoked", itemInvoked);
+    }
 
-        return monthAndYear;
+    function setupYearGroupListView(groups, members) {
+        var listview = document.querySelector("#yeargroup").winControl;
+        listview.itemDataSource = members;
+        listview.groupDataSource = groups;
+        listview.layout.maxRows = 3;
     }
 
     function interim_solution() {
 
         var queryBuilder = new Hilo.ImageQueryBuilder();
-        var groups = new Hilo.month.Groups(queryBuilder, knownFolders.picturesLibrary);
-        var members = new Hilo.month.Members(queryBuilder, knownFolders.picturesLibrary, groupKeyFor);
 
-        var listview = document.querySelector("#monthgroup").winControl;
-        listview.groupDataSource = groups;
-        listview.itemDataSource = members;
+        var monthGroups = new Hilo.month.Groups(queryBuilder, knownFolders.picturesLibrary, getMonthYearFrom);
+        var monthGroupMembers = new Hilo.month.Members(queryBuilder, knownFolders.picturesLibrary, getMonthYearFrom);
 
-        listview.addEventListener("iteminvoked", itemInvoked);
-
-        var zoom = document.querySelector("#monthzoom").winControl;
-        var years = WinJS.UI.computeDataSourceGroups(groups, function (item) {
+        var yearGroupMembers = WinJS.UI.computeDataSourceGroups(monthGroups, function (item) {
             return item.groupKey
         }, function (item) {
             return { title: item.groupKey }
         });
-        zoom.itemDataSource = years;
-        zoom.groupDataSource = years.groups;
+        var yearGroups = yearGroupMembers.groups;
+
+        setupMonthGroupListView(monthGroups, monthGroupMembers);
+        setupYearGroupListView(yearGroups, yearGroupMembers);
     }
 
     function itemInvoked(args) {

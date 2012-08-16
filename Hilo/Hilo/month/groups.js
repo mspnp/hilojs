@@ -18,7 +18,11 @@
 
     //todo: improve
     function getKeyFor(folder) {
-        return folder.name.replace(/\u200E/g, '');
+        return folder.name.replace(/\u200E/g, '').replace(/\u200F/g, '');
+    }
+
+    function getTitleFor(folder) {
+        return folder.name.split(' ')[0];
     }
 
     function getGroupKeyFor(folder) {
@@ -26,7 +30,7 @@
         return folder.name.split(' ')[1];
     }
 
-    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder) {
+    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, getMonthYearFrom) {
 
         // The query builder doesn't currently support the folder query. Since this is
         // an entirely different base for the query and since this is the only place in 
@@ -35,6 +39,8 @@
         var queryOptions = new search.QueryOptions(commonFolderQuery.groupByMonth);
         this.query = folder.createFolderQueryWithOptions(queryOptions);
         this.queryBuilder = queryBuilder;
+
+        this.getMonthYearFrom = getMonthYearFrom;
 
         this.totalCount;
     }, {
@@ -166,21 +172,35 @@
 
             var query = this.queryBuilder.build(folder);
             var getCount = query.fileQuery.getItemCountAsync();
+            var getFirstFileItemDate = query.fileQuery
+                .getFilesAsync(0, 1)
+                .then(function (files) {
+                    // todo:  we assume that we actually get a date,
+                    // this will likely not always be the case
+                    return files[0].properties.retrievePropertiesAsync(["System.ItemDate"]);
+                }).then(function (retrieved) {
+                    return retrieved.lookup("System.ItemDate");
+                });
 
-            return getCount.then(function (count) {
+            var getMonthYearFrom = this.getMonthYearFrom.bind(this);
 
-                var result = {
-                    key: getKeyFor(folder),
-                    firstItemIndexHint: null, // we need to set this later
-                    data: {
-                        title: folder.name,
-                        count: count
-                    },
-                    groupKey: getGroupKeyFor(folder)
-                };
+            return WinJS.Promise.join([getCount, getFirstFileItemDate])
+                .then(function (values) {
+                    var count = values[0];
+                    var firstItemDate = values[1];
 
-                return result;
-            });
+                    var result = {
+                        key: getMonthYearFrom(firstItemDate),
+                        firstItemIndexHint: null, // we need to set this later
+                        data: {
+                            title: getTitleFor(folder),
+                            count: count
+                        },
+                        groupKey: getMonthYearFrom(firstItemDate).split(' ')[1]
+                    };
+
+                    return result;
+                });
         },
 
         buildResult: function (offset, absoluteIndex, items) {
@@ -201,8 +221,8 @@
         },
     });
 
-    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder) {
-        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, folder));
+    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, getMonthYearFrom) {
+        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, folder, getMonthYearFrom));
     });
 
     // Export Public API

@@ -57,7 +57,7 @@
             return {
                 key: model.name,
                 data: model,
-                groupKey: this.identifyMonthGroup(model)
+                groupKey: this.identifyMonthGroup(model.itemDate)
             };
         }
     });
