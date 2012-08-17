@@ -8,7 +8,10 @@
         app = WinJS.Application,
         nav = WinJS.Navigation;
 
-    WinJS.strictProcessing();
+    // According to the official documentation, 
+    // http://msdn.microsoft.com/en-us/library/windows/apps/jj215606.aspx
+    // the following should always be set to true.
+    WinJS.Binding.optimizeBindingReferences = true;
 
     Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "en-US"
     //Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "de-DE"
