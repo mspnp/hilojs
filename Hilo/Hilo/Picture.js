@@ -18,17 +18,6 @@
 		return url;
 	}
 
-	function getValueFrom(source, path) {
-		var len = path.length;
-		var current = source;
-		for (var i = 0; i < len; i++) {
-			current = current[path[i]];
-			if (current === undefined || current === null) break;
-		}
-
-		return current;
-	}
-
 	// Picture Constructor Function
 	// ----------------------------
 
