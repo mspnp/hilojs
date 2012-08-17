@@ -77,9 +77,6 @@
         // that it belongs to, based on the "ItemDate" of the picture.
         itemClicked: function (args) {
 
-            // TODO: find a better way to handle converting month numbers in to month names
-            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
             // get the `Hilo.Picture` item that was bound to the invoked image
             var picture = args.detail.item.data;
 
@@ -88,7 +85,8 @@
             // TODO: get the actual item index based on the query that is built
             var itemIndex = picture.groupIndex;
             var dateTaken = picture.itemDate;
-            var monthAndYear = monthNames[dateTaken.getMonth()] + " " + dateTaken.getFullYear();
+            // TODO: Perhaps we can pass the `getMonthYearFrom` as a dependency?
+            var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
 
         	// Build the query for the month and year of the invoked image
             var query = this.queryBuilder
