@@ -1,71 +1,95 @@
 ﻿(function () {
-    "use strict";
+	"use strict";
 
-    var binding = WinJS.Binding,
+	// Imports And Constants
+	// ---------------------
+
+	var binding = WinJS.Binding,
         thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
 
-    function urlFor(blob) {
-        var url = "";
-        if (blob) {
-            url = "url(" + URL.createObjectURL(blob) + ")";
-        }
-        return url;
-    }
+	// Private/Helper Methods
+	// ----------------------
 
-    var base = WinJS.Class.define(function (file) {
-        var self = this;
+	function urlFor(blob) {
+		var url = "";
+		if (blob) {
+			url = "url(" + URL.createObjectURL(blob) + ")";
+		}
+		return url;
+	}
 
-        this.storageFile = file;
+	function getValueFrom(source, path) {
+		var len = path.length;
+		var current = source;
+		for (var i = 0; i < len; i++) {
+			current = current[path[i]];
+			if (current === undefined || current === null) break;
+		}
 
-        this._initObservable();
-        this.addProperty("name", file.name);
-        this.addProperty("url", "");
-        this.addProperty("src", "");
-        this.addProperty("itemDate", "");
-        this.addProperty("className", "thumbnail");
+		return current;
+	}
 
-        file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-            self.updateProperty("url", urlFor(thumbnail));
-        });
+	// Picture Constructor Function
+	// ----------------------------
 
-        file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
-            self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
-        });
-    },
-    {
-        loadImage: function () {
-            this.updateProperty("src", urlFor(this.storageFile));
-        }
-    }, {
-        from: function (file) {
-            return new base(file);
-        },
-        bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
-            // We're ignoring the properties provided in the binding.
-            // We are assuming that we'll always extract the `src` property from the `source`
-            // and bind it to the `src` of the `target` (which we expect to be an image tag).
+	function Picture(file) {
+		var self = this;
 
-            if (!source.src) {
-                source.updateProperty("src", URL.createObjectURL(source.storageFile));
-            }
+		this.storageFile = file;
 
-            target.setAttribute('src', source.src);
-        }),
-    });
+		this._initObservable();
+		this.addProperty("name", file.name);
+		this.addProperty("url", "");
+		this.addProperty("src", "");
+		this.addProperty("itemDate", "");
+		this.addProperty("className", "thumbnail");
 
-    function getValueFrom(source, path) {
-        var len = path.length;
-        var current = source;
-        for (var i = 0; i < len; i++) {
-            current = current[path[i]];
-            if (current === undefined || current === null) break;
-        }
+		file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
+			self.updateProperty("url", urlFor(thumbnail));
+		});
 
-        return current;
-    }
+		file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
+			self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
+		});
+	}
 
-    WinJS.Namespace.define("Hilo", {
-        Picture: WinJS.Class.mix(base, binding.dynamicObservableMixin)
-    });
+	// Picture Instance Methods
+	// ------------------------
+
+	var pictureMethods = {
+		loadImage: function () {
+			this.updateProperty("src", urlFor(this.storageFile));
+		}
+	};
+
+	// Picture Type methods
+	// --------------------
+
+	var pictureTypeMethods = {
+		from: function (file) {
+			return new Hilo.Picture(file);
+		},
+
+		bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
+			// We're ignoring the properties provided in the binding.
+			// We are assuming that we'll always extract the `src` property from the `source`
+			// and bind it to the `src` of the `target` (which we expect to be an image tag).
+
+			if (!source.src) {
+				source.updateProperty("src", URL.createObjectURL(source.storageFile));
+			}
+
+			target.setAttribute('src', source.src);
+		}),
+	};
+
+	// Public API
+	// ----------
+
+	var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
+
+	WinJS.Namespace.define("Hilo", {
+		Picture: WinJS.Class.mix(PictureBase, binding.dynamicObservableMixin)
+	});
 
 }());
