@@ -4,8 +4,7 @@
 	// Imports And Constants
 	// ---------------------
 
-	var binding = WinJS.Binding,
-        thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
+	var thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
 
 	// Private/Helper Methods
 	// ----------------------
@@ -78,7 +77,7 @@
 	var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
 
 	WinJS.Namespace.define("Hilo", {
-		Picture: WinJS.Class.mix(PictureBase, binding.dynamicObservableMixin)
+	    Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin)
 	});
 
 }());

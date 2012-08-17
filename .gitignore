@@ -98,3 +98,4 @@ UpgradeLog*.XML
 lib
 
 *.orig
+*.pfx
