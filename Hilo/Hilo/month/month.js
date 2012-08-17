@@ -49,14 +49,16 @@
     function itemInvoked(args) {
         args.detail.itemPromise.then(function (item) {
 
+            var monthYear = Hilo.dateFormatter.getMonthYearFrom(item.data.itemDate);
+
             // Build a query to represent the month/year group that was selected
             var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder
                 .bindable()                          // ensure the images are data-bind-able
-                .forMonthAndYear(item.data.name);    // only load images for the month and year group we selected
+                .forMonthAndYear(monthYear);    // only load images for the month and year group we selected
 
             var query = queryBuilder.build(knownFolders.picturesLibrary);
-            var selected = 0; //HACK: pretend we clicked on the first image in the group
+            var selected = item.index;
 
             // Navigate to the detail view to show the results of this query with the selected item
             WinJS.Navigation.navigate("/Hilo/detail/detail.html", { query: query, itemIndex: selected });
