@@ -185,6 +185,7 @@
     <Content Include="specs\hub\hubViewController.spec.js" />
     <Content Include="specs\hub\listViewController.spec.js" />
     <Content Include="specs\ImageNav\imageNavController.spec.js" />
+    <Content Include="specs\month\month.Groups.spec.js" />
     <Content Include="specs\month\month.Members.spec.js" />
     <Content Include="specs\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />

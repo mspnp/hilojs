@@ -9,27 +9,6 @@
     // Private Methods
     // ---------------
 
-    var cache = {
-        byIndex: [],
-        byKey: {}
-    };
-
-    var firstIndices = [];
-
-    //todo: improve
-    function getKeyFor(folder) {
-        return folder.name.replace(/\u200E/g, '').replace(/\u200F/g, '');
-    }
-
-    function getTitleFor(folder) {
-        return folder.name.split(' ')[0];
-    }
-
-    function getGroupKeyFor(folder) {
-        // Extract just the year for grouping on the semantic zoom.
-        return folder.name.split(' ')[1];
-    }
-
     var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, getMonthYearFrom) {
 
         // The query builder doesn't currently support the folder query. Since this is
@@ -40,9 +19,24 @@
         this.query = folder.createFolderQueryWithOptions(queryOptions);
         this.queryBuilder = queryBuilder;
 
+        // We expect this function to return world-ready value from the month and year
+        // separated by a space.
         this.getMonthYearFrom = getMonthYearFrom;
 
+        // We'll cache the total number of month groups whenever
+        // `getCount` is called, then we can provide the value 
+        // in the result of `itemsFromIndex`.
         this.totalCount;
+
+        // We cache various bits data about the month groups
+        // so that we won't have to go back the file system
+        // over and over again.
+        this.cache = {
+            byIndex: [],
+            byKey: {},
+            firstIndices: []
+        };
+
     }, {
 
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
@@ -95,7 +89,7 @@
         itemsFromKey: function (key, countBefore, countAfter) {
             // Look up the index in the cache for the given key,
             // and then delegate back to `itemsFromIndex`.
-            var index = cache.byKey[key];
+            var index = this.cache.byKey[key];
 
             return this.itemsFromIndex(index, countBefore, countAfter);
         },
@@ -107,7 +101,7 @@
 
             // Locate the items in the cache
             for (index = start; index <= (start + count) ; index++) {
-                item = cache.byIndex[index];
+                item = this.cache.byIndex[index];
                 // As soon as we hit an index that is not 
                 // present in the cache, we exit the loop
                 if (!item) {
@@ -127,7 +121,13 @@
         },
 
         fetch: function (start, count) {
+            var self = this;
             var convert = this.toListViewHeaderGroup.bind(this);
+
+            // caches
+            var firstIndices = self.cache.firstIndices
+            var byIndex = self.cache.byIndex;
+            var byKey = self.cache.byKey;
 
             return this.query
                 .getFoldersAsync(start, count)
@@ -137,9 +137,6 @@
                 .then(function (groups) {
 
                     return groups
-                        //.filter(function (group) {
-                        //    return group.data.count > 0;
-                        //})
                         .map(function (group, index) {
                             // For each group we need to determine the index of
                             // its first item in the `picturesLibrary` as a whole.
@@ -157,10 +154,10 @@
                             firstIndices[groupIndex] = group.firstItemIndexHint + group.data.count;
 
                             // Cache the group itself by its index.
-                            cache.byIndex[groupIndex] = group;
+                            byIndex[groupIndex] = group;
 
                             // Cache the index of the group by its key.
-                            cache.byKey[group.key] = groupIndex;
+                            byKey[group.key] = groupIndex;
 
                             return group;
                         });
@@ -189,14 +186,16 @@
                     var count = values[0];
                     var firstItemDate = values[1];
 
+                    var monthYear = getMonthYearFrom(firstItemDate);
+
                     var result = {
-                        key: getMonthYearFrom(firstItemDate),
+                        key: monthYear,
                         firstItemIndexHint: null, // we need to set this later
                         data: {
-                            title: getTitleFor(folder),
+                            title: monthYear.split(' ')[0],
                             count: count
                         },
-                        groupKey: getMonthYearFrom(firstItemDate).split(' ')[1]
+                        groupKey: monthYear.split(' ')[1]
                     };
 
                     return result;
