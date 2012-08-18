@@ -221,7 +221,14 @@
     });
 
     var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, getMonthYearFrom) {
-        this._baseDataSourceConstructor(new DataAdapter(queryBuilder, folder, getMonthYearFrom));
+        this.adapter = new DataAdapter(queryBuilder, folder, getMonthYearFrom);
+        this._baseDataSourceConstructor(this.adapter);
+    }, {
+        getFirstIndexForGroup: function (groupKey) {
+            var groupIndex = this.adapter.cache.byKey[groupKey];
+            var group = this.adapter.cache.byIndex[groupIndex];
+            return group.firstItemIndexHint;
+        }
     });
 
     // Export Public API
