@@ -4,8 +4,11 @@
 	var runSpecsMethods = {
 
 		run: function (element, options) {
-			this.injectSpecList()
-				.then(this.startTestHarness);
+			this.appFolder = Windows.ApplicationModel.Package.current.installedLocation;
+
+			this.injectPageControls()
+				.then(this.injectSpecList.bind(this))
+				.then(this.startTestHarness.bind(this));
 		},
 
 		startTestHarness: function () {
@@ -13,28 +16,36 @@
 			mocha.run();
 		},
 
+		injectPageControls: function () {
+			return this.getPageFolder(this.appFolder)
+				.then(this.getPageFileNames.bind(this))
+				.then(this.buildScriptTags.bind(this))
+				.then(this.addScriptsToBody.bind(this));
+		},
+
 		injectSpecList: function () {
-			this.appFolder = Windows.ApplicationModel.Package.current.installedLocation;
 			return this.getSpecFolder(this.appFolder)
 				.then(this.getSpecFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
+		getPageFolder: function (appFolder) {
+			return appFolder.getFolderAsync("Hilo");
+		},
+
 		getSpecFolder: function (appFolder) {
 			return appFolder.getFolderAsync("specs");
 		},
 
-		getSpecFileNames: function (specFolder) {
-			var specTest = /[Ss][Pp][Ee][Cc]/;
-			var fileQuery = specFolder.getFilesAsync(Windows.Storage.Search.CommonFileQuery.orderByName);
+		getPageFileNames: function (folder) {
+			var nameTest = /.*js$/;
+			return this._buildFileListFromRegex(nameTest, folder);
+		},
 
-			return fileQuery.then(function (files) {
-				var fileList = files.filter(function (file) {
-					return specTest.test(file.name);
-				});
-				return WinJS.Promise.as(fileList);
-			});
+		getSpecFileNames: function (folder) {
+			var specTest = /[Ss][Pp][Ee][Cc].*js/;
+			return this._buildFileListFromRegex(specTest, folder);
 		},
 
 		buildScriptTags: function (fileList) {
@@ -58,6 +69,17 @@
 			});
 
 			return WinJS.Promise.as(true);
+		},
+
+		_buildFileListFromRegex: function(regEx, folder){
+			var fileQuery = folder.getFilesAsync(Windows.Storage.Search.CommonFileQuery.orderByName);
+
+			return fileQuery.then(function (files) {
+				var fileList = files.filter(function (file) {
+					return regEx.test(file.name);
+				});
+				return WinJS.Promise.as(fileList);
+			});
 		}
 	};
 
