@@ -1,98 +1,83 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Jasmine Spec Runner</title>
+	<title>HiloJS Spec Runner</title>
 
-    <!-- WinJS references -->
-    <!--  
+	<!-- WinJS references -->
+	<!--  
         Since this app is just our test harness, we don't need to use the default styles.
         <link href="//Microsoft.WinJS.1.0.RC/css/ui-dark.css" rel="stylesheet" />
-        -->
-    <script src="//Microsoft.WinJS.1.0/js/base.js"></script>
-    <script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
+    -->
+	<script src="//Microsoft.WinJS.1.0/js/base.js"></script>
+	<script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
 
-    <!-- test harness references -->
-    <link rel="stylesheet" type="text/css" href="/lib/mocha.css">
-    <script src="/lib/mocha.js"></script>
-    <script src="/lib/chai.js"></script>
-    <script>mocha.setup('bdd')</script>
-    <!-- We need to tell mocha that we prefer to use the BDD style for defining our tests. -->
+	<link rel="stylesheet" type="text/css" href="/lib/mocha.css">
+	<script src="/lib/mocha.js"></script>
+	<script src="/lib/chai.js"></script>
+	<script>mocha.setup('bdd')</script>
+	<!-- We need to tell mocha that we prefer to use the BDD style for defining our tests. -->
 
-    <!-- spec framework references -->
-    <script src="/spec.helpers.js"></script>
-    <script src="/specs/Shared/MocksAndStubs.js"></script>
-    <script src="/specs/Shared/shared.js"></script>
-    <script src="/Hilo/PageControlNavigator.js"></script>
-    <script src="/Hilo/dateFormatter.js"></script>
-    <script src="/Hilo/imageQueryBuilder.js"></script>
+	<!-- spec framework references -->
+	<script src="/spec.helpers.js"></script>
+	<script src="/specs/Shared/MocksAndStubs.js"></script>
+	<script src="/specs/Shared/shared.js"></script>
 
-    <!-- Shared Stuff -->
-    <script src="/Hilo/Picture.js"></script>
-    
-    <!-- Image Nav Control -->
-    <script src="/Hilo/controls/ImageNav/ImageNavController.js"></script>
-    <script src="/specs/ImageNav/imageNavController.spec.js"></script>
+	<script src="/Hilo/PageControlNavigator.js"></script>
+	<script src="/Hilo/dateFormatter.js"></script>
+	<script src="/Hilo/imageQueryBuilder.js"></script>
 
-    <!-- HUB Page -->
-    <script src="/Hilo/hub/listViewController.js"></script>
-    <script src="/specs/hub/listViewController.spec.js"></script>
+	<!-- Shared Stuff -->
+	<script src="/Hilo/Picture.js"></script>
 
-    <script src="/Hilo/hub/hub.js"></script>
-    <script src="/specs/hub/hub.spec.js"></script>
+	<!-- Image Nav Control -->
+	<script src="/Hilo/controls/ImageNav/ImageNavController.js"></script>
 
-    <script src="/Hilo/hub/hubViewController.js"></script>
-    <script src="/specs/hub/HubViewController.spec.js"></script>
+	<!-- HUB Page -->
+	<script src="/Hilo/hub/listViewController.js"></script>
 
-    <!-- Live Tile -->
-    <script src="/Hilo/Tiles/createTileFriendlyImages.js"></script>
-    <script src="/Hilo/Tiles/populateTemplate.js"></script>
-    <script src="/Hilo/Tiles/createTileUpdates.js"></script>
-    <script src="/Hilo/Tiles/TileUpdater.js"></script>
-    <script src="/specs/Tiles/createTileFriendlyImages.spec.js"></script>
+	<script src="/Hilo/hub/hub.js"></script>
 
-    <!-- Image Query Builder And Execution -->
-    <script src="/Hilo/imageQueryBuilder.js"></script>
-    <script src="/specs/queries/imageQueryBuilder.spec.js"></script>    
+	<script src="/Hilo/hub/hubViewController.js"></script>
 
-    <!-- Detail Page -->
-    <script src="/Hilo/detail/filmstripController.js"></script>
-    <script src="/specs/detail/filmstripController.spec.js"></script>
+	<!-- Live Tile -->
+	<script src="/Hilo/Tiles/createTileFriendlyImages.js"></script>
+	<script src="/Hilo/Tiles/populateTemplate.js"></script>
+	<script src="/Hilo/Tiles/createTileUpdates.js"></script>
+	<script src="/Hilo/Tiles/TileUpdater.js"></script>
 
-    <script src="/Hilo/detail/flipviewController.js"></script>
-    <script src="/specs/detail/flipviewController.spec.js"></script>
+	<!-- Image Query Builder And Execution -->
+	<script src="/Hilo/imageQueryBuilder.js"></script>
 
-    <script src="/Hilo/detail/detailPageController.js"></script>
-    <script src="/specs/detail/detailPageController.spec.js"></script>
+	<!-- Detail Page -->
+	<script src="/Hilo/detail/filmstripController.js"></script>
+	<script src="/Hilo/detail/flipviewController.js"></script>
+	<script src="/Hilo/detail/detailPageController.js"></script>
 
-    <!-- Rotate Page -->
-    <script src="/Hilo/rotate/rotateController.js"></script>
-    <script src="/specs/rotate/rotateController.spec.js"></script>
+	<!-- Rotate Page -->
+	<script src="/Hilo/rotate/rotateController.js"></script>
+	<script src="/Hilo/rotate/menuController.js"></script>
 
-    <script src="/Hilo/rotate/menuController.js"></script>
-    <script src="/specs/rotate/menuController.spec.js"></script>
+	<!-- Month Page -->
+	<script src="/Hilo/month/month.js"></script>
+	<script src="/Hilo/month/members.js"></script>
+	<script src="/Hilo/month/groups.js"></script>
 
-    <!-- Month Page -->
-    <script src="/Hilo/month/month.js"></script>
-    <script src="/Hilo/month/members.js"></script>
-    <script src="/Hilo/month/groups.js"></script>
-    <script src="/specs/month/month.Members.spec.js"></script>
-    <script src="/specs/month/month.Groups.spec.js"></script>
-
-    <!-- Default Page Controller To Run Specs -->
-    <script src="/default.js"></script>
+	<!-- Page Controller To Run Specs -->
+	<script src="/runSpecs.js"></script>
+	<script src="/default.js"></script>
 </head>
 
 <body>
 
-    <div id="contentHost"
-        data-win-control="Hilo.PageControlNavigator"
-        data-win-options="{home: '/placeholder.html'}"
-        style="position: absolute; height: 800px; width: 600px; overflow: hidden; opacity:0">
-    </div>
+	<div id="contentHost"
+		data-win-control="Hilo.PageControlNavigator"
+		data-win-options="{home: '/placeholder.html'}"
+		style="position: absolute; height: 800px; width: 600px; overflow: hidden; opacity: 0">
+	</div>
 
-    <div id="mocha">
-        <!-- This div is a hook for the test harness. -->
-    </div>
+	<div id="mocha">
+		<!-- This div is a hook for the test harness. -->
+	</div>
 </body>
 
 </html>

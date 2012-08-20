@@ -1,6 +1,5 @@
-﻿/// <reference path="../../Jasmine/lib/jasmine-1.2.0/jasmine.js" />
-
-describe("The view model for a picture", function () {
+﻿//TODO: re-write these specs to run in Mocha, instead of Jasmine
+xdescribe("The view model for a picture", function () {
     "use strict";
 
     var viewmodel;
