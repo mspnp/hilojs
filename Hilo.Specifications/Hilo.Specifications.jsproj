@@ -178,10 +178,10 @@
     <Content Include="sampleImages\015.tiff" />
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
-    <Content Include="spec.helpers.js" />
     <Content Include="specs\detail\detailPageController.spec.js" />
     <Content Include="specs\detail\filmstripController.spec.js" />
     <Content Include="specs\detail\flipviewController.spec.js" />
+    <Content Include="specs\Helpers\spec.helpers.js" />
     <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewController.spec.js" />
     <Content Include="specs\hub\listViewController.spec.js" />
@@ -189,12 +189,12 @@
     <Content Include="specs\month\month.Groups.spec.js" />
     <Content Include="specs\month\month.Members.spec.js" />
     <Content Include="specs\month\month.spec.js" />
-    <Content Include="specs\Picture.spec.js" />
+    <Content Include="specs\Picture\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
     <Content Include="specs\Rotate\menuController.spec.js" />
     <Content Include="specs\Rotate\rotateController.spec.js" />
-    <Content Include="specs\Shared\MocksAndStubs.js" />
-    <Content Include="specs\Shared\shared.js" />
+    <Content Include="specs\Helpers\MocksAndStubs.js" />
+    <Content Include="specs\Helpers\shared.js" />
     <Content Include="specs\Tiles\createTileFriendlyImages.spec.js" />
     <Content Include="Hilo\.gitkeep" />
   </ItemGroup>

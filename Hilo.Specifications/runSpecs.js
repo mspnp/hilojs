@@ -6,39 +6,57 @@
 		run: function (element, options) {
 			this.appFolder = Windows.ApplicationModel.Package.current.installedLocation;
 
-			this.injectPageControls()
+			this.configureMocha();
+
+			this.injectHelpers()
+				.then(this.injectPageControls.bind(this))
 				.then(this.injectSpecList.bind(this))
-				.then(this.startTestHarness.bind(this));
+				.then(this.startTestHarness.bind(this))
+				.done(null, this.showError.bind(this));
+		},
+
+		configureMocha: function(){
+			global.expect = chai.expect;
+			global.mocha.setup("bdd");
 		},
 
 		startTestHarness: function () {
-			global.expect = chai.expect;
-			mocha.run();
+			global.mocha.run();
 		},
 
 		injectPageControls: function () {
-			return this.getPageFolder(this.appFolder)
-				.then(this.getPageFileNames.bind(this))
+			return this.getFolder("Hilo")
+				.then(this.getJSFileNames.bind(this))
+				.then(this.buildScriptTags.bind(this))
+				.then(this.addScriptsToBody.bind(this));
+		},
+
+		injectHelpers: function(){
+			return this.getFolder("specs")
+				.then(this.getFolder.bind(this, "Helpers"))
+				.then(this.getJSFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
 		injectSpecList: function () {
-			return this.getSpecFolder(this.appFolder)
+			return this.getFolder("specs")
 				.then(this.getSpecFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
-		getPageFolder: function (appFolder) {
-			return appFolder.getFolderAsync("Hilo");
+		showError: function (error) {
+			debugger;
+			document.querySelector("#mocha").innerHtml = error;
 		},
 
-		getSpecFolder: function (appFolder) {
-			return appFolder.getFolderAsync("specs");
+		getFolder: function (name, folder) {
+			folder = folder || this.appFolder;
+			return folder.getFolderAsync(name);
 		},
 
-		getPageFileNames: function (folder) {
+		getJSFileNames: function (folder) {
 			var nameTest = /.*js$/;
 			return this._buildFileListFromRegex(nameTest, folder);
 		},
