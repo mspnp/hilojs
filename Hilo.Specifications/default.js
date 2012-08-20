@@ -1,33 +1,51 @@
 ﻿(function (globals) {
-    "use strict";
+	"use strict";
 
-    var activation = Windows.ApplicationModel.Activation,
+	var activation = Windows.ApplicationModel.Activation,
         app = WinJS.Application,
         nav = WinJS.Navigation;
 
-    app.addEventListener("activated", function (args) {
-        if (args.detail.kind === activation.ActivationKind.launch) {
-            args.setPromise(WinJS.UI.processAll().then(function () {
+	function setupImages(exists) {
+		var promise;
 
-            	Shared.doesIndexedFolderExist()
-                    .then(function (exists) {
+		if (exists) {
+			promise = WinJS.Promise.wrap(exists); /* this is an empty promise */
+		} else {
+			promise = Shared.copyImagesToIndexedFolder();
+		}
 
-                    	var promise;
+		return promise;
+	}
 
-                    	if (exists) {
-                    		promise = WinJS.Promise.wrap(exists); /* this is an empty promise */
-                    	} else {
-                    		promise = Shared.copyImagesToIndexedFolder();
-                    	}
+	function runSpecs() {
+		// configure the spec runner
+		var specRunner = new Hilo.SpecRunner({
+			src: "Hilo",
+			specs: "specs",
+			helpers: "specs/Helpers"
+		});
 
-                    	return promise;
-                    }).done(function () {
-                    	Hilo.runSpecs();
-                    });
+		// Handle any errors in the execution that
+		// were not part of a failing test
+		specRunner.addEventListener("error", function (args) {
+			document.querySelector("body").innerText = args.detail;
+		});
 
-            }));
-        }
-    }, false);
+		// run the specs
+		specRunner.run();
+	}
 
-    app.start();
+	app.addEventListener("activated", function (args) {
+		if (args.detail.kind === activation.ActivationKind.launch) {
+			args.setPromise(WinJS.UI.processAll().then(function () {
+
+				Shared.doesIndexedFolderExist()
+                    .then(setupImages)
+					.then(runSpecs);
+
+			}));
+		}
+	}, false);
+
+	app.start();
 })(this);

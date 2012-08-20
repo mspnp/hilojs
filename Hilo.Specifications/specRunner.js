@@ -1,23 +1,46 @@
 ﻿(function (global) {
 	"use strict";
 
-	var runSpecsMethods = {
+	// SpecRunner Constructor
+	// ----------------------
 
-		run: function (element, options) {
+	// This objects searches through the project folder, the specs folder,
+	// and the specs helpers folder to find all available JavaScript files.
+	// It inserts a script tag in to the DOM for each file it finds.
+	//
+	// The `options` parameter allows three options to be passed in:
+	// * `specs`: the folder to search for `*spec.js` files
+	// * `helpers`: a folder that contains helper objects and methods for the specs
+	// * `src`: the folder that contains all fo the source files that will be tested
+
+	function SpecRunner(options) {
+		this.specFolder = options.specs || "specs";
+		this.helperFolder = options.helpers || "specs/helpers";
+		this.srcFolder = options.src || "src";
+	}
+
+	// SpecRunner Methods
+	// ------------------
+
+	var specRunnerMethods = {
+		configureMocha: function(){
+			global.expect = chai.expect;
+			global.mocha.setup("bdd");
+		},
+
+		run: function () {
 			this.appFolder = Windows.ApplicationModel.Package.current.installedLocation;
-
 			this.configureMocha();
 
 			this.injectHelpers()
 				.then(this.injectPageControls.bind(this))
 				.then(this.injectSpecList.bind(this))
 				.then(this.startTestHarness.bind(this))
-				.done(null, this.showError.bind(this));
+				.done(null, this.triggerError.bind(this));
 		},
 
-		configureMocha: function(){
-			global.expect = chai.expect;
-			global.mocha.setup("bdd");
+		triggerError: function (error) {
+			this.dispatchEvent("error", error);
 		},
 
 		startTestHarness: function () {
@@ -25,35 +48,47 @@
 		},
 
 		injectPageControls: function () {
-			return this.getFolder("Hilo")
+			return this.getFolder(this.srcFolder)
 				.then(this.getJSFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
-		injectHelpers: function(){
-			return this.getFolder("specs")
-				.then(this.getFolder.bind(this, "Helpers"))
+		injectHelpers: function () {
+			return this.getFolder(this.helperFolder)
 				.then(this.getJSFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
 		injectSpecList: function () {
-			return this.getFolder("specs")
+			return this.getFolder(this.specFolder)
 				.then(this.getSpecFileNames.bind(this))
 				.then(this.buildScriptTags.bind(this))
 				.then(this.addScriptsToBody.bind(this));
 		},
 
-		showError: function (error) {
-			debugger;
-			document.querySelector("#mocha").innerHtml = error;
-		},
+		getFolder: function (folderName, parentFolder) {
+			parentFolder = parentFolder || this.appFolder;
 
-		getFolder: function (name, folder) {
-			folder = folder || this.appFolder;
-			return folder.getFolderAsync(name);
+			var names = folderName.split("/");
+			var name = names.shift();
+
+			var folder = parentFolder.getFolderAsync(name);
+			if (names.length === 0) {
+
+				// Found the final folder. Return it.
+				return folder;
+
+			} else {
+
+				// More folders to find. Recursively load them.
+				var that = this;
+				return folder.then(function (newParent) {
+					return that.getFolder(names.join("/"), newParent);
+				});
+
+			}
 		},
 
 		getJSFileNames: function (folder) {
@@ -101,7 +136,10 @@
 		}
 	};
 
+	// Public API
+	// ----------
+
 	WinJS.Namespace.define("Hilo", {
-		runSpecs: runSpecsMethods.run.bind(runSpecsMethods)
+		SpecRunner: WinJS.Class.mix(SpecRunner, specRunnerMethods, WinJS.Utilities.eventMixin)
 	});
 })(this);
