@@ -4,23 +4,38 @@
 	// Constructor Function
 	// --------------------
 
-	function RotateController(el, menuController, storageFile) {
+	function RotateController(el, menuController, fileLoader, urlBuilder) {
 		this.el = el;
 		this.menuController = menuController;
-		this.imageFile = storageFile;
 		this.rotationDegrees = 0;
+		this.urlBuilder = urlBuilder;
 
-		this.bindToEvents();
+		this._bindToEvents();
+
+		fileLoader.then(this._loadAndShowImage.bind(this));
 	}
 
 	// Methods
 	// -------
 
 	var rotateControllerMethods = {
-		bindToEvents: function () {
+		_bindToEvents: function () {
 			this.menuController.addEventListener("rotate", this.rotateImage.bind(this));
 			this.menuController.addEventListener("reset", this.resetImage.bind(this));
 			this.menuController.addEventListener("save", this.saveImage.bind(this));
+		},
+
+		_loadAndShowImage: function (selected) {
+			var storageFile = selected[0].storageFile;
+			this.imageFile = storageFile;
+
+			var url = this.urlBuilder.createObjectURL(storageFile);
+			this.showImage(url);
+        },
+
+		_setRotation: function () {
+			var rotation = "rotate(" + this.rotationDegrees + "deg)";
+			this.el.style.transform = rotation;
 		},
 
 		rotateImage: function (args) {
@@ -41,11 +56,6 @@
 		saveImage: function () {
 			var imageRotator = new Hilo.ImageRotator();
 			imageRotator.rotate(this.imageFile, this.rotationDegrees);
-		},
-
-		_setRotation: function () {
-			var rotation = "rotate(" + this.rotationDegrees + "deg)";
-			this.el.style.transform = rotation;
 		}
 	};
 
