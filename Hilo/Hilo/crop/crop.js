@@ -10,34 +10,23 @@
 ﻿(function () {
     "use strict";
 
-    //TODO: temporary implementation
-
-    var ui = WinJS.UI,
-        nav = WinJS.Navigation;
-
     var page = {
 
-        ready: function (element, selectedIndex) {
-            var queryBuilder = new Hilo.ImageQueryBuilder();
-            queryBuilder.imageAt(selectedIndex);
+        ready: function (element, options) {
+    		var selectedIndex = options.itemIndex;
+    		var query = options.query;
+    		var fileLoader = query.execute(selectedIndex);
 
-            var section = document.querySelector("section[role='main']");
-            section.innerHtml = "";
+    		var canvasEl = document.querySelector("#cropSurface");
+    		var controller = new Hilo.Crop.CropController(canvasEl, fileLoader, URL);
 
-            var img = document.createElement("img");
-            section.appendChild(img);
-            img.addEventListener("load", function () {
-                ui.Animation.fadeIn(img);
-            });
-
-            var query = queryBuilder.build(Windows.Storage.KnownFolders.picturesLibrary);
-            query.execute().then(function (selected) {
-                img.src = URL.createObjectURL(selected[0]);
-            });
+    		var rubberBandEl = document.querySelector("#rubberBand");
+    		this.rubberBandController = new Hilo.Crop.RubberBandController(canvasEl, rubberBandEl);
         },
 
         unload: function () {
-            // TODO: unwire any events
+            this.rubberBandController.shutDown();
+            delete this.rubberBandController;
         }
     };
 

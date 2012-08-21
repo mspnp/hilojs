@@ -67,6 +67,8 @@
     <Content Include="Hilo\crop\crop.css" />
     <Content Include="Hilo\crop\crop.html" />
     <Content Include="Hilo\crop\crop.js" />
+    <Content Include="Hilo\crop\cropController.js" />
+    <Content Include="Hilo\crop\rubberBandController.js" />
     <Content Include="Hilo\dateFormatter.js" />
     <Content Include="Hilo\detail\detail.css" />
     <Content Include="Hilo\detail\detail.html" />
