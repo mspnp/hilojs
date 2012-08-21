@@ -109,6 +109,7 @@
 
     function RubberBandControllerConstructor(canvasEl, rubberBandEl) {
         this.canvas = canvasEl;
+        this.context = canvasEl.getContext("2d");
         this.boundingRect = canvasEl.getBoundingClientRect();
         this.rubberBand = rubberBandEl;
 
@@ -178,17 +179,30 @@
         drawRubberBand: function () {
             var coords = this.getCoords();
             var bounding = this.boundingRect;
+            var rubberBandStyle = this.rubberBand.style;
 
             var top = bounding.top + coords.top;
             var left = bounding.left + coords.left;
             var height = coords.height;
             var width = coords.width;
 
-            var rubberBandStyle = this.rubberBand.style;
+            this.drawShadedBox(coords.top, coords.left, height, width);
+
             rubberBandStyle.left = left + "px";
             rubberBandStyle.top = top + "px";
-            rubberBandStyle.width = coords.width + "px";
-            rubberBandStyle.height = coords.height + "px";
+            rubberBandStyle.width = width + "px";
+            rubberBandStyle.height = height + "px";
+        },
+
+        drawShadedBox: function (top, left, height, width) {
+            this.context.save();
+
+            this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
+            this.context.globalCompositeOperation = "destination-out";
+
+            this.context.fillRect(left, top, width, height);
+
+            this.context.restore();
         },
 
         stopRubberBand: function (point) {
