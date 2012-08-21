@@ -51,7 +51,7 @@
     //
     // [3]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/freeze
 
-    function ImageQueryBuilder() {
+    function ImageQueryBuilderConstructor() {
     	this._settings = {};
         this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
         this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
@@ -66,25 +66,32 @@
         this._set("bindable", false);
     }
 
-    // A type method ("static" in C#) that deserializes a set of queryBuilder
-    // options in to a Query object instance. Use this to restore a Query object
-    // that was serialized using the `query.serialize()` method;
-    //
-    // ```js
-    // var query = queryBuilder.build();
-    // var serializedQuery = query.serialize();
-    // 
-    // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
-    // deserializedQuery.execute();
-    // ```
-    ImageQueryBuilder.deserialize = function (serializedQueryObject) {
-        return new Query(serializedQueryObject);
+	// Image Query Builder Type Members
+	// --------------------------------
+	// Type members are often called "static" members, though in JavaScript
+	// they are not actually static.
+
+    var imageQueryBuilderTypeMembers = {
+    	// Deserialize a set of queryBuilder options in to a Query object 
+    	// instance. Use this to restore a Query object that was 
+        // serialized using the `query.serialize()` method;
+	    //
+	    // ```js
+	    // var query = queryBuilder.build();
+	    // var serializedQuery = query.serialize();
+	    // 
+	    // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
+	    // deserializedQuery.execute();
+	    // ```
+    	deserialize: function (serializedQueryObject) {
+    		return new Query(serializedQueryObject);
+    	}
     };
 
-    // Image Query Builder Methods
+    // Image Query Builder Members
     // ---------------------------
 
-    var imageQueryBuilderMethods = {
+    var imageQueryBuilderMembers = {
     
         // Build the query object with all of the settings that have
     	// been configured for this builder.  
@@ -147,18 +154,25 @@
         _set: function(key, value){
             this._settings[key] = value;
             return this;
-        },
-
+        }
     };
 
-    // Query Object Constructor
+    // Hilo.ImageQueryBuilder Type Definition
+    // --------------------------------------
+
+    WinJS.Namespace.define("Hilo", {
+    	ImageQueryBuilder: WinJS.Class.define(ImageQueryBuilderConstructor, imageQueryBuilderMembers, imageQueryBuilderTypeMembers)
+    });
+
+
+	// Query Object Constructor
     // ------------------------
 
     // The QueryObject implementation is private within the ImageQueryBuilder
     // module. It cannot be instnatiated directly, but must be created through
     // the use of the ImageQueryBuilder. 
 
-    function QueryObject(settings) {
+    function QueryObjectConstructor(settings) {
     	// Duplicate and the settings by copying them
     	// from the original, to a new object. This is
     	// a shallow copy only.
@@ -182,10 +196,10 @@
         this.fileQuery = this._buildFileQuery();
     }
 
-    // Query Object Methods
+    // Query Object Members
     // --------------------
 
-    var queryObjectMethods = {
+    var queryObjectMembers = {
 
         // Execute the query object. Returns a promise that provides
         // access to an array of objects that was loaded by the 
@@ -279,16 +293,11 @@
         }
     };
 
-    // Define the final `Query` class by combining the `QueryObject`
-    // constructor function with the `queryObjectMethods` object literal.
-    // Note that this is still private within the `ImageQueryBuilder` module.
-    var Query = WinJS.Class.define(QueryObject, queryObjectMethods);
+	// Query Type Definition
+	// ---------------------
+	// Note that this is private within the `ImageQueryBuilder` module, to
+	// prevent it from being instantiated outside of this file.
 
-    // Public API
-    // ----------
-
-    WinJS.Namespace.define("Hilo", {
-        ImageQueryBuilder: WinJS.Class.define(ImageQueryBuilder, imageQueryBuilderMethods)
-    });
+    var Query = WinJS.Class.define(QueryObjectConstructor, queryObjectMembers);
 
 })();
