@@ -11,7 +11,7 @@
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
 
-        this.setupEvents();
+        this.listenToMouseDown();
     }
 
     // Corner Type Members
@@ -30,15 +30,27 @@
     // --------------
 
     var cornerMembers = {
-        setupEvents: function () {
+        listenToMouseDown: function () {
             this.el.addEventListener("mousedown", this.mouseDown);
+        },
+
+        ignoreMouseDown: function () {
+            this.el.removeEventListener("mousedown", this.mouseDown);
+        },
+
+        listenToMouseUp: function () {
+            window.addEventListener("mouseup", this.mouseUp);
+        },
+
+        ignoreMouseUp: function () {
+            window.removeEventListener("mouseup", this.mouseUp);
         },
 
         mouseDown: function (e) {
             e.preventDefault();
 
-            window.addEventListener("mouseup", this.mouseUp);
-            this.el.removeEventListener("mousedown", this.mouseDown);
+            this.ignoreMouseDown();
+            this.listenToMouseUp();
 
             this.dispatchEvent("start", {
                 corner: this
@@ -48,11 +60,10 @@
         mouseUp: function (e) {
             e.preventDefault();
 
-            window.removeEventListener("mouseup", this.mouseUp);
+            this.ignoreMouseUp();
+            this.listenToMouseDown();
 
-            this.dispatchEvent("stop", {
-                corner: this
-            });
+            this.dispatchEvent("stop");
         },
 
         getUpdatedCoords: function (point) {
@@ -132,7 +143,7 @@
             window.addEventListener("mousemove", this.mouseMove);
         },
 
-        stopCornerMove: function (args) {
+        stopCornerMove: function () {
             window.removeEventListener("mousemove", this.mouseMove);
             delete this._currentCorner;
         },
@@ -166,7 +177,6 @@
 
         drawRubberBand: function () {
             var coords = this.getCoords();
-            var rubberBandStyle = this.rubberBand.style;
             var bounding = this.boundingRect;
 
             var top = bounding.top + coords.top;
@@ -174,6 +184,7 @@
             var height = coords.height;
             var width = coords.width;
 
+            var rubberBandStyle = this.rubberBand.style;
             rubberBandStyle.left = left + "px";
             rubberBandStyle.top = top + "px";
             rubberBandStyle.width = coords.width + "px";
