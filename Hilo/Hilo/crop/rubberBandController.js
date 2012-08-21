@@ -41,7 +41,7 @@
             this.el.removeEventListener("mousedown", this.mouseDown);
 
             this.dispatchEvent("start", {
-                position: this.position
+                corner: this
             });
         },
 
@@ -51,8 +51,37 @@
             window.removeEventListener("mouseup", this.mouseUp);
 
             this.dispatchEvent("stop", {
-                position: this.position
+                corner: this
             });
+        },
+
+        getUpdatedCoords: function (point) {
+            var coords = {};
+
+            switch (this.position) {
+                case (Corner.position.topLeft): {
+                    coords.startX = point.x;
+                    coords.startY = point.y;
+                    break;
+                }
+                case (Corner.position.topRight): {
+                    coords.endX = point.x
+                    coords.startY = point.y;
+                    break;
+                }
+                case (Corner.position.bottomLeft): {
+                    coords.startX = point.x
+                    coords.endY = point.y
+                    break;
+                }
+                case (Corner.position.bottomRight): {
+                    coords.endX = point.x
+                    coords.endY = point.y;
+                    break;
+                }
+            }
+
+            return coords;
         }
     };
 
@@ -99,7 +128,7 @@
         },
 
         startCornerMove: function (args) {
-            this._currentCorner = args.detail.position;
+            this._currentCorner = args.detail.corner;
             window.addEventListener("mousemove", this.mouseMove);
         },
 
@@ -124,27 +153,11 @@
         },
 
         moveRubberBand: function (point) {
+            var coords = this._currentCorner.getUpdatedCoords(point);
 
-            switch (this._currentCorner) {
-                case (Corner.position.topLeft): {
-                    this.rubberBandCoords.startX = point.x;
-                    this.rubberBandCoords.startY = point.y;
-                    break;
-                }
-                case (Corner.position.topRight): {
-                    this.rubberBandCoords.endX = point.x
-                    this.rubberBandCoords.startY = point.y;
-                    break;
-                }
-                case (Corner.position.bottomLeft): {
-                    this.rubberBandCoords.startX = point.x
-                    this.rubberBandCoords.endY = point.y
-                    break;
-                }
-                case (Corner.position.bottomRight): {
-                    this.rubberBandCoords.endX = point.x
-                    this.rubberBandCoords.endY = point.y;
-                    break;
+            for (var attr in coords) {
+                if (coords.hasOwnProperty(attr)) {
+                    this.rubberBandCoords[attr] = coords[attr];
                 }
             }
 
@@ -174,13 +187,11 @@
         },
 
         getCoords: function () {
-            var endX = Math.max(this.rubberBandCoords.startX, this.rubberBandCoords.endX);
-            var endY = Math.max(this.rubberBandCoords.startY, this.rubberBandCoords.endY);
+            var left = this.rubberBandCoords.startX;
+            var top = this.rubberBandCoords.startY;
 
-            var left = Math.min(this.rubberBandCoords.startX, this.rubberBandCoords.endX);
-            var top = Math.min(this.rubberBandCoords.startY, this.rubberBandCoords.endY);
-            var width = endX - left;
-            var height = endY - top;
+            var width = this.rubberBandCoords.endX - left;
+            var height = this.rubberBandCoords.endY - top;
 
             return {
                 left: left,
@@ -188,9 +199,6 @@
                 width: width,
                 height: height
             };
-        },
-
-        shutDown: function () {
         },
 
         getCanvasPoint: function (windowX, windowY) {

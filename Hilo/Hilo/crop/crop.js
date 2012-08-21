@@ -25,7 +25,6 @@
         },
 
         unload: function () {
-            this.rubberBandController.shutDown();
             delete this.rubberBandController;
         }
     };
