@@ -26,6 +26,7 @@
 	    this.rubberBand.addEventListener("move", this.moveRubberBand.bind(this));
 
 	    fileLoader.then(this.loadImage.bind(this));
+
     }
 
 	// Methods
@@ -40,6 +41,8 @@
 			this.image = new Image();
 			this.image.src = url;
 			this.image.onload = this.showImage.bind(this);
+
+			this.rubberBand.start();
         },
 
 	    showImage: function (loadedImage) {

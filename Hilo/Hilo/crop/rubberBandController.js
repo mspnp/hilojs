@@ -27,7 +27,6 @@
         this.setupCorners();
 
         this.mouseMove = this.mouseMove.bind(this);
-        this.startRubberBand();
     }
 
     // Rubber Band Controller Members
@@ -49,6 +48,19 @@
             corner.addEventListener("stop", this.stopCornerMove.bind(this));
         },
 
+        start: function () {
+            this.rubberBand.style.display = "block";
+
+            this.rubberBandCoords = {
+                startX: 0,
+                startY: 0,
+                endX: this.boundingRect.width,
+                endY: this.boundingRect.height
+            };
+
+            this.dispatchMove();
+        },
+
         startCornerMove: function (args) {
             this._currentCorner = args.detail.corner;
             window.addEventListener("mousemove", this.mouseMove);
@@ -64,15 +76,6 @@
             this.moveRubberBand(this._currentCorner, point);
         },
 
-        startRubberBand: function () {
-            this.rubberBandCoords = {
-                startX: 0,
-                startY: 0,
-                endX: this.boundingRect.width,
-                endY: this.boundingRect.height
-            };
-        },
-
         moveRubberBand: function (cornerToMove, moveToPoint) {
             var coords = cornerToMove.getUpdatedCoords(moveToPoint);
 
@@ -81,9 +84,12 @@
                     this.rubberBandCoords[attr] = coords[attr];
                 }
             }
+            
+            this.dispatchMove();
+        },
 
+        dispatchMove: function(){
             this.dispatchEvent("move", {
-                corner: this._currentCorner,
                 coords: this.rubberBandCoords
             });
         },

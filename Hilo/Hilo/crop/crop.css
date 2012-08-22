@@ -22,8 +22,8 @@
 #rubberBand {
 	position: fixed;
 	border: 2px dashed #fff;
-	display: block;
-	overflow: hidden;
+	display: none;
+	overflow: visible;
 	min-height: 30px;
 	min-width: 30px;
 }
@@ -34,39 +34,39 @@
 	opacity: 0.5;
 	cursor: crosshair;
 	display: block;
-	height: 15px;
-	width: 15px;
+	height: 20px;
+	width: 20px;
 	overflow: hidden;
 }
 
 #topLeft {
 	position: absolute;
-	top: 0px;
-	left: 0px;
+	top: -10px;
+	left: -10px;
 	border-right: 2px dashed #000;
 	border-bottom: 2px dashed #000;
 }
 
 #topRight {
 	position: absolute;
-	top: 0px;
-	right: 0px;
+	top: -10px;
+	right: -10px;
 	border-left: 2px dashed #000;
 	border-bottom: 2px dashed #000;
 }
 
 #bottomLeft {
 	position: absolute;
-	bottom: 0px;
-	left: 0px;
+	bottom: -10px;
+	left: -10px;
 	border-right: 2px dashed #000;
 	border-top: 2px dashed #000;
 }
 
 #bottomRight {
 	position: absolute;
-	bottom: 0px;
-	right: 0px;
+	bottom: -10px;
+	right: -10px;
 	border-left: 2px dashed #000;
 	border-top: 2px dashed #000;
 }
