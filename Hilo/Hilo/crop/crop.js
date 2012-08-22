@@ -22,19 +22,14 @@
 
     		this.sizeCanvas(canvasEl);
 
+    		var rubberBandView = new Hilo.Crop.RubberBandView(canvasEl, rubberBandEl);
     		var rubberBandController = new Hilo.Crop.RubberBandController(canvasEl, rubberBandEl);
-    		var controller = new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBandController);
 
+    		new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBandController, rubberBandView);
         },
 
-	    sizeCanvas: function (canvas) {
-	        var parent = canvas.parentNode;
-
-	        var parentStyle = window.getComputedStyle(parent);
-	        var height = parentStyle.getPropertyValue("height");
-	        var width = parentStyle.getPropertyValue("width");
-
-	        canvas.height = 800;
+        sizeCanvas: function (canvas) {
+            canvas.height = 800;
 	        canvas.width = 600;
 	    },
 

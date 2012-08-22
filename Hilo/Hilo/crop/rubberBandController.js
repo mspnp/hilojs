@@ -10,118 +10,19 @@
 (function () {
     "use strict";
 
-    // Corner Constructor
-    // ------------------
+    // Imports And Constants
+    // ---------------------
 
-    function CornerConstructor(el, position) {
-        this.el = el;
-        this.position = position;
-
-        this.mouseDown = this.mouseDown.bind(this);
-        this.mouseUp = this.mouseUp.bind(this);
-
-        this.listenToMouseDown();
-    }
-
-    // Corner Type Members
-    // -------------------
-
-    var cornerTypeMembers = {
-        position: {
-            topLeft: 0,
-            topRight: 1,
-            bottomLeft: 2,
-            bottomRight: 3
-        }
-    };
-
-    // Corner Members
-    // --------------
-
-    var cornerMembers = {
-        listenToMouseDown: function () {
-            this.el.addEventListener("mousedown", this.mouseDown);
-        },
-
-        ignoreMouseDown: function () {
-            this.el.removeEventListener("mousedown", this.mouseDown);
-        },
-
-        listenToMouseUp: function () {
-            window.addEventListener("mouseup", this.mouseUp);
-        },
-
-        ignoreMouseUp: function () {
-            window.removeEventListener("mouseup", this.mouseUp);
-        },
-
-        mouseDown: function (e) {
-            e.preventDefault();
-
-            this.ignoreMouseDown();
-            this.listenToMouseUp();
-
-            this.dispatchEvent("start", {
-                corner: this
-            });
-        },
-
-        mouseUp: function (e) {
-            e.preventDefault();
-
-            this.ignoreMouseUp();
-            this.listenToMouseDown();
-
-            this.dispatchEvent("stop");
-        },
-
-        getUpdatedCoords: function (point) {
-            var coords = {};
-
-            switch (this.position) {
-                case (Corner.position.topLeft): {
-                    coords.startX = point.x;
-                    coords.startY = point.y;
-                    break;
-                }
-                case (Corner.position.topRight): {
-                    coords.endX = point.x
-                    coords.startY = point.y;
-                    break;
-                }
-                case (Corner.position.bottomLeft): {
-                    coords.startX = point.x
-                    coords.endY = point.y
-                    break;
-                }
-                case (Corner.position.bottomRight): {
-                    coords.endX = point.x
-                    coords.endY = point.y;
-                    break;
-                }
-            }
-
-            return coords;
-        }
-    };
-
-    // Corner Type Definition
-    // ----------------------
-
-    var Corner = WinJS.Class.mix(
-        WinJS.Class.define(CornerConstructor, cornerMembers, cornerTypeMembers),
-        WinJS.Utilities.eventMixin
-    );
+    var Corner = Hilo.Crop.RubberBandCorner;
 
     // Rubber Band Controller Constructor
     // ----------------------------------
 
     function RubberBandControllerConstructor(canvasEl, rubberBandEl) {
         this.canvas = canvasEl;
-        this.context = canvasEl.getContext("2d");
-        this.boundingRect = canvasEl.getBoundingClientRect();
         this.rubberBand = rubberBandEl;
 
+        this.boundingRect = this.canvas.getBoundingClientRect();
         this.corners = [];
         this.setupCorners();
 
@@ -160,8 +61,7 @@
 
         mouseMove: function (e) {
             var point = this.getCanvasPoint(e.clientX, e.clientY);
-            this.dispatchEvent("move");
-            this.moveRubberBand(point);
+            this.moveRubberBand(this._currentCorner, point);
         },
 
         startRubberBand: function () {
@@ -171,11 +71,10 @@
                 endX: this.boundingRect.width,
                 endY: this.boundingRect.height
             };
-            this.drawRubberBand();
         },
 
-        moveRubberBand: function (point) {
-            var coords = this._currentCorner.getUpdatedCoords(point);
+        moveRubberBand: function (cornerToMove, moveToPoint) {
+            var coords = cornerToMove.getUpdatedCoords(moveToPoint);
 
             for (var attr in coords) {
                 if (coords.hasOwnProperty(attr)) {
@@ -183,80 +82,10 @@
                 }
             }
 
-            this.drawRubberBand();
-        },
-
-        drawRubberBand: function () {
-            var coords = this.getCoords();
-            var bounding = this.boundingRect;
-            var rubberBandStyle = this.rubberBand.style;
-
-            var top = bounding.top + coords.top;
-            var left = bounding.left + coords.left;
-            var height = coords.height;
-            var width = coords.width;
-
-            this.drawShadedBox(this.rubberBandCoords);
-
-            rubberBandStyle.left = left + "px";
-            rubberBandStyle.top = top + "px";
-            rubberBandStyle.width = width + "px";
-            rubberBandStyle.height = height + "px";
-        },
-
-        drawShadedBox: function (coords) {
-            var offset = 2;
-            var boundHeight = this.boundingRect.height;
-            var boundWidth = this.boundingRect.width;
-
-            this.context.save();
-            this.context.beginPath();
-
-            // outer box, clockwise
-            this.context.moveTo(0, 0);
-
-            this.context.lineTo(boundWidth, 0);
-            this.context.lineTo(boundWidth, boundHeight);
-            this.context.lineTo(0, boundHeight);
-
-            this.context.closePath();
-
-            // inner box, counter-clockwise
-
-            this.context.moveTo(coords.startX + offset, coords.startY + offset);
-
-            this.context.lineTo(coords.startX + offset, coords.endY + offset);
-            this.context.lineTo(coords.endX + offset, coords.endY + offset);
-            this.context.lineTo(coords.endX + offset, coords.startY + offset);
-
-            this.context.closePath();
-
-            // Fill & cutout
-            this.context.fillStyle = "rgba(0, 0, 0, 0.75)";
-            this.context.fill();
-
-            this.context.restore();
-        },
-
-        stopRubberBand: function (point) {
-            this.moveRubberBand(point);
-            var coords = this.getCoords();
-            this.dispatchEvent("rubberbanded", coords);
-        },
-
-        getCoords: function () {
-            var left = this.rubberBandCoords.startX;
-            var top = this.rubberBandCoords.startY;
-
-            var width = this.rubberBandCoords.endX - left;
-            var height = this.rubberBandCoords.endY - top;
-
-            return {
-                left: left,
-                top: top,
-                width: width,
-                height: height
-            };
+            this.dispatchEvent("move", {
+                corner: this._currentCorner,
+                coords: this.rubberBandCoords
+            });
         },
 
         getCanvasPoint: function (windowX, windowY) {
