@@ -42,6 +42,8 @@
             // I18N resource binding for this page
             WinJS.Resources.processAll();
 
+            Hilo.controls.checkOptions(options);
+
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl, WinJS.Navigation);

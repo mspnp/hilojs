@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Imports And Constants
@@ -18,6 +18,30 @@
         knownFolders = Windows.Storage.KnownFolders,
         search = Windows.Storage.Search,
         commonFileQuery = storage.Search.CommonFileQuery;
+
+    // A list of the folders that query builder supports.
+    // This is used primarily for deserializing a query
+    // after the app has resumed.
+    // The current implementation only supports one folder,
+    // so we could bypass this step. However, if additional
+    // folders were supported you would need a way to 
+    // identify them when the queries are deserialized.
+    var supportedFolders = [knownFolders.picturesLibrary];
+
+    // A simple algorithm for generating an unique id for
+    // a given `StorageFolder`.
+    function generateFolderId(folder) {
+        return folder.displayName + ":" + folder.displayType + ":" + folder.path;
+    }
+
+    // We'll register the support folders by looping over
+    // the array `supportedFolders` and generating a key
+    // for each one. The key will be used in the `deserialize`
+    // function to retrieved the corrseponding folder.
+    supportedFolders.forEach(function (folder) {
+        var key = generateFolderId(folder);
+        supportedFolders[key] = folder;
+    });
 
     // Image Query Builder Constructor
     // -------------------------------
@@ -45,10 +69,10 @@
     // var queryBuilder = new Hilo.ImageQueryBuilder(folderToQuery);
     //
     // queryBuilder
-	//   .count(10)                   // only get 10 images
-	//   .forMonthAndYear("Aug 2012"); // only images taken in August 2012
-	//
-	// var query = queryBuilder.build(storageFolder);
+    //   .count(10)                   // only get 10 images
+    //   .forMonthAndYear("Aug 2012"); // only images taken in August 2012
+    //
+    // var query = queryBuilder.build(storageFolder);
     // query.execute();
     // ```
     // 
@@ -61,7 +85,7 @@
     // [3]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/freeze
 
     function ImageQueryBuilderConstructor() {
-    	this._settings = {};
+        this._settings = {};
         this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
         this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
 
@@ -75,43 +99,55 @@
         this._set("bindable", false);
     }
 
-	// Image Query Builder Type Members
-	// --------------------------------
-	// Type members are often called "static" members, though in JavaScript
-	// they are not actually static.
+    // Image Query Builder Type Members
+    // --------------------------------
+    // Type members are often called "static" members, though in JavaScript
+    // they are not actually static.
 
     var imageQueryBuilderTypeMembers = {
-    	// Deserialize a set of queryBuilder options in to a Query object 
-    	// instance. Use this to restore a Query object that was 
-        // serialized using the `query.serialize()` method;
-	    //
-	    // ```js
-	    // var query = queryBuilder.build();
-	    // var serializedQuery = query.serialize();
-	    // 
-	    // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
-	    // deserializedQuery.execute();
-	    // ```
-    	deserialize: function (serializedQueryObject) {
-    		return new Query(serializedQueryObject);
-    	}
+        // Deserialize a set of queryBuilder options in to a Query object 
+        // instance. Use this to restore a Query object that was 
+        // serialized when the app was suspended.
+        //
+        // ```js
+        // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
+        // deserializedQuery.execute();
+        // ```
+        deserialize: function (serializedQuery) {
+            // Even though we pass in the entire query object, we really only care
+            // about the settings. They allow us to reconstruct the correct query.
+            var settings = serializedQuery.settings;
+
+            var folder = supportedFolders[settings.folderKey];
+            if (!folder) {
+                // This is primarily to help any developer who has to extend Hilo.
+                // If they add support for a new folder, but forget to register it
+                // at the head of this module then this error should help them
+                // identify the problem quickly.
+                throw new Error("Attempted to deserialize a query for an unknown folder: " + settings.folderKey);
+            }
+            settings.folder = folder;
+
+            return new Query(settings);
+        }
     };
 
     // Image Query Builder Members
     // ---------------------------
 
     var imageQueryBuilderMembers = {
-    
+
         // Build the query object with all of the settings that have
-    	// been configured for this builder.  
-    	//
-    	// The StorageFolder to load the images from must be specified.
-    	build: function (storageFolder) {
-    		this._set("folder", storageFolder);
+        // been configured for this builder.  
+        //
+        // The StorageFolder to load the images from must be specified.
+        build: function (storageFolder) {
+            this._set("folder", storageFolder);
+            this._set("folderKey", generateFolderId(storageFolder))
             return new Query(this._settings);
         },
 
-    	// Creates "bindable" objects using the `Hilo.Picture` object,
+        // Creates "bindable" objects using the `Hilo.Picture` object,
         // which is required when the resulting image objects must be
         // bound to a UI element, such as a `ListView`.
         bindable: function () {
@@ -160,7 +196,7 @@
 
         // Internal method to set a key / value pair, used for
         // building the final query.
-        _set: function(key, value){
+        _set: function (key, value) {
             this._settings[key] = value;
             return this;
         }
@@ -170,11 +206,11 @@
     // --------------------------------------
 
     WinJS.Namespace.define("Hilo", {
-    	ImageQueryBuilder: WinJS.Class.define(ImageQueryBuilderConstructor, imageQueryBuilderMembers, imageQueryBuilderTypeMembers)
+        ImageQueryBuilder: WinJS.Class.define(ImageQueryBuilderConstructor, imageQueryBuilderMembers, imageQueryBuilderTypeMembers)
     });
 
 
-	// Query Object Constructor
+    // Query Object Constructor
     // ------------------------
 
     // The QueryObject implementation is private within the ImageQueryBuilder
@@ -182,22 +218,22 @@
     // the use of the ImageQueryBuilder. 
 
     function QueryObjectConstructor(settings) {
-    	// Duplicate and the settings by copying them
-    	// from the original, to a new object. This is
-    	// a shallow copy only.
-		//
-    	// This prevents the original queryBuilder object
-    	// from modifying the settings that have been
-		// sent to this query object.
-    	var dupSettings = {};
-    	for (var attr in settings) {
-    		if (settings.hasOwnProperty(attr)) {
-    			dupSettings[attr] = settings[attr];
-    		}
-    	}
+        // Duplicate and the settings by copying them
+        // from the original, to a new object. This is
+        // a shallow copy only.
+        //
+        // This prevents the original queryBuilder object
+        // from modifying the settings that have been
+        // sent to this query object.
+        var dupSettings = {};
+        for (var attr in settings) {
+            if (settings.hasOwnProperty(attr)) {
+                dupSettings[attr] = settings[attr];
+            }
+        }
 
-    	// Freeze the settings to prevent them from being
-    	// modified in this query object.
+        // Freeze the settings to prevent them from being
+        // modified in this query object.
         this.settings = Object.freeze(dupSettings);
 
         // Build the query options and file query
@@ -223,26 +259,26 @@
         // ```
         //
         // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
-    	execute: function () {
-    		var start, count;
+        execute: function () {
+            var start, count;
             var queryPromise;
 
-            switch (arguments.length){
-            	case (0): {
-            		start = this.settings.startingIndex;
-            		count = this.settings.count;
-            		break;
-            	}
-            	case (1): {
-            		start = arguments[0];
-            		count = 1;
-            		break;
-				}
-            	case (2): {
-            		start = arguments[0];
-            		count = arguments[1];
-            	}
-            } 
+            switch (arguments.length) {
+                case (0): {
+                    start = this.settings.startingIndex;
+                    count = this.settings.count;
+                    break;
+                }
+                case (1): {
+                    start = arguments[0];
+                    count = 1;
+                    break;
+                }
+                case (2): {
+                    start = arguments[0];
+                    count = arguments[1];
+                }
+            }
 
             if (count) {
                 // Limit the query to a set number of files to be returned, which accounts
@@ -255,16 +291,17 @@
             if (this.settings.bindable) {
                 // Create `Hilo.Picture` objects instead of returning `StorageFile` objects
                 queryPromise = queryPromise.then(this._createViewModels);
-            } 
+            }
 
             return queryPromise;
         },
 
-        // Serialize this query object in to a JavaScript object literal as
-        // a set of key/value pairs that can be stored as a string, 
-        // transfered as JSON data, or otherwise manipulated.
-        serialize: function () {
-            return this.settings;
+        // This method is called by convention when this object is serialized.
+        // This implementation does not add anything beyond the builtin logic,
+        // however we include it in order to demonstrate were you could 
+        // customize the serialization if you needed.
+        toJSON: function () {
+            return this;
         },
 
         // Internal method to take the options specified in the queryb uilder
@@ -291,7 +328,7 @@
 
         // Internal method. Converts a QueryOptions object in to a file query.
         _buildFileQuery: function () {
-        	return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
+            return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
         },
 
         // Internal method. Wraps the original `StorageFile` objects in 
@@ -302,10 +339,10 @@
         }
     };
 
-	// Query Type Definition
-	// ---------------------
-	// Note that this is private within the `ImageQueryBuilder` module, to
-	// prevent it from being instantiated outside of this file.
+    // Query Type Definition
+    // ---------------------
+    // Note that this is private within the `ImageQueryBuilder` module, to
+    // prevent it from being instantiated outside of this file.
 
     var Query = WinJS.Class.define(QueryObjectConstructor, queryObjectMembers);
 

@@ -26,6 +26,8 @@
             // I18N resource binding for this page
             WinJS.Resources.processAll();
 
+            Hilo.controls.checkOptions(options);
+
             this.queryBuilder = new Hilo.ImageQueryBuilder();
 
             // First, setup the various data adapters needed

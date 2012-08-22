@@ -22,6 +22,8 @@
             // I18N resource binding for this page
             WinJS.Resources.processAll();
 
+            Hilo.controls.checkOptions(options);
+
             // load the images from the specified query, and show them
             var query = options.query;
             var itemIndex = options.itemIndex;

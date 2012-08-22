@@ -7,16 +7,16 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("image query builder", function () {
+describe("image query builder", function () {
 
     var queryBuilder, storageFolder;
 
     beforeEach(function (done) {
-    	queryBuilder = new Hilo.ImageQueryBuilder();
+        queryBuilder = new Hilo.ImageQueryBuilder();
 
-    	var whenFolder = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
-    	whenFolder.then(function (folder) {
-    		storageFolder = folder;
+        var whenFolder = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
+        whenFolder.then(function (folder) {
+            storageFolder = folder;
             done();
         });
     });
@@ -25,7 +25,7 @@
         var query;
 
         beforeEach(function () {
-        	query = queryBuilder.build(storageFolder);
+            query = queryBuilder.build(storageFolder);
         });
 
         it("should return a query object that can be executed", function () {
@@ -35,17 +35,35 @@
 
 
     describe("when serializing and then deserializing a query object", function () {
-        var deserializedQuery, serializedQuery;
+        var restoredQuery, originalQuery;
 
         beforeEach(function () {
-        	var query = queryBuilder.build(storageFolder);
+            originalQuery = queryBuilder.build(Windows.Storage.KnownFolders.picturesLibrary);
 
-            serializedQuery = query.serialize();
-            deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
+            var jsonQuery = JSON.stringify(originalQuery);
+            var parsedQuery = JSON.parse(jsonQuery);
+            restoredQuery = Hilo.ImageQueryBuilder.deserialize(parsedQuery);
         });
 
         it("should restore all of the options for the query", function () {
-            expect(deserializedQuery.settings).deep.equals(serializedQuery);
+            expect(restoredQuery.settings).deep.equals(originalQuery.settings);
+        });
+    });
+
+    describe("when deserializing a query object for an unsupported folder", function () {
+        var parsedQuery, deserializeFnWithParameter;
+
+        beforeEach(function () {
+            var query = queryBuilder.build(storageFolder);
+
+            var jsonQuery = JSON.stringify(query);
+            parsedQuery = JSON.parse(jsonQuery);
+
+            deserializeFnWithParameter = Hilo.ImageQueryBuilder.deserialize.bind(null, parsedQuery);
+        });
+
+        it("should throw an error explaining that the folder is unknown", function () {
+            expect(deserializeFnWithParameter).throw(Error, /unknown folder/);
         });
     });
 
@@ -53,13 +71,13 @@
         var query;
 
         beforeEach(function () {
-        	query = queryBuilder
+            query = queryBuilder
 				.forMonthAndYear("Jan 2012")
 				.build(storageFolder);
         });
 
         it("should configure the query for the specified month and year", function () {
-        	expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate: Jan 2012");
+            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate: Jan 2012");
         });
     });
 
@@ -67,7 +85,7 @@
         var queryResult;
 
         beforeEach(function () {
-        	queryResult = queryBuilder
+            queryResult = queryBuilder
 				.count(1)
 				.build(storageFolder)
         		.execute();
@@ -77,7 +95,7 @@
             queryResult.then(function (images) {
                 expect(images.length).equals(1);
                 done();
-    		}).done(null, done);
+            }).done(null, done);
         });
     });
 
@@ -85,7 +103,7 @@
         var queryResult;
 
         beforeEach(function () {
-        	queryResult = queryBuilder
+            queryResult = queryBuilder
 				.build(storageFolder)
 				.execute();
         });
@@ -94,7 +112,7 @@
             queryResult.then(function (images) {
                 expect(images.length).equals(17);
                 done();
-    		}).done(null, done);
+            }).done(null, done);
         });
     });
 
@@ -102,36 +120,36 @@
         var queryResult;
 
         beforeEach(function () {
-        	queryResult = queryBuilder
+            queryResult = queryBuilder
 				.imageAt(1)
 				.build(storageFolder)
 				.execute();
         });
 
         it("should only load that one image when executing", function (done) {
-        	queryResult.then(function (images) {
-        		expect(images.length).equals(1);
+            queryResult.then(function (images) {
+                expect(images.length).equals(1);
                 done();
-    		}).done(null, done);
+            }).done(null, done);
         });
     });
 
     describe("when specifying the images should be bindable", function () {
-    	var queryResult;
+        var queryResult;
 
-    	beforeEach(function () {
-    		queryResult = queryBuilder
+        beforeEach(function () {
+            queryResult = queryBuilder
 				.bindable()
 				.build(storageFolder)
 				.execute();
         });
 
-    	it("should return instances of bindable Picture objects", function (done) {
-    		queryResult.then(function (images) {
-    			var image = images[0];
-    			expect(image instanceof Hilo.Picture).equals(true);
-            	done();
-    		}).done(null, done);
+        it("should return instances of bindable Picture objects", function (done) {
+            queryResult.then(function (images) {
+                var image = images[0];
+                expect(image instanceof Hilo.Picture).equals(true);
+                done();
+            }).done(null, done);
         });
     });
 
@@ -139,35 +157,35 @@
         var queryResult;
 
         beforeEach(function () {
-        	queryResult = queryBuilder
+            queryResult = queryBuilder
 				.imageAt(0)
 				.build(storageFolder)
         		.execute();
         });
 
-    	it("should load the one specified image", function (done) {
+        it("should load the one specified image", function (done) {
             queryResult.then(function (images) {
-            	expect(images.length).equals(1);
-            	done();
-    		}).done(null, done);
-    	});
+                expect(images.length).equals(1);
+                done();
+            }).done(null, done);
+        });
     });
 
     describe("when executing an already built query and specifying an image index", function () {
-    	var queryResult;
-    	var imageIndex = 0;
+        var queryResult;
+        var imageIndex = 0;
 
-    	beforeEach(function () {
-    		queryResult = queryBuilder
+        beforeEach(function () {
+            queryResult = queryBuilder
 				.build(storageFolder)
 	        	.execute(imageIndex);
         });
 
-    	it("should load the one specified image", function (done) {
-    		queryResult.then(function (images) {
-    			expect(images.length).equals(1);
-    			done();
-    		}).done(null, done);
-    	});
+        it("should load the one specified image", function (done) {
+            queryResult.then(function (images) {
+                expect(images.length).equals(1);
+                done();
+            }).done(null, done);
+        });
     });
 });

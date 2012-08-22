@@ -71,6 +71,9 @@
     <Content Include="..\Hilo\Hilo\controls\ImageNav\imageNavController.js">
       <Link>Hilo\controls\ImageNav\imageNavController.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\controls\pageControlHelper.js">
+      <Link>Hilo\controls\pageControlHelper.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\detail\detail.html">
       <Link>Hilo\detail\detail.html</Link>
     </Content>
@@ -189,6 +192,7 @@
     <Content Include="specs\month\month.Groups.spec.js" />
     <Content Include="specs\month\month.Members.spec.js" />
     <Content Include="specs\month\month.spec.js" />
+    <Content Include="specs\pageControl\pageControlHelper.spec.js" />
     <Content Include="specs\Picture\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
     <Content Include="specs\Rotate\menuController.spec.js" />

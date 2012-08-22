@@ -13,6 +13,12 @@
     var page = {
 
         ready: function (element, options) {
+
+            // I18N resource binding for this page
+            WinJS.Resources.processAll();
+
+            Hilo.controls.checkOptions(options);
+
     		var selectedIndex = options.itemIndex;
     		var query = options.query;
     		var fileLoader = query.execute(selectedIndex);
