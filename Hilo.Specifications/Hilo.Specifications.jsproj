@@ -206,6 +206,7 @@
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="specs\crop\rubberBand.spec.js" />
+    <Content Include="specs\crop\rubberBandCorner.spec.js" />
     <Content Include="specs\crop\rubberBandView.spec.js" />
     <Content Include="specs\detail\detailPageController.spec.js" />
     <Content Include="specs\detail\filmstripController.spec.js" />
