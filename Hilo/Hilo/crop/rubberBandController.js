@@ -196,6 +196,7 @@
         },
 
         drawShadedBox: function (coords) {
+            var offset = 2;
             var boundHeight = this.boundingRect.height;
             var boundWidth = this.boundingRect.width;
 
@@ -213,16 +214,16 @@
 
             // inner box, counter-clockwise
 
-            this.context.moveTo(coords.startX, coords.startY);
+            this.context.moveTo(coords.startX + offset, coords.startY + offset);
 
-            this.context.lineTo(coords.startX, coords.endY);
-            this.context.lineTo(coords.endX, coords.endY);
-            this.context.lineTo(coords.endX, coords.startY);
+            this.context.lineTo(coords.startX + offset, coords.endY + offset);
+            this.context.lineTo(coords.endX + offset, coords.endY + offset);
+            this.context.lineTo(coords.endX + offset, coords.startY + offset);
 
             this.context.closePath();
 
             // Fill & cutout
-            this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
+            this.context.fillStyle = "rgba(0, 0, 0, 0.75)";
             this.context.fill();
 
             this.context.restore();
