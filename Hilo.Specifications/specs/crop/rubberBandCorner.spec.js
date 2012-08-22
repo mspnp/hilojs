@@ -11,6 +11,54 @@ describe("rubber band corner", function () {
 
     var corner;
 
+    describe("when mouse down", function () {
+        var handler;
+
+        beforeEach(function () {
+            var el = document.createElement("div");
+            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+
+            handler = function () {
+                handler.wasCalled = true;
+            }
+
+            corner = new Hilo.Crop.RubberBandCorner(el, position);
+            corner.addEventListener("start", handler);
+
+            corner.mouseDown({
+                preventDefault: function () { }
+            });
+        });
+
+        it("should dispatch a 'start' event", function () {
+            expect(handler.wasCalled).equals(true);
+        });
+    });
+
+    describe("when mouse is down and then released", function () {
+        var handler;
+
+        beforeEach(function () {
+            var el = document.createElement("div");
+            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+
+            handler = function () {
+                handler.wasCalled = true;
+            }
+
+            corner = new Hilo.Crop.RubberBandCorner(el, position);
+            corner.addEventListener("stop", handler);
+
+            corner.mouseUp({
+                preventDefault: function () { }
+            });
+        });
+
+        it("should dispatch a 'stop' event", function () {
+            expect(handler.wasCalled).equals(true);
+        });
+    });
+
     describe("when a corner is top left and asked to for a coordinate", function () {
         var coords;
 
