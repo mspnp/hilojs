@@ -10,12 +10,34 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+    
+    // A list of possible positions. These values are
+    // arbitrary in nature, but represent the identity
+    // of the corner, to facilitate the behavior of
+    // a `RubberBandCorner` instance.
+    var topLeft = 0,
+        topRight = 1,
+        bottomLeft = 2,
+        bottomRight = 3
+
     // RubberBand Corner Constructor
     // -----------------------------
+    // Represents a "corner" of the rubber band for
+    // selecting the area of an image to crop to. Each
+    // of the corners is click-and-draggable, to set the
+    // position of the corner. 
 
+    // The contructor for a RubberBandCorner. Takes 2 
+    // parameters:
+    // 
+    // * el - the DOM element that this corner controls
+    // * position - the `RubberBandCorner.position` that this corner represents
     function RubberBandCornerConstructor(el, position) {
         this.el = el;
         this.position = position;
+        this._positionalCoordFunction = positionalCoordFunctions[position];
 
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
@@ -26,12 +48,14 @@
     // RubberBand Corner Type Members
     // ------------------------------
 
+    // Provides a "static" list of the corner positions
+    // so that they can be referenced elsewhere in the application.
     var rubberBandCornerTypeMembers = {
         position: {
-            topLeft: 0,
-            topRight: 1,
-            bottomLeft: 2,
-            bottomRight: 3
+            topLeft: topLeft,
+            topRight: topRight,
+            bottomLeft: bottomLeft,
+            bottomRight: bottomRight
         }
     };
 
@@ -39,22 +63,32 @@
     // -------------------------
 
     var rubberBandCornerMembers = {
+
+        // Initializes the "mousedown" event for the corner's DOM element
         listenToMouseDown: function () {
             this.el.addEventListener("mousedown", this.mouseDown);
         },
 
+        // Removes the "mousedown" event for the corner's DOM element
         ignoreMouseDown: function () {
             this.el.removeEventListener("mousedown", this.mouseDown);
         },
 
+        // Initializes the "mousedown" event for the DOM as a whole. 
+        // This is done to allow the mouseup to occur anywhere in the
+        // application, ensuring we will always let go of the corner
+        // at the appropriate time.
         listenToMouseUp: function () {
             window.addEventListener("mouseup", this.mouseUp);
         },
 
+        // Removes the "mouseup" event for the DOM
         ignoreMouseUp: function () {
             window.removeEventListener("mouseup", this.mouseUp);
         },
 
+        // The "mousedown" event handler. Dispatches a "start"
+        // event that signifies this corner is being moved.
         mouseDown: function (e) {
             e.preventDefault();
 
@@ -66,6 +100,8 @@
             });
         },
 
+        // The "mouseup" event handler. Dispatches a "stop"
+        // event that signifies this corner is no longer being moved
         mouseUp: function (e) {
             e.preventDefault();
 
@@ -75,34 +111,56 @@
             this.dispatchEvent("stop");
         },
 
+        // Executes the proper positional coordinate function to
+        // translate the given point in to the correct coordinates
+        // for the rubber band as a whole. The current "position" of
+        // the corner object instance is used to determine which
+        // positional coordinate function should be called, when
+        // the corner object is instantiated.
         getUpdatedCoords: function (point) {
-            var coords = {};
-
-            switch (this.position) {
-                case (rubberBandCornerTypeMembers.position.topLeft): {
-                    coords.startX = point.x;
-                    coords.startY = point.y;
-                    break;
-                }
-                case (rubberBandCornerTypeMembers.position.topRight): {
-                    coords.endX = point.x
-                    coords.startY = point.y;
-                    break;
-                }
-                case (rubberBandCornerTypeMembers.position.bottomLeft): {
-                    coords.startX = point.x
-                    coords.endY = point.y
-                    break;
-                }
-                case (rubberBandCornerTypeMembers.position.bottomRight): {
-                    coords.endX = point.x
-                    coords.endY = point.y;
-                    break;
-                }
-            }
-
-            return coords;
+            return this._positionalCoordFunction(point);
         }
+    };
+
+    // Positional Coordinate Functions
+    // -------------------------------
+
+    // These functions are associated with a specific corner position,
+    // and provide the means to translate a given point in to the correct
+    // coordinate parameters based on that position. 
+    //
+    // These functions are injected in to the `RubberBandCorner` object
+    // when it's initialized, based on the position passed in to the
+    // corner's constructor function. This allows the corner to cache
+    // the function that it needs, preventing additional looking each 
+    // time a point needs to be converted to the correct coordinate values.
+    // 
+    // This technique is referred to as [init-time branching][1] and is 
+    // an optimization technique for making a decision once and only
+    // once, for the lifetime of a given object.
+    // 
+    // [1]: http://www.jspatterns.com/coding-patterns/init-time-branching/
+
+    var positionalCoordFunctions = {};
+
+    // The "top left" corner
+    positionalCoordFunctions[topLeft] = function (point) {
+        return { startX: point.x, startY: point.y }
+    };
+
+    // The "top right" corner
+    positionalCoordFunctions[topRight] = function (point) {
+        return { endX: point.x, startY: point.y }
+    };
+
+    // The "bottom left" corner
+    positionalCoordFunctions[bottomLeft] = function (point) {
+        return { startX: point.x, endY: point.y }
+    };
+
+    // The "bottom right" corner
+    positionalCoordFunctions[bottomRight] = function (point) {
+        return { endX: point.x, endY: point.y }
     };
 
     // RubberBand Corner Type Definition
