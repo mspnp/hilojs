@@ -8,3 +8,4 @@ August 22, 2012
 * The page title does not reflect the select month/year group on the detail page.
 * The appbar sticks on the detail page.
 * Touch gestures are not working for the rotate page.
+* Crop functionality is incomplete.
