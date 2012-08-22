@@ -151,6 +151,7 @@
 
         mouseMove: function (e) {
             var point = this.getCanvasPoint(e.clientX, e.clientY);
+            this.dispatchEvent("move");
             this.moveRubberBand(point);
         },
 
@@ -186,7 +187,7 @@
             var height = coords.height;
             var width = coords.width;
 
-            this.drawShadedBox(coords.top, coords.left, height, width);
+            this.drawShadedBox(this.rubberBandCoords);
 
             rubberBandStyle.left = left + "px";
             rubberBandStyle.top = top + "px";
@@ -194,13 +195,35 @@
             rubberBandStyle.height = height + "px";
         },
 
-        drawShadedBox: function (top, left, height, width) {
+        drawShadedBox: function (coords) {
+            var boundHeight = this.boundingRect.height;
+            var boundWidth = this.boundingRect.width;
+
             this.context.save();
+            this.context.beginPath();
 
+            // outer box, clockwise
+            this.context.moveTo(0, 0);
+
+            this.context.lineTo(boundWidth, 0);
+            this.context.lineTo(boundWidth, boundHeight);
+            this.context.lineTo(0, boundHeight);
+
+            this.context.closePath();
+
+            // inner box, counter-clockwise
+
+            this.context.moveTo(coords.startX, coords.startY);
+
+            this.context.lineTo(coords.startX, coords.endY);
+            this.context.lineTo(coords.endX, coords.endY);
+            this.context.lineTo(coords.endX, coords.startY);
+
+            this.context.closePath();
+
+            // Fill & cutout
             this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
-            this.context.globalCompositeOperation = "destination-out";
-
-            this.context.fillRect(left, top, width, height);
+            this.context.fill();
 
             this.context.restore();
         },

@@ -4,14 +4,32 @@
 	// Constructor Function
 	// --------------------
 
-	function CropControllerConstructor(canvasEl, fileLoader, urlBuilder) {
+	function CropControllerConstructor(canvasEl, fileLoader, urlBuilder, rubberBandController) {
+	    var that = this;
+
 	    this.canvas = canvasEl;
+
 	    this.context = canvasEl.getContext("2d");
 	    this.urlBuilder = urlBuilder;
+	    this.rubberBand = rubberBandController;
 
-	    this.sizeCanvas();
 
-	    fileLoader.then(this.showImage.bind(this));
+	    this.rubberBand.addEventListener("move", function () {
+	        that.showImage();
+	    });
+
+	    fileLoader.then(function (loadedImage) {
+			var storageFile = loadedImage[0].storageFile;
+			that.imageFile = storageFile;
+
+	        var url = that.urlBuilder.createObjectURL(that.imageFile);
+			that.image = new Image();
+			that.image.src = url;
+
+			that.image.onload = function () {
+			    that.showImage();
+			}
+	    });
     }
 
 	// Methods
@@ -19,29 +37,8 @@
 
 	var cropControllerMembers = {
 
-	    sizeCanvas: function () {
-	        var parent = this.canvas.parentNode;
-
-	        var parentStyle = window.getComputedStyle(parent);
-	        var height = parentStyle.getPropertyValue("height");
-	        var width = parentStyle.getPropertyValue("width");
-
-	        this.canvas.height = 800;
-	        this.canvas.width = 600;
-	    },
-
 	    showImage: function (loadedImage) {
-			var storageFile = loadedImage[0].storageFile;
-			this.imageFile = storageFile;
-
-			var url = this.urlBuilder.createObjectURL(storageFile);
-			var image = new Image();
-			image.src = url;
-
-			var that = this;
-			image.onload = function () {
-			    that.context.drawImage(image, 0, 0, 600, 800);
-			}
+	        this.context.drawImage(this.image, 0, 0, 600, 800);
         }
 	};
 

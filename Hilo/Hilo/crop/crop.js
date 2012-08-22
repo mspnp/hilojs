@@ -18,15 +18,26 @@
     		var fileLoader = query.execute(selectedIndex);
 
     		var canvasEl = document.querySelector("#cropSurface");
-    		var controller = new Hilo.Crop.CropController(canvasEl, fileLoader, URL);
-
     		var rubberBandEl = document.querySelector("#rubberBand");
-    		this.rubberBandController = new Hilo.Crop.RubberBandController(canvasEl, rubberBandEl);
+
+    		this.sizeCanvas(canvasEl);
+
+    		var rubberBandController = new Hilo.Crop.RubberBandController(canvasEl, rubberBandEl);
+    		var controller = new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBandController);
+
         },
 
-        unload: function () {
-            delete this.rubberBandController;
-        }
+	    sizeCanvas: function (canvas) {
+	        var parent = canvas.parentNode;
+
+	        var parentStyle = window.getComputedStyle(parent);
+	        var height = parentStyle.getPropertyValue("height");
+	        var width = parentStyle.getPropertyValue("width");
+
+	        canvas.height = 800;
+	        canvas.width = 600;
+	    },
+
     };
 
     WinJS.UI.Pages.define("/Hilo/crop/crop.html", page);
