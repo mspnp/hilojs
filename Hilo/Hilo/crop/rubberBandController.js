@@ -18,9 +18,10 @@
     // Rubber Band Controller Constructor
     // ----------------------------------
 
-    function RubberBandControllerConstructor(canvasEl, rubberBandEl) {
+    function RubberBandControllerConstructor(rubberBand, canvasEl, rubberBandEl) {
         this.canvas = canvasEl;
-        this.rubberBand = rubberBandEl;
+        this.rubberBandEl = rubberBandEl;
+        this.rubberBand = rubberBand;
 
         this.boundingRect = this.canvas.getBoundingClientRect();
         this.corners = [];
@@ -42,23 +43,10 @@
         },
 
         addCorner: function (selector, position) {
-            var el = this.rubberBand.querySelector(selector);
+            var el = this.rubberBandEl.querySelector(selector);
             var corner = new Corner(el, position);
             corner.addEventListener("start", this.startCornerMove.bind(this));
             corner.addEventListener("stop", this.stopCornerMove.bind(this));
-        },
-
-        start: function () {
-            this.rubberBand.style.display = "block";
-
-            this.rubberBandCoords = {
-                startX: 0,
-                startY: 0,
-                endX: this.boundingRect.width,
-                endY: this.boundingRect.height
-            };
-
-            this.dispatchMove();
         },
 
         startCornerMove: function (args) {
@@ -81,17 +69,9 @@
 
             for (var attr in coords) {
                 if (coords.hasOwnProperty(attr)) {
-                    this.rubberBandCoords[attr] = coords[attr];
+                    this.rubberBand[attr] = coords[attr];
                 }
             }
-            
-            this.dispatchMove();
-        },
-
-        dispatchMove: function(){
-            this.dispatchEvent("move", {
-                coords: this.rubberBandCoords
-            });
         },
 
         getCanvasPoint: function (windowX, windowY) {

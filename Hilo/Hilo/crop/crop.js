@@ -22,10 +22,11 @@
 
     		this.sizeCanvas(canvasEl);
 
-    		var rubberBandView = new Hilo.Crop.RubberBandView(canvasEl, rubberBandEl);
-    		var rubberBandController = new Hilo.Crop.RubberBandController(canvasEl, rubberBandEl);
+    		var rubberBand = new Hilo.Crop.RubberBand(canvasEl);
+    		var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
+    		var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
 
-    		new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBandController, rubberBandView);
+    		new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBand, rubberBandView);
         },
 
         sizeCanvas: function (canvas) {

@@ -13,20 +13,17 @@
 	// Constructor Function
 	// --------------------
 
-	function CropControllerConstructor(canvasEl, fileLoader, urlBuilder, rubberBandController, rubberBandView) {
+	function CropControllerConstructor(canvasEl, fileLoader, urlBuilder, rubberBand, rubberBandView) {
 	    var that = this;
 
 	    this.canvas = canvasEl;
 	    this.context = canvasEl.getContext("2d");
 
 	    this.urlBuilder = urlBuilder;
-	    this.rubberBand = rubberBandController;
 	    this.rubberBandView = rubberBandView;
 
-	    this.rubberBand.addEventListener("move", this.moveRubberBand.bind(this));
-
+	    rubberBand.addEventListener("move", this.moveRubberBand.bind(this));
 	    fileLoader.then(this.loadImage.bind(this));
-
     }
 
 	// Methods
@@ -41,16 +38,14 @@
 			this.image = new Image();
 			this.image.src = url;
 			this.image.onload = this.showImage.bind(this);
-
-			this.rubberBand.start();
         },
 
 	    showImage: function (loadedImage) {
 	        this.context.drawImage(this.image, 0, 0, 600, 800);
 	    },
 
-        moveRubberBand: function (args) {
-            this.showImage();
+	    moveRubberBand: function (args) {
+	        this.showImage();
             this.rubberBandView.draw(args.detail.coords);
 	    }
 	};

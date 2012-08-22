@@ -68,6 +68,7 @@
     <Content Include="Hilo\crop\crop.html" />
     <Content Include="Hilo\crop\crop.js" />
     <Content Include="Hilo\crop\cropController.js" />
+    <Content Include="Hilo\crop\rubberBand.js" />
     <Content Include="Hilo\crop\rubberBandController.js" />
     <Content Include="Hilo\crop\rubberBandCorner.js" />
     <Content Include="Hilo\crop\rubberBandView.js" />

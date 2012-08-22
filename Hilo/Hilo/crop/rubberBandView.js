@@ -13,22 +13,25 @@
     // RubberBand View Constructor
     // ---------------------------
 
-    function RubberBandViewConstructor(canvasEl, rubberBandEl) {
+    function RubberBandViewConstructor(rubberBand, canvasEl, rubberBandEl) {
+        this.rubberBand = rubberBand;
         this.canvas = canvasEl;
         this.context = canvasEl.getContext("2d");
+        this.rubberBandEl = rubberBandEl;
+
         this.boundingRect = canvasEl.getBoundingClientRect();
-        this.rubberBand = rubberBandEl;
+        this.draw(rubberBand.getCoords());
     }
 
     // RubberBand View Members
     // -----------------------
 
     var rubberBandViewMembers = {
-        draw: function (rubberBandCoords) {
+        draw: function (coords) {
 
-            var positioning = this.getPositioning(rubberBandCoords);
+            var positioning = this.getPositioning(coords);
             var bounding = this.boundingRect;
-            var rubberBandStyle = this.rubberBand.style;
+            var rubberBandStyle = this.rubberBandEl.style;
 
             var top = bounding.top + positioning.top;
             var left = bounding.left + positioning.left;
@@ -40,7 +43,7 @@
             rubberBandStyle.width = width + "px";
             rubberBandStyle.height = height + "px";
 
-            this.drawShadedBox(rubberBandCoords);
+            this.drawShadedBox(coords);
         },
 
         drawShadedBox: function (coords) {

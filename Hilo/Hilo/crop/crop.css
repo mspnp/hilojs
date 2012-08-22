@@ -22,7 +22,7 @@
 #rubberBand {
 	position: fixed;
 	border: 2px dashed #fff;
-	display: none;
+	display: block;
 	overflow: visible;
 	min-height: 30px;
 	min-width: 30px;
