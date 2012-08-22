@@ -109,6 +109,7 @@
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
+    <Content Include="known_issues.txt" />
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
