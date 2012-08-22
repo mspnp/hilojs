@@ -15,7 +15,7 @@
 
     beforeEach(function (done) {
         WinJS.Navigation.navigate(hubPageUrl);
-        setTimeout(done, 500);
+        setTimeout(done, 700);
     });
 
     describe("when activated", function () {
