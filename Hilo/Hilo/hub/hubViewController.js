@@ -73,10 +73,10 @@
             if (args.detail.hasItemSelected) {
                 // If someone an image is selected, show the image nav
                 // app bar with the "crop" and "rotate" buttons
-                this.imageNav.setImageIndex(args.detail.itemIndex);
+                this.imageNav.setImageIndex(args.detail.itemIndex, true);
             } else {
                 // If no images are selected, hide the app bar
-                this.imageNav.clearImageIndex();
+                this.imageNav.clearImageIndex(true);
             }
 
         },

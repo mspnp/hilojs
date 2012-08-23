@@ -7,8 +7,8 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("image nav controller", function () {
-    
+describe("image nav controller", function () {
+
     var controller, el, crop, rotate, nav;
 
     beforeEach(function () {
@@ -56,8 +56,8 @@
         });
 
         it("should include the query to pull the image from", function () {
-        	var args = nav.navigate.args[1];
-        	expect(args.hasOwnProperty("query")).equals(true);
+            var args = nav.navigate.args[1];
+            expect(args.hasOwnProperty("query")).equals(true);
         });
     });
 
@@ -74,13 +74,81 @@
         });
 
         it("should include the selected image index in the navigation args", function () {
-        	expect(nav.navigate.args[1].itemIndex).equals(2);
+            expect(nav.navigate.args[1].itemIndex).equals(2);
         });
 
         it("should include the query to pull the image from", function () {
-        	var args = nav.navigate.args[1];
-        	expect(args.hasOwnProperty("query")).equals(true);
+            var args = nav.navigate.args[1];
+            expect(args.hasOwnProperty("query")).equals(true);
         });
     });
 
+    describe("when an image is selected", function () {
+        var isShown;
+
+        beforeEach(function () {
+            isShown = false;
+        });
+
+        describe("and the option to show the appbar is provided", function () {
+
+            beforeEach(function () {
+                el.winControl.show = function () { isShown = true; };
+                controller.setImageIndex(1, true);
+            });
+
+            it("should show the appbar", function () {
+                expect(isShown).equal(true);
+            });
+
+        });
+
+        describe("and the option to show the appbar is not provided", function () {
+
+            beforeEach(function () {
+                el.winControl.show = function () { isShown = true; };
+                controller.setImageIndex(1);
+            });
+
+            it("should show not attempt to show the appbar", function () {
+                expect(isShown).equal(false);
+            });
+
+        });
+    });
+
+    describe("when an image selection is cleared", function () {
+
+        var isHidden;
+
+        beforeEach(function () {
+            isHidden = false;
+        });
+
+        describe("and the option to hide the appbar is provided", function () {
+
+            beforeEach(function () {
+                el.winControl.hide = function () { isHidden = true; };
+                controller.clearImageIndex(true);
+            });
+
+            it("should show the appbar", function () {
+                expect(isHidden).equal(true);
+            });
+
+        });
+
+        describe("and the option to hide the appbar is not provided", function () {
+
+            beforeEach(function () {
+                el.winControl.hide = function () { isHidden = true; };
+                controller.clearImageIndex();
+            });
+
+            it("should show not attempt to hide the appbar", function () {
+                expect(isHidden).equal(false);
+            });
+
+        });
+    });
 });

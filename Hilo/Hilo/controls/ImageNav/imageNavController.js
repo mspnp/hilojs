@@ -71,10 +71,12 @@
         //   imageNavController.setImageIndex(itemIndex);
         // });
         // ```
-        setImageIndex: function (itemIndex) {
+        setImageIndex: function (itemIndex, shouldShow) {
             this.selectedImageIndex = itemIndex;
-            this.appbar.show();
             this.enableButtons();
+            if (shouldShow) {
+                this.appbar.show();
+            }
         },
 
         // Clear the currently selected image index. This tells the ImageNav control
@@ -90,10 +92,12 @@
         //   }
         // });
         // ```
-        clearImageIndex: function () {
+        clearImageIndex: function (shouldHide) {
             this.selectedImageIndex = -1;
-            this.appbar.hide();
             this.disableButtons();
+            if (shouldHide) {
+                this.appbar.hide();
+            }
         },
 
         // Enable the buttons on the app bar. This method can be called when the
