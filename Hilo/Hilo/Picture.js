@@ -63,10 +63,22 @@
 	// --------------------
 
 	var pictureTypeMethods = {
+
+	    // This is a convenience method, typically used in combination with `array.map`:
+        //
+	    // ```js
+        // var viewmodels = someArrayOfStorageFiles.map(Hilo.Picture.from);
+	    // ```
+
 		from: function (file) {
 			return new Hilo.Picture(file);
 		},
 
+	    // This function is to be used in declarative binding in the markup:
+	    //
+	    // ```html
+	    // <img src="#" data-win-bind="src: src Hilo.Picture.bindToImageSrc" />
+	    // ```
 		bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
 			// We're ignoring the properties provided in the binding.
 			// We are assuming that we'll always extract the `src` property from the `source`
