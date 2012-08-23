@@ -10,11 +10,6 @@
 (function () {
     "use strict";
 
-    // Imports And Constants
-    // ---------------------
-
-    var Corner = Hilo.Crop.RubberBandCorner;
-
     // Rubber Band Controller Constructor
     // ----------------------------------
 
@@ -34,17 +29,20 @@
     var rubberBandControllerMembers = {
 
         setupCorners: function () {
-            this.addCorner("#topLeft", Corner.position.topLeft);
-            this.addCorner("#topRight", Corner.position.topRight);
-            this.addCorner("#bottomLeft", Corner.position.bottomLeft);
-            this.addCorner("#bottomRight", Corner.position.bottomRight);
+            var position = Hilo.Crop.RubberBandCorner.position;
+
+            this.addCorner("#topLeft", position.topLeft);
+            this.addCorner("#topRight", position.topRight);
+            this.addCorner("#bottomLeft", position.bottomLeft);
+            this.addCorner("#bottomRight", position.bottomRight);
         },
 
         addCorner: function (selector, position) {
-            if (!this.corners) { this.corners = []; }
+            if (!this.corners) { this.corners = {}; }
 
             var el = this.rubberBandEl.querySelector(selector);
-            var corner = new Corner(window, el, position);
+            var corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            this.corners[position] = corner;
 
             corner.addEventListener("start", this.startCornerMove.bind(this));
             corner.addEventListener("move", this.cornerMove.bind(this));
