@@ -25,7 +25,7 @@
 
     function copyImagesFromAppPath(indexedFolder) {
 
-        // This copies sample images used for the test. Once these images are present in the app"s local
+        // This copies sample images used for the test. Once these images are present in the app's local
         // data, they should not need to be copied again.
         return Windows.Storage.StorageFolder.getFolderFromPathAsync(appImagesPath).then(function (appImagesFolder) {
            return appImagesFolder.getFilesAsync().then(function (files) {

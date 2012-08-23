@@ -161,7 +161,7 @@
             return this._set("count", count);
         },
 
-        // Load a specific image by the image"s index. The index
+        // Load a specific image by the image's index. The index
         // comes from the final set of images that are loaded, and
         // accounts for all other query options. Therefore, changing
         // any query option has the potential to change the index of
@@ -188,7 +188,7 @@
 
         // Only pictures taken within the specified month and year will
         // be loaded. The `monthAndYear` parameter should be a string that
-        // contains both the month"s name and the year in 4-digit form:
+        // contains both the month's name and the year in 4-digit form:
         // `Jan 2012`, `August 2001`, etc.
         forMonthAndYear: function (monthAndYear) {
             return this._set("monthAndYear", monthAndYear);

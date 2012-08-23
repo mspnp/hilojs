@@ -28,7 +28,7 @@
     // --------------------------------
 
     // The list view controller manages the contents and interactions of
-    // the Hub page"s list view. It listens to events from the 
+    // the Hub page's list view. It listens to events from the 
     // [WinJS.UI.ListView][1] control and determines what to do based on
     // the specific event. 
     //
