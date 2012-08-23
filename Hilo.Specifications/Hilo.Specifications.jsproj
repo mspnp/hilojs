@@ -86,6 +86,9 @@
     <Content Include="..\Hilo\Hilo\crop\cropController.js">
       <Link>Hilo\crop\cropController.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\crop\pictureView.js">
+      <Link>Hilo\crop\pictureView.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\crop\rubberBand.js">
       <Link>Hilo\crop\rubberBand.js</Link>
     </Content>
@@ -205,6 +208,8 @@
     <Content Include="sampleImages\015.tiff" />
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
+    <Content Include="specs\crop\cropController.spec.js" />
+    <Content Include="specs\crop\pictureView.spec.js" />
     <Content Include="specs\crop\rubberBand.spec.js" />
     <Content Include="specs\crop\rubberBandController.spec.js" />
     <Content Include="specs\crop\rubberBandCorner.spec.js" />
@@ -236,7 +241,6 @@
     <Folder Include="Hilo\hub\" />
     <Folder Include="Hilo\detail\" />
     <Folder Include="Hilo\month\" />
-    <Folder Include="Hilo\crop\" />
     <Folder Include="Hilo\rotate\" />
   </ItemGroup>
   <ItemGroup>

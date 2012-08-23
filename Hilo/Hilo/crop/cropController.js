@@ -40,7 +40,7 @@
 			this.image.onload = this.showImage.bind(this);
         },
 
-	    showImage: function (loadedImage) {
+        showImage: function () {
 	        this.context.drawImage(this.image, 0, 0, 600, 800);
 	    },
 
