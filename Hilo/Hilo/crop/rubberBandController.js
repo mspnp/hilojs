@@ -24,10 +24,8 @@
         this.rubberBand = rubberBand;
 
         this.boundingRect = this.canvas.getBoundingClientRect();
-        this.corners = [];
-        this.setupCorners();
 
-        this.mouseMove = this.mouseMove.bind(this);
+        this.setupCorners();
     }
 
     // Rubber Band Controller Members
@@ -43,24 +41,27 @@
         },
 
         addCorner: function (selector, position) {
+            if (!this.corners) { this.corners = []; }
+
             var el = this.rubberBandEl.querySelector(selector);
-            var corner = new Corner(el, position);
+            var corner = new Corner(window, el, position);
+
             corner.addEventListener("start", this.startCornerMove.bind(this));
+            corner.addEventListener("move", this.cornerMove.bind(this));
             corner.addEventListener("stop", this.stopCornerMove.bind(this));
         },
 
         startCornerMove: function (args) {
             this._currentCorner = args.detail.corner;
-            window.addEventListener("mousemove", this.mouseMove);
         },
 
         stopCornerMove: function () {
-            window.removeEventListener("mousemove", this.mouseMove);
             delete this._currentCorner;
         },
 
-        mouseMove: function (e) {
-            var point = this.getCanvasPoint(e.clientX, e.clientY);
+        cornerMove: function (args) {
+            var coords = args.detail.coords;
+            var point = this.getCanvasPoint(coords);
             this.moveRubberBand(this._currentCorner, point);
         },
 
@@ -74,11 +75,11 @@
             }
         },
 
-        getCanvasPoint: function (windowX, windowY) {
+        getCanvasPoint: function (coords) {
             var rect = this.boundingRect;
 
-            var x = (windowX - rect.left);
-            var y = (windowY - rect.top);
+            var x = (coords.x - rect.left);
+            var y = (coords.y - rect.top);
 
             return {
                 x: x,

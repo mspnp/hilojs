@@ -9,4 +9,20 @@
 
 describe("rubber band controller", function () {
 
+    function setupDOM() {
+    }
+
+    var controller, canvasEl, rubberBandEl;
+
+    beforeEach(function () {
+        setupDOM();
+    });
+
+    describe("when a corner is moved", function () {
+
+        it("should update the rubber band coordinates", function () {
+        });
+
+    });
+
 });

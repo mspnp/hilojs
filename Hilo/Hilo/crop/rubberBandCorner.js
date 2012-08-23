@@ -34,12 +34,19 @@
     // 
     // * el - the DOM element that this corner controls
     // * position - the `RubberBandCorner.position` that this corner represents
-    function RubberBandCornerConstructor(el, position) {
+    function RubberBandCornerConstructor(windowEl, el, position) {
+        this.window = windowEl;
         this.el = el;
         this.position = position;
         this._positionalCoordFunction = positionalCoordFunctions[position];
 
+        // Pre-bind these methods to ensure they are
+        // always running in the context of this object.
+        // This will allow these methods to be used as
+        // callbacks for event handlers, and allow them
+        // to be removed from the event listeners as needed.
         this.mouseDown = this.mouseDown.bind(this);
+        this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
 
         this.listenToMouseDown();
@@ -79,24 +86,51 @@
         // application, ensuring we will always let go of the corner
         // at the appropriate time.
         listenToMouseUp: function () {
-            window.addEventListener("mouseup", this.mouseUp);
+            this.window.addEventListener("mouseup", this.mouseUp);
         },
 
         // Removes the "mouseup" event for the DOM
         ignoreMouseUp: function () {
-            window.removeEventListener("mouseup", this.mouseUp);
+            this.window.removeEventListener("mouseup", this.mouseUp);
+        },
+
+        // Initializes the "mousemove" event for the DOM as a whole. 
+        // This is done to allow the mousemove to occur anywhere in the
+        // application, ensuring we will always let go of the corner
+        // at the appropriate time.
+        listenToMouseMove: function () {
+            this.window.addEventListener("mousemove", this.mouseMove);
+        },
+
+        // Removes the "mousemove" event for the DOM
+        ignoreMouseMove: function () {
+            this.window.removeEventListener("mousemove", this.mouseMove);
         },
 
         // The "mousedown" event handler. Dispatches a "start"
-        // event that signifies this corner is being moved.
+        // event that signifies this corner is about to be moved.
         mouseDown: function (e) {
             e.preventDefault();
 
             this.ignoreMouseDown();
             this.listenToMouseUp();
+            this.listenToMouseMove();
 
             this.dispatchEvent("start", {
                 corner: this
+            });
+        },
+
+        // The "mousemove" event handler. Dispatches a "move"
+        // event that signifies this corner is being moved.
+        mouseMove: function (e) {
+            e.preventDefault();
+
+            this.dispatchEvent("move", {
+                coords: {
+                    x: e.clientX,
+                    y: e.clientY
+                }
             });
         },
 
@@ -106,6 +140,7 @@
             e.preventDefault();
 
             this.ignoreMouseUp();
+            this.ignoreMouseMove();
             this.listenToMouseDown();
 
             this.dispatchEvent("stop");
