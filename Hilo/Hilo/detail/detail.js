@@ -7,14 +7,8 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
-
-    var // WinJS
-        ui = WinJS.UI,
-        nav = WinJS.Navigation,
-        knownFolders = Windows.Storage.KnownFolders,
-        pages = WinJS.UI.Pages;
 
     var page = {
 
@@ -27,6 +21,11 @@
             // load the images from the specified query, and show them
             var query = options.query;
             var itemIndex = options.itemIndex;
+
+            // bind the title based on the query's month/year
+            var pageTitle = document.getElementById("pageTitle");
+            WinJS.Binding.processAll(pageTitle, { title: query.settings.monthAndYear });
+
             query.execute()
                 .then(this.showImages.bind(this, query))
                 .then(function (controller) {
@@ -56,7 +55,7 @@
         }
     };
 
-    pages.define("/Hilo/detail/detail.html", page);
+    WinJS.UI.Pages.define("/Hilo/detail/detail.html", page);
     return page;
 
 }());
