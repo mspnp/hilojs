@@ -201,7 +201,7 @@
                         key: monthYear,
                         firstItemIndexHint: null, // we need to set this later
                         data: {
-                            title: monthYear.split(' ')[0],
+                            title: monthYear,
                             count: count
                         },
                         groupKey: monthYear.split(' ')[1]
