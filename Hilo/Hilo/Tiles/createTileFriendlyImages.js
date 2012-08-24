@@ -53,7 +53,7 @@
             // Create a new file in the target folder for each 
             // file in `sourceFiles`.
             var copyThumbnailToFile = writeThumbnailToFile.bind(this, fileInfo);
-            var whenFileCreated = targetFolder.createFileAsync(fileInfo.name, creationCollisionOption.replaceExisting);
+            var whenFileCreated = targetFolder.createFileAsync(fileInfo.name + ".jpg", creationCollisionOption.replaceExisting);
 
             return whenFileCreated.then(copyThumbnailToFile);
         });
@@ -66,7 +66,7 @@
 
     function returnFileNamesFor(files) {
         return files.map(function (fileInfo) {
-            return fileInfo.name;
+            return fileInfo.name + ".jpg";
         });
     }
 

@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("live tile", function () {
+describe("live tile", function () {
 
     describe("when updating the tile", function () {
 
@@ -27,8 +27,12 @@
                 .then(done);
         });
 
-        it("should write the thumbnails to the tile thumbnails folder", function (done) {
+        xit("should write the thumbnails to the tile thumbnails folder", function (done) {
 
+            // The helper is looking in the wrong folder. However, the problem is that 
+            // even if we correct the folder, the folder we need to look in is not indexed
+            // and we might not get the expect results.
+            // TODO: we need to reevaluate how to test this.
             var all = filesNames.map(function (file) {
                 return Shared.thumbnailFileExists(file).then(function (fileExists) {
                     expect(fileExists).equal(true);
@@ -51,6 +55,18 @@
             });
 
             Shared.join(all).then(done);
+        });
+
+        it("should add .jpg extensions to all files", function () {
+            // If our test data does not contain extensions other than .jpg,
+            // then this test will not be meaningful.
+
+            var pattern = /.*\.jpg$/;
+
+            var all = filesNames.map(function (file) {
+                expect(file.match(pattern), file + " did not end with .jpg").not.null;
+            });
+
         });
 
     });
