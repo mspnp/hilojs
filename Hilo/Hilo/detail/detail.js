@@ -23,7 +23,7 @@
             var itemIndex = options.itemIndex;
 
             // bind the title based on the query's month/year
-            var pageTitle = document.getElementById("pageTitle");
+            var pageTitle = document.querySelector("#pageTitle");
             WinJS.Binding.processAll(pageTitle, { title: query.settings.monthAndYear });
 
             query.execute()

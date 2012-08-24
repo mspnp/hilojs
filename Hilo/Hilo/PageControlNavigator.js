@@ -7,7 +7,17 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+
+// The code in this file originated from the Visual Studio template. On the whole,
+// we have limited modifications to the file.
+//
+// Notable modifications include:
+//
+// * aliasing frequently used objects and long reference chains
+// * changing the namespace to Hilo
+// * wiring events using `addEventListener` instead of using the "DOM0" style
+
+(function () {
     "use strict";
 
     var appView = Windows.UI.ViewManagement.ApplicationView;
@@ -18,8 +28,11 @@
 
     WinJS.Namespace.define("Hilo", {
         PageControlNavigator: WinJS.Class.define(
+
             // Define the constructor function for the PageControlNavigator.
             function PageControlNavigator(element, options) {
+                var body = document.body;
+
                 this.element = element || document.createElement("div");
                 this.element.appendChild(this._createPageElement());
 
@@ -29,9 +42,9 @@
                 nav.onnavigated = this._navigated.bind(this);
                 window.onresize = this._resized.bind(this);
 
-                document.body.onkeyup = this._keyupHandler.bind(this);
-                document.body.onkeypress = this._keypressHandler.bind(this);
-                document.body.onmspointerup = this._mspointerupHandler.bind(this);
+                body.addEventListener("keyup", this._keyupHandler.bind(this));
+                body.addEventListener("keypress", this._keypressHandler.bind(this));
+                body.addEventListener("mspointerup", this._mspointerupHandler.bind(this));
 
                 Hilo.navigator = this;
             }, {
