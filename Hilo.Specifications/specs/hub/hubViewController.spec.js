@@ -51,7 +51,7 @@
         });
 
         it("should set the image index and show the app bar", function () {
-            expect(imageNav.setImageIndex.wasCalled).equals(true);
+            expect(imageNav.setImageIndex.wasCalled).true;
             expect(imageNav.setImageIndex.itemIndex).equals(1);
         });
 
@@ -65,7 +65,7 @@
         });
 
         it("should hide the appbar", function () {
-            expect(imageNav.clearImageIndex.wasCalled).equals(true);
+            expect(imageNav.clearImageIndex.wasCalled).true;
         });
 
     });
@@ -78,7 +78,7 @@
         });
 
         it("should reveal the appbar", function () {
-            expect(imageNav.setImageIndex.wasCalled).equals(true);
+            expect(imageNav.setImageIndex.wasCalled).true;
             expect(imageNav.setImageIndex.itemIndex).equals(1);
         });
 

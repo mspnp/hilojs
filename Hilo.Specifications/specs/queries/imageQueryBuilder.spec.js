@@ -147,7 +147,7 @@ describe("image query builder", function () {
         it("should return instances of bindable Picture objects", function (done) {
             queryResult.then(function (images) {
                 var image = images[0];
-                expect(image instanceof Hilo.Picture).equals(true);
+                expect(image instanceof Hilo.Picture).true;
                 done();
             }).done(null, done);
         });

@@ -32,7 +32,7 @@
             });
 
             it("should trigger an imageInvoked event", function () {
-                expect(handler.wasCalled).equals(true);
+                expect(handler.wasCalled).true;
             });
 
             it("should tell me the index of the clicked item", function () {

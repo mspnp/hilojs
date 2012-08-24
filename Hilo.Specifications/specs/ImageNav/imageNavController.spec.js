@@ -57,7 +57,7 @@ describe("image nav controller", function () {
 
         it("should include the query to pull the image from", function () {
             var args = nav.navigate.args[1];
-            expect(args.hasOwnProperty("query")).equals(true);
+            expect(args.hasOwnProperty("query")).true;
         });
     });
 
@@ -79,7 +79,7 @@ describe("image nav controller", function () {
 
         it("should include the query to pull the image from", function () {
             var args = nav.navigate.args[1];
-            expect(args.hasOwnProperty("query")).equals(true);
+            expect(args.hasOwnProperty("query")).true;
         });
     });
 

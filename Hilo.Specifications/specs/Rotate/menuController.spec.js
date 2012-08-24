@@ -35,15 +35,15 @@
 	describe("when the rotate menu is initialized", function () {
 
 		it("should disable the save button", function () {
-			expect(saveButton.disabled).equals(true);
+			expect(saveButton.disabled).true;
 		});
 
 		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).equals(true);
+			expect(cancelButton.disabled).true;
 		});
 
 		it("should show the app bar", function () {
-			expect(el.show.wasCalled).equals(true);
+			expect(el.show.wasCalled).true;
 		});
 	});
 
@@ -114,15 +114,15 @@
 		});
 
 		it("should trigger image save", function () {
-			expect(saveHandler.wasCalled).equals(true);
+			expect(saveHandler.wasCalled).true;
 		});
 
 		it("should disable the save button", function () {
-			expect(saveButton.disabled).equals(true);
+			expect(saveButton.disabled).true;
 		});
 
 		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).equals(true);
+			expect(cancelButton.disabled).true;
 		});
 	});
 
@@ -146,19 +146,19 @@
 		});
 
 		it("should trigger to cancel the image changes", function () {
-			expect(cancelHandler.wasCalled).equals(true);
+			expect(cancelHandler.wasCalled).true;
 		});
 
 		it("should reset the rotation back to the default", function () {
-			expect(imageResetHandler.wasCalled).equals(true);
+			expect(imageResetHandler.wasCalled).true;
 		});
 
 		it("should disable the save button", function () {
-			expect(saveButton.disabled).equals(true);
+			expect(saveButton.disabled).true;
 		});
 
 		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).equals(true);
+			expect(cancelButton.disabled).true;
 		});
 	});
 

@@ -39,12 +39,12 @@
             });
 
             it("should show the image", function () {
-                expect(flipviewController.showImageAt.wasCalled).equals(true);
+                expect(flipviewController.showImageAt.wasCalled).true;
                 expect(flipviewController.showImageAt.itemIndex).equals(1);
             });
 
             it("should set the selected image for the image navigation controller", function () {
-                expect(imageNav.setImageIndex.wasCalled).equals(true);
+                expect(imageNav.setImageIndex.wasCalled).true;
                 expect(imageNav.setImageIndex.itemIndex).equals(1);
             });
         });
