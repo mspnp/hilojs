@@ -24,15 +24,25 @@
     		var fileLoader = query.execute(selectedIndex);
 
     		var canvasEl = document.querySelector("#cropSurface");
+    		var context = canvasEl.getContext("2d");
     		var rubberBandEl = document.querySelector("#rubberBand");
 
-    		this.sizeCanvas(canvasEl);
+    		var that = this;
+    		fileLoader.then(function (loadedImageArray) {
+    		    var picture = loadedImageArray[0];
+    		    var storageFile = picture.storageFile;
+    		    var url = URL.createObjectURL(storageFile);
 
-    		var rubberBand = new Hilo.Crop.RubberBand(canvasEl);
-    		var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
-    		var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
+    		    that.sizeCanvas(canvasEl, storageFile);
 
-    		new Hilo.Crop.CropController(canvasEl, fileLoader, URL, rubberBand, rubberBandView);
+    		    var rubberBand = new Hilo.Crop.RubberBand(canvasEl);
+    		    var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url);
+    		    var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
+    		    var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
+    		});
+
+
+    		//new Hilo.Crop.CropController(canvasEl, rubberBand, rubberBandView, pictureView);
         },
 
         sizeCanvas: function (canvas) {

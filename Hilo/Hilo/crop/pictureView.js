@@ -13,11 +13,11 @@
     // Picture View Constructor
     // ------------------------
 
-    function PictureViewConstructor(canvasContext, imageLoaderPromise, urlBuilder) {
+    function PictureViewConstructor(canvasContext, rubberBand, imageUrl) {
         this.context = canvasContext;
-        this.urlBuilder = urlBuilder;
+        this.loadAndDisplayImage(imageUrl);
 
-        imageLoaderPromise.then(this.loadAndDisplayImage.bind(this));
+        rubberBand.addEventListener("move", this.drawImage.bind(this));
     }
 
     // Picture View Members
@@ -25,15 +25,10 @@
 
     var pictureViewMembers = {
 
-        loadAndDisplayImage: function (loadedImageArray) {
-            var picture = loadedImageArray[0];
-            this.imageFile = picture.storageFile;
-
-            var url = this.urlBuilder.createObjectURL(this.imageFile);
-
+        loadAndDisplayImage: function (imageUrl) {
             this.image = new Image();
             this.image.onload = this.drawImage.bind(this);
-			this.image.src = url;
+            this.image.src = imageUrl;
         },
 
         drawImage: function () {

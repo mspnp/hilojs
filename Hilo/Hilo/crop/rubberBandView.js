@@ -21,12 +21,18 @@
 
         this.boundingRect = canvasEl.getBoundingClientRect();
         this.draw(rubberBand.getCoords());
+
+        rubberBand.addEventListener("move", this.rubberBandMove.bind(this));
     }
 
     // RubberBand View Members
     // -----------------------
 
     var rubberBandViewMembers = {
+        rubberBandMove: function(args){
+            this.draw(args.detail.coords);
+        },
+
         draw: function (coords) {
 
             var positioning = this.getPositioning(coords);

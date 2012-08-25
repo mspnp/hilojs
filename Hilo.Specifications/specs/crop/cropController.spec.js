@@ -7,13 +7,9 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("crop controller", function () {
+xdescribe("crop controller", function () {
 
     describe("when initializing", function () {
-
-        it("should size the canvas to the image's scale", function () {
-
-        });
 
         it("should tell the pictureView how large the canvas is");
 

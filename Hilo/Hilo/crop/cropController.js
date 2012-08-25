@@ -13,13 +13,8 @@
     // Constructor Function
     // --------------------
 
-	function CropControllerConstructor(canvasEl, rubberBand, rubberBandView, pictureView) {
+	function CropControllerConstructor(canvasBounds, rubberBand, rubberBandView, pictureView) {
 	    var that = this;
-
-	    this.canvas = canvasEl;
-	    this.context = canvasEl.getContext("2d");
-
-	    this.rubberBandView = rubberBandView;
 
 	    rubberBand.addEventListener("move", this.moveRubberBand.bind(this));
     }
@@ -28,10 +23,7 @@
 	// -------
 
 	var cropControllerMembers = {
-
 	    moveRubberBand: function (args) {
-	        this.pictureShow.drawImage();
-            this.rubberBandView.draw(args.detail.coords);
 	    }
 	};
 
