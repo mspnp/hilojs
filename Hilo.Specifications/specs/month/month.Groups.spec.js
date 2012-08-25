@@ -85,8 +85,8 @@
             expect(result.data.count).equal(fileCount);
         });
 
-        it("should make the folder's tile the month", function () {
-            expect(result.data.title).equal("month");
+        it("should make the folder's tile the month year combo", function () {
+            expect(result.data.title).equal("month year");
         });
 
         it("should include a key for the folder", function () {

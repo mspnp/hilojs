@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     'use strict';
 
     // Imports And Variables
@@ -17,6 +17,33 @@
 
     // Private Methods
     // ---------------
+
+    // Given an array of files, retrieve the itemDate for the first 
+    // file in the array.
+    function retrieveFirstItemDate(files) {
+        var next;
+
+        if (files.length > 0) {
+
+            // If the array contains at least one file, then we want to
+            // retrieve the itemDate from that file.
+            next = files[0].properties
+                .retrievePropertiesAsync(["System.ItemDate"])
+                .then(function (retrieved) {
+                    return retrieved.lookup("System.ItemDate");
+                });
+
+        } else {
+
+            // However, if there are no files in the array, we still need to
+            // return something. We'll return an arbitrary date value. We 
+            // don't expect the value to be used though becaue empty groups
+            // should not be added to list view.
+            next = WinJS.Promise.as(new Date("Jan 1, 1975"));
+        }
+
+        return next;
+    }
 
     var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, getMonthYearFrom) {
 
@@ -177,44 +204,21 @@
         toListViewHeaderGroup: function (folder) {
 
             var query = this.queryBuilder.build(folder);
+
             var getCount = query.fileQuery.getItemCountAsync();
+
             var getFirstFileItemDate = query.fileQuery
                 .getFilesAsync(0, 1)
-                .then(function (files) {
-                    // todo:  we assume that we actually get a date,
-                    // this will likely not always be the case
-                    return files[0].properties.retrievePropertiesAsync(["System.ItemDate"]);
-                }).then(function (retrieved) {
-                    return retrieved.lookup("System.ItemDate");
-                });
+                .then(retrieveFirstItemDate);
 
-            var getMonthYearFrom = this.getMonthYearFrom.bind(this);
-
-            return WinJS.Promise.join([getCount, getFirstFileItemDate])
-                .then(function (values) {
-                    var count = values[0];
-                    var firstItemDate = values[1];
-
-                    var monthYear = getMonthYearFrom(firstItemDate);
-
-                    var result = {
-                        key: monthYear,
-                        firstItemIndexHint: null, // we need to set this later
-                        data: {
-                            title: monthYear,
-                            count: count
-                        },
-                        groupKey: monthYear.split(' ')[1]
-                    };
-
-                    return result;
-                });
+            return WinJS.Promise
+                .join([getCount, getFirstFileItemDate])
+                .then(this.builldMonthGroupResult.bind(this));
         },
 
         buildResult: function (offset, absoluteIndex, items) {
-            // Package the data in a format that the 
-            // consuming control (a list view) can
-            // process.
+            // Package the data in a format that the consuming 
+            // control (a list view) can process.
             var result = {
                 items: items,
                 offset: offset,
@@ -227,6 +231,28 @@
 
             return WinJS.Promise.as(result);
         },
+
+        builldMonthGroupResult: function (values) {
+
+            var count = values[0],
+                        firstItemDate = values[1];
+
+            var monthYear = this.getMonthYearFrom(firstItemDate);
+
+            // TODO: The way we are handling zero count groups
+            // is a temporary solution
+            var result = {
+                key: monthYear,
+                firstItemIndexHint: null, // we need to set this later
+                data: {
+                    title: count ? monthYear : 'invalid files',
+                    count: count
+                },
+                groupKey: count ?  monthYear.split(' ')[1] : 'invalid files'
+            };
+
+            return result;
+        }
     });
 
     var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, getMonthYearFrom) {
