@@ -11,17 +11,19 @@ describe("picture view", function () {
 
     var urlBuilder, imagePromise, context, view;
 
-    beforeEach(function () {
+    beforeEach(function (done) {
         context = {
             drawImage: function () {
-                debugger;
                 context.drawImage.wasCalled = true;
+
+                // complete the async beforeEach
+                done();
             }
         };
 
         urlBuilder = {
             createObjectURL: function () {
-                return "blob:(a url)";
+                return "http://placekitten.com/300/200";
             }
         };
 
