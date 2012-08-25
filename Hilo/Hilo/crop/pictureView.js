@@ -37,6 +37,8 @@
         },
 
         drawImage: function () {
+            if (!this.image) { return; }
+
             this.context.drawImage(this.image, 0, 0, 600, 800);
         }
     };
