@@ -73,6 +73,13 @@
             return Math.min(min, max);
         },
 
+        reset: function () {
+            this.startX = 0;
+            this.startY = 0;
+            this.endX = this.canvasSize.width;
+            this.endY = this.canvasSize.height;
+        },
+
         dispatchMove: function () {
             this.dispatchEvent("move", {
                 coords: this.getCoords()

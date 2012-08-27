@@ -34,6 +34,7 @@
             var canvasEl = document.querySelector("#cropSurface");
             var context = canvasEl.getContext("2d");
             var rubberBandEl = document.querySelector("#rubberBand");
+            var menuEl = document.querySelector("#appbar");
 
             var storageFile, url;
             var that = this;
@@ -54,6 +55,13 @@
                 var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
                 var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl, canvasSize);
                 var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl, canvasSize);
+
+                var menuPresenter = new Hilo.Crop.MenuPresenter(menuEl);
+                menuPresenter.addEventListener("crop", function () {
+                    var cropCoords = rubberBand.getCoords();
+                    pictureView.drawImageSubset(cropCoords);
+                    rubberBand.reset();
+                });
 
             });
         },
