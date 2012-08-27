@@ -10,6 +10,14 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+
+    var maxHeight = 800;
+
+    // Page Control
+    // ------------
+
     var page = {
 
         ready: function (element, options) {
@@ -56,8 +64,8 @@
 
                     var ratio = props.width / props.height;
                     var size = {
-                        height: 800,
-                        width: 800 * ratio
+                        height: maxHeight,
+                        width: maxHeight * ratio
                     };
 
                     complete(size);
