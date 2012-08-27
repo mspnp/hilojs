@@ -16,8 +16,8 @@
     function RubberBandConstructor(canvasSize) {
         this.canvasSize = canvasSize;
 
-        this.addProp("startX", 0);
-        this.addProp("startY", 0);
+        this.addProp("startX", 0, this.adjustStartX.bind(this));
+        this.addProp("startY", 0, this.adjustStartY.bind(this));
         this.addProp("endX", canvasSize.width, this.adjustWidth.bind(this));
         this.addProp("endY", canvasSize.height, this.adjustHeight.bind(this));
     }
@@ -41,6 +41,14 @@
                     that.dispatchMove();
                 }
             });
+        },
+
+        adjustStartX: function (startX) {
+            return Math.max(startX, 0);
+        },
+
+        adjustStartY: function(startY){
+            return Math.max(startY, 0);
         },
 
         adjustWidth: function (width) {

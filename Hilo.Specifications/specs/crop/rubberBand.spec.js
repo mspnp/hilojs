@@ -89,12 +89,19 @@ describe("rubber band", function () {
 
             rubberBand.addEventListener("move", moveHandler);
 
-            rubberBand.startX = 50;
-            rubberBand.startY = 50;
+            rubberBand.startX = -50;
+            rubberBand.startY = -50;
             rubberBand.endX = 3000;
             rubberBand.endY = 4000;
         });
         
+        it("should reset the rubber band startx to the left canvas edge", function () {
+            expect(rubberBand.startX).equals(0);
+        });
+
+        it("should reset the rubber band starty to the top canvas edge", function () {
+            expect(rubberBand.startY).equals(0);
+        });
         it("should reset the rubber band width to the right canvas edge", function () {
             expect(rubberBand.endX).equals(600);
         });
