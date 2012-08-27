@@ -40,7 +40,8 @@ describe("rubber band view", function () {
 
     beforeEach(function () {
         setupDOMElements();
-        rubberBand = new Hilo.Crop.RubberBand(canvasEl);
+        var canvasSize = canvasEl.getBoundingClientRect();
+        rubberBand = new Hilo.Crop.RubberBand(canvasSize);
 
         rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
     });

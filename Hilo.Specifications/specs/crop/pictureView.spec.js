@@ -9,11 +9,15 @@
 
 describe("picture view", function () {
 
-    var url, rubberBand, context, view;
+    var url, rubberBand, context, view, canvasSize;
 
     beforeEach(function () {
         url = "http://placekitten.com/300/200";
         rubberBand = new Specs.EventStub();
+        canvasSize = {
+            height: 800,
+            width: 600
+        };
     });
 
     describe("when initializing", function () {
@@ -27,7 +31,7 @@ describe("picture view", function () {
                 }
             };
 
-            view = new Hilo.Crop.PictureView(context, rubberBand, url);
+            view = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
         });
 
         it("should show the picture", function () {

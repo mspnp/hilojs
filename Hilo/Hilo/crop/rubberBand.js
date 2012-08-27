@@ -13,13 +13,13 @@
     // RubberBand Constructor
     // ----------------------
 
-    function RubberBandConstructor(canvasEl) {
-        var boundingRect = canvasEl.getBoundingClientRect();
+    function RubberBandConstructor(canvasSize) {
+        this.canvasSize = canvasSize;
 
         this.addProp("startX", 0);
         this.addProp("startY", 0);
-        this.addProp("endX", boundingRect.width);
-        this.addProp("endY", boundingRect.height);
+        this.addProp("endX", canvasSize.width, this.adjustWidth.bind(this));
+        this.addProp("endY", canvasSize.height, this.adjustHeight.bind(this));
     }
 
     // RubberBand Members
@@ -27,7 +27,7 @@
 
     var rubberBandMembers = {
 
-        addProp: function (propName, initialValue) {
+        addProp: function (propName, initialValue, adjust) {
             var that = this;
             var propertyValue = initialValue;
 
@@ -36,10 +36,19 @@
                     return propertyValue;
                 },
                 set: function (value) {
+                    if (adjust) { value = adjust(value); }
                     propertyValue = value;
                     that.dispatchMove();
                 }
             });
+        },
+
+        adjustWidth: function (width) {
+            return Math.min(width, this.canvasSize.width);
+        },
+
+        adjustHeight: function(height){
+            return Math.min(height, this.canvasSize.height);
         },
 
         dispatchMove: function () {

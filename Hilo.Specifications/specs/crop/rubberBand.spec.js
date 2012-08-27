@@ -9,18 +9,16 @@
 
 describe("rubber band", function () {
 
-    var canvasEl, rubberBand;
+    var rubberBand, canvasSize;
 
     beforeEach(function () {
-        // Create a document framgnet and a `<canvas>` element
-        // within the fragment, so that the canvas element will
-        // support calls to `getBoundingClientRect`.
-        var frag = document.createDocumentFragment();
-        frag.appendChild(document.createElement("canvas"));
-        canvasEl = frag.querySelector("canvas");
+        canvasSize = {
+            height: 800,
+            width: 600
+        };
 
         // Create the SUT
-        rubberBand = new Hilo.Crop.RubberBand(canvasEl);
+        rubberBand = new Hilo.Crop.RubberBand(canvasSize);
     });
 
     describe("when initializing", function () {
@@ -36,10 +34,8 @@ describe("rubber band", function () {
         });
 
         it("should set the ending coordinate to the canvas width,height", function () {
-            var canvasBounds = canvasEl.getBoundingClientRect();
-
-            expect(coords.endX).equals(canvasBounds.width);
-            expect(coords.endY).equals(canvasBounds.height);
+            expect(coords.endX).equals(canvasSize.width);
+            expect(coords.endY).equals(canvasSize.height);
         });
     });
 
@@ -75,6 +71,36 @@ describe("rubber band", function () {
             expect(coords.startY).equals(2);
             expect(coords.endX).equals(3);
             expect(coords.endY).equals(4);
+        });
+    });
+
+    describe("when the rubberband end coords are outside the canvas", function () {
+        var moveHandler;
+
+        beforeEach(function () {
+
+            moveHandler = function (args) {
+                if (!moveHandler.callCount) {
+                    moveHandler.callCount = 0;
+                }
+                moveHandler.callCount += 1;
+                moveHandler.args = args.detail;
+            };
+
+            rubberBand.addEventListener("move", moveHandler);
+
+            rubberBand.startX = 50;
+            rubberBand.startY = 50;
+            rubberBand.endX = 3000;
+            rubberBand.endY = 4000;
+        });
+        
+        it("should reset the rubber band width to the right canvas edge", function () {
+            expect(rubberBand.endX).equals(600);
+        });
+
+        it("should reset the rubber band height to the bottom canvas edge", function () {
+            expect(rubberBand.endY).equals(800);
         });
     });
 });

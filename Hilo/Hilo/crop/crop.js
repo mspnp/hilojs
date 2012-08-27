@@ -42,7 +42,7 @@
                 
                 that.sizeCanvas(canvasEl, canvasSize);
 
-                var rubberBand = new Hilo.Crop.RubberBand(canvasEl, canvasSize);
+                var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
                 var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
                 var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl, canvasSize);
                 var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl, canvasSize);
