@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     var page = {
@@ -19,36 +19,56 @@
 
             Hilo.controls.checkOptions(options);
 
-    		var selectedIndex = options.itemIndex;
-    		var query = options.query;
-    		var fileLoader = query.execute(selectedIndex);
+            var selectedIndex = options.itemIndex;
+            var query = options.query;
+            var fileLoader = query.execute(selectedIndex);
 
-    		var canvasEl = document.querySelector("#cropSurface");
-    		var context = canvasEl.getContext("2d");
-    		var rubberBandEl = document.querySelector("#rubberBand");
+            var canvasEl = document.querySelector("#cropSurface");
+            var context = canvasEl.getContext("2d");
+            var rubberBandEl = document.querySelector("#rubberBand");
 
-    		var that = this;
-    		fileLoader.then(function (loadedImageArray) {
-    		    var picture = loadedImageArray[0];
-    		    var storageFile = picture.storageFile;
-    		    var url = URL.createObjectURL(storageFile);
+            var storageFile, url;
+            var that = this;
+            fileLoader.then(function (loadedImageArray) {
 
-    		    that.sizeCanvas(canvasEl, storageFile);
+                var picture = loadedImageArray[0];
 
-    		    var rubberBand = new Hilo.Crop.RubberBand(canvasEl);
-    		    var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url);
-    		    var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
-    		    var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
-    		});
+                storageFile = picture.storageFile;
+                url = URL.createObjectURL(storageFile);
 
+                return that.imageScaleSize(storageFile);
 
-    		//new Hilo.Crop.CropController(canvasEl, rubberBand, rubberBandView, pictureView);
+            }).then(function (canvasSize) {
+                
+                that.sizeCanvas(canvasEl, canvasSize);
+
+                var rubberBand = new Hilo.Crop.RubberBand(canvasEl, canvasSize);
+                var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
+                var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl, canvasSize);
+                var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl, canvasSize);
+
+            });
         },
 
-        sizeCanvas: function (canvas) {
-            canvas.height = 800;
-	        canvas.width = 600;
-	    },
+        imageScaleSize: function (storageFile) {
+            return new WinJS.Promise(function (complete) {
+                storageFile.properties.getImagePropertiesAsync().then(function (props) {
+
+                    var ratio = props.width / props.height;
+                    var size = {
+                        height: 800,
+                        width: 800 * ratio
+                    };
+
+                    complete(size);
+                });
+            });
+        },
+
+        sizeCanvas: function (canvas, canvasSize) {
+            canvas.height = canvasSize.height;
+            canvas.width = canvasSize.width;
+        },
 
     };
 

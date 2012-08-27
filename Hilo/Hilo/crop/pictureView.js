@@ -13,8 +13,9 @@
     // Picture View Constructor
     // ------------------------
 
-    function PictureViewConstructor(canvasContext, rubberBand, imageUrl) {
+    function PictureViewConstructor(canvasContext, rubberBand, imageUrl, canvasSize) {
         this.context = canvasContext;
+        this.canvasSize = canvasSize;
         this.loadAndDisplayImage(imageUrl);
 
         rubberBand.addEventListener("move", this.drawImage.bind(this));
@@ -34,7 +35,7 @@
         drawImage: function () {
             if (!this.image) { return; }
 
-            this.context.drawImage(this.image, 0, 0, 600, 800);
+            this.context.drawImage(this.image, 0, 0, this.canvasSize.width, this.canvasSize.height);
         }
     };
 
