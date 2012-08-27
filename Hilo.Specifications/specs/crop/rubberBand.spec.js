@@ -56,8 +56,8 @@ describe("rubber band", function () {
 
             rubberBand.startX = 1;
             rubberBand.startY = 2;
-            rubberBand.endX = 3;
-            rubberBand.endY = 4;
+            rubberBand.endX = 50;
+            rubberBand.endY = 60;
         });
         
         it("should dispatch a 'move' event for each coordinate value set", function () {
@@ -69,8 +69,8 @@ describe("rubber band", function () {
 
             expect(coords.startX).equals(1);
             expect(coords.startY).equals(2);
-            expect(coords.endX).equals(3);
-            expect(coords.endY).equals(4);
+            expect(coords.endX).equals(50);
+            expect(coords.endY).equals(60);
         });
     });
 
@@ -108,6 +108,82 @@ describe("rubber band", function () {
 
         it("should reset the rubber band height to the bottom canvas edge", function () {
             expect(rubberBand.endY).equals(800);
+        });
+    });
+
+    describe("when the rubberband end coords are less than 30x30, moving the end point", function () {
+        var moveHandler;
+
+        beforeEach(function () {
+
+            moveHandler = function (args) {
+                if (!moveHandler.callCount) {
+                    moveHandler.callCount = 0;
+                }
+                moveHandler.callCount += 1;
+                moveHandler.args = args.detail;
+            };
+
+            rubberBand.addEventListener("move", moveHandler);
+
+            rubberBand.startX = 10;
+            rubberBand.startY = 10;
+            rubberBand.endX = 20;
+            rubberBand.endY = 20;
+        });
+        
+        it("should leave the startx where it is", function () {
+            expect(rubberBand.startX).equals(10);
+        });
+
+        it("should leave the starty where it is", function () {
+            expect(rubberBand.startY).equals(10);
+        });
+
+        it("should reset the endx to startx + minwidth", function () {
+            expect(rubberBand.endX).equals(40);
+        });
+
+        it("should reset the endy to starty + minheight", function () {
+            expect(rubberBand.endY).equals(40);
+        });
+    });
+
+    describe("when the rubberband end coords are less than 30x30, moving the start point", function () {
+        var moveHandler;
+
+        beforeEach(function () {
+
+            moveHandler = function (args) {
+                if (!moveHandler.callCount) {
+                    moveHandler.callCount = 0;
+                }
+                moveHandler.callCount += 1;
+                moveHandler.args = args.detail;
+            };
+
+            rubberBand.addEventListener("move", moveHandler);
+
+            rubberBand.endX = 50;
+            rubberBand.endY = 50;
+            rubberBand.startX = 40;
+            rubberBand.startY = 40;
+        });
+        
+        it("should leave the endx where it is", function () {
+            expect(rubberBand.endX).equals(50);
+        });
+
+        it("should leave the endy where it is", function () {
+            expect(rubberBand.endY).equals(50);
+        });
+
+        it("should reset the startx to endx - minwidth", function () {
+            expect(rubberBand.startX).equals(20);
+        });
+
+        it("should reset the starty to endy - minheight", function () {
+            expect(rubberBand.startY).equals(20);
         });
     });
 });

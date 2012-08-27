@@ -10,6 +10,12 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+
+    var minHeight = 30,
+        minWidth = 30;
+
     // RubberBand Constructor
     // ----------------------
 
@@ -18,8 +24,8 @@
 
         this.addProp("startX", 0, this.adjustStartX.bind(this));
         this.addProp("startY", 0, this.adjustStartY.bind(this));
-        this.addProp("endX", canvasSize.width, this.adjustWidth.bind(this));
-        this.addProp("endY", canvasSize.height, this.adjustHeight.bind(this));
+        this.addProp("endX", canvasSize.width, this.adjustEndX.bind(this));
+        this.addProp("endY", canvasSize.height, this.adjustEndY.bind(this));
     }
 
     // RubberBand Members
@@ -44,19 +50,27 @@
         },
 
         adjustStartX: function (startX) {
-            return Math.max(startX, 0);
+            var min = Math.max(startX, 0);
+            var max = Math.min(min, this.endX - minWidth);
+            return Math.min(min, max);
         },
 
-        adjustStartY: function(startY){
-            return Math.max(startY, 0);
+        adjustStartY: function (startY) {
+            var min = Math.max(startY, 0);
+            var max = Math.min(min, this.endY - minHeight);
+            return Math.min(min, max);
         },
 
-        adjustWidth: function (width) {
-            return Math.min(width, this.canvasSize.width);
+        adjustEndX: function (endX) {
+            var min = Math.max(endX, this.startX + minWidth);
+            var max = Math.min(min, this.canvasSize.width);
+            return Math.min(min, max);
         },
 
-        adjustHeight: function(height){
-            return Math.min(height, this.canvasSize.height);
+        adjustEndY: function(endY){
+            var min = Math.max(endY, this.startY + minHeight);
+            var max = Math.min(min, this.canvasSize.height);
+            return Math.min(min, max);
         },
 
         dispatchMove: function () {
