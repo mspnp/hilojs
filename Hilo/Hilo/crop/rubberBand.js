@@ -73,7 +73,9 @@
             return Math.min(min, max);
         },
 
-        reset: function () {
+        reset: function (canvasSize) {
+            this.canvasSize = canvasSize;
+
             this.startX = 0;
             this.startY = 0;
             this.endX = this.canvasSize.width;
@@ -91,7 +93,9 @@
                 startX: this.startX,
                 startY: this.startY,
                 endX: this.endX,
-                endY: this.endY
+                endY: this.endY,
+                height: this.endY - this.startY,
+                width: this.endX - this.startX
             }
         }
     };

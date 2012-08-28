@@ -13,7 +13,8 @@
     // Imports And Constants
     // ---------------------
 
-    var maxHeight = 800;
+    var screenMaxHeight = 800;
+    var screenMaxWidth = 1600;
 
     // Page Control
     // ------------
@@ -36,8 +37,9 @@
             var rubberBandEl = document.querySelector("#rubberBand");
             var menuEl = document.querySelector("#appbar");
 
-            var storageFile, url;
+            var storageFile, url, imageProps, imageRatio;
             var that = this;
+
             fileLoader.then(function (loadedImageArray) {
 
                 var picture = loadedImageArray[0];
@@ -45,40 +47,52 @@
                 storageFile = picture.storageFile;
                 url = URL.createObjectURL(storageFile);
 
-                return that.imageScaleSize(storageFile);
+                return storageFile.properties.getImagePropertiesAsync();
 
-            }).then(function (canvasSize) {
-                
+            }).then(function (props) {
+                imageProps = props;
+
+                imageRatio = that.getImageAspectRatio(props);
+                var canvasSize = that.getCanvasSize(props, imageRatio);
+
                 that.sizeCanvas(canvasEl, canvasSize);
 
                 var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
                 var pictureView = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
-                var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl, canvasSize);
-                var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl, canvasSize);
+                var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, canvasEl, rubberBandEl);
+                var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
 
                 var menuPresenter = new Hilo.Crop.MenuPresenter(menuEl);
                 menuPresenter.addEventListener("crop", function () {
-                    var cropCoords = rubberBand.getCoords();
-                    pictureView.drawImageSubset(cropCoords);
-                    rubberBand.reset();
+
                 });
 
             });
         },
 
-        imageScaleSize: function (storageFile) {
-            return new WinJS.Promise(function (complete) {
-                storageFile.properties.getImagePropertiesAsync().then(function (props) {
+        getImageAspectRatio: function (imageSize) {
+            return {
+                widthRatio: imageSize.width / imageSize.height,
+                heightRatio: imageSize.height / imageSize.width
+            }
+        },
 
-                    var ratio = props.width / props.height;
-                    var size = {
-                        height: maxHeight,
-                        width: maxHeight * ratio
-                    };
+        getCanvasSize: function (imageSize, aspectRatio) {
+            var scaledSize;
 
-                    complete(size);
-                });
-            });
+            if (imageSize.height > imageSize.width) {
+                scaledSize = {
+                    height: screenMaxHeight,
+                    width: screenMaxHeight * aspectRatio.widthRatio
+                };
+            } else {
+                scaledSize = {
+                    height: screeMaxWidth * aspectRatio.heightRatio,
+                    width: screenMaxWidth
+                };
+            }
+
+            return scaledSize;
         },
 
         sizeCanvas: function (canvas, canvasSize) {

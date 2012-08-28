@@ -75,6 +75,10 @@
             };
 
             this.drawImage();
+        },
+
+        reset: function (canvasSize) {
+            this.canvasSize = canvasSize;
         }
     };
 
