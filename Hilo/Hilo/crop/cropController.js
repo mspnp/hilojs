@@ -19,10 +19,10 @@
     // Constructor Function
     // --------------------
 
-    function CropControllerConstructor(fileLoader, canvasEl, context, rubberBandEl, menuEl) {
+    function CropControllerConstructor(fileLoader, canvasEl, rubberBandEl, menuEl) {
         this.fileLoader = fileLoader;
         this.canvasEl = canvasEl;
-        this.context = context;
+        this.context = canvasEl.getContext("2d");
         this.rubberBandEl = rubberBandEl;
         this.menuEl = menuEl;
         this.cropOffset = { x: 0, y: 0 };
