@@ -37,7 +37,7 @@
             var rubberBandEl = document.querySelector("#rubberBand");
             var menuEl = document.querySelector("#appbar");
 
-            var storageFile, url, imageProps, imageRatio;
+            var storageFile, url, imageProps, imageRatio, imageScale, canvasSize;
             var that = this;
 
             fileLoader.then(function (loadedImageArray) {
@@ -53,7 +53,8 @@
                 imageProps = props;
 
                 imageRatio = that.getImageAspectRatio(props);
-                var canvasSize = that.getCanvasSize(props, imageRatio);
+                canvasSize = that.getCanvasSize(props, imageRatio);
+                imageScale = that.getCanvasScale(props, canvasSize);
 
                 that.sizeCanvas(canvasEl, canvasSize);
 
@@ -65,9 +66,40 @@
                 var menuPresenter = new Hilo.Crop.MenuPresenter(menuEl);
                 menuPresenter.addEventListener("crop", function () {
 
+                    var coords = rubberBand.getCoords();
+                    var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords);
+                    var newRatio = that.getImageAspectRatio(scaledImageCoordinates);
+                    var canvasSize = that.getCanvasSize(scaledImageCoordinates, newRatio);
+
+                    that.sizeCanvas(canvasEl, canvasSize);
+
+                    rubberBand.reset(canvasSize);
+                    rubberBandController.reset();
+
+                    pictureView.reset(canvasSize, scaledImageCoordinates);
+                    rubberBandView.reset();
                 });
 
             });
+        },
+
+        // take the canvas coordinates and scale them to the real image coordinates
+        scaleCanvasCoordsToImage: function (imageScale, canvasCoords) {
+            var startX = canvasCoords.startX * imageScale.widthScale,
+                startY = canvasCoords.startY * imageScale.heightScale,
+                endX = canvasCoords.endX * imageScale.widthScale,
+                endY = canvasCoords.endY * imageScale.heightScale,
+                height = endY - startY,
+                width = endX - startX;
+
+            return {
+                startX: startX,
+                startY: startY,
+                endX: endX,
+                endY: endY,
+                height: height,
+                width: width
+            };
         },
 
         getImageAspectRatio: function (imageSize) {
@@ -75,6 +107,13 @@
                 widthRatio: imageSize.width / imageSize.height,
                 heightRatio: imageSize.height / imageSize.width
             }
+        },
+
+        getCanvasScale: function (imageSize, canvasSize) {
+            return {
+                heightScale: imageSize.height / canvasSize.height,
+                widthScale: imageSize.width / canvasSize.width
+            };
         },
 
         getCanvasSize: function (imageSize, aspectRatio) {
@@ -87,7 +126,7 @@
                 };
             } else {
                 scaledSize = {
-                    height: screeMaxWidth * aspectRatio.heightRatio,
+                    height: screenMaxWidth * aspectRatio.heightRatio,
                     width: screenMaxWidth
                 };
             }

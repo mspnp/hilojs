@@ -76,10 +76,10 @@
         reset: function (canvasSize) {
             this.canvasSize = canvasSize;
 
-            this.startX = 0;
-            this.startY = 0;
             this.endX = this.canvasSize.width;
             this.endY = this.canvasSize.height;
+            this.startX = 0;
+            this.startY = 0;
         },
 
         dispatchMove: function () {

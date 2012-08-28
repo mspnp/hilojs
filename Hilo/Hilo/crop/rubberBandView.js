@@ -19,8 +19,7 @@
         this.context = canvasEl.getContext("2d");
         this.rubberBandEl = rubberBandEl;
 
-        this.reset();
-        this.draw(rubberBand.getCoords());
+        this.reset(rubberBand.getCoords());
 
         rubberBand.addEventListener("move", this.rubberBandMove.bind(this));
     }
@@ -35,6 +34,8 @@
 
         reset: function () {
             this.boundingRect = this.canvas.getBoundingClientRect();
+            var coords = this.rubberBand.getCoords();
+            this.draw(coords);
         },
 
         draw: function (coords) {

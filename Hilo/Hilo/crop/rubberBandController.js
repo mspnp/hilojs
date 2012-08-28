@@ -18,8 +18,7 @@
         this.rubberBandEl = rubberBandEl;
         this.rubberBand = rubberBand;
 
-        this.boundingRect = this.canvas.getBoundingClientRect();
-
+        this.reset();
         this.setupCorners();
     }
 
@@ -27,6 +26,10 @@
     // ------------------------------
 
     var rubberBandControllerMembers = {
+
+        reset: function () {
+            this.boundingRect = this.canvas.getBoundingClientRect();
+        },
 
         setupCorners: function () {
             var position = Hilo.Crop.RubberBandCorner.position;

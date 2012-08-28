@@ -64,21 +64,13 @@
         },
 
         drawImageSubset: function (imageCoords) {
-            var widthScale = this.image.width / this.canvasSize.width;
-            var heightScale = this.image.height / this.canvasSize.height;
-
-            this.imageSubset = {
-                startX: imageCoords.startX * widthScale,
-                startY: imageCoords.startY * heightScale,
-                endX: imageCoords.endX * widthScale,
-                endY: imageCoords.endY * heightScale
-            };
-
+            this.imageSubset = imageCoords;
             this.drawImage();
         },
 
-        reset: function (canvasSize) {
+        reset: function (canvasSize, scaledImageCoordinates) {
             this.canvasSize = canvasSize;
+            this.drawImageSubset(scaledImageCoordinates);
         }
     };
 
