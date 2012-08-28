@@ -8,7 +8,7 @@
 // ===============================================================================
 
 (function () {
-	"use strict";
+    "use strict";
 
     // Imports And Constants
     // ---------------------
@@ -19,69 +19,74 @@
     // Constructor Function
     // --------------------
 
-	function CropControllerConstructor(fileLoader, canvasEl, context, rubberBandEl, menuEl) {
-	    this.fileLoader = fileLoader;
-	    this.canvasEl = canvasEl;
-	    this.context = context;
-	    this.rubberBandEl = rubberBandEl;
-	    this.menuEl = menuEl;
-	}
+    function CropControllerConstructor(fileLoader, canvasEl, context, rubberBandEl, menuEl) {
+        this.fileLoader = fileLoader;
+        this.canvasEl = canvasEl;
+        this.context = context;
+        this.rubberBandEl = rubberBandEl;
+        this.menuEl = menuEl;
+        this.cropOffset = { x: 0, y: 0 };
+    }
 
-	// Methods
-	// -------
+    // Methods
+    // -------
 
-	var cropControllerMembers = {
+    var cropControllerMembers = {
         start: function () {
+            this.fileLoader
+                .then(this.getImageUrl.bind(this))
+                .then(this.getImageProperties.bind(this))
+                .then(this.runImageCropping.bind(this));
+        },
 
-            var storageFile, url, imageProps, imageScale;
-            var that = this,
-                cropOffset = { x: 0, y: 0 };
+        getImageUrl: function (loadedImageArray) {
+            var picture = loadedImageArray[0];
+            var storageFile = picture.storageFile;
 
-            this.fileLoader.then(function (loadedImageArray) {
+            this.url = URL.createObjectURL(storageFile);
 
-                var picture = loadedImageArray[0];
+            return storageFile;
+        },
 
-                storageFile = picture.storageFile;
-                url = URL.createObjectURL(storageFile);
+        getImageProperties: function (storageFile) {
+            return storageFile.properties.getImagePropertiesAsync();
+        },
 
-                return storageFile.properties.getImagePropertiesAsync();
+        runImageCropping: function (props) {
+            var imageRatio = this.getImageAspectRatio(props);
+            var canvasSize = this.getCanvasSize(props, imageRatio);
+            var imageScale = this.getImageScale(props, canvasSize);
 
-            }).then(function (props) {
-                imageProps = props;
+            this.sizeCanvas(this.canvasEl, canvasSize);
 
-                var imageRatio = that.getImageAspectRatio(props);
-                var canvasSize = that.getCanvasSize(props, imageRatio);
-                imageScale = that.getImageScale(props, canvasSize);
+            var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
+            var pictureView = new Hilo.Crop.PictureView(this.context, rubberBand, this.url, canvasSize);
+            var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, this.canvasEl, this.rubberBandEl);
+            var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, this.canvasEl, this.rubberBandEl);
+
+            var menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
+
+            var that = this;
+            menuPresenter.addEventListener("crop", function () {
+
+                var coords = rubberBand.getCoords();
+                var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords, that.cropOffset);
+                var imageRatio = that.getImageAspectRatio(scaledImageCoordinates);
+                var canvasSize = that.getCanvasSize(scaledImageCoordinates, imageRatio);
 
                 that.sizeCanvas(that.canvasEl, canvasSize);
 
-                var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
-                var pictureView = new Hilo.Crop.PictureView(that.context, rubberBand, url, canvasSize);
-                var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, that.canvasEl, that.rubberBandEl);
-                var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, that.canvasEl, that.rubberBandEl);
+                rubberBand.reset(canvasSize);
+                rubberBandController.reset();
 
-                var menuPresenter = new Hilo.Crop.MenuPresenter(that.menuEl);
-                menuPresenter.addEventListener("crop", function () {
+                pictureView.reset(canvasSize, scaledImageCoordinates);
+                rubberBandView.reset();
 
-                    var coords = rubberBand.getCoords();
-                    var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords, cropOffset);
-                    var imageRatio = that.getImageAspectRatio(scaledImageCoordinates);
-                    var canvasSize = that.getCanvasSize(scaledImageCoordinates, imageRatio);
-
-                    that.sizeCanvas(that.canvasEl, canvasSize);
-
-                    rubberBand.reset(canvasSize);
-                    rubberBandController.reset();
-
-                    pictureView.reset(canvasSize, scaledImageCoordinates);
-                    rubberBandView.reset();
-
-                    //reset image scale and offset to match new canvas and image scaling
-                    imageScale = that.getImageScale(scaledImageCoordinates, canvasSize);
-                    cropOffset = { x: scaledImageCoordinates.startX, y: scaledImageCoordinates.startY };
-                });
-
+                //reset image scale and offset to match new canvas and image scaling
+                imageScale = that.getImageScale(scaledImageCoordinates, canvasSize);
+                that.cropOffset = { x: scaledImageCoordinates.startX, y: scaledImageCoordinates.startY };
             });
+
         },
 
         // take the canvas coordinates and scale them to the real image coordinates
@@ -159,15 +164,15 @@
         sizeCanvas: function (canvas, canvasSize) {
             canvas.height = canvasSize.height;
             canvas.width = canvasSize.width;
-        },
+        }
 
-	};
+    };
 
-	// Public API
-	// ----------
+    // Public API
+    // ----------
 
-	WinJS.Namespace.define("Hilo.Crop", {
-	    CropController: WinJS.Class.mix(CropControllerConstructor, cropControllerMembers, WinJS.Utilities.eventMixin)
-	});
+    WinJS.Namespace.define("Hilo.Crop", {
+        CropController: WinJS.Class.mix(CropControllerConstructor, cropControllerMembers, WinJS.Utilities.eventMixin)
+    });
 
 })();
