@@ -22,8 +22,8 @@
         <div id="nav" data-win-control="WinJS.UI.AppBar" data-win-options="{ layout:'custom', placement:'top'}">
             <div id="filmstrip"
                 data-win-control="WinJS.UI.ListView"
-                data-win-options="{itemTemplate: select('#filmstrip-thumbnail')}"
-            ></div>
+                data-win-options="{itemTemplate: select('#filmstrip-thumbnail')}">
+            </div>
         </div>
 
         <header aria-label="Header content" role="banner">
@@ -32,17 +32,21 @@
                 <span id="pageTitle" class="pagetitle" data-win-bind="innerText: title">[Month Year]</span>
             </h1>
         </header>
-                
+
         <section aria-label="Main content" role="main">
+
             <div id="image-template" data-win-control="WinJS.Binding.Template">
-                <img src="#" data-win-bind="src: src Hilo.Picture.bindToImageSrc" />
+                <div class="flipViewBackground">
+                    <div class="flipViewImage" data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc">
+                    </div>
+                </div>
             </div>
 
             <div id="flipview"
                 data-win-control="WinJS.UI.FlipView"
                 data-win-options="{ 
                     itemTemplate: select('#image-template')}">
-            </div>            
+            </div>
         </section>
     </div>
 

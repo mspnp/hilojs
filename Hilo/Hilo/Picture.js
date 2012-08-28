@@ -77,18 +77,19 @@
 	    // This function is to be used in declarative binding in the markup:
 	    //
 	    // ```html
-	    // <img src="#" data-win-bind="src: src Hilo.Picture.bindToImageSrc" />
+	    // <div data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc"></div>
 	    // ```
 		bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
-			// We're ignoring the properties provided in the binding.
-			// We are assuming that we'll always extract the `src` property from the `source`
-			// and bind it to the `src` of the `target` (which we expect to be an image tag).
+		    // We're ignoring the properties provided in the binding.
+		    // We are assuming that we'll always extract the `src` property from the `source`
+		    // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
+            // We are not using img tags because a bad file results in a broken image
 
-			if (!source.src) {
-				source.updateProperty("src", URL.createObjectURL(source.storageFile));
-			}
+		    if (!source.src) {
+		        source.updateProperty("src", URL.createObjectURL(source.storageFile));
+		    }
 
-			target.setAttribute('src', source.src);
+		    target.style.backgroundImage = 'url(' + source.src + ')';
 		}),
 	};
 
