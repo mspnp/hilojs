@@ -109,8 +109,8 @@
 
         getImageAspectRatio: function (imageSize) {
             return {
-                widthRatio: imageSize.width / imageSize.height,
-                heightRatio: imageSize.height / imageSize.width
+                heightRatio: imageSize.width / imageSize.height,
+                widthRatio: imageSize.height / imageSize.width
             }
         },
 
@@ -122,21 +122,25 @@
         },
 
         getCanvasSize: function (imageSize, aspectRatio) {
-            var scaledSize;
+            var height, width;
 
             if (imageSize.height > imageSize.width) {
-                scaledSize = {
-                    height: screenMaxHeight,
-                    width: screenMaxHeight * aspectRatio.widthRatio
-                };
+                height = screenMaxHeight;
+                width = screenMaxHeight * aspectRatio.heightRatio;
             } else {
-                scaledSize = {
-                    height: screenMaxWidth * aspectRatio.heightRatio,
-                    width: screenMaxWidth
-                };
+                width = screenMaxWidth;
+                height = screenMaxWidth * aspectRatio.widthRatio;
+                if (height > screenMaxHeight) {
+                    var scale = screenMaxHeight / height;
+                    height = height * scale;
+                    width = width * scale;
+                }
             }
 
-            return scaledSize;
+            return {
+                height: height,
+                width: width
+            };
         },
 
         sizeCanvas: function (canvas, canvasSize) {
