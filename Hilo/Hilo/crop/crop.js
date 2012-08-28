@@ -54,7 +54,7 @@
 
                 imageRatio = that.getImageAspectRatio(props);
                 canvasSize = that.getCanvasSize(props, imageRatio);
-                imageScale = that.getCanvasScale(props, canvasSize);
+                imageScale = that.getImageScale(props, canvasSize);
 
                 that.sizeCanvas(canvasEl, canvasSize);
 
@@ -78,6 +78,9 @@
 
                     pictureView.reset(canvasSize, scaledImageCoordinates);
                     rubberBandView.reset();
+
+                    //reset image scale to match new canvas size
+                    imageScale = that.getImageScale(scaledImageCoordinates, canvasSize);
                 });
 
             });
@@ -109,7 +112,7 @@
             }
         },
 
-        getCanvasScale: function (imageSize, canvasSize) {
+        getImageScale: function (imageSize, canvasSize) {
             return {
                 heightScale: imageSize.height / canvasSize.height,
                 widthScale: imageSize.width / canvasSize.width
