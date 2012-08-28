@@ -38,7 +38,8 @@
             var menuEl = document.querySelector("#appbar");
 
             var storageFile, url, imageProps, imageRatio, imageScale, canvasSize;
-            var that = this;
+            var that = this,
+                cropOffset = { x: 0, y: 0 };
 
             fileLoader.then(function (loadedImageArray) {
 
@@ -67,7 +68,7 @@
                 menuPresenter.addEventListener("crop", function () {
 
                     var coords = rubberBand.getCoords();
-                    var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords);
+                    var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords, cropOffset);
                     var newRatio = that.getImageAspectRatio(scaledImageCoordinates);
                     var canvasSize = that.getCanvasSize(scaledImageCoordinates, newRatio);
 
@@ -79,15 +80,16 @@
                     pictureView.reset(canvasSize, scaledImageCoordinates);
                     rubberBandView.reset();
 
-                    //reset image scale to match new canvas size
+                    //reset image scale and offset to match new canvas and image scaling
                     imageScale = that.getImageScale(scaledImageCoordinates, canvasSize);
+                    cropOffset = { x: scaledImageCoordinates.startX, y: scaledImageCoordinates.startY };
                 });
 
             });
         },
 
         // take the canvas coordinates and scale them to the real image coordinates
-        scaleCanvasCoordsToImage: function (imageScale, canvasCoords) {
+        scaleCanvasCoordsToImage: function (imageScale, canvasCoords, cropOffset) {
             var startX = canvasCoords.startX * imageScale.widthScale,
                 startY = canvasCoords.startY * imageScale.heightScale,
                 endX = canvasCoords.endX * imageScale.widthScale,
@@ -96,10 +98,10 @@
                 width = endX - startX;
 
             return {
-                startX: startX,
-                startY: startY,
-                endX: endX,
-                endY: endY,
+                startX: startX + cropOffset.x,
+                startY: startY + cropOffset.y,
+                endX: endX + cropOffset.x,
+                endY: endY + cropOffset.y,
                 height: height,
                 width: width
             };
