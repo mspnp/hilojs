@@ -123,7 +123,8 @@
         },
 
         getCanvasSize: function (imageSize, aspectRatio) {
-            var height, width, scale;
+            var height, width,
+                scale = 1;
 
             if (imageSize.height > imageSize.width) {
 
@@ -132,13 +133,6 @@
                 height = screenMaxHeight;
                 width = screenMaxHeight * aspectRatio.heightRatio;
 
-                // if the width of the image would go passed the max,
-                // then scale it down so that it fits the max
-                if (width > screenMaxWidth) {
-                    scale = screenMaxWidth / width;
-                    height = height * scale;
-                    width = width * scale;
-                }
             } else {
 
                 // width is greater than height, so shrink down to
@@ -146,14 +140,23 @@
                 width = screenMaxWidth;
                 height = screenMaxWidth * aspectRatio.widthRatio;
 
-                // if the height of the image would go passed the max,
-                // then scale it down so that it fits the max
-                if (height > screenMaxHeight) {
-                    scale = screenMaxHeight / height;
-                    height = height * scale;
-                    width = width * scale;
-                }
             }
+
+            // if the height of the image would go passed the max,
+            // then scale it down so that it fits the max
+            if (height > screenMaxHeight) {
+                scale = screenMaxHeight / height;
+            }
+
+            // if the width of the image would go passed the max,
+            // then scale it down so that it fits the max
+            if (width > screenMaxWidth) {
+                scale = screenMaxWidth / width;
+            }
+
+            // set final scale
+            height = height * scale;
+            width = width * scale;
 
             return {
                 height: height,
