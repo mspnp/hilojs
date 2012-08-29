@@ -22,7 +22,6 @@
     function CropControllerConstructor(fileLoader, canvasEl, rubberBandEl, menuEl) {
         this.fileLoader = fileLoader;
         this.canvasEl = canvasEl;
-        this.context = canvasEl.getContext("2d");
         this.rubberBandEl = rubberBandEl;
         this.menuEl = menuEl;
         this.offset = { x: 0, y: 0 };
@@ -52,7 +51,7 @@
 
         setupControllers: function(storageFile){
             this.rubberBand = new Hilo.Crop.RubberBand();
-            this.pictureView = new Hilo.Crop.PictureView(this.context, this.rubberBand, this.url);
+            this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.rubberBand, this.url);
             this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
             this.rubberBandController = new Hilo.Crop.RubberBandController(this.rubberBand, this.canvasEl, this.rubberBandEl);
             this.menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
@@ -99,11 +98,11 @@
 
             // reset and re-draw all of the controllers and presenters
             this.rubberBandController.reset();
-            this.pictureView.reset(canvasSize, cropRect);
+            this.pictureView.reset(cropRect);
             this.rubberBand.reset(canvasSize);
             this.rubberBandView.reset();
 
-            // re-draw the background image once everything is reset
+            // draw the background image once everything is set up
             this.pictureView.drawImage();
         },
 

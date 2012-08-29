@@ -13,8 +13,10 @@
     // Picture View Constructor
     // ------------------------
 
-    function PictureViewConstructor(canvasContext, rubberBand, imageUrl) {
-        this.context = canvasContext;
+    function PictureViewConstructor(canvasEl, rubberBand, imageUrl) {
+        this.canvasEl = canvasEl;
+        this.canvasSize = canvasEl.getBoundingClientRect();
+        this.context = canvasEl.getContext("2d");
         this.loadImage(imageUrl);
         rubberBand.addEventListener("move", this.drawImage.bind(this));
     }
@@ -60,14 +62,13 @@
             );
         },
 
-        drawImageSubset: function (imageCoords) {
+        setImageSubset: function (imageCoords) {
             this.imageSubset = imageCoords;
-            this.drawImage();
         },
 
-        reset: function (canvasSize, scaledImageCoordinates) {
-            this.canvasSize = canvasSize;
-            this.drawImageSubset(scaledImageCoordinates);
+        reset: function (scaledImageCoordinates) {
+            this.canvasSize = this.canvasEl.getBoundingClientRect();
+            this.setImageSubset(scaledImageCoordinates);
         }
     };
 
