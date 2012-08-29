@@ -1,18 +1,18 @@
 ﻿(function () {
     "use strict";
 
-    // Menu Presenter Constructor
+    // AppBar Presenter Constructor
     // --------------------------
 
-    function MenuPresenterConstructor(el) {
+    function AppBarPresenterConstructor(el) {
         this.el = el;
         this.setupButtons();
     }
 
-    // Menu Presenter Members
+    // AppBar Presenter Members
     // ----------------------
 
-    var menuPresenterMembers = {
+    var appBarPresenterMembers = {
         setupButtons: function () {
             this.addButtonHandler("#crop", this.cropClicked.bind(this));
             this.addButtonHandler("#save", this.saveClicked.bind(this));
@@ -40,11 +40,11 @@
         }
     };
 
-    // Menu Presenter Definition
+    // AppBar Presenter Definition
     // -------------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        MenuPresenter: WinJS.Class.mix(MenuPresenterConstructor, menuPresenterMembers, WinJS.Utilities.eventMixin)
+        AppBarPresenter: WinJS.Class.mix(AppBarPresenterConstructor, appBarPresenterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

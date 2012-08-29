@@ -74,6 +74,9 @@
     <Content Include="..\Hilo\Hilo\controls\pageControlHelper.js">
       <Link>Hilo\controls\pageControlHelper.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\crop\appBarPresenter.js">
+      <Link>Hilo\crop\appBarPresenter.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\crop\crop.css">
       <Link>Hilo\crop\crop.css</Link>
     </Content>
@@ -85,9 +88,6 @@
     </Content>
     <Content Include="..\Hilo\Hilo\crop\cropController.js">
       <Link>Hilo\crop\cropController.js</Link>
-    </Content>
-    <Content Include="..\Hilo\Hilo\crop\menuPresenter.js">
-      <Link>Hilo\crop\menuPresenter.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\crop\pictureView.js">
       <Link>Hilo\crop\pictureView.js</Link>
@@ -212,7 +212,7 @@
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="specs\crop\cropController.spec.js" />
-    <Content Include="specs\crop\menuPresenter.spec.js" />
+    <Content Include="specs\crop\appBarPresenter.spec.js" />
     <Content Include="specs\crop\pictureView.spec.js" />
     <Content Include="specs\crop\rubberBand.spec.js" />
     <Content Include="specs\crop\rubberBandController.spec.js" />

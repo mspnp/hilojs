@@ -1,6 +1,6 @@
-﻿describe("crop menu presenter", function () {
+﻿describe("crop app bar presenter", function () {
 
-    var menu, el, crop, save, cancel;
+    var appBar, el, crop, save, cancel;
 
     beforeEach(function () {
         crop = new Specs.WinControlStub();
@@ -12,7 +12,7 @@
         el.addQuerySelector("#save", save);
         el.addQuerySelector("#cancel", cancel);
 
-        menu = new Hilo.Crop.MenuPresenter(el);
+        appBar = new Hilo.Crop.MenuPresenter(el);
     });
 
     describe("when cropping", function () {
@@ -23,7 +23,7 @@
                 handler.wasCalled = true;
             };
 
-            menu.addEventListener("crop", handler);
+            appBar.addEventListener("crop", handler);
             
             crop.dispatchEvent("click");
         });
@@ -41,7 +41,7 @@
                 handler.wasCalled = true;
             };
 
-            menu.addEventListener("save", handler);
+            appBar.addEventListener("save", handler);
             
             save.dispatchEvent("click");
         });
@@ -59,7 +59,7 @@
                 handler.wasCalled = true;
             };
 
-            menu.addEventListener("cancel", handler);
+            appBar.addEventListener("cancel", handler);
             
             cancel.dispatchEvent("click");
         });

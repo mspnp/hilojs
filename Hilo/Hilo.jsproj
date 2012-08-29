@@ -69,7 +69,7 @@
     <Content Include="Hilo\crop\crop.html" />
     <Content Include="Hilo\crop\crop.js" />
     <Content Include="Hilo\crop\cropController.js" />
-    <Content Include="Hilo\crop\menuPresenter.js" />
+    <Content Include="Hilo\crop\appBarPresenter.js" />
     <Content Include="Hilo\crop\pictureView.js" />
     <Content Include="Hilo\crop\rubberBand.js" />
     <Content Include="Hilo\crop\rubberBandController.js" />

@@ -19,11 +19,11 @@
     // Constructor Function
     // --------------------
 
-    function CropControllerConstructor(imageQuery, canvasEl, rubberBandEl, menuEl) {
+    function CropControllerConstructor(imageQuery, canvasEl, rubberBandEl, appBarEl) {
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
         this.rubberBandEl = rubberBandEl;
-        this.menuEl = menuEl;
+        this.appBarEl = appBarEl;
         this.offset = { x: 0, y: 0 };
     }
 
@@ -61,7 +61,7 @@
             this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.rubberBand, this.url);
             this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
             this.rubberBandController = new Hilo.Crop.RubberBandController(this.rubberBand, this.canvasEl, this.rubberBandEl);
-            this.appBarPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
+            this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
 
             // forwarding for the chained "then" calls
             return storageFile;
