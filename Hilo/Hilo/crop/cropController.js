@@ -91,10 +91,10 @@
 
         // take the canvas coordinates and scale them to the real image coordinates
         scaleCanvasCoordsToImage: function (imageScale, canvasCoords, cropOffset) {
-            var startX = canvasCoords.startX * imageScale.widthScale,
-                startY = canvasCoords.startY * imageScale.heightScale,
-                endX = canvasCoords.endX * imageScale.widthScale,
-                endY = canvasCoords.endY * imageScale.heightScale,
+            var startX = canvasCoords.startX * imageScale,
+                startY = canvasCoords.startY * imageScale,
+                endX = canvasCoords.endX * imageScale,
+                endY = canvasCoords.endY * imageScale,
                 height = endY - startY,
                 width = endX - startX;
 
@@ -116,10 +116,7 @@
         },
 
         getImageScale: function (imageSize, canvasSize) {
-            return {
-                heightScale: imageSize.height / canvasSize.height,
-                widthScale: imageSize.width / canvasSize.width
-            };
+            return imageSize.height / canvasSize.height;
         },
 
         getCanvasSize: function (imageSize, aspectRatio) {
