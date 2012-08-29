@@ -49,7 +49,7 @@
             return storageFile;
         },
 
-        setupControllers: function(storageFile){
+        setupControllers: function (storageFile) {
             this.rubberBand = new Hilo.Crop.RubberBand();
             this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.rubberBand, this.url);
             this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
@@ -60,41 +60,44 @@
             return storageFile;
         },
 
+        // Retrieve all of the "Image Properties" from the storage file, async
         getImageProperties: function (storageFile) {
             return storageFile.properties.getImagePropertiesAsync();
         },
 
+        // Start the image cropping process by drawing the image and
+        // crop selection to scale, and then listen for the "crop" button click
         runImageCropping: function (props) {
-            var imageToScreenScale = this.calculateScaleToScreen(props);
-            this.drawImageSelectionToScale(props, imageToScreenScale);
+            this.imageToScreenScale = this.calculateScaleToScreen(props);
+            this.drawImageSelectionToScale(props, this.imageToScreenScale);
+            this.menuPresenter.addEventListener("crop", this.cropImage.bind(this));
+        },
 
-            var that = this;
-            this.menuPresenter.addEventListener("crop", function () {
+        // Run the image crop process, visually, to show what the crop result
+        // will look like when the file is saved.
+        cropImage: function () {
+            // Get the canvas-based rectangle of the crop selection
+            var coords = this.rubberBand.getCoords();
 
-                // Get the canvas-based rectangle of the crop selection
-                var coords = that.rubberBand.getCoords();
+            // calculate the selected area of the original image by scaling
+            // the canvas based selection out to the original image
+            var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.offset);
 
-                // calculate the selected area of the original image by scaling
-                // the canvas based selection out to the original image
-                var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.offset);
+            // reset image scale so that it reflects the difference between
+            // the current canvas size (the crop selection), and the original 
+            // image size, then re-draw everything at that new scale
+            this.imageToScreenScale = this.calculateScaleToScreen(selectionRectScaledToImage);
+            this.drawImageSelectionToScale(selectionRectScaledToImage, this.imageToScreenScale);
 
-                // reset image scale so that it reflects the difference between
-                // the current canvas size (the crop selection), and the original 
-                // image size, then re-draw everything at that new scale
-                imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage);
-                that.drawImageSelectionToScale(selectionRectScaledToImage, imageToScreenScale);
-
-                // remember the starting location of the crop on the original image
-                // and not relative to the canvas size, so that cropping multiple times
-                // will correctly crop to what has been visually selected
-                that.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
-            });
-
+            // remember the starting location of the crop on the original image
+            // and not relative to the canvas size, so that cropping multiple times
+            // will correctly crop to what has been visually selected
+            this.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
         },
 
         // Calculate the canvas size, according to the scale, using
         // the crop selection rectangle
-        drawImageSelectionToScale: function(cropRect, imageToScreenScale){
+        drawImageSelectionToScale: function (cropRect, imageToScreenScale) {
             var canvasSize = this.resizeCanvas(cropRect, imageToScreenScale);
 
             // reset and re-draw all of the controllers and presenters
@@ -155,7 +158,7 @@
 
         // change the size of the specified canvas element to the calculated
         // size, and return the new size
-        resizeCanvas: function(imageSelectionSize, imageToScreenScale){
+        resizeCanvas: function (imageSelectionSize, imageToScreenScale) {
             var canvasSize = this.calculateSizeFromScale(imageSelectionSize, imageToScreenScale);
 
             this.canvasEl.height = canvasSize.height;
