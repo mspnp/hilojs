@@ -74,10 +74,13 @@
                 // the canvas based selection out to the original image
                 var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.offset);
 
+                // reset image scale so that it reflects the difference between
+                // the current canvas size, and the original image size
+                imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage);
+
                 // Calculate the new canvas size based on the rectangle of the crop selection
                 // and reset the canvas to that size
-                var canvasScale = that.calculateScaleToScreen(selectionRectScaledToImage);
-                var canvasSize = that.calculateSizeFromScale(selectionRectScaledToImage, canvasScale);
+                var canvasSize = that.calculateSizeFromScale(selectionRectScaledToImage, imageToScreenScale);
                 that.sizeCanvas(that.canvasEl, canvasSize);
 
                 // Reset and re-draw everything according to the new scale
@@ -85,10 +88,6 @@
                 rubberBandController.reset();
                 pictureView.reset(canvasSize, selectionRectScaledToImage);
                 rubberBandView.reset();
-
-                // reset image scale so that it reflects the difference between
-                // the current canvas size, and the original image size
-                imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage, canvasSize);
 
                 // remember the starting location of the crop, on the actual image
                 // and not relative to the canvas size
