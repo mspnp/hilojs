@@ -60,7 +60,7 @@
         },
 
         drawShadedBox: function (coords) {
-            var offset = 2;
+            var offset = 1;
             var boundHeight = this.boundingRect.height;
             var boundWidth = this.boundingRect.width;
 

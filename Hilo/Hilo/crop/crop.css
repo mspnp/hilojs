@@ -21,7 +21,7 @@
 
 #cropSelection {
 	position: fixed;
-	border: 2px dashed #fff;
+	border: 1px dashed #fff;
 	display: none;
 	overflow: visible;
 	min-height: 30px;
@@ -29,44 +29,33 @@
 }
 
 .corner {
-	position: fixed;
+	position: absolute;
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	border: 0px;
 	background-color: #fff;
 	opacity: 0.5;
 	cursor: crosshair;
-	display: block;
-	height: 20px;
-	width: 20px;
-	overflow: hidden;
 }
 
 #topLeft {
-	position: absolute;
-	top: -10px;
-	left: -10px;
-	border-right: 2px dashed #000;
-	border-bottom: 2px dashed #000;
+	top: -15px;
+	left: -15px;
 }
 
 #topRight {
-	position: absolute;
-	top: -10px;
-	right: -10px;
-	border-left: 2px dashed #000;
-	border-bottom: 2px dashed #000;
+	top: -15px;
+	right: -15px;
 }
 
 #bottomLeft {
-	position: absolute;
-	bottom: -10px;
-	left: -10px;
-	border-right: 2px dashed #000;
-	border-top: 2px dashed #000;
+	bottom: -15px;
+	left: -15px;
 }
 
 #bottomRight {
-	position: absolute;
-	bottom: -10px;
-	right: -10px;
-	border-left: 2px dashed #000;
-	border-top: 2px dashed #000;
+	bottom: -15px;
+	right: -15px;
 }
