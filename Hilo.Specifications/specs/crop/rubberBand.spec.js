@@ -19,7 +19,7 @@ describe("rubber band", function () {
     describe("when initializing", function () {
         var coords;
 
-        beforeEach(function(){
+        beforeEach(function () {
             coords = rubberBand.getCoords();
         });
 
@@ -81,7 +81,7 @@ describe("rubber band", function () {
             rubberBand.endX = 50;
             rubberBand.endY = 60;
         });
-        
+
         it("should dispatch a 'move' event for each coordinate value set", function () {
             expect(moveHandler.callCount).equals(4);
         });
@@ -120,7 +120,7 @@ describe("rubber band", function () {
             rubberBand.endX = 3000;
             rubberBand.endY = 4000;
         });
-        
+
         it("should reset the rubber band startx to the left canvas edge", function () {
             expect(rubberBand.startX).equals(0);
         });
@@ -161,7 +161,7 @@ describe("rubber band", function () {
             rubberBand.endX = 20;
             rubberBand.endY = 20;
         });
-        
+
         it("should leave the startx where it is", function () {
             expect(rubberBand.startX).equals(10);
         });
@@ -203,7 +203,7 @@ describe("rubber band", function () {
             rubberBand.startX = 40;
             rubberBand.startY = 40;
         });
-        
+
         it("should leave the endx where it is", function () {
             expect(rubberBand.endX).equals(50);
         });
