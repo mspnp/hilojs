@@ -239,11 +239,14 @@
         // Build the query options and file query
         this.queryOptions = this._buildQueryOptions();
         this.fileQuery = this._buildFileQuery();
+
+        this.lastUpdatedAt = 0;
+
     }
 
     // Query Object Members
     // --------------------
-
+    var x = 0;
     var queryObjectMembers = {
 
         // Execute the query object. Returns a promise that provides
@@ -260,24 +263,35 @@
         //
         // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
         execute: function () {
-            var start, count;
+            var start, count, whenContentsChange;
             var queryPromise;
 
-            switch (arguments.length) {
-                case (0): {
-                    start = this.settings.startingIndex;
-                    count = this.settings.count;
-                    break;
+            // Parse the incoming arguments, we expect an optional function 
+            // and 0 to 2 integers. The order of the incoming numbers determine 
+            // their values.
+            var numericArgs = [];
+            Array.prototype.forEach.call(arguments, function (arg) {
+                if (typeof arg === "function") {
+                    whenContentsChange = arg;
+                } else {
+                    numericArgs.push(arg);
                 }
-                case (1): {
-                    start = arguments[0];
-                    count = 1;
-                    break;
-                }
-                case (2): {
-                    start = arguments[0];
-                    count = arguments[1];
-                }
+            });
+
+            // The values that are passed in should override the values
+            // found in the settings.
+            start = numericArgs[0] || this.settings.startingIndex;
+            count = numericArgs[1] || this.settings.count;
+
+            // If we are passed in a single number, we should assume a 
+            // `count` of 1.
+            if (numericArgs.length === 1 && !count) {
+                count = 1;
+            }
+
+            if (whenContentsChange) {
+                this.whenContentsChange = whenContentsChange;
+                this.fileQuery.addEventListener("contentschanged", this.contentsChanged.bind(this));
             }
 
             if (count) {
@@ -294,6 +308,48 @@
             }
 
             return queryPromise;
+        },
+
+        contentsChanged: function () {
+            var self = this;
+            var refreshInterval = 15 * 1000;
+
+            console.log("should I refresh?");
+
+            if (this.pendingChange) {
+                console.log("pending change found");
+                return;
+            }
+
+            this.pendingChange = true;
+
+            var hasRecentlyUpdated = (new Date() - this.lastUpdatedAt) < refreshInterval;
+
+            var secondsToWait = (hasRecentlyUpdated) ? refreshInterval : 0;
+
+            console.log("waiting " + secondsToWait);
+
+            setTimeout(function () {
+
+                x++;
+                console.log("refreshing: " + x);
+
+                self.whenContentsChange().then(function () {
+                    var y = x;
+                    self.pendingChange = false;
+                    self.lastUpdatedAt = new Date();
+
+                    console.log("refreshed: " + y);
+                });
+
+
+            }, (secondsToWait) + 25);
+        },
+
+        dispose: function() {
+            if (this.whenContentsChange) {
+                this.fileQuery.removeEventListener("contentschanged", this.whenContentsChange);
+            }
         },
 
         // This method is called by convention when this object is serialized.

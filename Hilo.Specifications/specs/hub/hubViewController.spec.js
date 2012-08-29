@@ -14,6 +14,7 @@
 
     beforeEach(function (done) {
     	listView = new Specs.WinControlStub();
+    	listView.winControl.setDataSource = function () { };
 
         nav = {
             navigate: function () {
@@ -33,14 +34,19 @@
             }
         };
 
+        var folder = {
+            displayName: "myPictures",
+            displayType: "library",
+            path: ""
+        };
+
         var whenFolderIsReady = Windows.Storage.ApplicationData.current.localFolder.getFolderAsync("Indexed");
 
         whenFolderIsReady.then(function (folder) {
         	var queryBuilder = new Hilo.ImageQueryBuilder()
 
         	hubView = new Hilo.Hub.HubViewController(nav, imageNav, listView, queryBuilder);
-            hubView.start();
-            done();
+        	hubView.start(folder).then(function () { done(); });            
         });
     });
 

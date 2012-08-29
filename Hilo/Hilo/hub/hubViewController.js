@@ -52,7 +52,7 @@
 
         // Starts processing the events from individual components, to 
         // facilitate the functionality of the other components.
-        start: function () {
+        start: function (folder) {
 
             // The [ECMASCript5 `bind`][2] function is used to ensure that the
             // context (the `this` variable) of each of the specified
@@ -63,7 +63,58 @@
             //
             this.listview.addEventListener("selectionChanged", this.selectionChanged.bind(this));
             this.listview.addEventListener("itemInvoked", this.itemClicked.bind(this));
+
+            // Configure and then build the query for this page
+            this.queryBuilder
+                .bindable()
+                .prefetchOptions(["System.ItemDate"])
+                .count(6);
+
+            this.query = this.queryBuilder.build(folder);
+
+            // Retrieve and display the images
+            return this.loadImages();
         },
+
+        loadImages: function () {
+
+            var whenFolderContentsChange = this.loadImages.bind(this);
+
+            return this.query.execute(whenFolderContentsChange)
+                .then(this.bindImages.bind(this))
+                .then(this.animateEnterPage);
+        },
+
+        bindImages: function (items) {
+
+            if (items.length > 0) {
+                items[0].className = items[0].className + " first";
+            }
+
+            // We need to know the index of the image with respect to
+            // to the group (month/year) so that we can select it
+            // when we navigate to the detail page.
+            var lastGroup = "";
+            var indexInGroup = 0;
+            items.forEach(function (item) {
+                var group = item.itemDate.getMonth() + " " + item.itemDate.getFullYear();
+                if (group !== lastGroup) {
+                    lastGroup = group;
+                    indexInGroup = 0;
+                }
+
+                item.groupIndex = indexInGroup;
+                indexInGroup++;
+            });
+
+            this.listview.setDataSource(items);
+        },
+
+        animateEnterPage: function () {
+            var elements = document.querySelectorAll(".titlearea, section[role=main]");
+            WinJS.UI.Animation.enterPage(elements);
+        },
+
 
         // The callback method for item selection in the listview changing.
         // This function coordinates the selection changes with the 

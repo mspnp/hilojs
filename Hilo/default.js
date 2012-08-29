@@ -36,8 +36,8 @@
                 
                 // When the app is launched, we want to update its tile
                 // on the start screen
-                var tileUpdater = new Hilo.Tiles.TileUpdater();
-                tileUpdater.update();
+                //var tileUpdater = new Hilo.Tiles.TileUpdater();
+                //tileUpdater.update();
 
             } else {
                 // TODO: This application has been reactivated from suspension.
