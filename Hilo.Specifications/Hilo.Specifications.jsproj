@@ -221,7 +221,6 @@
     <Content Include="specs\detail\filmstripController.spec.js" />
     <Content Include="specs\detail\flipviewController.spec.js" />
     <Content Include="specs\Helpers\spec.helpers.js" />
-    <Content Include="specs\hub\hub.spec.js" />
     <Content Include="specs\hub\hubViewController.spec.js" />
     <Content Include="specs\hub\listViewController.spec.js" />
     <Content Include="specs\ImageNav\imageNavController.spec.js" />
