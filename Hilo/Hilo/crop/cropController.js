@@ -74,18 +74,19 @@
                 // Get the canvas-based rectangle of the crop selection
                 var coords = that.rubberBand.getCoords();
 
-                // calculate the selected area of the real iamge by scaling
+                // calculate the selected area of the original image by scaling
                 // the canvas based selection out to the original image
                 var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.offset);
 
                 // reset image scale so that it reflects the difference between
-                // the current canvas size, and the original image size, then re-draw
-                // everything at that new scale
+                // the current canvas size (the crop selection), and the original 
+                // image size, then re-draw everything at that new scale
                 imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage);
                 that.drawImageSelectionToScale(selectionRectScaledToImage, imageToScreenScale);
 
-                // remember the starting location of the crop, on the actual image
-                // and not relative to the canvas size
+                // remember the starting location of the crop on the original image
+                // and not relative to the canvas size, so that cropping multiple times
+                // will correctly crop to what has been visually selected
                 that.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
             });
 
