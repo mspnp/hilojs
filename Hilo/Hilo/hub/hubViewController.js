@@ -8,12 +8,12 @@
 // ===============================================================================
 
 ﻿(function () {
-	"use strict";
-	
-	// Imports And Constants
-	// ---------------------
-	
-	var knownFolders = Windows.Storage.KnownFolders;
+    "use strict";
+    
+    // Imports And Constants
+    // ---------------------
+    
+    var knownFolders = Windows.Storage.KnownFolders;
 
     // Hub View Controller Constructor
     // -------------------------------
@@ -97,14 +97,14 @@
             // TODO: Perhaps we can pass the `getMonthYearFrom` as a dependency?
             var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
 
-        	// Build the query for the month and year of the invoked image
+            // Build the query for the month and year of the invoked image
             var query = this.queryBuilder
-				.bindable()
-				.forMonthAndYear(monthAndYear)
-				.build(knownFolders.picturesLibrary);
+                .bindable()
+                .forMonthAndYear(monthAndYear)
+                .build(knownFolders.picturesLibrary);
 
             // Navigate to the detail view, specifying the month query to
-        	// show, and the index of the individual item that was invoked
+            // show, and the index of the individual item that was invoked
             this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
         }
     };

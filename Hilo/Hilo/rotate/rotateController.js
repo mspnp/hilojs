@@ -8,71 +8,71 @@
 // ===============================================================================
 
 ﻿(function () {
-	"use strict";
+    "use strict";
 
-	// Constructor Function
-	// --------------------
+    // Constructor Function
+    // --------------------
 
-	function RotateController(el, menuController, fileLoader, urlBuilder) {
-		this.el = el;
-		this.menuController = menuController;
-		this.rotationDegrees = 0;
-		this.urlBuilder = urlBuilder;
+    function RotateController(el, menuController, fileLoader, urlBuilder) {
+        this.el = el;
+        this.menuController = menuController;
+        this.rotationDegrees = 0;
+        this.urlBuilder = urlBuilder;
 
-		this._bindToEvents();
+        this._bindToEvents();
 
-		fileLoader.then(this._loadAndShowImage.bind(this));
-	}
+        fileLoader.then(this._loadAndShowImage.bind(this));
+    }
 
-	// Methods
-	// -------
+    // Methods
+    // -------
 
-	var rotateControllerMethods = {
-		_bindToEvents: function () {
-			this.menuController.addEventListener("rotate", this.rotateImage.bind(this));
-			this.menuController.addEventListener("reset", this.resetImage.bind(this));
-			this.menuController.addEventListener("save", this.saveImage.bind(this));
-		},
-
-		_loadAndShowImage: function (selected) {
-			var storageFile = selected[0].storageFile;
-			this.imageFile = storageFile;
-
-			var url = this.urlBuilder.createObjectURL(storageFile);
-			this.showImage(url);
+    var rotateControllerMethods = {
+        _bindToEvents: function () {
+            this.menuController.addEventListener("rotate", this.rotateImage.bind(this));
+            this.menuController.addEventListener("reset", this.resetImage.bind(this));
+            this.menuController.addEventListener("save", this.saveImage.bind(this));
         },
 
-		_setRotation: function () {
-			var rotation = "rotate(" + this.rotationDegrees + "deg)";
-			this.el.style.transform = rotation;
-		},
+        _loadAndShowImage: function (selected) {
+            var storageFile = selected[0].storageFile;
+            this.imageFile = storageFile;
 
-		rotateImage: function (args) {
-			var rotateDegrees = args.detail.rotateDegrees;
-			this.rotationDegrees += rotateDegrees;
-			this._setRotation();
-		},
+            var url = this.urlBuilder.createObjectURL(storageFile);
+            this.showImage(url);
+        },
 
-		resetImage: function(){
-			this.rotationDegrees = 0;
-			this._setRotation();
-		},
+        _setRotation: function () {
+            var rotation = "rotate(" + this.rotationDegrees + "deg)";
+            this.el.style.transform = rotation;
+        },
 
-		showImage: function (url) {
-			this.el.src = url;
-		},
+        rotateImage: function (args) {
+            var rotateDegrees = args.detail.rotateDegrees;
+            this.rotationDegrees += rotateDegrees;
+            this._setRotation();
+        },
 
-		saveImage: function () {
-			var imageRotator = new Hilo.ImageRotator();
-			imageRotator.rotate(this.imageFile, this.rotationDegrees);
-		}
-	};
+        resetImage: function(){
+            this.rotationDegrees = 0;
+            this._setRotation();
+        },
 
-	// Public API
-	// ----------
+        showImage: function (url) {
+            this.el.src = url;
+        },
 
-	WinJS.Namespace.define("Hilo.Rotate", {
-		RotateController: WinJS.Class.mix(RotateController, rotateControllerMethods, WinJS.Utilities.eventMixin)
-	});
+        saveImage: function () {
+            var imageRotator = new Hilo.ImageRotator();
+            imageRotator.rotate(this.imageFile, this.rotationDegrees);
+        }
+    };
+
+    // Public API
+    // ----------
+
+    WinJS.Namespace.define("Hilo.Rotate", {
+        RotateController: WinJS.Class.mix(RotateController, rotateControllerMethods, WinJS.Utilities.eventMixin)
+    });
 
 })();

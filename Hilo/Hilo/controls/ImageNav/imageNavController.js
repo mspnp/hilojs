@@ -43,19 +43,19 @@
         // Internal method. Handles the `click` event of the "#rotate" HTML element
         // and calls the navigation to go to the rotate page.
         _rotateClicked: function () {
-        	this.nav.navigate("/Hilo/rotate/rotate.html", {
-        		itemIndex: this.selectedImageIndex,
-        		query: this.query
-        	});
+            this.nav.navigate("/Hilo/rotate/rotate.html", {
+                itemIndex: this.selectedImageIndex,
+                query: this.query
+            });
         },
 
         // Internal method. Handles the `click` event of the "#crop" HTML element
         // and calls the navigation to go to the crop page.
         _cropClicked: function () {
-        	this.nav.navigate("/Hilo/crop/crop.html", {
-        		itemIndex: this.selectedImageIndex,
-        		query: this.query
-        	});
+            this.nav.navigate("/Hilo/crop/crop.html", {
+                itemIndex: this.selectedImageIndex,
+                query: this.query
+            });
         },
 
         // Set the currently selected image index. This tells the ImageNav control

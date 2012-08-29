@@ -8,98 +8,98 @@
 // ===============================================================================
 
 ﻿(function () {
-	"use strict";
+    "use strict";
 
-	// Imports And Constants
-	// ---------------------
+    // Imports And Constants
+    // ---------------------
 
-	var thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
+    var thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
 
-	// Private/Helper Methods
-	// ----------------------
+    // Private/Helper Methods
+    // ----------------------
 
-	function urlFor(blob) {
-		var url = "";
-		if (blob) {
-			url = "url(" + URL.createObjectURL(blob) + ")";
-		}
-		return url;
-	}
+    function urlFor(blob) {
+        var url = "";
+        if (blob) {
+            url = "url(" + URL.createObjectURL(blob) + ")";
+        }
+        return url;
+    }
 
-	// Picture Constructor Function
-	// ----------------------------
+    // Picture Constructor Function
+    // ----------------------------
 
-	function Picture(file) {
-		var self = this;
+    function Picture(file) {
+        var self = this;
 
-		this.storageFile = file;
+        this.storageFile = file;
 
-		this._initObservable();
-		this.addProperty("name", file.name);
-		this.addProperty("url", "");
-		this.addProperty("src", "");
-		this.addProperty("itemDate", "");
-		this.addProperty("className", "thumbnail");
+        this._initObservable();
+        this.addProperty("name", file.name);
+        this.addProperty("url", "");
+        this.addProperty("src", "");
+        this.addProperty("itemDate", "");
+        this.addProperty("className", "thumbnail");
 
-		file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-			self.updateProperty("url", urlFor(thumbnail));
-		});
+        file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
+            self.updateProperty("url", urlFor(thumbnail));
+        });
 
-		file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
-			self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
-		});
-	}
+        file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
+            self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
+        });
+    }
 
-	// Picture Instance Methods
-	// ------------------------
+    // Picture Instance Methods
+    // ------------------------
 
-	var pictureMethods = {
-		loadImage: function () {
-			this.updateProperty("src", urlFor(this.storageFile));
-		}
-	};
+    var pictureMethods = {
+        loadImage: function () {
+            this.updateProperty("src", urlFor(this.storageFile));
+        }
+    };
 
-	// Picture Type methods
-	// --------------------
+    // Picture Type methods
+    // --------------------
 
-	var pictureTypeMethods = {
+    var pictureTypeMethods = {
 
-	    // This is a convenience method, typically used in combination with `array.map`:
+        // This is a convenience method, typically used in combination with `array.map`:
         //
-	    // ```js
+        // ```js
         // var viewmodels = someArrayOfStorageFiles.map(Hilo.Picture.from);
-	    // ```
+        // ```
 
-		from: function (file) {
-			return new Hilo.Picture(file);
-		},
+        from: function (file) {
+            return new Hilo.Picture(file);
+        },
 
-	    // This function is to be used in declarative binding in the markup:
-	    //
-	    // ```html
-	    // <div data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc"></div>
-	    // ```
-		bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
-		    // We're ignoring the properties provided in the binding.
-		    // We are assuming that we'll always extract the `src` property from the `source`
-		    // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
+        // This function is to be used in declarative binding in the markup:
+        //
+        // ```html
+        // <div data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc"></div>
+        // ```
+        bindToImageSrc: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
+            // We're ignoring the properties provided in the binding.
+            // We are assuming that we'll always extract the `src` property from the `source`
+            // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
             // We are not using img tags because a bad file results in a broken image
 
-		    if (!source.src) {
-		        source.updateProperty("src", URL.createObjectURL(source.storageFile));
-		    }
+            if (!source.src) {
+                source.updateProperty("src", URL.createObjectURL(source.storageFile));
+            }
 
-		    target.style.backgroundImage = 'url(' + source.src + ')';
-		}),
-	};
+            target.style.backgroundImage = 'url(' + source.src + ')';
+        }),
+    };
 
-	// Public API
-	// ----------
+    // Public API
+    // ----------
 
-	var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
+    var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
 
-	WinJS.Namespace.define("Hilo", {
-	    Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin)
-	});
+    WinJS.Namespace.define("Hilo", {
+        Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin)
+    });
 
 }());

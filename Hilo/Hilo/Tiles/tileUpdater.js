@@ -79,7 +79,7 @@
             // What follows is a chain of promises. These outline a number of 
             // asychronous operations that are executed in order. For more 
             // information on how promises work, see the readme.txt in the 
-        	// root of this project.
+            // root of this project.
             var whenImagesForTileRetrieved = queryBuilder.build(picturesLibrary).execute();
             whenImagesForTileRetrieved
                 .then(Hilo.Tiles.createTileFriendlyImages)

@@ -9,53 +9,53 @@
 }
 
 .content-wrapper {
-	width: 100%;
-	height: 100%;
-	text-align: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }
 
 .canvas-wrapper {
-	margin: 0px auto;
+    margin: 0px auto;
     max-height: 85%;
 }
 
 #cropSelection {
-	position: fixed;
-	border: 1px dashed #fff;
-	display: none;
-	overflow: visible;
-	min-height: 30px;
-	min-width: 30px;
+    position: fixed;
+    border: 1px dashed #fff;
+    display: none;
+    overflow: visible;
+    min-height: 30px;
+    min-width: 30px;
 }
 
 .corner {
-	position: absolute;
-	display: block;
-	height: 30px;
-	width: 30px;
-	overflow: hidden;
-	border: 0px;
-	background-color: #fff;
-	opacity: 0.5;
-	cursor: crosshair;
+    position: absolute;
+    display: block;
+    height: 30px;
+    width: 30px;
+    overflow: hidden;
+    border: 0px;
+    background-color: #fff;
+    opacity: 0.5;
+    cursor: crosshair;
 }
 
 #topLeft {
-	top: -15px;
-	left: -15px;
+    top: -15px;
+    left: -15px;
 }
 
 #topRight {
-	top: -15px;
-	right: -15px;
+    top: -15px;
+    right: -15px;
 }
 
 #bottomLeft {
-	bottom: -15px;
-	left: -15px;
+    bottom: -15px;
+    left: -15px;
 }
 
 #bottomRight {
-	bottom: -15px;
-	right: -15px;
+    bottom: -15px;
+    right: -15px;
 }

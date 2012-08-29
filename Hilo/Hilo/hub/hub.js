@@ -52,7 +52,7 @@
             var listViewEl = document.querySelector("#picturesLibrary");
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl, appView);
 
-			// Build a query 
+            // Build a query 
             var queryBuilder = new Hilo.ImageQueryBuilder()
 
             // Coordinate the parts of the hub view

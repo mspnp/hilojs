@@ -24,8 +24,8 @@
 
             Hilo.controls.checkOptions(options);
 
-    		var selectedIndex = options.itemIndex;
-    		var query = options.query;
+            var selectedIndex = options.itemIndex;
+            var query = options.query;
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");
