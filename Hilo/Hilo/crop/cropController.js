@@ -81,7 +81,7 @@
         // register event listeners for all of the app bar buttons
         handleAppBarEvents: function () {
             this.appBarPresenter.addEventListener("crop", this.cropImage.bind(this));
-            this.appBarPresenter.addEventListener("cancel", this.resetCrop.bind(this));
+            this.appBarPresenter.addEventListener("reset", this.resetCrop.bind(this));
         },
 
         // Reset the image to non-cropped, correctly scaled size

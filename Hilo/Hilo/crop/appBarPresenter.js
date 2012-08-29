@@ -16,7 +16,7 @@
         setupButtons: function () {
             this.addButtonHandler("#crop", this.cropClicked.bind(this));
             this.addButtonHandler("#save", this.saveClicked.bind(this));
-            this.addButtonHandler("#cancel", this.cancelClicked.bind(this));
+            this.addButtonHandler("#reset", this.resetClicked.bind(this));
         },
 
         addButtonHandler: function(selector, handler){
@@ -34,9 +34,9 @@
             this.dispatchEvent("save", {});
         },
 
-        cancelClicked: function (e) {
+        resetClicked: function (e) {
             e.preventDefault();
-            this.dispatchEvent("cancel", {});
+            this.dispatchEvent("reset", {});
         }
     };
 

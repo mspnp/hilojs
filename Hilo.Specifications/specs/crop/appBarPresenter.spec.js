@@ -1,16 +1,16 @@
 ﻿describe("crop app bar presenter", function () {
 
-    var appBar, el, crop, save, cancel;
+    var appBar, el, crop, save, reset;
 
     beforeEach(function () {
         crop = new Specs.WinControlStub();
         save = new Specs.WinControlStub();
-        cancel = new Specs.WinControlStub();
+        reset = new Specs.WinControlStub();
 
         el = new Specs.WinControlStub();
         el.addQuerySelector("#crop", crop);
         el.addQuerySelector("#save", save);
-        el.addQuerySelector("#cancel", cancel);
+        el.addQuerySelector("#reset", reset);
 
         appBar = new Hilo.Crop.AppBarPresenter(el);
     });
@@ -51,7 +51,7 @@
         });
     });
 
-    describe("when cancelling", function () {
+    describe("when reseting", function () {
         var handler;
 
         beforeEach(function () {
@@ -59,12 +59,12 @@
                 handler.wasCalled = true;
             };
 
-            appBar.addEventListener("cancel", handler);
+            appBar.addEventListener("reset", handler);
             
-            cancel.dispatchEvent("click");
+            reset.dispatchEvent("click");
         });
 
-        it("should dispatch a cancel event", function () {
+        it("should dispatch a reset event", function () {
             expect(handler.wasCalled).equals(true);
         });
     });
