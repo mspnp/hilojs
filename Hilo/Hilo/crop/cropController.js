@@ -53,9 +53,8 @@
         },
 
         runImageCropping: function (props) {
-            var imageRatio = this.getImageAspectRatio(props);
-            var canvasSize = this.getCanvasSize(props, imageRatio);
-            var imageScale = this.getImageScale(props, canvasSize);
+            var imageToScreenScale = this.calculateScaleToScreen(props);
+            var canvasSize = this.calculateCanvasSize(props, imageToScreenScale);
 
             this.sizeCanvas(this.canvasEl, canvasSize);
 
@@ -63,38 +62,37 @@
             var pictureView = new Hilo.Crop.PictureView(this.context, rubberBand, this.url, canvasSize);
             var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, this.canvasEl, this.rubberBandEl);
             var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, this.canvasEl, this.rubberBandEl);
-
             var menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
 
             var that = this;
             menuPresenter.addEventListener("crop", function () {
 
                 var coords = rubberBand.getCoords();
-                var scaledImageCoordinates = that.scaleCanvasCoordsToImage(imageScale, coords, that.cropOffset);
-                var imageRatio = that.getImageAspectRatio(scaledImageCoordinates);
-                var canvasSize = that.getCanvasSize(scaledImageCoordinates, imageRatio);
+                var selectionRectScaledToImage = that.scaleCanvasCoordsToImage(imageToScreenScale, coords, that.cropOffset);
+                var canvasScale = that.calculateScaleToScreen(selectionRectScaledToImage);
+                var canvasSize = that.calculateCanvasSize(selectionRectScaledToImage, canvasScale);
 
                 that.sizeCanvas(that.canvasEl, canvasSize);
 
                 rubberBand.reset(canvasSize);
                 rubberBandController.reset();
 
-                pictureView.reset(canvasSize, scaledImageCoordinates);
+                pictureView.reset(canvasSize, selectionRectScaledToImage);
                 rubberBandView.reset();
 
                 //reset image scale and offset to match new canvas and image scaling
-                imageScale = that.getImageScale(scaledImageCoordinates, canvasSize);
-                that.cropOffset = { x: scaledImageCoordinates.startX, y: scaledImageCoordinates.startY };
+                imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage, canvasSize);
+                that.cropOffset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
             });
 
         },
 
         // take the canvas coordinates and scale them to the real image coordinates
-        scaleCanvasCoordsToImage: function (imageScale, canvasCoords, cropOffset) {
-            var startX = canvasCoords.startX * imageScale,
-                startY = canvasCoords.startY * imageScale,
-                endX = canvasCoords.endX * imageScale,
-                endY = canvasCoords.endY * imageScale,
+        scaleCanvasCoordsToImage: function (imageToScreenScale, canvasCoords, cropOffset) {
+            var startX = canvasCoords.startX / imageToScreenScale,
+                startY = canvasCoords.startY / imageToScreenScale,
+                endX = canvasCoords.endX / imageToScreenScale,
+                endY = canvasCoords.endY / imageToScreenScale,
                 height = endY - startY,
                 width = endX - startX;
 
@@ -108,52 +106,18 @@
             };
         },
 
-        getImageAspectRatio: function (imageSize) {
-            return {
-                heightRatio: imageSize.width / imageSize.height,
-                widthRatio: imageSize.height / imageSize.width
-            }
+        calculateScaleToScreen: function (size) {
+            var heightScale, widthScale;
+
+            heightScale = screenMaxHeight / size.height,
+            widthScale = screenMaxWidth / size.width;
+
+            return Math.min(heightScale, widthScale);
         },
 
-        getImageScale: function (imageSize, canvasSize) {
-            return imageSize.height / canvasSize.height;
-        },
-
-        getCanvasSize: function (imageSize, aspectRatio) {
-            var height, width,
-                scale = 1;
-
-            if (imageSize.height > imageSize.width) {
-
-                // height is greater than width, so shrink down to
-                // proper height, first
-                height = screenMaxHeight;
-                width = screenMaxHeight * aspectRatio.heightRatio;
-
-            } else {
-
-                // width is greater than height, so shrink down to
-                // the max width first.
-                width = screenMaxWidth;
-                height = screenMaxWidth * aspectRatio.widthRatio;
-
-            }
-
-            // if the height of the image would go passed the max,
-            // then scale it down so that it fits the max
-            if (height > screenMaxHeight) {
-                scale = screenMaxHeight / height;
-            }
-
-            // if the width of the image would go passed the max,
-            // then scale it down so that it fits the max
-            if (width > screenMaxWidth) {
-                scale = screenMaxWidth / width;
-            }
-
-            // set final scale
-            height = height * scale;
-            width = width * scale;
+        calculateCanvasSize: function (imageSize, scale) {
+            var height = imageSize.height * scale;
+            var width = imageSize.width * scale;
 
             return {
                 height: height,
