@@ -24,7 +24,6 @@
         this.canvasEl = canvasEl;
         this.cropSelectionEl = cropSelectionEl;
         this.appBarEl = appBarEl;
-        this.offset = { x: 0, y: 0 };
     }
 
     // Methods
@@ -75,13 +74,23 @@
         // Start the image cropping process by drawing the image and
         // crop selection to scale, and then listen for the "crop" button click
         beginCrop: function (props) {
-            this.imageToScreenScale = this.calculateScaleToScreen(props);
-            this.drawImageSelectionToScale(props, this.imageToScreenScale);
+            this.imageProperties = props;
+            this.resetCrop();
         },
 
         // register event listeners for all of the app bar buttons
         handleAppBarEvents: function () {
             this.appBarPresenter.addEventListener("crop", this.cropImage.bind(this));
+            this.appBarPresenter.addEventListener("cancel", this.resetCrop.bind(this));
+        },
+
+        // Reset the image to non-cropped, correctly scaled size
+        resetCrop: function () {
+            var imageRect = this.sizeToRect(this.imageProperties);
+
+            this.offset = { x: 0, y: 0 };
+            this.imageToScreenScale = this.calculateScaleToScreen(this.imageProperties);
+            this.drawImageSelectionToScale(imageRect, this.imageToScreenScale);
         },
 
         // Run the image crop process, visually, to show what the crop result
@@ -119,6 +128,18 @@
 
             // draw the background image once everything is set up
             this.pictureView.drawImage();
+        },
+
+        // convert a size (height/width) in to a rect
+        sizeToRect: function (size) {
+            return {
+                height: size.height,
+                width: size.width,
+                startX: 0,
+                startY: 0,
+                endX: size.width,
+                endY: size.height
+            }
         },
 
         // take a rectangle that was based on a scaled canvas size
