@@ -54,9 +54,7 @@
 
         runImageCropping: function (props) {
             var imageToScreenScale = this.calculateScaleToScreen(props);
-            var canvasSize = this.calculateSizeFromScale(props, imageToScreenScale);
-
-            this.sizeCanvas(this.canvasEl, canvasSize);
+            var canvasSize = this.resizeCanvas(props, imageToScreenScale);
 
             var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
             var pictureView = new Hilo.Crop.PictureView(this.context, rubberBand, this.url, canvasSize);
@@ -80,8 +78,7 @@
 
                 // Calculate the new canvas size based on the rectangle of the crop selection
                 // and reset the canvas to that size
-                var canvasSize = that.calculateSizeFromScale(selectionRectScaledToImage, imageToScreenScale);
-                that.sizeCanvas(that.canvasEl, canvasSize);
+                var canvasSize = that.resizeCanvas(selectionRectScaledToImage, imageToScreenScale);
 
                 // Reset and re-draw everything according to the new scale
                 rubberBand.reset(canvasSize);
@@ -142,13 +139,16 @@
             };
         },
 
-        // change the size of the specified canvas
-        // element to the specified size
-        sizeCanvas: function (canvas, canvasSize) {
-            canvas.height = canvasSize.height;
-            canvas.width = canvasSize.width;
-        }
+        // change the size of the specified canvas element to the calculated
+        // size, and return the new size
+        resizeCanvas: function(imageSelectionSize, imageToScreenScale){
+            var canvasSize = this.calculateSizeFromScale(imageSelectionSize, imageToScreenScale);
 
+            this.canvasEl.height = canvasSize.height;
+            this.canvasEl.width = canvasSize.width;
+
+            return canvasSize;
+        }
     };
 
     // Crop Controller Definition
