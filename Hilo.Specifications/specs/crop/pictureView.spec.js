@@ -9,33 +9,45 @@
 
 describe("picture view", function () {
 
-    var url, rubberBand, context, view, canvasSize;
+    var url, rubberBand, canvasEl, view;
+
+    function setupDOMElements() {
+        var frag = document.createDocumentFragment();
+        frag.appendChild(document.createElement("canvas"));
+
+        canvasEl = frag.querySelector("canvas");
+    }
 
     beforeEach(function () {
-        url = "http://placekitten.com/300/200";
+        setupDOMElements();
+
         rubberBand = new Specs.EventStub();
-        canvasSize = {
-            height: 800,
-            width: 600
-        };
+
+        url = "http://placekitten.com/300/200";
     });
 
     describe("when initializing", function () {
-        beforeEach(function (done) {
-            context = {
-                drawImage: function () {
-                    context.drawImage.wasCalled = true;
+        var drawImageStub;
 
-                    // complete the async beforeEach
-                    done();
-                }
+        beforeEach(function (done) {
+
+            drawImageStub = function () {
+                drawImageStub.wasCalled = true;
+                done();
             };
 
-            view = new Hilo.Crop.PictureView(context, rubberBand, url, canvasSize);
+            this.original_drawImage = Hilo.Crop.PictureView.prototype.drawImage;
+            Hilo.Crop.PictureView.prototype.drawImage = drawImageStub;
+
+            view = new Hilo.Crop.PictureView(canvasEl, rubberBand, url);
+        });
+
+        afterEach(function () {
+            Hilo.Crop.PictureView.prototype.drawImage = this.original_drawImage;
         });
 
         it("should show the picture", function () {
-            expect(context.drawImage.wasCalled).equals(true);
+            expect(drawImageStub.wasCalled).equals(true);
         });
     });
 
