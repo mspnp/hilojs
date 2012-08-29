@@ -19,8 +19,8 @@
     // Constructor Function
     // --------------------
 
-    function CropControllerConstructor(fileLoader, canvasEl, rubberBandEl, menuEl) {
-        this.fileLoader = fileLoader;
+    function CropControllerConstructor(imageQuery, canvasEl, rubberBandEl, menuEl) {
+        this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
         this.rubberBandEl = rubberBandEl;
         this.menuEl = menuEl;
@@ -32,17 +32,23 @@
 
     var cropControllerMembers = {
         start: function () {
-            this.fileLoader
+            this.imageQuery
+                .then(this.getPictureFromQueryResult.bind(this))
                 .then(this.getImageUrl.bind(this))
                 .then(this.setupControllers.bind(this))
                 .then(this.getImageProperties.bind(this))
                 .then(this.runImageCropping.bind(this));
         },
 
-        getImageUrl: function (loadedImageArray) {
-            var picture = loadedImageArray[0];
-            var storageFile = picture.storageFile;
+        getPictureFromQueryResult: function(queryResult){
+            this.picture = queryResult[0];
+            this.storageFile = this.picture.storageFile;
 
+            // forwarding for the chained "then" calls
+            return this.storageFile;
+        },
+
+        getImageUrl: function (storageFile) {
             this.url = URL.createObjectURL(storageFile);
 
             // forwarding for the chained "then" calls
