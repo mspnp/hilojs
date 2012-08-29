@@ -10,51 +10,51 @@
 (function () {
     "use strict";
 
-    // RubberBand View Constructor
+    // CropSelection View Constructor
     // ---------------------------
 
-    function RubberBandViewConstructor(rubberBand, canvasEl, rubberBandEl) {
-        this.rubberBand = rubberBand;
+    function CropSelectionViewConstructor(cropSelection, canvasEl, cropSelectionEl) {
+        this.cropSelection = cropSelection;
         this.canvas = canvasEl;
         this.context = canvasEl.getContext("2d");
-        this.rubberBandEl = rubberBandEl;
+        this.cropSelectionEl = cropSelectionEl;
 
-        this.reset(rubberBand.getCoords());
+        this.reset(cropSelection.getCoords());
 
-        rubberBand.addEventListener("move", this.rubberBandMove.bind(this));
+        cropSelection.addEventListener("move", this.cropSelectionMove.bind(this));
     }
 
-    // RubberBand View Members
+    // CropSelection View Members
     // -----------------------
 
-    var rubberBandViewMembers = {
-        rubberBandMove: function(args){
+    var cropSelectionViewMembers = {
+        cropSelectionMove: function(args){
             this.draw(args.detail.coords);
         },
 
         reset: function () {
             this.boundingRect = this.canvas.getBoundingClientRect();
-            var coords = this.rubberBand.getCoords();
+            var coords = this.cropSelection.getCoords();
             this.draw(coords);
         },
 
         draw: function (coords) {
 
-            this.rubberBandEl.style.display = "block";
+            this.cropSelectionEl.style.display = "block";
 
             var positioning = this.getPositioning(coords);
             var bounding = this.boundingRect;
-            var rubberBandStyle = this.rubberBandEl.style;
+            var cropSelectionStyle = this.cropSelectionEl.style;
 
             var top = bounding.top + positioning.top;
             var left = bounding.left + positioning.left;
             var height = positioning.height;
             var width = positioning.width;
 
-            rubberBandStyle.left = left + "px";
-            rubberBandStyle.top = top + "px";
-            rubberBandStyle.width = width + "px";
-            rubberBandStyle.height = height + "px";
+            cropSelectionStyle.left = left + "px";
+            cropSelectionStyle.top = top + "px";
+            cropSelectionStyle.width = width + "px";
+            cropSelectionStyle.height = height + "px";
 
             this.drawShadedBox(coords);
         },
@@ -110,11 +110,11 @@
 
     };
 
-    // RubberBand View Definition
+    // CropSelection View Definition
     // --------------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        RubberBandView: WinJS.Class.define(RubberBandViewConstructor, rubberBandViewMembers)
+        CropSelectionView: WinJS.Class.define(CropSelectionViewConstructor, cropSelectionViewMembers)
     });
 
 })();

@@ -13,12 +13,13 @@
     // Picture View Constructor
     // ------------------------
 
-    function PictureViewConstructor(canvasEl, rubberBand, imageUrl) {
+    function PictureViewConstructor(canvasEl, cropSelection, imageUrl) {
         this.canvasEl = canvasEl;
         this.canvasSize = canvasEl.getBoundingClientRect();
         this.context = canvasEl.getContext("2d");
         this.loadImage(imageUrl);
-        rubberBand.addEventListener("move", this.drawImage.bind(this));
+
+        cropSelection.addEventListener("move", this.drawImage.bind(this));
     }
 
     // Picture View Members

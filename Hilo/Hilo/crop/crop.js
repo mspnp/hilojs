@@ -27,10 +27,10 @@
             var fileLoader = query.execute(selectedIndex);
 
             var canvasEl = document.querySelector("#cropSurface");
-            var rubberBandEl = document.querySelector("#rubberBand");
+            var cropSelectionEl = document.querySelector("#cropSelection");
             var menuEl = document.querySelector("#appbar");
 
-            var cropController = new Hilo.Crop.CropController(fileLoader, canvasEl, rubberBandEl, menuEl);
+            var cropController = new Hilo.Crop.CropController(fileLoader, canvasEl, cropSelectionEl, menuEl);
             cropController.start();
         },
 

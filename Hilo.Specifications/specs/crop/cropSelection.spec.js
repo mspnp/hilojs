@@ -7,20 +7,20 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("rubber band", function () {
+describe("crop selection", function () {
 
-    var rubberBand;
+    var cropSelection;
 
     beforeEach(function () {
         // Create the SUT
-        rubberBand = new Hilo.Crop.RubberBand();
+        cropSelection = new Hilo.Crop.CropSelection();
     });
 
     describe("when initializing", function () {
         var coords;
 
         beforeEach(function () {
-            coords = rubberBand.getCoords();
+            coords = cropSelection.getCoords();
         });
 
         it("should set the starting coordinate to 0,0", function () {
@@ -34,16 +34,16 @@ describe("rubber band", function () {
         });
     });
 
-    describe("when resetting the rubber band to a canvas size", function () {
+    describe("when resetting the crop selection to a canvas size", function () {
         var coords;
 
         beforeEach(function () {
-            rubberBand.reset({
+            cropSelection.reset({
                 width: 100,
                 height: 200
             });
 
-            coords = rubberBand.getCoords();
+            coords = cropSelection.getCoords();
         });
 
         it("should set the starting coordinate to 0,0", function () {
@@ -61,7 +61,7 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
-            rubberBand.reset({
+            cropSelection.reset({
                 width: 100,
                 height: 100
             });
@@ -74,12 +74,12 @@ describe("rubber band", function () {
                 moveHandler.args = args.detail;
             };
 
-            rubberBand.addEventListener("move", moveHandler);
+            cropSelection.addEventListener("move", moveHandler);
 
-            rubberBand.startX = 1;
-            rubberBand.startY = 2;
-            rubberBand.endX = 50;
-            rubberBand.endY = 60;
+            cropSelection.startX = 1;
+            cropSelection.startY = 2;
+            cropSelection.endX = 50;
+            cropSelection.endY = 60;
         });
 
         it("should dispatch a 'move' event for each coordinate value set", function () {
@@ -100,7 +100,7 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
-            rubberBand.reset({
+            cropSelection.reset({
                 width: 600,
                 height: 800
             });
@@ -113,27 +113,27 @@ describe("rubber band", function () {
                 moveHandler.args = args.detail;
             };
 
-            rubberBand.addEventListener("move", moveHandler);
+            cropSelection.addEventListener("move", moveHandler);
 
-            rubberBand.startX = -50;
-            rubberBand.startY = -50;
-            rubberBand.endX = 3000;
-            rubberBand.endY = 4000;
+            cropSelection.startX = -50;
+            cropSelection.startY = -50;
+            cropSelection.endX = 3000;
+            cropSelection.endY = 4000;
         });
 
-        it("should reset the rubber band startx to the left canvas edge", function () {
-            expect(rubberBand.startX).equals(0);
+        it("should reset the crop selection startx to the left canvas edge", function () {
+            expect(cropSelection.startX).equals(0);
         });
 
-        it("should reset the rubber band starty to the top canvas edge", function () {
-            expect(rubberBand.startY).equals(0);
+        it("should reset the crop selection starty to the top canvas edge", function () {
+            expect(cropSelection.startY).equals(0);
         });
-        it("should reset the rubber band width to the right canvas edge", function () {
-            expect(rubberBand.endX).equals(600);
+        it("should reset the crop selection width to the right canvas edge", function () {
+            expect(cropSelection.endX).equals(600);
         });
 
-        it("should reset the rubber band height to the bottom canvas edge", function () {
-            expect(rubberBand.endY).equals(800);
+        it("should reset the crop selection height to the bottom canvas edge", function () {
+            expect(cropSelection.endY).equals(800);
         });
     });
 
@@ -141,7 +141,7 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
-            rubberBand.reset({
+            cropSelection.reset({
                 width: 600,
                 height: 800
             });
@@ -154,28 +154,28 @@ describe("rubber band", function () {
                 moveHandler.args = args.detail;
             };
 
-            rubberBand.addEventListener("move", moveHandler);
+            cropSelection.addEventListener("move", moveHandler);
 
-            rubberBand.startX = 10;
-            rubberBand.startY = 10;
-            rubberBand.endX = 20;
-            rubberBand.endY = 20;
+            cropSelection.startX = 10;
+            cropSelection.startY = 10;
+            cropSelection.endX = 20;
+            cropSelection.endY = 20;
         });
 
         it("should leave the startx where it is", function () {
-            expect(rubberBand.startX).equals(10);
+            expect(cropSelection.startX).equals(10);
         });
 
         it("should leave the starty where it is", function () {
-            expect(rubberBand.startY).equals(10);
+            expect(cropSelection.startY).equals(10);
         });
 
         it("should reset the endx to startx + minwidth", function () {
-            expect(rubberBand.endX).equals(40);
+            expect(cropSelection.endX).equals(40);
         });
 
         it("should reset the endy to starty + minheight", function () {
-            expect(rubberBand.endY).equals(40);
+            expect(cropSelection.endY).equals(40);
         });
     });
 
@@ -183,7 +183,7 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
-            rubberBand.reset({
+            cropSelection.reset({
                 width: 600,
                 height: 800
             });
@@ -196,28 +196,28 @@ describe("rubber band", function () {
                 moveHandler.args = args.detail;
             };
 
-            rubberBand.addEventListener("move", moveHandler);
+            cropSelection.addEventListener("move", moveHandler);
 
-            rubberBand.endX = 50;
-            rubberBand.endY = 50;
-            rubberBand.startX = 40;
-            rubberBand.startY = 40;
+            cropSelection.endX = 50;
+            cropSelection.endY = 50;
+            cropSelection.startX = 40;
+            cropSelection.startY = 40;
         });
 
         it("should leave the endx where it is", function () {
-            expect(rubberBand.endX).equals(50);
+            expect(cropSelection.endX).equals(50);
         });
 
         it("should leave the endy where it is", function () {
-            expect(rubberBand.endY).equals(50);
+            expect(cropSelection.endY).equals(50);
         });
 
         it("should reset the startx to endx - minwidth", function () {
-            expect(rubberBand.startX).equals(20);
+            expect(cropSelection.startX).equals(20);
         });
 
         it("should reset the starty to endy - minheight", function () {
-            expect(rubberBand.startY).equals(20);
+            expect(cropSelection.startY).equals(20);
         });
     });
 });

@@ -16,20 +16,20 @@
     var minHeight = 30,
         minWidth = 30;
 
-    // RubberBand Constructor
+    // CropSelection Constructor
     // ----------------------
 
-    function RubberBandConstructor() {
+    function CropSelectionConstructor() {
         this.addProp("startX", 0, this.adjustStartX.bind(this));
         this.addProp("startY", 0, this.adjustStartY.bind(this));
         this.addProp("endX", 0, this.adjustEndX.bind(this));
         this.addProp("endY", 0, this.adjustEndY.bind(this));
     }
 
-    // RubberBand Members
+    // CropSelection Members
     // ------------------
 
-    var rubberBandMembers = {
+    var cropSelectionMembers = {
 
         addProp: function (propName, initialValue, adjust) {
             var that = this;
@@ -98,10 +98,10 @@
         }
     };
 
-    // RubberBand Definition
+    // CropSelection Definition
     WinJS.Namespace.define("Hilo.Crop", {
-        RubberBand: WinJS.Class.mix(
-            WinJS.Class.define(RubberBandConstructor, rubberBandMembers),
+        CropSelection: WinJS.Class.mix(
+            WinJS.Class.define(CropSelectionConstructor, cropSelectionMembers),
             WinJS.Utilities.eventMixin
         )
     });

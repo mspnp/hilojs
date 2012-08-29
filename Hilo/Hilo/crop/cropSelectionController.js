@@ -13,10 +13,10 @@
     // Rubber Band Controller Constructor
     // ----------------------------------
 
-    function RubberBandControllerConstructor(rubberBand, canvasEl, rubberBandEl) {
+    function CropSelectionControllerConstructor(cropSelection, canvasEl, cropSelectionEl) {
         this.canvas = canvasEl;
-        this.rubberBandEl = rubberBandEl;
-        this.rubberBand = rubberBand;
+        this.cropSelectionEl = cropSelectionEl;
+        this.cropSelection = cropSelection;
 
         this.reset();
         this.setupCorners();
@@ -25,14 +25,14 @@
     // Rubber Band Controller Members
     // ------------------------------
 
-    var rubberBandControllerMembers = {
+    var cropSelectionControllerMembers = {
 
         reset: function () {
             this.boundingRect = this.canvas.getBoundingClientRect();
         },
 
         setupCorners: function () {
-            var position = Hilo.Crop.RubberBandCorner.position;
+            var position = Hilo.Crop.CropSelectionCorner.position;
 
             this.addCorner("#topLeft", position.topLeft);
             this.addCorner("#topRight", position.topRight);
@@ -43,8 +43,8 @@
         addCorner: function (selector, position) {
             if (!this.corners) { this.corners = {}; }
 
-            var el = this.rubberBandEl.querySelector(selector);
-            var corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            var el = this.cropSelectionEl.querySelector(selector);
+            var corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
             this.corners[position] = corner;
 
             corner.addEventListener("start", this.startCornerMove.bind(this));
@@ -63,15 +63,15 @@
         cornerMove: function (args) {
             var coords = args.detail.coords;
             var point = this.getCanvasPoint(coords);
-            this.moveRubberBand(this._currentCorner, point);
+            this.moveCropSelection(this._currentCorner, point);
         },
 
-        moveRubberBand: function (cornerToMove, moveToPoint) {
+        moveCropSelection: function (cornerToMove, moveToPoint) {
             var coords = cornerToMove.getUpdatedCoords(moveToPoint);
 
             for (var attr in coords) {
                 if (coords.hasOwnProperty(attr)) {
-                    this.rubberBand[attr] = coords[attr];
+                    this.cropSelection[attr] = coords[attr];
                 }
             }
         },
@@ -94,7 +94,7 @@
     // ----------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        RubberBandController: WinJS.Class.mix(RubberBandControllerConstructor, rubberBandControllerMembers, WinJS.Utilities.eventMixin)
+        CropSelectionController: WinJS.Class.mix(CropSelectionControllerConstructor, cropSelectionControllerMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

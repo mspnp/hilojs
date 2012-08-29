@@ -16,25 +16,25 @@
     // A list of possible positions. These values are
     // arbitrary in nature, but represent the identity
     // of the corner, to facilitate the behavior of
-    // a `RubberBandCorner` instance.
+    // a `CropSelectionCorner` instance.
     var topLeft = 0,
         topRight = 1,
         bottomLeft = 2,
         bottomRight = 3
 
-    // RubberBand Corner Constructor
+    // CropSelection Corner Constructor
     // -----------------------------
     // Represents a "corner" of the rubber band for
     // selecting the area of an image to crop to. Each
     // of the corners is click-and-draggable, to set the
     // position of the corner. 
 
-    // The contructor for a RubberBandCorner. Takes 2 
+    // The contructor for a CropSelectionCorner. Takes 2 
     // parameters:
     // 
     // * el - the DOM element that this corner controls
-    // * position - the `RubberBandCorner.position` that this corner represents
-    function RubberBandCornerConstructor(windowEl, el, position) {
+    // * position - the `CropSelectionCorner.position` that this corner represents
+    function CropSelectionCornerConstructor(windowEl, el, position) {
         this.window = windowEl;
         this.el = el;
         this.position = position;
@@ -52,12 +52,12 @@
         this.listenToMouseDown();
     }
 
-    // RubberBand Corner Type Members
+    // CropSelection Corner Type Members
     // ------------------------------
 
     // Provides a "static" list of the corner positions
     // so that they can be referenced elsewhere in the application.
-    var rubberBandCornerTypeMembers = {
+    var cropSelectionCornerTypeMembers = {
         position: {
             topLeft: topLeft,
             topRight: topRight,
@@ -66,10 +66,10 @@
         }
     };
 
-    // RubberBand Corner Members
+    // CropSelection Corner Members
     // -------------------------
 
-    var rubberBandCornerMembers = {
+    var cropSelectionCornerMembers = {
 
         // Initializes the "mousedown" event for the corner's DOM element
         listenToMouseDown: function () {
@@ -164,7 +164,7 @@
     // and provide the means to translate a given point in to the correct
     // coordinate parameters based on that position. 
     //
-    // These functions are injected in to the `RubberBandCorner` object
+    // These functions are injected in to the `CropSelectionCorner` object
     // when it's initialized, based on the position passed in to the
     // corner's constructor function. This allows the corner to cache
     // the function that it needs, preventing additional looking each 
@@ -198,12 +198,12 @@
         return { endX: point.x, endY: point.y }
     };
 
-    // RubberBand Corner Type Definition
+    // CropSelection Corner Type Definition
     // ---------------------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        RubberBandCorner: WinJS.Class.mix(
-            WinJS.Class.define(RubberBandCornerConstructor, rubberBandCornerMembers, rubberBandCornerTypeMembers),
+        CropSelectionCorner: WinJS.Class.mix(
+            WinJS.Class.define(CropSelectionCornerConstructor, cropSelectionCornerMembers, cropSelectionCornerTypeMembers),
             WinJS.Utilities.eventMixin
         )
     });

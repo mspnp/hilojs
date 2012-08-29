@@ -71,10 +71,10 @@
     <Content Include="Hilo\crop\cropController.js" />
     <Content Include="Hilo\crop\appBarPresenter.js" />
     <Content Include="Hilo\crop\pictureView.js" />
-    <Content Include="Hilo\crop\rubberBand.js" />
-    <Content Include="Hilo\crop\rubberBandController.js" />
-    <Content Include="Hilo\crop\rubberBandCorner.js" />
-    <Content Include="Hilo\crop\rubberBandView.js" />
+    <Content Include="Hilo\crop\cropSelection.js" />
+    <Content Include="Hilo\crop\cropSelectionController.js" />
+    <Content Include="Hilo\crop\cropSelectionCorner.js" />
+    <Content Include="Hilo\crop\cropSelectionView.js" />
     <Content Include="Hilo\dateFormatter.js" />
     <Content Include="Hilo\detail\detail.css" />
     <Content Include="Hilo\detail\detail.html" />

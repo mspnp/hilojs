@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("rubber band controller", function () {
+describe("crop selection controller", function () {
 
     function setupDOMElements() {
         var frag = document.createDocumentFragment();
@@ -15,49 +15,49 @@ describe("rubber band controller", function () {
 
         canvasEl = frag.querySelector("canvas");
 
-        rubberBandEl = document.createElement("div");
-        rubberBandEl.id = "rubberBand";
-        frag.appendChild(rubberBandEl);
+        cropSelectionEl = document.createElement("div");
+        cropSelectionEl.id = "cropSelection";
+        frag.appendChild(cropSelectionEl);
 
         var topLeft = document.createElement("div");
         topLeft.id = "topLeft";
-        rubberBandEl.appendChild(topLeft);
+        cropSelectionEl.appendChild(topLeft);
 
         var topRight = document.createElement("div");
         topRight.id = "topRight";
-        rubberBandEl.appendChild(topRight);
+        cropSelectionEl.appendChild(topRight);
 
         var bottomLeft = document.createElement("div");
         bottomLeft.id = "bottomLeft";
-        rubberBandEl.appendChild(bottomLeft);
+        cropSelectionEl.appendChild(bottomLeft);
 
         var bottomRight = document.createElement("div");
         bottomRight.id = "bottomRight";
-        rubberBandEl.appendChild(bottomRight);
+        cropSelectionEl.appendChild(bottomRight);
     }
 
-    var controller, canvasEl, rubberBandEl, rubberBand;
+    var controller, canvasEl, cropSelectionEl, cropSelection;
 
     beforeEach(function () {
         setupDOMElements();
-        rubberBand = {};
+        cropSelection = {};
 
-        controller = new Hilo.Crop.RubberBandController(rubberBand, canvasEl, rubberBandEl);
+        controller = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
     });
 
     describe("when a corner is moved", function () {
 
         beforeEach(function () {
-            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+            var position = Hilo.Crop.CropSelectionCorner.position.topLeft;
             var corner = controller.corners[position];
             controller.startCornerMove({ detail: { corner: corner } });
 
             controller.cornerMove({ detail: { coords: { x: 1, y: 2 } } });
         });
 
-        it("should update the rubber band coordinates", function () {
-            expect(rubberBand.startX).equals(1);
-            expect(rubberBand.startY).equals(2);
+        it("should update the crop selection coordinates", function () {
+            expect(cropSelection.startX).equals(1);
+            expect(cropSelection.startY).equals(2);
         });
 
     });

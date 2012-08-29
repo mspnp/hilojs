@@ -19,10 +19,10 @@
     // Constructor Function
     // --------------------
 
-    function CropControllerConstructor(imageQuery, canvasEl, rubberBandEl, appBarEl) {
+    function CropControllerConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl) {
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
-        this.rubberBandEl = rubberBandEl;
+        this.cropSelectionEl = cropSelectionEl;
         this.appBarEl = appBarEl;
         this.offset = { x: 0, y: 0 };
     }
@@ -57,10 +57,10 @@
         },
 
         setupControllers: function (storageFile) {
-            this.rubberBand = new Hilo.Crop.RubberBand();
-            this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.rubberBand, this.url);
-            this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
-            this.rubberBandController = new Hilo.Crop.RubberBandController(this.rubberBand, this.canvasEl, this.rubberBandEl);
+            this.cropSelection = new Hilo.Crop.CropSelection();
+            this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.cropSelection, this.url);
+            this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, this.canvasEl, this.cropSelectionEl);
+            this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, this.canvasEl, this.cropSelectionEl);
             this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
 
             // forwarding for the chained "then" calls
@@ -88,7 +88,7 @@
         // will look like when the file is saved.
         cropImage: function () {
             // Get the canvas-based rectangle of the crop selection
-            var coords = this.rubberBand.getCoords();
+            var coords = this.cropSelection.getCoords();
 
             // calculate the selected area of the original image by scaling
             // the canvas based selection out to the original image
@@ -112,10 +112,10 @@
             var canvasSize = this.resizeCanvas(cropRect, imageToScreenScale);
 
             // reset and re-draw all of the controllers and presenters
-            this.rubberBandController.reset();
+            this.cropSelectionController.reset();
             this.pictureView.reset(cropRect);
-            this.rubberBand.reset(canvasSize);
-            this.rubberBandView.reset();
+            this.cropSelection.reset(canvasSize);
+            this.cropSelectionView.reset();
 
             // draw the background image once everything is set up
             this.pictureView.drawImage();

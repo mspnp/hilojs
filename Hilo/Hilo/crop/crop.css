@@ -19,7 +19,7 @@
     max-height: 85%;
 }
 
-#rubberBand {
+#cropSelection {
 	position: fixed;
 	border: 2px dashed #fff;
 	display: none;

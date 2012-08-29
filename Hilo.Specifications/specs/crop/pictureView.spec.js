@@ -9,7 +9,7 @@
 
 describe("picture view", function () {
 
-    var url, rubberBand, canvasEl, view;
+    var url, cropSelection, canvasEl, view;
 
     function setupDOMElements() {
         var frag = document.createDocumentFragment();
@@ -21,7 +21,7 @@ describe("picture view", function () {
     beforeEach(function () {
         setupDOMElements();
 
-        rubberBand = new Specs.EventStub();
+        cropSelection = new Specs.EventStub();
 
         url = "http://placekitten.com/300/200";
     });
@@ -39,7 +39,7 @@ describe("picture view", function () {
             this.original_drawImage = Hilo.Crop.PictureView.prototype.drawImage;
             Hilo.Crop.PictureView.prototype.drawImage = drawImageStub;
 
-            view = new Hilo.Crop.PictureView(canvasEl, rubberBand, url);
+            view = new Hilo.Crop.PictureView(canvasEl, cropSelection, url);
         });
 
         afterEach(function () {

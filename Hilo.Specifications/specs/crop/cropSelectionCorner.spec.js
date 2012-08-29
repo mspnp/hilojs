@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("rubber band corner", function () {
+describe("crop selection corner", function () {
 
     var corner;
 
@@ -19,14 +19,14 @@ describe("rubber band corner", function () {
             var el = document.createElement("div");
             frag.appendChild(el);
             el = frag.querySelector("div");
-            
-            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+
+            var position = Hilo.Crop.CropSelectionCorner.position.topLeft;
 
             handler = function () {
                 handler.wasCalled = true;
             }
 
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
             corner.addEventListener("start", handler);
 
             corner.mouseDown({
@@ -44,13 +44,13 @@ describe("rubber band corner", function () {
 
         beforeEach(function () {
             var el = document.createElement("div");
-            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+            var position = Hilo.Crop.CropSelectionCorner.position.topLeft;
 
             handler = function () {
                 handler.wasCalled = true;
             }
 
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
             corner.addEventListener("stop", handler);
 
             corner.mouseUp({
@@ -68,14 +68,14 @@ describe("rubber band corner", function () {
 
         beforeEach(function () {
             var el = document.createElement("div");
-            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
+            var position = Hilo.Crop.CropSelectionCorner.position.topLeft;
 
             handler = function (args) {
                 handler.wasCalled = true;
                 handler.coords = args.detail.coords;
             }
 
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
             corner.addEventListener("move", handler);
 
             corner.mouseDown({ preventDefault: function () { } });
@@ -85,7 +85,7 @@ describe("rubber band corner", function () {
         it("should dispatch a 'move' event", function () {
             expect(handler.wasCalled).equals(true);
         });
-        
+
         it("should include the new mouse coords with the 'move' event", function () {
             expect(handler.coords.x).equals(1);
             expect(handler.coords.y).equals(2);
@@ -98,8 +98,8 @@ describe("rubber band corner", function () {
         beforeEach(function () {
             var el = document.createElement("div");
 
-            var position = Hilo.Crop.RubberBandCorner.position.topLeft;
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            var position = Hilo.Crop.CropSelectionCorner.position.topLeft;
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
 
             coords = corner.getUpdatedCoords({ x: 1, y: 1 });
         });
@@ -119,8 +119,8 @@ describe("rubber band corner", function () {
         beforeEach(function () {
             var el = document.createElement("div");
 
-            var position = Hilo.Crop.RubberBandCorner.position.topRight;
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            var position = Hilo.Crop.CropSelectionCorner.position.topRight;
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
 
             coords = corner.getUpdatedCoords({ x: 1, y: 1 });
         });
@@ -140,8 +140,8 @@ describe("rubber band corner", function () {
         beforeEach(function () {
             var el = document.createElement("div");
 
-            var position = Hilo.Crop.RubberBandCorner.position.bottomRight;
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            var position = Hilo.Crop.CropSelectionCorner.position.bottomRight;
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
 
             coords = corner.getUpdatedCoords({ x: 1, y: 1 });
         });
@@ -161,8 +161,8 @@ describe("rubber band corner", function () {
         beforeEach(function () {
             var el = document.createElement("div");
 
-            var position = Hilo.Crop.RubberBandCorner.position.bottomLeft;
-            corner = new Hilo.Crop.RubberBandCorner(window, el, position);
+            var position = Hilo.Crop.CropSelectionCorner.position.bottomLeft;
+            corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
 
             coords = corner.getUpdatedCoords({ x: 1, y: 1 });
         });
