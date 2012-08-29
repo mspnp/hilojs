@@ -9,16 +9,11 @@
 
 describe("rubber band", function () {
 
-    var rubberBand, canvasSize;
+    var rubberBand;
 
     beforeEach(function () {
-        canvasSize = {
-            height: 800,
-            width: 600
-        };
-
         // Create the SUT
-        rubberBand = new Hilo.Crop.RubberBand(canvasSize);
+        rubberBand = new Hilo.Crop.RubberBand();
     });
 
     describe("when initializing", function () {
@@ -33,9 +28,32 @@ describe("rubber band", function () {
             expect(coords.startY).equals(0);
         });
 
-        it("should set the ending coordinate to the canvas width,height", function () {
-            expect(coords.endX).equals(canvasSize.width);
-            expect(coords.endY).equals(canvasSize.height);
+        it("should set the ending coordinate to 0,0", function () {
+            expect(coords.endX).equals(0);
+            expect(coords.endY).equals(0);
+        });
+    });
+
+    describe("when resetting the rubber band to a canvas size", function () {
+        var coords;
+
+        beforeEach(function () {
+            rubberBand.reset({
+                width: 100,
+                height: 200
+            });
+
+            coords = rubberBand.getCoords();
+        });
+
+        it("should set the starting coordinate to 0,0", function () {
+            expect(coords.startX).equals(0);
+            expect(coords.startY).equals(0);
+        });
+
+        it("should set the ending coordinate to canvasSize.height, canvasSize.width", function () {
+            expect(coords.endX).equals(100);
+            expect(coords.endY).equals(200);
         });
     });
 
@@ -43,6 +61,10 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
+            rubberBand.reset({
+                width: 100,
+                height: 100
+            });
 
             moveHandler = function (args) {
                 if (!moveHandler.callCount) {
@@ -78,6 +100,10 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
+            rubberBand.reset({
+                width: 600,
+                height: 800
+            });
 
             moveHandler = function (args) {
                 if (!moveHandler.callCount) {
@@ -115,6 +141,10 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
+            rubberBand.reset({
+                width: 600,
+                height: 800
+            });
 
             moveHandler = function (args) {
                 if (!moveHandler.callCount) {
@@ -153,6 +183,10 @@ describe("rubber band", function () {
         var moveHandler;
 
         beforeEach(function () {
+            rubberBand.reset({
+                width: 600,
+                height: 800
+            });
 
             moveHandler = function (args) {
                 if (!moveHandler.callCount) {
