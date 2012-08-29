@@ -37,7 +37,8 @@
                 .then(this.getImageUrl.bind(this))
                 .then(this.setupControllers.bind(this))
                 .then(this.getImageProperties.bind(this))
-                .then(this.runImageCropping.bind(this));
+                .then(this.beginCrop.bind(this))
+                .then(this.handleAppBarEvents.bind(this));
         },
 
         getPictureFromQueryResult: function(queryResult){
@@ -60,7 +61,7 @@
             this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.rubberBand, this.url);
             this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
             this.rubberBandController = new Hilo.Crop.RubberBandController(this.rubberBand, this.canvasEl, this.rubberBandEl);
-            this.menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
+            this.appBarPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
 
             // forwarding for the chained "then" calls
             return storageFile;
@@ -73,10 +74,14 @@
 
         // Start the image cropping process by drawing the image and
         // crop selection to scale, and then listen for the "crop" button click
-        runImageCropping: function (props) {
+        beginCrop: function (props) {
             this.imageToScreenScale = this.calculateScaleToScreen(props);
             this.drawImageSelectionToScale(props, this.imageToScreenScale);
-            this.menuPresenter.addEventListener("crop", this.cropImage.bind(this));
+        },
+
+        // register event listeners for all of the app bar buttons
+        handleAppBarEvents: function () {
+            this.appBarPresenter.addEventListener("crop", this.cropImage.bind(this));
         },
 
         // Run the image crop process, visually, to show what the crop result
