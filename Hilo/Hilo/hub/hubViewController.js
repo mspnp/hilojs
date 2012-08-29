@@ -8,12 +8,14 @@
 // ===============================================================================
 
 ﻿(function () {
-    "use strict";
-    
-    // Imports And Constants
-    // ---------------------
-    
-    var knownFolders = Windows.Storage.KnownFolders;
+	"use strict";
+	
+	// Imports And Constants
+	// ---------------------
+	
+	var knownFolders = Windows.Storage.KnownFolders;
+    // The maximum number of images to display on the hub page 
+	var maxImageCount = 6;
 
     // Hub View Controller Constructor
     // -------------------------------
@@ -68,7 +70,7 @@
             this.queryBuilder
                 .bindable()
                 .prefetchOptions(["System.ItemDate"])
-                .count(6);
+                .count(maxImageCount);
 
             this.query = this.queryBuilder.build(folder);
 
@@ -114,7 +116,6 @@
             var elements = document.querySelectorAll(".titlearea, section[role=main]");
             WinJS.UI.Animation.enterPage(elements);
         },
-
 
         // The callback method for item selection in the listview changing.
         // This function coordinates the selection changes with the 
