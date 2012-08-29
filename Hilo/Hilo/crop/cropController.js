@@ -173,7 +173,7 @@
             heightScale = screenMaxHeight / size.height,
             widthScale = screenMaxWidth / size.width;
 
-            return Math.min(heightScale, widthScale);
+            return Math.min(heightScale, widthScale, 1);
         },
 
         // calculate the final size by multiplying 
