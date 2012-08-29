@@ -67,28 +67,38 @@
             var that = this;
             menuPresenter.addEventListener("crop", function () {
 
+                // Get the canvas-based rectangle of the crop selection
                 var coords = rubberBand.getCoords();
-                var selectionRectScaledToImage = that.scaleCanvasCoordsToImage(imageToScreenScale, coords, that.cropOffset);
+
+                // calculate the selected area of the real iamge by scaling
+                // the canvas based selection out to the original image
+                var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.cropOffset);
+
+                // Calculate the new canvas size based on the rectangle of the crop selection
+                // and reset the canvas to that size
                 var canvasScale = that.calculateScaleToScreen(selectionRectScaledToImage);
                 var canvasSize = that.calculateCanvasSize(selectionRectScaledToImage, canvasScale);
-
                 that.sizeCanvas(that.canvasEl, canvasSize);
 
+                // Reset and re-draw everything according to the new scale
                 rubberBand.reset(canvasSize);
                 rubberBandController.reset();
-
                 pictureView.reset(canvasSize, selectionRectScaledToImage);
                 rubberBandView.reset();
 
-                //reset image scale and offset to match new canvas and image scaling
+                // reset image scale so that it reflects the difference between
+                // the current canvas size, and the original image size
                 imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage, canvasSize);
+
+                // remember the starting location of the crop, on the actual image
+                // and not relative to the canvas size
                 that.cropOffset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
             });
 
         },
 
         // take the canvas coordinates and scale them to the real image coordinates
-        scaleCanvasCoordsToImage: function (imageToScreenScale, canvasCoords, cropOffset) {
+        scaleCanvasRectToImage: function (imageToScreenScale, canvasCoords, cropOffset) {
             var startX = canvasCoords.startX / imageToScreenScale,
                 startY = canvasCoords.startY / imageToScreenScale,
                 endX = canvasCoords.endX / imageToScreenScale,
