@@ -12,7 +12,7 @@
         el.addQuerySelector("#save", save);
         el.addQuerySelector("#cancel", cancel);
 
-        appBar = new Hilo.Crop.MenuPresenter(el);
+        appBar = new Hilo.Crop.AppBarPresenter(el);
     });
 
     describe("when cropping", function () {
