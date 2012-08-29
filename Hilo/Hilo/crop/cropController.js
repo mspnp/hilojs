@@ -35,6 +35,7 @@
         start: function () {
             this.fileLoader
                 .then(this.getImageUrl.bind(this))
+                .then(this.setupControllers.bind(this))
                 .then(this.getImageProperties.bind(this))
                 .then(this.runImageCropping.bind(this));
         },
@@ -45,6 +46,18 @@
 
             this.url = URL.createObjectURL(storageFile);
 
+            // forwarding for the chained "then" calls
+            return storageFile;
+        },
+
+        setupControllers: function(storageFile){
+            this.rubberBand = new Hilo.Crop.RubberBand();
+            this.pictureView = new Hilo.Crop.PictureView(this.context, this.rubberBand, this.url);
+            this.rubberBandView = new Hilo.Crop.RubberBandView(this.rubberBand, this.canvasEl, this.rubberBandEl);
+            this.rubberBandController = new Hilo.Crop.RubberBandController(this.rubberBand, this.canvasEl, this.rubberBandEl);
+            this.menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
+
+            // forwarding for the chained "then" calls
             return storageFile;
         },
 
@@ -54,43 +67,44 @@
 
         runImageCropping: function (props) {
             var imageToScreenScale = this.calculateScaleToScreen(props);
-            var canvasSize = this.resizeCanvas(props, imageToScreenScale);
-
-            var rubberBand = new Hilo.Crop.RubberBand(canvasSize);
-            var pictureView = new Hilo.Crop.PictureView(this.context, rubberBand, this.url, canvasSize);
-            var rubberBandView = new Hilo.Crop.RubberBandView(rubberBand, this.canvasEl, this.rubberBandEl);
-            var rubberBandController = new Hilo.Crop.RubberBandController(rubberBand, this.canvasEl, this.rubberBandEl);
-            var menuPresenter = new Hilo.Crop.MenuPresenter(this.menuEl);
+            this.drawImageSelectionToScale(props, imageToScreenScale);
 
             var that = this;
-            menuPresenter.addEventListener("crop", function () {
+            this.menuPresenter.addEventListener("crop", function () {
 
                 // Get the canvas-based rectangle of the crop selection
-                var coords = rubberBand.getCoords();
+                var coords = that.rubberBand.getCoords();
 
                 // calculate the selected area of the real iamge by scaling
                 // the canvas based selection out to the original image
                 var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.offset);
 
                 // reset image scale so that it reflects the difference between
-                // the current canvas size, and the original image size
+                // the current canvas size, and the original image size, then re-draw
+                // everything at that new scale
                 imageToScreenScale = that.calculateScaleToScreen(selectionRectScaledToImage);
-
-                // Calculate the new canvas size based on the rectangle of the crop selection
-                // and reset the canvas to that size
-                var canvasSize = that.resizeCanvas(selectionRectScaledToImage, imageToScreenScale);
-
-                // Reset and re-draw everything according to the new scale
-                rubberBand.reset(canvasSize);
-                rubberBandController.reset();
-                pictureView.reset(canvasSize, selectionRectScaledToImage);
-                rubberBandView.reset();
+                that.drawImageSelectionToScale(selectionRectScaledToImage, imageToScreenScale);
 
                 // remember the starting location of the crop, on the actual image
                 // and not relative to the canvas size
                 that.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
             });
 
+        },
+
+        // Calculate the canvas size, according to the scale, using
+        // the crop selection rectangle
+        drawImageSelectionToScale: function(cropRect, imageToScreenScale){
+            var canvasSize = this.resizeCanvas(cropRect, imageToScreenScale);
+
+            // reset and re-draw all of the controllers and presenters
+            this.rubberBandController.reset();
+            this.pictureView.reset(canvasSize, cropRect);
+            this.rubberBand.reset(canvasSize);
+            this.rubberBandView.reset();
+
+            // re-draw the background image once everything is reset
+            this.pictureView.drawImage();
         },
 
         // take a rectangle that was based on a scaled canvas size

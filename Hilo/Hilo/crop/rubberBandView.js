@@ -40,6 +40,8 @@
 
         draw: function (coords) {
 
+            this.rubberBandEl.style.display = "block";
+
             var positioning = this.getPositioning(coords);
             var bounding = this.boundingRect;
             var rubberBandStyle = this.rubberBandEl.style;

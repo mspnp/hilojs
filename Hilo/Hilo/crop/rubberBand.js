@@ -19,13 +19,11 @@
     // RubberBand Constructor
     // ----------------------
 
-    function RubberBandConstructor(canvasSize) {
-        this.canvasSize = canvasSize;
-
+    function RubberBandConstructor() {
         this.addProp("startX", 0, this.adjustStartX.bind(this));
         this.addProp("startY", 0, this.adjustStartY.bind(this));
-        this.addProp("endX", canvasSize.width, this.adjustEndX.bind(this));
-        this.addProp("endY", canvasSize.height, this.adjustEndY.bind(this));
+        this.addProp("endX", 0, this.adjustEndX.bind(this));
+        this.addProp("endY", 0, this.adjustEndY.bind(this));
     }
 
     // RubberBand Members

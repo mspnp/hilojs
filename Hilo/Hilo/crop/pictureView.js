@@ -13,12 +13,9 @@
     // Picture View Constructor
     // ------------------------
 
-    function PictureViewConstructor(canvasContext, rubberBand, imageUrl, canvasSize) {
+    function PictureViewConstructor(canvasContext, rubberBand, imageUrl) {
         this.context = canvasContext;
-        this.canvasSize = canvasSize;
-
-        this.loadAndDisplayImage(imageUrl);
-
+        this.loadImage(imageUrl);
         rubberBand.addEventListener("move", this.drawImage.bind(this));
     }
 
@@ -27,7 +24,7 @@
 
     var pictureViewMembers = {
 
-        loadAndDisplayImage: function (imageUrl) {
+        loadImage: function (imageUrl) {
             this.image = new Image();
 
             var that = this;
