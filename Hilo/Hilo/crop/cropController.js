@@ -25,7 +25,7 @@
         this.context = canvasEl.getContext("2d");
         this.rubberBandEl = rubberBandEl;
         this.menuEl = menuEl;
-        this.cropOffset = { x: 0, y: 0 };
+        this.offset = { x: 0, y: 0 };
     }
 
     // Methods
@@ -54,7 +54,7 @@
 
         runImageCropping: function (props) {
             var imageToScreenScale = this.calculateScaleToScreen(props);
-            var canvasSize = this.calculateCanvasSize(props, imageToScreenScale);
+            var canvasSize = this.calculateSizeFromScale(props, imageToScreenScale);
 
             this.sizeCanvas(this.canvasEl, canvasSize);
 
@@ -72,12 +72,12 @@
 
                 // calculate the selected area of the real iamge by scaling
                 // the canvas based selection out to the original image
-                var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.cropOffset);
+                var selectionRectScaledToImage = that.scaleCanvasRectToImage(imageToScreenScale, coords, that.offset);
 
                 // Calculate the new canvas size based on the rectangle of the crop selection
                 // and reset the canvas to that size
                 var canvasScale = that.calculateScaleToScreen(selectionRectScaledToImage);
-                var canvasSize = that.calculateCanvasSize(selectionRectScaledToImage, canvasScale);
+                var canvasSize = that.calculateSizeFromScale(selectionRectScaledToImage, canvasScale);
                 that.sizeCanvas(that.canvasEl, canvasSize);
 
                 // Reset and re-draw everything according to the new scale
@@ -92,13 +92,15 @@
 
                 // remember the starting location of the crop, on the actual image
                 // and not relative to the canvas size
-                that.cropOffset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
+                that.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
             });
 
         },
 
-        // take the canvas coordinates and scale them to the real image coordinates
-        scaleCanvasRectToImage: function (imageToScreenScale, canvasCoords, cropOffset) {
+        // take a rectangle that was based on a scaled canvas size
+        // and scale the rect up to the real image size, accounting
+        // for the offset of the rectangle location
+        scaleCanvasRectToImage: function (imageToScreenScale, canvasCoords, offset) {
             var startX = canvasCoords.startX / imageToScreenScale,
                 startY = canvasCoords.startY / imageToScreenScale,
                 endX = canvasCoords.endX / imageToScreenScale,
@@ -107,15 +109,19 @@
                 width = endX - startX;
 
             return {
-                startX: startX + cropOffset.x,
-                startY: startY + cropOffset.y,
-                endX: endX + cropOffset.x,
-                endY: endY + cropOffset.y,
+                startX: startX + offset.x,
+                startY: startY + offset.y,
+                endX: endX + offset.x,
+                endY: endY + offset.y,
                 height: height,
                 width: width
             };
         },
 
+        // take a given size (height and width) and
+        // calculate the scale that will correctly
+        // re-size it to fit the available display
+        // area of the screen
         calculateScaleToScreen: function (size) {
             var heightScale, widthScale;
 
@@ -125,7 +131,9 @@
             return Math.min(heightScale, widthScale);
         },
 
-        calculateCanvasSize: function (imageSize, scale) {
+        // calculate the final size by multiplying 
+        // an original size by a specified scale
+        calculateSizeFromScale: function (imageSize, scale) {
             var height = imageSize.height * scale;
             var width = imageSize.width * scale;
 
@@ -135,6 +143,8 @@
             };
         },
 
+        // change the size of the specified canvas
+        // element to the specified size
         sizeCanvas: function (canvas, canvasSize) {
             canvas.height = canvasSize.height;
             canvas.width = canvasSize.width;
@@ -142,8 +152,8 @@
 
     };
 
-    // Public API
-    // ----------
+    // Crop Controller Definition
+    // --------------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
         CropController: WinJS.Class.mix(CropControllerConstructor, cropControllerMembers, WinJS.Utilities.eventMixin)
