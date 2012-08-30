@@ -19,11 +19,12 @@
     // Constructor Function
     // --------------------
 
-    function CropControllerConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl) {
+    function CropControllerConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter) {
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
         this.cropSelectionEl = cropSelectionEl;
         this.appBarEl = appBarEl;
+        this.imageWriter = imageWriter;
     }
 
     // Methods
@@ -40,7 +41,7 @@
                 .then(this.handleAppBarEvents.bind(this));
         },
 
-        getPictureFromQueryResult: function(queryResult){
+        getPictureFromQueryResult: function (queryResult) {
             this.picture = queryResult[0];
             this.storageFile = this.picture.storageFile;
 
@@ -82,6 +83,12 @@
         handleAppBarEvents: function () {
             this.appBarPresenter.addEventListener("crop", this.cropImage.bind(this));
             this.appBarPresenter.addEventListener("reset", this.resetCrop.bind(this));
+            this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));
+        },
+
+        saveImageAs: function () {
+            var cropRect = this.cropSelection.getCoords();
+            this.imageWriter.crop(this.storageFile, cropRect, this.offset);
         },
 
         // Reset the image to non-cropped, correctly scaled size

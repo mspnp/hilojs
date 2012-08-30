@@ -46,17 +46,155 @@
     // Image Writer Constructor
     // ------------------------
 
-    function ImageRotator() {
-    }
+	function ImageWriterConstructor() {
+	}
 
     // Image Writer Methods
     // --------------------
 
-    var imageRotatorMethods = {
+	var imageWriterMethods = {
 
-        // Rotate an image to the specified degrees
-        rotate: function (file, degrees) {
-            degrees = this.normalizeDegrees(degrees);
+	    // Open the filepicker, defaulting it to the currently
+	    // used source file, allowing another file name to be
+	    // selected if desired
+	    pickFile: function (sourceFile) {
+	        var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+
+	        // default to saving in the pictures library, with the original filename
+	        savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
+	        savePicker.suggestedFileName = sourceFile.displayName + "-Cropped" + sourceFile.fileType;
+
+	        // Dropdown of file types the user can save the file as
+	        savePicker.fileTypeChoices.insert("BMP", [".bmp"]);
+	        savePicker.fileTypeChoices.insert("GIF", [".gif"]);
+	        savePicker.fileTypeChoices.insert("JPG", [".jpg", ".jpeg"]);
+	        savePicker.fileTypeChoices.insert("PNG", [".png"]);
+	        savePicker.fileTypeChoices.insert("TIFF", [".tiff"]);
+
+	        // run the picker and get the filename that the person chose
+	        return savePicker.pickSaveFileAsync();
+	    },
+
+	    // choose a destination file, then crop the image down to the
+	    // specified crop selection, saving it to the selected destination
+	    crop: function (sourceFile, rect, rectOffset) {
+
+	        var that = this;
+	        this.pickFile(sourceFile)
+                .then(function (destFile) {
+                    if (destFile) {
+                        that.cropAndSave(sourceFile, destFile, rect, rectOffset);
+                    }
+                });
+
+	    },
+
+	    // Do the actual file cropping and save it to the destination file
+	    cropAndSave: function (sourceFile, destFile, rect, rectOffset) {
+
+	        // save the source to the destination
+
+			// Keep data in-scope across multiple asynchronous methods.
+	        var originalWidth,
+				originalHeight,
+				encoder,
+				decoder,
+				sourceStream,
+	            destStream;
+
+			var that = this;
+			var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
+
+			// Create a new encoder and initialize it with data from the original file.
+			// The encoder writes to an in-memory stream, we then copy the contents to the file.
+			// This allows the application to perform in-place editing of the file: any unedited data
+			// is copied directly to the destination, and the original file is overwritten
+			// with updated data.
+			sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
+
+				sourceStream = stream;
+				return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream);
+
+			}).then(function (_decoder) {
+
+				decoder = _decoder;
+
+				// Set the encoder's destination to the temporary, in-memory stream.
+				return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+
+			}).then(function (_encoder) {
+				encoder = _encoder;
+
+				// Attempt to generate a new thumbnail to reflect any rotation operation.
+				encoder.isThumbnailGenerated = true;
+
+				//if (useEXIFOrientation) {
+				//	// EXIF is supported, so update the orientation flag to reflect 
+				//	// the user-specified rotation.
+				//	var netExifOrientation = that.getEXIFRotation(degrees);
+
+				//	// BitmapProperties requires the application to explicitly declare the type
+				//	// of the property to be written - this is different from FileProperties which
+				//	// automatically coerces the value to the correct type. System.Photo.Orientation
+				//	// is defined as a UInt16.
+				//	var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
+				//		netExifOrientation,
+				//		Windows.Foundation.PropertyType.uint16
+				//	);
+
+				//	var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
+				//	properties.insert("System.Photo.Orientation", orientationTypedValue);
+
+				//	return encoder.bitmapProperties.setPropertiesAsync(properties);
+				//} else {
+
+				//	// EXIF is not supported, so rever to bitmap rotation
+				//	var rotation = that.getBitmapRotation(degrees);
+				//	return encoder.bitmapTransform.rotation = rotation;
+
+				//}
+
+			}).then(function () {
+
+				return encoder.flushAsync();
+
+			}).then(null, function (error) {
+
+				switch (error.number) {
+					// If the encoder does not support writing a thumbnail, then try again
+					// but disable thumbnail generation.
+					case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+						encoder.isThumbnailGenerated = false;
+						return encoder.flushAsync();
+					default:
+						throw error;
+				}
+
+			}).then(function () {
+			    // open the destination stream
+			    return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite)
+			}).then(function (_destStream) {
+			    destStream = _destStream;
+
+			    // copy the contents of the memory stream to the destination
+				memStream.seek(0);
+				destStream.seek(0);
+				destStream.size = 0;
+
+				return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, destStream);
+			}).done(function () {
+
+			    // Finally, close each stream to release any locks.
+				memStream && memStream.close();
+				sourceStream && sourceStream.close();
+				destStream && destStream.close();
+
+			});
+	    },
+
+		// Rotate an image to the specified degrees
+		rotate: function (file, degrees) {
+		    degrees = this.normalizeDegrees(degrees);
 
             // Keep data in-scope across multiple asynchronous methods.
             var originalWidth,
@@ -249,7 +387,7 @@
     // Public API
     // ----------
 
-    WinJS.Namespace.define("Hilo", {
-        ImageRotator: WinJS.Class.define(ImageRotator, imageRotatorMethods)
-    });
+	WinJS.Namespace.define("Hilo", {
+		ImageWriter: WinJS.Class.define(ImageWriterConstructor, imageWriterMethods)
+	});
 })();

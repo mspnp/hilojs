@@ -62,11 +62,11 @@
             this.el.src = url;
         },
 
-        saveImage: function () {
-            var imageRotator = new Hilo.ImageRotator();
-            imageRotator.rotate(this.imageFile, this.rotationDegrees);
-        }
-    };
+		saveImage: function () {
+		    var imageWriter = new Hilo.ImageWriter();
+		    imageWriter.rotate(this.imageFile, this.rotationDegrees);
+		}
+	};
 
     // Public API
     // ----------

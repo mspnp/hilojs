@@ -30,7 +30,9 @@
             var cropSelectionEl = document.querySelector("#cropSelection");
             var menuEl = document.querySelector("#appbar");
 
-            var cropController = new Hilo.Crop.CropController(fileLoader, canvasEl, cropSelectionEl, menuEl);
+            var imageWriter = new Hilo.ImageWriter();
+
+            var cropController = new Hilo.Crop.CropController(fileLoader, canvasEl, cropSelectionEl, menuEl, imageWriter);
             cropController.start();
         },
 
