@@ -54,15 +54,39 @@
 
 	var imageWriterMethods = {
 
+	    // choose a destination file, then crop the image down to the
+	    // specified crop selection, saving it to the selected destination
+	    crop: function (sourceFile, rect, rectOffset) {
+	        var that = this;
+	        this.pickFile(sourceFile, "Cropped")
+                .then(function (destFile) {
+                    if (destFile) {
+                        that.saveCroppedImage(sourceFile, destFile, rect, rectOffset);
+                    }
+                });
+
+	    },
+
+	    // Pick a file to save the rotated version to, then save it
+	    rotate: function (sourceFile, degrees) {
+	        var that = this;
+	        this.pickFile(sourceFile, "Rotated")
+                .then(function (destFile) {
+                    if (destFile) {
+                        that.saveRotatedImage(sourceFile, destFile, degrees);
+                    }
+                });
+	    },
+
 	    // Open the filepicker, defaulting it to the currently
 	    // used source file, allowing another file name to be
 	    // selected if desired
-	    pickFile: function (sourceFile) {
+	    pickFile: function (sourceFile, fileNameSuffix) {
 	        var savePicker = new Windows.Storage.Pickers.FileSavePicker();
 
 	        // default to saving in the pictures library, with the original filename
 	        savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
-	        savePicker.suggestedFileName = sourceFile.displayName + "-Cropped" + sourceFile.fileType;
+	        savePicker.suggestedFileName = sourceFile.displayName + "-" + fileNameSuffix + sourceFile.fileType;
 
 	        // Dropdown of file types the user can save the file as
 	        savePicker.fileTypeChoices.insert("BMP", [".bmp"]);
@@ -75,22 +99,105 @@
 	        return savePicker.pickSaveFileAsync();
 	    },
 
-	    // choose a destination file, then crop the image down to the
-	    // specified crop selection, saving it to the selected destination
-	    crop: function (sourceFile, rect, rectOffset) {
+	    // Do the actual file cropping and save it to the destination file
+	    saveCroppedImage: function (sourceFile, destFile, cropSelection) {
+	        var encodeProcessor = function (encoder) {
+	            // set the bounds (crop position / size) of the encoder, 
+	            // so that we only get the crop selection in the final
+	            // result
 
-	        var that = this;
-	        this.pickFile(sourceFile)
-                .then(function (destFile) {
-                    if (destFile) {
-                        that.cropAndSave(sourceFile, destFile, rect, rectOffset);
-                    }
-                });
+	            var bounds = {
+	                x: parseInt(cropSelection.startX, 10),
+	                y: parseInt(cropSelection.startY, 10),
+	                width: parseInt(cropSelection.width, 10),
+	                height: parseInt(cropSelection.height, 10)
+	            };
 
+	            encoder.bitmapTransform.bounds = bounds;
+	        }
+
+            this.transFormAndSaveToDestination(sourceFile, destFile, {
+			    encodeProcessor: encodeProcessor
+			});
 	    },
 
-	    // Do the actual file cropping and save it to the destination file
-	    cropAndSave: function (sourceFile, destFile, cropSelection) {
+		// Rotate an image to the specified degrees
+		saveRotatedImage: function (sourceFile, destFile, degrees) {
+		    degrees = this.normalizeDegrees(degrees);
+
+			// Keep data in-scope across multiple asynchronous methods.
+		    var that = this,
+                originalWidth,
+				originalHeight,
+				useEXIFOrientation;
+
+			var decodeProcessor = function (decoder) {
+
+			    originalHeight = decoder.pixelHeight;
+			    originalWidth = decoder.pixelWidth;
+
+			    // get the EXIF orientation (if it's supported)
+			    var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
+                    .then(function (retrievedProps) {
+                        useEXIFOrientation = true;
+                    }, function (error) {
+        			    // the file format does not support EXIF properties, continue without applying EXIF orientation.
+        			    switch (error.number) {
+        			        case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+        			        case WINCODEC_ERR_PROPERTYNOTSUPPORTED:
+        			            useEXIFOrientation = false;
+        			            break;
+        			        default:
+        			            throw error;
+        			    }
+        			});
+
+			    return decoderPromise;
+			};
+
+			var encodeProcessor = function (encoder) {
+			    if (useEXIFOrientation) {
+			        // EXIF is supported, so update the orientation flag to reflect 
+			        // the user-specified rotation.
+			        var netExifOrientation = that.getEXIFRotation(degrees);
+
+			        // BitmapProperties requires the application to explicitly declare the type
+			        // of the property to be written - this is different from FileProperties which
+			        // automatically coerces the value to the correct type. System.Photo.Orientation
+			        // is defined as a UInt16.
+			        var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
+						netExifOrientation,
+						Windows.Foundation.PropertyType.uint16
+					);
+
+			        var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
+			        properties.insert("System.Photo.Orientation", orientationTypedValue);
+
+			        return encoder.bitmapProperties.setPropertiesAsync(properties);
+			    } else {
+
+			        // EXIF is not supported, so rever to bitmap rotation
+			        var rotation = that.getBitmapRotation(degrees);
+			        return encoder.bitmapTransform.rotation = rotation;
+
+			    }
+			}
+
+			this.transFormAndSaveToDestination(sourceFile, destFile, {
+			    decodeProcessor: decodeProcessor,
+			    encodeProcessor: encodeProcessor
+			});
+		},
+
+	    // The core implementation of writing the source file to the destination file,
+	    // processing the decoder and encoder transformations provided by the caller.
+	    // 
+	    // The `sourceFile` and `destFile` are `StorageFile` objects
+        //
+	    // The `options` parameter is an object literal that takes two named values:
+	    // * `decodeProcessor`: a function that recieves a `BitmapDecoder` object and performs any needed data extraction from the source image
+	    // * `encodeProcessor`: a function that recieves a `BitmapEncoder` object and performs any needed transforms to the destination image
+		transFormAndSaveToDestination: function (sourceFile, destFile, options) {
 
 	        // save the source to the destination
 
@@ -116,27 +223,25 @@
 				return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream);
 
 			}).then(function (_decoder) {
+			    decoder = _decoder;
 
-				decoder = _decoder;
+			    if (options.decodeProcessor) {
+			        // run any custom pre-processing from the decoder
+			        return options.decodeProcessor(decoder);
+			    }
+			}).then(function(){
 
-				// Set the encoder's destination to the temporary, in-memory stream.
-				return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+			    // Set the encoder's destination to the temporary, in-memory stream.
+			    return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
 			}).then(function (_encoder) {
 			    encoder = _encoder;
 
-			    // set the bounds (crop position / size) of the encoder, 
-			    // so that we only get the crop selection in the final
-			    // result
-
-			    var bounds = {
-			        x: parseInt(cropSelection.startX, 10),
-			        y: parseInt(cropSelection.startY, 10),
-			        width: parseInt(cropSelection.width, 10),
-			        height: parseInt(cropSelection.height, 10)
-			    };
-
-			    encoder.bitmapTransform.bounds = bounds;
+			    if (options.encodeProcessor) {
+			        // run any custom transform that needs to happen
+			        return options.encodeProcessor(encoder);
+			    }
+			}).then(function(){
 
 				// Attempt to generate a new thumbnail to reflect any rotation operation.
 			    encoder.isThumbnailGenerated = true;
@@ -179,128 +284,124 @@
 			});
 	    },
 
-		// Rotate an image to the specified degrees
-		rotate: function (file, degrees) {
-		    degrees = this.normalizeDegrees(degrees);
+			// Keep data in-scope across multiple asynchronous methods.
+			var originalWidth,
+				originalHeight,
+				encoder,
+				decoder,
+				fileStream,
+				useEXIFOrientation;
 
-            // Keep data in-scope across multiple asynchronous methods.
-            var originalWidth,
-                originalHeight,
-                encoder,
-                decoder,
-                fileStream,
-                useEXIFOrientation;
+			var that = this;
+			var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
 
-            var that = this;
-            var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
+			// Create a new encoder and initialize it with data from the original file.
+			// The encoder writes to an in-memory stream, we then copy the contents to the file.
+			// This allows the application to perform in-place editing of the file: any unedited data
+			// is copied directly to the destination, and the original file is overwritten
+			// with updated data.
+			file.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
 
-            // Create a new encoder and initialize it with data from the original file.
-            // The encoder writes to an in-memory stream, we then copy the contents to the file.
-            // This allows the application to perform in-place editing of the file: any unedited data
-            // is copied directly to the destination, and the original file is overwritten
-            // with updated data.
-            file.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
+				fileStream = stream;
+				return Windows.Graphics.Imaging.BitmapDecoder.createAsync(fileStream);
 
-                fileStream = stream;
-                return Windows.Graphics.Imaging.BitmapDecoder.createAsync(fileStream);
+			}).then(function (_decoder) {
 
-            }).then(function (_decoder) {
+				decoder = _decoder;
 
-                decoder = _decoder;
+				originalHeight = decoder.pixelHeight;
+				originalWidth = decoder.pixelWidth;
 
-                originalHeight = decoder.pixelHeight;
-                originalWidth = decoder.pixelWidth;
+				// get the EXIF orientation (if it's supported)
+				return decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"]);
 
-                // get the EXIF orientation (if it's supported)
-                return decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"]);
+			}).then(function (retrievedProps) {
 
-            }).then(function (retrievedProps) {
+				// EXIF is supported
+				useEXIFOrientation = true;
 
-                // EXIF is supported
-                useEXIFOrientation = true;
+			}, function (error) {
 
-            }, function (error) {
+				// the file format does not support EXIF properties, continue without applying EXIF orientation.
+				switch (error.number) {
+					case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+					case WINCODEC_ERR_PROPERTYNOTSUPPORTED:
+						useEXIFOrientation = false;
+						break;
+					default:
+						throw error;
+				}
 
-                // the file format does not support EXIF properties, continue without applying EXIF orientation.
-                switch (error.number) {
-                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                    case WINCODEC_ERR_PROPERTYNOTSUPPORTED:
-                        useEXIFOrientation = false;
-                        break;
-                    default:
-                        throw error;
-                }
+			}).then(function () {
 
-            }).then(function () {
+				// Set the encoder's destination to the temporary, in-memory stream.
+				return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
-                // Set the encoder's destination to the temporary, in-memory stream.
-                return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+			}).then(function (_encoder) {
+				encoder = _encoder;
 
-            }).then(function (_encoder) {
-                encoder = _encoder;
+				// Attempt to generate a new thumbnail to reflect any rotation operation.
+				encoder.isThumbnailGenerated = true;
 
-                // Attempt to generate a new thumbnail to reflect any rotation operation.
-                encoder.isThumbnailGenerated = true;
+				if (useEXIFOrientation) {
+					// EXIF is supported, so update the orientation flag to reflect 
+					// the user-specified rotation.
+					var netExifOrientation = that.getEXIFRotation(degrees);
 
-                if (useEXIFOrientation) {
-                    // EXIF is supported, so update the orientation flag to reflect 
-                    // the user-specified rotation.
-                    var netExifOrientation = that.getEXIFRotation(degrees);
+					// BitmapProperties requires the application to explicitly declare the type
+					// of the property to be written - this is different from FileProperties which
+					// automatically coerces the value to the correct type. System.Photo.Orientation
+					// is defined as a UInt16.
+					var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
+						netExifOrientation,
+						Windows.Foundation.PropertyType.uint16
+					);
 
-                    // BitmapProperties requires the application to explicitly declare the type
-                    // of the property to be written - this is different from FileProperties which
-                    // automatically coerces the value to the correct type. System.Photo.Orientation
-                    // is defined as a UInt16.
-                    var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
-                        netExifOrientation,
-                        Windows.Foundation.PropertyType.uint16
-                    );
+					var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
+					properties.insert("System.Photo.Orientation", orientationTypedValue);
 
-                    var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
-                    properties.insert("System.Photo.Orientation", orientationTypedValue);
+					return encoder.bitmapProperties.setPropertiesAsync(properties);
+				} else {
 
-                    return encoder.bitmapProperties.setPropertiesAsync(properties);
-                } else {
+					// EXIF is not supported, so rever to bitmap rotation
+					var rotation = that.getBitmapRotation(degrees);
+					return encoder.bitmapTransform.rotation = rotation;
 
-                    // EXIF is not supported, so rever to bitmap rotation
-                    var rotation = that.getBitmapRotation(degrees);
-                    return encoder.bitmapTransform.rotation = rotation;
+				}
 
-                }
+			}).then(function () {
 
-            }).then(function () {
+				return encoder.flushAsync();
 
-                return encoder.flushAsync();
+			}).then(null, function (error) {
 
-            }).then(null, function (error) {
+				switch (error.number) {
+					// If the encoder does not support writing a thumbnail, then try again
+					// but disable thumbnail generation.
+					case WINCODEC_ERR_UNSUPPORTEDOPERATION:
+						encoder.isThumbnailGenerated = false;
+						return encoder.flushAsync();
+					default:
+						throw error;
+				}
 
-                switch (error.number) {
-                    // If the encoder does not support writing a thumbnail, then try again
-                    // but disable thumbnail generation.
-                    case WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        encoder.isThumbnailGenerated = false;
-                        return encoder.flushAsync();
-                    default:
-                        throw error;
-                }
+			}).then(function () {
 
-            }).then(function () {
+				// Overwrite the contents of the file with the updated image stream.
+				memStream.seek(0);
+				fileStream.seek(0);
+				fileStream.size = 0;
 
-                // Overwrite the contents of the file with the updated image stream.
-                memStream.seek(0);
-                fileStream.seek(0);
-                fileStream.size = 0;
+				return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, fileStream);
 
-                return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, fileStream);
+			}).done(function () {
 
-            }).done(function () {
+				// Finally, close each stream to release any locks.
+				memStream && memStream.close();
+				fileStream && fileStream.close();
 
-                // Finally, close each stream to release any locks.
-                memStream && memStream.close();
-                fileStream && fileStream.close();
-
-            });
-        },
+			});
+		},
 
         // Converts a number of degrees in to a [PhotoOrientation][2] for
         // files that support EXIF properties.
