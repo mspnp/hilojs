@@ -88,7 +88,8 @@
 
         saveImageAs: function () {
             var cropRect = this.cropSelection.getCoords();
-            this.imageWriter.crop(this.storageFile, cropRect, this.offset);
+            var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, cropRect, this.offset);
+            this.imageWriter.crop(this.storageFile, selectionRectScaledToImage);
         },
 
         // Reset the image to non-cropped, correctly scaled size

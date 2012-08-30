@@ -90,7 +90,7 @@
 	    },
 
 	    // Do the actual file cropping and save it to the destination file
-	    cropAndSave: function (sourceFile, destFile, rect, rectOffset) {
+	    cropAndSave: function (sourceFile, destFile, cropSelection) {
 
 	        // save the source to the destination
 
@@ -107,8 +107,8 @@
 
 			// Create a new encoder and initialize it with data from the original file.
 			// The encoder writes to an in-memory stream, we then copy the contents to the file.
-			// This allows the application to perform in-place editing of the file: any unedited data
-			// is copied directly to the destination, and the original file is overwritten
+	        // This allows the application to perform in-place editing of the file: any unedited data
+	        // is copied directly to the destination, and the original file is overwritten
 			// with updated data.
 			sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
 
@@ -123,36 +123,23 @@
 				return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
 			}).then(function (_encoder) {
-				encoder = _encoder;
+			    encoder = _encoder;
+
+			    // set the bounds (crop position / size) of the encoder, 
+			    // so that we only get the crop selection in the final
+			    // result
+
+			    var bounds = {
+			        x: parseInt(cropSelection.startX, 10),
+			        y: parseInt(cropSelection.startY, 10),
+			        width: parseInt(cropSelection.width, 10),
+			        height: parseInt(cropSelection.height, 10)
+			    };
+
+			    encoder.bitmapTransform.bounds = bounds;
 
 				// Attempt to generate a new thumbnail to reflect any rotation operation.
-				encoder.isThumbnailGenerated = true;
-
-				//if (useEXIFOrientation) {
-				//	// EXIF is supported, so update the orientation flag to reflect 
-				//	// the user-specified rotation.
-				//	var netExifOrientation = that.getEXIFRotation(degrees);
-
-				//	// BitmapProperties requires the application to explicitly declare the type
-				//	// of the property to be written - this is different from FileProperties which
-				//	// automatically coerces the value to the correct type. System.Photo.Orientation
-				//	// is defined as a UInt16.
-				//	var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
-				//		netExifOrientation,
-				//		Windows.Foundation.PropertyType.uint16
-				//	);
-
-				//	var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
-				//	properties.insert("System.Photo.Orientation", orientationTypedValue);
-
-				//	return encoder.bitmapProperties.setPropertiesAsync(properties);
-				//} else {
-
-				//	// EXIF is not supported, so rever to bitmap rotation
-				//	var rotation = that.getBitmapRotation(degrees);
-				//	return encoder.bitmapTransform.rotation = rotation;
-
-				//}
+			    encoder.isThumbnailGenerated = true;
 
 			}).then(function () {
 
