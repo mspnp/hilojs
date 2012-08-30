@@ -64,7 +64,8 @@
 
 		saveImage: function () {
 		    var imageWriter = new Hilo.ImageWriter();
-		    imageWriter.rotate(this.imageFile, this.rotationDegrees);
+		    var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
+		    rotateImageWriter.rotate(this.imageFile, this.rotationDegrees);
 		}
 	};
 

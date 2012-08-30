@@ -70,6 +70,7 @@
     <Content Include="Hilo\crop\crop.js" />
     <Content Include="Hilo\crop\cropController.js" />
     <Content Include="Hilo\crop\appBarPresenter.js" />
+    <Content Include="Hilo\crop\croppedImageWriter.js" />
     <Content Include="Hilo\crop\pictureView.js" />
     <Content Include="Hilo\crop\cropSelection.js" />
     <Content Include="Hilo\crop\cropSelectionController.js" />
@@ -101,6 +102,7 @@
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />
     <Content Include="Hilo\rotate\rotateController.js" />
+    <Content Include="Hilo\rotate\rotatedImageWriter.js" />
     <Content Include="Hilo\Tiles\createTileFriendlyImages.js" />
     <Content Include="Hilo\Tiles\populateTemplate.js" />
     <Content Include="Hilo\Tiles\TileUpdater.js" />
