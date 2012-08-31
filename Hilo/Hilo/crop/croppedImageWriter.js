@@ -1,6 +1,18 @@
-﻿(function () {
+﻿// ===============================================================================
+//  Microsoft patterns & practices
+//  Hilo JS Guidance
+// ===============================================================================
+//  Copyright © Microsoft Corporation.  All rights reserved.
+//  This code released under the terms of the 
+//  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
+// ===============================================================================
+
+(function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+    var photoOrientation = Windows.Storage.FileProperties.PhotoOrientation;
 
     // Cropped Image Writer Constructor
     // --------------------------------
@@ -31,9 +43,15 @@
         saveCroppedImage: function (sourceFile, destFile, cropSelection) {
 
             var that = this,
-                exifOrientation;
+                exifOrientation, imageSize;
 
             var decodeProcessor = function (decoder) {
+                // get the image size
+                imageSize = {
+                    width: decoder.pixelWidth,
+                    height: decoder.pixelHeight
+                };
+                
                 // get the EXIF orientation (if it's supported)
                 var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
                     .then(function (retrievedProps) {
@@ -45,7 +63,10 @@
                         switch (error.number) {
                             case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
                             case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
-                                exifOrientation = false;
+                                // the image does not support EXIF orientation, so
+                                // set it to normal. this allows the getRotatedBounds
+                                // to work propertly.
+                                exifOrientation = photoOrientation.normal;
                                 break;
                             default:
                                 throw error;
@@ -59,9 +80,7 @@
                 // set the bounds (crop position / size) of the encoder, 
                 // so that we only get the crop selection in the final
                 // result
-
-                var bounds = that.getRotatedBounds(exifOrientation, cropSelection);
-
+                var bounds = that.getRotatedBounds(exifOrientation, imageSize, cropSelection);
                 encoder.bitmapTransform.bounds = bounds;
             }
 
@@ -71,49 +90,21 @@
             });
         },
 
-        getRotatedBounds: function (exifOrientation, cropSelection) {
-            var bounds, x, y, height, width;
-            var orientation = Windows.Storage.FileProperties.PhotoOrientation;
+        getRotatedBounds: function (exifOrientation, imageSize, cropSelection) {
+            var exifOrientationValue = exifOrientation.value,
+                height, width, degreesRotation;
 
-            if (exifOrientation) {
-                switch (exifOrientation.value) {
-                    case orientation.rotate90: {
-                        x = cropSelection.endY;
-                        y = cropSelection.startX;
-                        width = cropSelection.height;
-                        height = cropSelection.width;
-                        break;
-                    }
-                    case orientation.rotate180: {
-                        x = cropSelection.endX;
-                        y = cropSelection.endY;
-                        width = cropSelection.width;
-                        height = cropSelection.height;
-                        break;
-                    }
-                    case orientation.rotate270: {
-                        x = cropSelection.startY;
-                        y = cropSelection.endX;
-                        width = cropSelection.height;
-                        height = cropSelection.width;
-                        break;
-                    }
-                    default: {
-                        x = cropSelection.startX;
-                        y = cropSelection.startY;
-                        width = cropSelection.width;
-                        height = cropSelection.height;
-                        break;
-                    }
-                }
+            if (exifOrientationValue == photoOrientation.rotate270 || exifOrientationValue == photoOrientation.rotate90)
+            {
+                height = imageSize.width;
+                width = imageSize.height;
+                imageSize.width = width;
+                imageSize.height = height;
             }
 
-            return {
-                x: parseInt(x, 10),
-                y: parseInt(y, 10),
-                width: parseInt(width, 10),
-                height: parseInt(height, 10)
-            };
+            degreesRotation = Hilo.EXIFHelpers.convertExifOrientationToDegreesRotation(exifOrientationValue);
+
+            return Hilo.EXIFHelpers.rotateRectClockwise(cropSelection, imageSize, degreesRotation);
         }
     };
 
