@@ -57,6 +57,7 @@
     <Content Include="default.css" />
     <Content Include="default.html" />
     <Content Include="default.js" />
+    <Content Include="Hilo\contentChangedListener.js" />
     <Content Include="Hilo\controls\Header\Header.css" />
     <Content Include="Hilo\controls\Header\Header.html" />
     <Content Include="Hilo\controls\Header\Header.js" />

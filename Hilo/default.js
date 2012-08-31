@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // # Bootstrapper
@@ -28,16 +28,23 @@
     nav.addEventListener("navigated", function () {
         WinJS.Resources.processAll();
     });
-    
+
     app.addEventListener("activated", function (args) {
 
         if (args.detail.kind === activation.ActivationKind.launch) {
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
-                
+
                 // When the app is launched, we want to update its tile
                 // on the start screen
-                //var tileUpdater = new Hilo.Tiles.TileUpdater();
-                //tileUpdater.update();
+                var tileUpdater = new Hilo.Tiles.TileUpdater();
+                tileUpdater.update();
+
+                Hilo.contentChangedListener
+                    .listen(Windows.Storage.KnownFolders.picturesLibrary)
+                    .then(function (disposable) {
+                        //TODO: What would be best to do here?
+                        app._to_dispose = disposable;
+                    });
 
             } else {
                 // TODO: This application has been reactivated from suspension.

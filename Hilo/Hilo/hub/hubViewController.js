@@ -7,15 +7,15 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
-	"use strict";
-	
-	// Imports And Constants
-	// ---------------------
-	
-	var knownFolders = Windows.Storage.KnownFolders;
+(function () {
+    "use strict";
+
+    // Imports And Constants
+    // ---------------------
+
+    var knownFolders = Windows.Storage.KnownFolders;
     // The maximum number of images to display on the hub page 
-	var maxImageCount = 6;
+    var maxImageCount = 6;
 
     // Hub View Controller Constructor
     // -------------------------------
@@ -40,31 +40,38 @@
     //
     // [1]: http://en.wikipedia.org/wiki/Mediator_pattern
     //
-    function HubViewController(nav, imageNav, listview, queryBuilder) {
+    function HubViewControllerConstructor(nav, imageNav, listview, queryBuilder) {
         this.nav = nav;
         this.imageNav = imageNav;
         this.listview = listview;
         this.queryBuilder = queryBuilder;
+
+        // The [ECMASCript5 `bind`][2] function is used to ensure that the
+        // context (the `this` variable) of each of the specified
+        // callback functions is set correctly, when the event triggers
+        // and the callback is executed.
+        // 
+        // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
+        //
+        this.loadImages = this.loadImages.bind(this);
+        this.bindImages = this.bindImages.bind(this);
+        this.selectionChanged = this.selectionChanged.bind(this);
+        this.itemClicked = this.itemClicked.bind(this);
     };
 
     // Hub View Controller Methods
     // ---------------------------
 
-    var hubViewControllerMethods = {
+    var hubViewControllerMembers = {
 
         // Starts processing the events from individual components, to 
         // facilitate the functionality of the other components.
         start: function (folder) {
 
-            // The [ECMASCript5 `bind`][2] function is used to ensure that the
-            // context (the `this` variable) of each of the specified
-            // callback functions is set correctly, when the event triggers
-            // and the callback is executed.
-            // 
-            // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
-            //
-            this.listview.addEventListener("selectionChanged", this.selectionChanged.bind(this));
-            this.listview.addEventListener("itemInvoked", this.itemClicked.bind(this));
+            this.folder = folder;
+
+            this.listview.addEventListener("selectionChanged", this.selectionChanged);
+            this.listview.addEventListener("itemInvoked", this.itemClicked);
 
             // Configure and then build the query for this page
             this.queryBuilder
@@ -72,18 +79,17 @@
                 .prefetchOptions(["System.ItemDate"])
                 .count(maxImageCount);
 
-            this.query = this.queryBuilder.build(folder);
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.loadImages);
 
             // Retrieve and display the images
             return this.loadImages();
         },
 
         loadImages: function () {
+            var query = this.queryBuilder.build(this.folder);
 
-            var whenFolderContentsChange = this.loadImages.bind(this);
-
-            return this.query.execute(whenFolderContentsChange)
-                .then(this.bindImages.bind(this))
+            return query.execute()
+                .then(this.bindImages)
                 .then(this.animateEnterPage);
         },
 
@@ -158,6 +164,10 @@
             // Navigate to the detail view, specifying the month query to
             // show, and the index of the individual item that was invoked
             this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
+        },
+
+        dispose: function () {
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.loadImages);
         }
     };
 
@@ -165,7 +175,7 @@
     // ----------
 
     WinJS.Namespace.define("Hilo.Hub", {
-        HubViewController: WinJS.Class.define(HubViewController, hubViewControllerMethods)
+        HubViewController: WinJS.Class.define(HubViewControllerConstructor, hubViewControllerMembers)
     });
 
 })();

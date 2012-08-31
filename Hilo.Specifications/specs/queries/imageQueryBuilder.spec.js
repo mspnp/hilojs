@@ -188,41 +188,4 @@ describe("image query builder", function () {
             }).done(null, done);
         });
     });
-
-    describe("when executing a query that monitors for content changes", function () {
-
-        var wasCalled = false;
-        var query;
-
-        beforeEach(function (done) {
-
-            function whenContentChanges() {
-                wasCalled = true;
-                return WinJS.Promise.as();
-            }
-
-            query = queryBuilder
-				.build(storageFolder);
-
-            // We take over the file query so that we can simulate
-            // the `contentchanged` event being raised
-            query.fileQuery = new Specs.EventStub();
-            query.fileQuery.getFilesAsync = function () {
-                return WinJS.Promise.as({});
-            };
-
-            query.execute(whenContentChanges)
-                .then(function () {
-                    // Once the query has executed, the we raise the event.
-                    query.fileQuery.dispatchEvent("contentschanged");
-                    // We need to wait just a bit in order to give the 
-                    // event throttling logic time to finish.
-                    setTimeout(done, 50);
-                });
-        });
-
-        it("should execute the callback when a `contentchanged` event is raised", function () {
-            expect(wasCalled).ok;
-        });
-    });
 });

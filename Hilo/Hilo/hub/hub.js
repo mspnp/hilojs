@@ -52,14 +52,14 @@
             this.listViewController = new Hilo.Hub.ListViewController(listViewEl, Windows.UI.ViewManagement.ApplicationView);
 
             // Coordinate the parts of the hub view
-            var hubViewController = new Hilo.Hub.HubViewController(
+            this.hubViewController = new Hilo.Hub.HubViewController(
                 WinJS.Navigation,
                 imageNav,
                 this.listViewController,
                 new Hilo.ImageQueryBuilder()
             );
 
-            hubViewController.start(knownFolders.picturesLibrary); 
+            this.hubViewController.start(knownFolders.picturesLibrary);
         },
 
         updateLayout: function (element, viewState, lastViewState) {
@@ -67,6 +67,7 @@
         },
 
         unload: function () {
+            this.hubViewController.dispose();
         }
     };
 
