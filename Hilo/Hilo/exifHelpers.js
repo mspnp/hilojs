@@ -23,6 +23,8 @@
 
     var exifHelperMethods = {
         rotateRectClockwise: function (rect, bitmapSize, degrees) {
+            degrees = 360 - degrees;
+
             var radians = (Math.PI / 180.0) * -degrees;
 
             var angleSin = Math.sin(radians);
@@ -67,11 +69,11 @@
         convertExifOrientationToDegreesRotation: function (exifOrientationFlag) {
             switch (exifOrientationFlag) {
                 case photoOrientation.rotate90:
-                    return 90;
+                    return 270;
                 case photoOrientation.rotate180:
                     return 180;
                 case photoOrientation.rotate270:
-                    return 270;
+                    return 90;
                 default:
                     // Ignore flip/mirroring values, and "normal"
                     return 0;
@@ -81,11 +83,11 @@
         convertDegreesRotationToExifOrientation: function (angle) {
             switch (angle) {
                 case 90:
-                    return photoOrientation.rotate90;
+                    return photoOrientation.rotate270;
                 case 180:
                     return photoOrientation.rotate180;
                 case 270:
-                    return photoOrientation.rotate270;
+                    return photoOrientation.rotate90;
                 default:
                     // Ignore flip/mirroring values, and 0degree rotation
                     return photoOrientation.normal;

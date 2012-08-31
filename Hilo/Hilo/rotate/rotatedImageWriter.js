@@ -35,43 +35,46 @@
 
         // Rotate an image to the specified degrees
 	    saveRotatedImage: function (sourceFile, destFile, degrees) {
-		    degrees = this.normalizeDegrees(degrees);
 
 			// Keep data in-scope across multiple asynchronous methods.
 		    var that = this,
-                originalWidth,
-				originalHeight,
+                originalRotation,
 				useEXIFOrientation;
 
-			var decodeProcessor = function (decoder) {
-
-			    originalHeight = decoder.pixelHeight;
-			    originalWidth = decoder.pixelWidth;
+		    var decodeProcessor = function (decoder) {
 
 			    // get the EXIF orientation (if it's supported)
-			    var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
-                    .then(function (retrievedProps) {
-                        useEXIFOrientation = true;
-                    }, function (error) {
-        			    // the file format does not support EXIF properties, continue without applying EXIF orientation.
-                        switch (error.number) {
-                            case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
-        			        case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
-        			            useEXIFOrientation = false;
-        			            break;
-        			        default:
-        			            throw error;
-        			    }
-        			});
+		        var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
+                .then(function (retrievedProps) {
+
+                    // EXIF found and usable
+                    useEXIFOrientation = true;
+                    var exifRotation = retrievedProps["System.Photo.Orientation"];
+                    originalRotation = Hilo.EXIFHelpers.convertExifOrientationToDegreesRotation(exifRotation.value);
+
+                }, function (error) {
+    			    // the file format does not support EXIF properties, continue without applying EXIF orientation.
+                    switch (error.number) {
+                        case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
+    			        case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
+    			            useEXIFOrientation = false;
+    			            originalRotation = 0;
+    			            break;
+    			        default:
+    			            throw error;
+    			    }
+    			});
 
 			    return decoderPromise;
 			};
 
 			var encodeProcessor = function (encoder) {
+			    var adjustedDegrees = that.normalizeDegrees(degrees + originalRotation);
+
 			    if (useEXIFOrientation) {
 			        // EXIF is supported, so update the orientation flag to reflect 
 			        // the user-specified rotation.
-			        var netExifOrientation = that.getEXIFRotation(degrees);
+			        var netExifOrientation = Hilo.EXIFHelpers.convertDegreesRotationToExifOrientation(adjustedDegrees);
 
 			        // BitmapProperties requires the application to explicitly declare the type
 			        // of the property to be written - this is different from FileProperties which
@@ -89,7 +92,7 @@
 			    } else {
 
 			        // EXIF is not supported, so rever to bitmap rotation
-			        var rotation = that.getBitmapRotation(degrees);
+			        var rotation = that.getBitmapRotation(adjustedDegrees);
 			        return encoder.bitmapTransform.rotation = rotation;
 
 			    }
@@ -101,24 +104,7 @@
 			});
 		},
 
-		// Converts a number of degrees in to a [PhotoOrientation][2] for
-		// files that support EXIF properties.
-		//
-		// [2]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.fileproperties.photoorientation.aspx
-		//
-		getEXIFRotation: function (degrees) {
-			var rotation; 
-
-			if (degrees === 0) {
-				rotation = Windows.Storage.FileProperties.PhotoOrientation.normal;
-			} else {
-				rotation = Windows.Storage.FileProperties.PhotoOrientation["rotate" + degrees];
-			}
-			
-			return rotation;
-		},
-
-		// Converts a number of degrees in to a [BitmapRotation][3] for
+        // Converts a number of degrees in to a [BitmapRotation][3] for
 		// files that do not support EXIF properties.
 		//
 		// [3]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.graphics.imaging.bitmaprotation.aspx
