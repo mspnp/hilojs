@@ -23,8 +23,6 @@
 
     var exifHelperMethods = {
         rotateRectClockwise: function (rect, bitmapSize, degrees) {
-            degrees = 360 - degrees;
-
             var radians = (Math.PI / 180.0) * -degrees;
 
             var angleSin = Math.sin(radians);
