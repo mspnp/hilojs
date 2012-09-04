@@ -28,6 +28,8 @@
 
             Hilo.controls.checkOptions(options);
 
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+
             this.queryBuilder = new Hilo.ImageQueryBuilder();
 
             // First, setup the various data adapters needed
@@ -46,6 +48,8 @@
         },
 
         unload: function () {
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+
         },
 
         // Private Methods

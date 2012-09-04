@@ -46,6 +46,7 @@
                 body.addEventListener("keypress", this._keypressHandler.bind(this));
                 body.addEventListener("mspointerup", this._mspointerupHandler.bind(this));
 
+                this.reload = this.reload.bind(this);
                 Hilo.navigator = this;
             }, {
                 /// <field domElement="true" />
@@ -142,6 +143,22 @@
                 // This is the root element of the current page.
                 pageElement: {
                     get: function () { return this.element.firstElementChild; }
+                },
+
+                reload: function () {
+                    var current = WinJS.Navigation;
+                    var args = {
+                        detail: {
+                            location: current.location,
+                            state: current.state,
+                            setPromise: function (promise) {
+                                this.promise = promise;
+                            }
+                        }
+                    };
+                    this._navigated(args);
+
+                    args.detail.promise.done();
                 }
             }
         )
