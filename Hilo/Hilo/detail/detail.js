@@ -18,6 +18,8 @@
 
             Hilo.controls.checkOptions(options);
 
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+
             // load the images from the specified query, and show them
             var query = options.query;
             var itemIndex = options.itemIndex;
@@ -51,7 +53,7 @@
         },
 
         unload: function () {
-            // TODO: unwire any events
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
         }
     };
 
