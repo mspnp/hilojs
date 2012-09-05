@@ -32,7 +32,7 @@
             var appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
 
             var imgEl = document.querySelector("#image");
-            var rotateController = new Hilo.Rotate.RotateController(imgEl, appBarPresenter, fileLoader, URL);
+            new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL);
         },
 
         unload: function () {

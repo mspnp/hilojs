@@ -7,11 +7,11 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("rotate controller", function () {
+﻿describe("Rotate Presenter", function () {
 
-	var rotateController, el, menuController, imageLoaderPromise, picture, urlBuilder;
+    var rotatePresenter, el, menuController, imageLoaderPromise, picture, urlBuilder;
 
-	beforeEach(function () {
+    beforeEach(function () {
 		el = new Specs.WinControlStub();
 		el.style = {};
 
@@ -29,7 +29,7 @@
 
 		menuController = new Specs.EventStub();
 
-		rotateController = new Hilo.Rotate.RotateController(el, menuController, imageLoaderPromise, urlBuilder);
+		rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuController, imageLoaderPromise, urlBuilder);
 	});
 
 	describe("when rotating an image", function () {
@@ -53,16 +53,6 @@
 
 		it("should reset the image rotation back to 0", function () {
 			expect(el.style.transform).equals("rotate(0deg)");
-		});
-	});
-
-	describe("when showing an image", function () {
-		beforeEach(function () {
-			rotateController.showImage("a url");
-		});
-
-		it("should set the image source", function () {
-			expect(el.src).equals("a url");
 		});
 	});
 

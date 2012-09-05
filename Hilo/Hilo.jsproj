@@ -103,7 +103,7 @@
     <Content Include="Hilo\rotate\rotate.css" />
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />
-    <Content Include="Hilo\rotate\rotateController.js" />
+    <Content Include="Hilo\rotate\rotatePresenter.js" />
     <Content Include="Hilo\rotate\rotatedImageWriter.js" />
     <Content Include="Hilo\Tiles\createTileFriendlyImages.js" />
     <Content Include="Hilo\Tiles\populateTemplate.js" />
