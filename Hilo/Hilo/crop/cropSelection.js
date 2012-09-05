@@ -17,7 +17,7 @@
         minWidth = 30;
 
     // CropSelection Constructor
-    // ----------------------
+    // -------------------------
 
     function CropSelectionConstructor() {
         this.addProp("startX", 0, this.adjustStartX.bind(this));
@@ -27,7 +27,7 @@
     }
 
     // CropSelection Members
-    // ------------------
+    // ---------------------
 
     var cropSelectionMembers = {
 
@@ -99,11 +99,10 @@
     };
 
     // CropSelection Definition
+    // ------------------------
+
     WinJS.Namespace.define("Hilo.Crop", {
-        CropSelection: WinJS.Class.mix(
-            WinJS.Class.define(CropSelectionConstructor, cropSelectionMembers),
-            WinJS.Utilities.eventMixin
-        )
+        CropSelection: WinJS.Class.mix(CropSelectionConstructor, cropSelectionMembers, WinJS.Utilities.eventMixin)
     });
 
 }());
