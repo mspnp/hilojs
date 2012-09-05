@@ -10,6 +10,9 @@
 ﻿(function () {
     "use strict";
 
+    // Page Control
+    // ------------
+
     var monthPageControlMembers = {
 
         // Imports
@@ -22,11 +25,6 @@
         // ----------
 
         ready: function (element, options) {
-
-            // I18N resource binding for this page
-            WinJS.Resources.processAll();
-
-            Hilo.controls.checkOptions(options);
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
@@ -103,7 +101,7 @@
         }
     };
 
-    var MonthPageControl = WinJS.UI.Pages.define("/Hilo/month/month.html", monthPageControlMembers);
+    var MonthPageControl = Hilo.controls.pages.define("month", monthPageControlMembers);
 
     WinJS.Namespace.define("Hilo.month", { pageControl: MonthPageControl });
 

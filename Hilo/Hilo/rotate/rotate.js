@@ -10,19 +10,12 @@
 ﻿(function () {
     "use strict";
 
-    //TODO: temporary implementation
-
-    var ui = WinJS.UI,
-        nav = WinJS.Navigation;
+    // Page Control
+    // ------------
 
     var page = {
 
         ready: function (element, options) {
-
-            // I18N resource binding for this page
-            WinJS.Resources.processAll();
-
-            Hilo.controls.checkOptions(options);
 
             var selectedIndex = options.itemIndex;
             var query = options.query;
@@ -36,10 +29,9 @@
         },
 
         unload: function () {
-            // TODO: unwire any events
         }
     };
 
-    WinJS.UI.Pages.define("/Hilo/rotate/rotate.html", page);
+    Hilo.controls.pages.define("rotate", page);
 
 }());

@@ -10,13 +10,12 @@
 (function () {
     "use strict";
 
+    // Page Control
+    // ------------
+
     var page = {
 
         ready: function (element, options) {
-            // I18N resource binding for this page
-            WinJS.Resources.processAll();
-
-            Hilo.controls.checkOptions(options);
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
@@ -57,6 +56,6 @@
         }
     };
 
-    WinJS.UI.Pages.define("/Hilo/detail/detail.html", page);
+    Hilo.controls.pages.define("detail", page);
 
 }());

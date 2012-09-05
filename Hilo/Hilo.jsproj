@@ -65,6 +65,7 @@
     <Content Include="Hilo\controls\ImageNav\ImageNav.css" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.html" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.js" />
+    <Content Include="Hilo\controls\pages.js" />
     <Content Include="Hilo\controls\pageControlHelper.js" />
     <Content Include="Hilo\crop\crop.css" />
     <Content Include="Hilo\crop\crop.html" />
