@@ -81,9 +81,9 @@
     <Content Include="Hilo\detail\detail.css" />
     <Content Include="Hilo\detail\detail.html" />
     <Content Include="Hilo\detail\detail.js" />
-    <Content Include="Hilo\detail\detailPageController.js" />
-    <Content Include="Hilo\detail\filmstripController.js" />
-    <Content Include="Hilo\detail\flipviewController.js" />
+    <Content Include="Hilo\detail\detailPresenter.js" />
+    <Content Include="Hilo\detail\filmstripPresenter.js" />
+    <Content Include="Hilo\detail\flipviewPresenter.js" />
     <Content Include="Hilo\exifHelpers.js" />
     <Content Include="Hilo\hub\hub.css" />
     <Content Include="Hilo\hub\hub.html" />

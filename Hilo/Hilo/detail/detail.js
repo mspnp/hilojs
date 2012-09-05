@@ -37,19 +37,19 @@
 
         showImages: function (query, images) {
             var filmstripEl = document.querySelector("#filmstrip");
-            var filmstrip = new Hilo.Detail.FilmstripController(filmstripEl, images);
+            var filmstrip = new Hilo.Detail.FilmstripPresenter(filmstripEl, images);
 
             var flipviewEl = document.querySelector("#flipview");
-            var flipview = new Hilo.Detail.FlipviewController(flipviewEl, images);
+            var flipview = new Hilo.Detail.FlipviewPresenter(flipviewEl, images);
 
             var imageNavEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation, query);
             imageNav.enableButtons();
 
-            var detailPageController = new Hilo.Detail.DetailPageController(flipview, filmstrip, imageNav);
-            detailPageController.run();
+            var detailPresenter = new Hilo.Detail.DetailPresenter(flipview, filmstrip, imageNav);
+            detailPresenter.run();
 
-            return detailPageController;
+            return detailPresenter;
         },
 
         unload: function () {
@@ -58,6 +58,5 @@
     };
 
     WinJS.UI.Pages.define("/Hilo/detail/detail.html", page);
-    return page;
 
 }());

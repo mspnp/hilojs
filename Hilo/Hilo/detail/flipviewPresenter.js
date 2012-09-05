@@ -10,16 +10,19 @@
 ﻿(function () {
     "use strict";
 
-    // Private Methods
-    // ---------------
+    // Flipview Presenter Constructor
+    // ------------------------------
 
-    function FlipviewController(el, images) {
+    function FlipviewPresenterConstructor(el, images) {
         this.el = el;
         this.winControl = el.winControl;
         this.bindImages(images);
     }
 
-    var flipviewController = {
+    // Flipview Presenter Members
+    // --------------------------
+
+    var flipviewPresenterMembers = {
         bindImages: function (images) {
             this.winControl.itemDataSource = new WinJS.Binding.List(images).dataSource;
         },
@@ -29,11 +32,11 @@
         }
     }
 
-    // Public API
-    // ----------
+    // Flipview Presenter Definition
+    // -----------------------------
 
     WinJS.Namespace.define("Hilo.Detail", {
-        FlipviewController: WinJS.Class.mix(FlipviewController, flipviewController, WinJS.Utilities.eventMixin)
+        FlipviewPresenter: WinJS.Class.mix(FlipviewPresenterConstructor, flipviewPresenterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

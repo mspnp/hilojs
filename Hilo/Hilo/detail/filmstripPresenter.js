@@ -10,20 +10,20 @@
 ﻿(function () {
     "use strict";
 
-    // Imports And Constants
-    // ---------------------
+    // Filmstrip Presenter Constructor
+    // -------------------------------
 
-    // Private Methods
-    // ---------------
-
-    function FilmstripController(el, images) {
+    function FilmstripPresenterConstructor(el, images) {
         this.el = el;
         this.winControl = el.winControl;
         this.setupControlHandlers();
         this.bindImages(images);
     }
 
-    var filmstripController = {
+    // Filmstrip Presenter Members
+    // ---------------------------
+
+    var filmstripPresenterMembers = {
         bindImages: function(images){
             this.winControl.itemDataSource = new WinJS.Binding.List(images).dataSource;
         },
@@ -44,11 +44,11 @@
         }
     }
 
-    // Public API
-    // ----------
+    // Filmstrip Presenter Definition
+    // ------------------------------
 
     WinJS.Namespace.define("Hilo.Detail", {
-        FilmstripController: WinJS.Class.mix(FilmstripController, filmstripController, WinJS.Utilities.eventMixin)
+        FilmstripPresenter: WinJS.Class.mix(FilmstripPresenterConstructor, filmstripPresenterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

@@ -10,16 +10,19 @@
 ﻿(function () {
     "use strict";
 
-    // Private Methods
-    // ---------------
+    // Detail Presenter Constructor
+    // ----------------------------
 
-    function DetailPageController(flipview, filmstrip, imageNav) {
+    function DetailPresenterConstructor(flipview, filmstrip, imageNav) {
         this.flipview = flipview;
         this.filmstrip = filmstrip;
         this.imageNav = imageNav;
     }
 
-    var detailPageController = {
+    // Detail Presenter Members
+    // ------------------------
+
+    var detailPresenterMembers = {
         run: function () {
             this.filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
         },
@@ -36,10 +39,10 @@
         }
     };
 
-    // Public API
-    // ----------
+    // Detail Presenter Definition
+    // ---------------------------
 
     WinJS.Namespace.define("Hilo.Detail", {
-        DetailPageController: WinJS.Class.mix(DetailPageController, detailPageController, WinJS.Utilities.eventMixin)
+        DetailPresenter: WinJS.Class.mix(DetailPresenterConstructor, detailPresenterMembers, WinJS.Utilities.eventMixin)
     });
 })();
