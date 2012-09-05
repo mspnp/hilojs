@@ -71,9 +71,23 @@
 
         // Event handler for selecting an image
         imageSelected: function (args) {
-            var itemIndex = this.getIndices();
-            var hasItemSelected = itemIndex.length > 0;
-            this.dispatchEvent("selectionChanged", {hasItemSelected: hasItemSelected });
+            var itemLoader, itemIndex, hasItemSelected;
+
+            itemIndex = this.getIndices();
+            hasItemSelected = itemIndex.length > 0;
+            if (hasItemSelected) {
+                itemLoader = this.getItems();
+            }
+
+            var that = this;
+            WinJS.Promise.as(itemLoader).then(function (items) {
+                var selectedItem = items[0];
+                that.dispatchEvent("selectionChanged", {
+                    hasItemSelected: hasItemSelected,
+                    itemIndex: selectedItem.index,
+                    item: selectedItem.data
+                });
+            });
         },
 
         // Event handler for "invoking" (clicking or tapping) an image
@@ -123,6 +137,11 @@
         // Get the indices of the selected items from the ListView
         getIndices: function () {
             return this.lv.selection.getIndices();
+        },
+
+        // Get the selected items
+        getItems: function () {
+            return this.lv.selection.getItems();
         }
     };
 

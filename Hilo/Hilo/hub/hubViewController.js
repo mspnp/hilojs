@@ -131,10 +131,16 @@
             if (args.detail.hasItemSelected) {
                 // If someone an image is selected, show the image nav
                 // app bar with the "crop" and "rotate" buttons
-                this.imageNav.setImageIndex(args.detail.itemIndex, true);
+                var itemIndex = args.detail.itemIndex;
+                this.imageNav.setImageIndex(itemIndex, true);
+                // build the query for the selected item
+                var picture = args.detail.item;
+                var query = this.buildQueryForPicture(picture);
+                this.imageNav.setQueryForSelection(query);
             } else {
                 // If no images are selected, hide the app bar
                 this.imageNav.clearImageIndex(true);
+                this.imageNav.clearQuery();
             }
 
         },
@@ -144,9 +150,20 @@
         // that it belongs to, based on the "ItemDate" of the picture.
         itemClicked: function (args) {
 
-            // get the `Hilo.Picture` item that was bound to the invoked image
+            // get the `Hilo.Picture` item that was bound to the invoked image,
+            // and the item index from the list view
             var picture = args.detail.item.data;
+            var itemIndex = args.detail.item.index;
 
+            // build the query that can find this picture within it's month group
+            var query = this.buildQueryForPicture(picture);
+
+            // Navigate to the detail view, specifying the month query to
+            // show, and the index of the individual item that was invoked
+            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
+        },
+
+        buildQueryForPicture: function(picture){
             // Build various parameters to determine the image
             // index and the month and year it was taken.
             // TODO: get the actual item index based on the query that is built
@@ -156,14 +173,10 @@
             var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
 
             // Build the query for the month and year of the invoked image
-            var query = this.queryBuilder
+            return this.queryBuilder
                 .bindable()
                 .forMonthAndYear(monthAndYear)
                 .build(knownFolders.picturesLibrary);
-
-            // Navigate to the detail view, specifying the month query to
-            // show, and the index of the individual item that was invoked
-            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
         },
 
         dispose: function () {

@@ -100,6 +100,14 @@
             }
         },
 
+        setQueryForSelection: function (query) {
+            this.query = query;
+        },
+
+        clearQuery: function () {
+            delete this.query;
+        },
+
         // Enable the buttons on the app bar. This method can be called when the
         // app bar is intended to always be shown on the screen, in order to always
         // enable the buttons. It would be preferable to use the `setImageIndex` 
