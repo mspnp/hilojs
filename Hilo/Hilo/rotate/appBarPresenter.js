@@ -9,17 +9,18 @@
 
 ﻿(function () {
     "use strict";
-    
+
     // Imports And Constants
     // ---------------------
+
     var rotateClockwiseInDegrees = 90,
         rotateCounterClockwiseInDegrees = -90,
         rotateDefaultInDegrees = 0;
 
-    // Menu Controller Constructor
-    // ---------------------------
+    // Appbar Presenter Constructor
+    // ----------------------------
 
-    function MenuController(el) {
+    function AppBarPresenter(el) {
         this.el = el;
         this.menu = el.winControl;
 
@@ -27,26 +28,21 @@
         this.menu.show();
     }
 
-    // Menu Controller Methods
-    // -----------------------
+    // Appbar Presenter Members
+    // ------------------------
 
-    var menuControllerMethods = {
+    var appBarPresenterMembers = {
+
+        // Set up all of the button click handlers and initially disable save / cancel
         setupButtons: function () {
-            this.clockwiseButton = this.el.querySelector("#clockwise").winControl;
-            this.clockwiseButton.addEventListener("click", this.rotateClockwise.bind(this));
-
-            this.counterClockwiseButton = this.el.querySelector("#counterClockwise").winControl;
-            this.counterClockwiseButton.addEventListener("click", this.rotateCounterClockwise.bind(this));
-
-            this.saveButton = this.el.querySelector("#save").winControl;
-            this.saveButton.addEventListener("click", this.saveChanges.bind(this));
-
-            this.cancelButton = this.el.querySelector("#cancel").winControl;
-            this.cancelButton.addEventListener("click", this.cancelChanges.bind(this));
-
+            this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise.bind(this));
+            this.counterClockwiseButton = this._addButton("#counterClockwise", this.rotateCounterClockwise.bind(this));
+            this.saveButton = this._addButton("#save", this.saveChanges.bind(this));
+            this.cancelButton = this._addButton("#cancel", this.cancelChanges.bind(this));
             this._disableButtons();
         },
 
+        // Rotate clockwise was clicked
         rotateClockwise: function (args) {
             this._enableButtons();
 
@@ -55,6 +51,7 @@
             });
         },
 
+        // Rotate counter-clockwise was clicked
         rotateCounterClockwise: function (args) {
             this._enableButtons();
 
@@ -63,33 +60,48 @@
             });
         },
 
+        // Save was clicked
         saveChanges: function () {
             this._disableButtons();
             this.dispatchEvent("save", {});
         },
 
+        // Cancel was clicked
         cancelChanges: function () {
             this._disableButtons();
             this.dispatchEvent("reset", {});
             this.dispatchEvent("cancel", {});
         },
 
+        // Internal method.
+        // Builds a reference to a button using the specified query selector, and attaches
+        // the clickHandler callback to the click event of the button.
+        _addButton: function (selector, clickHandler) {
+            var buttonEl = this.el.querySelector(selector).winControl;
+            buttonEl.addEventListener("click", clickHandler);
+            return buttonEl;
+        },
+
+        // Internal method.
+        // Enables the save and cancel buttons
         _enableButtons: function () {
             this.saveButton.disabled = false;
             this.cancelButton.disabled = false;
         },
 
+        // Internal method.
+        // Disables the save and cancel buttons
         _disableButtons: function () {
             this.saveButton.disabled = true;
             this.cancelButton.disabled = true;
         }
     };
 
-    // Public API
-    // ----------
+    // Appbar Presenter Definition
+    // ---------------------------
 
     WinJS.Namespace.define("Hilo.Rotate", {
-        MenuController: WinJS.Class.mix(MenuController, menuControllerMethods, WinJS.Utilities.eventMixin)
+        AppBarPresenter: WinJS.Class.mix(AppBarPresenter, appBarPresenterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

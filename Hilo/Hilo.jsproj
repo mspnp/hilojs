@@ -99,7 +99,7 @@
     <Content Include="Hilo\month\month.js" />
     <Content Include="Hilo\PageControlNavigator.js" />
     <Content Include="Hilo\Picture.js" />
-    <Content Include="Hilo\rotate\menuController.js" />
+    <Content Include="Hilo\rotate\appBarPresenter.js" />
     <Content Include="Hilo\rotate\rotate.css" />
     <Content Include="Hilo\rotate\rotate.html" />
     <Content Include="Hilo\rotate\rotate.js" />

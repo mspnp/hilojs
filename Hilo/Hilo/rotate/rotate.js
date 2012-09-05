@@ -29,10 +29,10 @@
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");
-            var menuController = new Hilo.Rotate.MenuController(menuEl);
+            var appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
 
             var imgEl = document.querySelector("#image");
-            var rotateController = new Hilo.Rotate.RotateController(imgEl, menuController, fileLoader, URL);
+            var rotateController = new Hilo.Rotate.RotateController(imgEl, appBarPresenter, fileLoader, URL);
         },
 
         unload: function () {

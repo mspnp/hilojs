@@ -155,8 +155,8 @@
     <Content Include="..\Hilo\Hilo\Picture.js">
       <Link>Hilo\Picture.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\rotate\menuController.js">
-      <Link>Hilo\rotate\menuController.js</Link>
+    <Content Include="..\Hilo\Hilo\rotate\appBarPresenter.js">
+      <Link>Hilo\rotate\appBarPresenter.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\rotate\rotate.css">
       <Link>Hilo\rotate\rotate.css</Link>
@@ -230,7 +230,7 @@
     <Content Include="specs\pageControl\pageControlHelper.spec.js" />
     <Content Include="specs\Picture\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />
-    <Content Include="specs\Rotate\menuController.spec.js" />
+    <Content Include="specs\Rotate\appBarPresenter.spec.js" />
     <Content Include="specs\Rotate\rotateController.spec.js" />
     <Content Include="specs\Helpers\MocksAndStubs.js" />
     <Content Include="specs\Helpers\shared.js" />

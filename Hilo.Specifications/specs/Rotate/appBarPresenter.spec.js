@@ -7,8 +7,8 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("rotate menu controller", function () {
-	var menuController, el, saveButton, cancelButton, clockwiseButton, counterClockwiseButton;
+﻿describe("Rotate Appbar Presenter", function () {
+	var appBarPresenter, el, saveButton, cancelButton, clockwiseButton, counterClockwiseButton;
 
 	beforeEach(function () {
 		saveButton = new Specs.WinControlStub();
@@ -29,7 +29,7 @@
 			if (selector === "#counterClockwise") { return counterClockwiseButton; }
 		};
 
-		menuController = new Hilo.Rotate.MenuController(el);
+		appBarPresenter = new Hilo.Rotate.AppBarPresenter(el);
 	});
 
 	describe("when the rotate menu is initialized", function () {
@@ -55,7 +55,7 @@
 				imageRotateHandler.args = args.detail;
 			};
 
-			menuController.addEventListener("rotate", imageRotateHandler);
+			appBarPresenter.addEventListener("rotate", imageRotateHandler);
 
 			clockwiseButton.dispatchEvent("click");
 		});
@@ -81,7 +81,7 @@
 				imageRotateHandler.args = args.detail;
 			};
 
-			menuController.addEventListener("rotate", imageRotateHandler);
+			appBarPresenter.addEventListener("rotate", imageRotateHandler);
 
 			counterClockwiseButton.dispatchEvent("click");
 		});
@@ -107,8 +107,8 @@
 				saveHandler.wasCalled = true;
 			}
 
-			menuController._enableButtons();
-			menuController.addEventListener("save", saveHandler);
+			appBarPresenter._enableButtons();
+			appBarPresenter.addEventListener("save", saveHandler);
 
 			saveButton.dispatchEvent("click");
 		});
@@ -138,9 +138,9 @@
 				imageResetHandler.wasCalled = true;
 			};
 
-			menuController._enableButtons();
-			menuController.addEventListener("reset", imageResetHandler);
-			menuController.addEventListener("cancel", cancelHandler);
+			appBarPresenter._enableButtons();
+			appBarPresenter.addEventListener("reset", imageResetHandler);
+			appBarPresenter.addEventListener("cancel", cancelHandler);
 
 			cancelButton.dispatchEvent("click");
 		});
