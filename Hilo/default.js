@@ -22,47 +22,54 @@
     // the following should always be set to true.
     WinJS.Binding.optimizeBindingReferences = true;
 
-    Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "en-US"
-    //Windows.Globalization.ApplicationLanguages.primaryLanguageOverride = "de-DE"
-
-    nav.addEventListener("navigated", function () {
-        WinJS.Resources.processAll();
-    });
-
     app.addEventListener("activated", function (args) {
 
-        if (args.detail.kind === activation.ActivationKind.launch) {
-            if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
+        var currentState = args.detail;
+
+        if (currentState.kind === activation.ActivationKind.launch) {
+
+            if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
 
                 // When the app is launched, we want to update its tile
                 // on the start screen
                 var tileUpdater = new Hilo.Tiles.TileUpdater();
                 tileUpdater.update();
 
+                // Begin listening for changes in the `picturesLibrary`,
+                // if files are added, deleted, or modified, then we'll
+                // want to update the current screen accordingly.
                 Hilo.contentChangedListener
-                    .listen(Windows.Storage.KnownFolders.picturesLibrary)
-                    .then(function (disposable) {
-                        //TODO: What would be best to do here?
-                        app._to_dispose = disposable;
-                    });
+                    .listen(Windows.Storage.KnownFolders.picturesLibrary);
 
             } else {
-                // TODO: This application has been reactivated from suspension.
+                // This application has been reactivated from suspension.
                 // Restore application state here.
             }
 
+            // If any history is found in the `sessionState`, we need to
+            // restore it for WinJS.
             if (app.sessionState.history) {
                 nav.history = app.sessionState.history;
             }
-            args.setPromise(WinJS.UI.processAll().then(function () {
 
-                if (nav.location) {
-                    nav.history.current.initialPlaceholder = true;
-                    return nav.navigate(nav.location, nav.state);
-                } else {
-                    return nav.navigate(Hilo.navigator.home);
-                }
-            }));
+            // After we process the UI (search the DOM for winControls),
+            // we'll navigate to the current page. These are async operations
+            // and they will return a promise.
+            var processAndNavigate = WinJS.UI
+                .processAll()
+                .then(function () {
+
+                    if (nav.location) {
+                        nav.history.current.initialPlaceholder = true;
+                        return nav.navigate(nav.location, nav.state);
+                    } else {
+                        return nav.navigate(Hilo.navigator.home);
+                    }
+                });
+
+            // Pass along the promise we just created so that WinJS will know 
+            // when our bootstrapping work has completed.
+            args.setPromise(processAndNavigate);
         }
     }, false);
 
