@@ -36,7 +36,6 @@
         // Set up all of the button click handlers and initially disable save / cancel
         setupButtons: function () {
             this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise.bind(this));
-            this.counterClockwiseButton = this._addButton("#counterClockwise", this.rotateCounterClockwise.bind(this));
             this.saveButton = this._addButton("#save", this.saveChanges.bind(this));
             this.cancelButton = this._addButton("#cancel", this.cancelChanges.bind(this));
             this._disableButtons();
@@ -51,15 +50,6 @@
             });
         },
 
-        // Rotate counter-clockwise was clicked
-        rotateCounterClockwise: function (args) {
-            this._enableButtons();
-
-            this.dispatchEvent("rotate", {
-                rotateDegrees: rotateCounterClockwiseInDegrees
-            });
-        },
-
         // Save was clicked
         saveChanges: function () {
             this._disableButtons();
@@ -69,7 +59,6 @@
         // Cancel was clicked
         cancelChanges: function () {
             this._disableButtons();
-            this.dispatchEvent("reset", {});
             this.dispatchEvent("cancel", {});
         },
 
@@ -86,14 +75,12 @@
         // Enables the save and cancel buttons
         _enableButtons: function () {
             this.saveButton.disabled = false;
-            this.cancelButton.disabled = false;
         },
 
         // Internal method.
         // Disables the save and cancel buttons
         _disableButtons: function () {
             this.saveButton.disabled = true;
-            this.cancelButton.disabled = true;
         }
     };
 

@@ -36,13 +36,6 @@
             this._rotateImage(rotateDegrees);
         },
 
-        // Reset was clicked on the app bar presenter.
-        // Set the current rotation to zero degrees and do the rotation.
-        resetImage: function () {
-            this.rotationDegrees = 0;
-            this._rotateImage();
-        },
-
         // Save was clicked from the appbar presenter. 
         // Call out to the rotate image writer to pick a destination file and save it.
 		saveImage: function () {
@@ -51,12 +44,16 @@
 		    rotateImageWriter.rotate(this.imageFile, this.rotationDegrees);
 		},
 
+		cancel: function() {
+		    WinJS.Navigation.back();
+		},
+
         // Internal method.
         // Bind to the appbar presenter's events, to handle the button clicks
         _bindToEvents: function () {
             this.appBarPresenter.addEventListener("rotate", this.rotateImage.bind(this));
-            this.appBarPresenter.addEventListener("reset", this.resetImage.bind(this));
             this.appBarPresenter.addEventListener("save", this.saveImage.bind(this));
+            this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
         },
 
         // Internal method.

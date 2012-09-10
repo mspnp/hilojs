@@ -38,8 +38,8 @@
 			expect(saveButton.disabled).true;
 		});
 
-		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).true;
+		it("should not disable the cancel button", function () {
+			expect(cancelButton.disabled).not.equal(true);
 		});
 
 		it("should show the app bar", function () {
@@ -67,36 +67,6 @@
 		it("should enable the save button", function () {
 			expect(saveButton.disabled).equals(false);
 		});
-
-		it("should enable the cancel button", function(){
-			expect(cancelButton.disabled).equals(false);
-		});
-	});
-
-	describe("when clicking rotate counter-clockwise", function () {
-		var imageRotateHandler;
-
-		beforeEach(function(){
-			imageRotateHandler = function (args) {
-				imageRotateHandler.args = args.detail;
-			};
-
-			appBarPresenter.addEventListener("rotate", imageRotateHandler);
-
-			counterClockwiseButton.dispatchEvent("click");
-		});
-
-		it("should trigger image rotation, -90 degrees", function () {
-			expect(imageRotateHandler.args.rotateDegrees).equals(-90);
-		});
-
-		it("should enable the save button", function () {
-			expect(saveButton.disabled).equals(false);
-		});
-
-		it("should enable the cancel button", function(){
-			expect(cancelButton.disabled).equals(false);
-		});
 	});
 
 	describe("when clicking save", function () {
@@ -121,25 +91,17 @@
 			expect(saveButton.disabled).true;
 		});
 
-		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).true;
-		});
 	});
 
 	describe("when clicking cancel", function () {
-		var cancelHandler, imageResetHandler;
+		var cancelHandler;
 
 		beforeEach(function () {
 			cancelHandler = function () {
 				cancelHandler.wasCalled = true;
 			}
 
-			imageResetHandler = function (args) {
-				imageResetHandler.wasCalled = true;
-			};
-
 			appBarPresenter._enableButtons();
-			appBarPresenter.addEventListener("reset", imageResetHandler);
 			appBarPresenter.addEventListener("cancel", cancelHandler);
 
 			cancelButton.dispatchEvent("click");
@@ -147,18 +109,6 @@
 
 		it("should trigger to cancel the image changes", function () {
 			expect(cancelHandler.wasCalled).true;
-		});
-
-		it("should reset the rotation back to the default", function () {
-			expect(imageResetHandler.wasCalled).true;
-		});
-
-		it("should disable the save button", function () {
-			expect(saveButton.disabled).true;
-		});
-
-		it("should disable the cancel button", function () {
-			expect(cancelButton.disabled).true;
 		});
 	});
 

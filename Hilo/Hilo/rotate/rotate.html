@@ -21,10 +21,6 @@
 <body>
     <div class="rotate fragment">
 
-        <div data-win-control="WinJS.UI.HtmlControl"
-            data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'rotate' }">
-        </div>
-
         <section aria-label="Main content" role="main">
             <div class="content-wrapper">
                 <img src="#" id="image" class="rotatable" />
@@ -35,22 +31,20 @@
             <button
                 id="clockwise"
                 data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'orientation', section: 'selection', label: 'Clockwise'}">
+                data-win-options="{icon:'rotate', section: 'selection'}"
+                data-win-res="{winControl: {label:'rotate'}}">
             </button>
-            <button
-                id="counterClockwise"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'orientation', section: 'selection', label: 'Counter-Clockwise'}">
-            </button>
-            <button
-                id="save"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'save', section: 'selection', label: 'Save'}">
-            </button>
+            
             <button
                 id="cancel"
                 data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'cancel', section: 'selection', label: 'Cancel'}">
+                data-win-options="{icon:'cancel', section: 'global', label: 'Cancel'}">
+            </button>
+
+            <button
+                id="save"
+                data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{icon:'save', section: 'global', label: 'Accept'}">
             </button>
         </div>
     </div>
