@@ -64,17 +64,14 @@
             }
         },
 
-        // Convert an EXIF rotation in to degrees.
-        //
-        // The [Windows.Storage.FileProperties.PhotoOrientation][1] enumeration is incorrect. It
-        // states an enumeration of "rotate90" as a value of "8", meaning a value
-        // of 8 should be 90 degrees clockwise rotation. This is incorrect. An
-        // EXIF value of 8 is 270 degrees clockwise, or 90 degree counter-clockwise.
-        // This code accounts for the mistake by translating the "rotate90" enumeration
-        // (with a value of 8) as 270 degrees clockwise. It also translates the 
-        // "rotate270" enumeration (with a value of 6) as 90 degrees of clockwise rotation.
-        // 
+        // The [Windows.Storage.FileProperties.PhotoOrientation][1] enumeration uses 
+        // counter-clockwise rotation, whereas the EXIF values are clockwise.
+        // The following two methods code converts back and forth between the two. The angle
+        // is calculated by simply subtracting from 360°. Hence, a 90° counter-clockwise rotation
+        // is the same as 270° clockwise rotation.
         // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.fileproperties.photoorientation.aspx
+
+        // Convert an EXIF rotation in to degrees.
         convertExifOrientationToDegreesRotation: function (exifOrientationFlag) {
             switch (exifOrientationFlag) {
                 case photoOrientation.rotate90:
@@ -90,16 +87,6 @@
         },
 
         // Convert a clockwise rotation in degrees, to an EXIF rotation enumeration
-        //
-        // The [Windows.Storage.FileProperties.PhotoOrientation][2] enumeration is incorrect. It
-        // states an enumeration of "rotate90" as a value of "8", meaning a value
-        // of 8 should be 90 degrees clockwise rotation. This is incorrect. An
-        // EXIF value of 8 is 270 degrees clockwise, or 90 degree counter-clockwise.
-        // This code accounts for the mistake by translating the "rotate90" enumeration
-        // (with a value of 8) as 270 degrees clockwise. It also translates the 
-        // "rotate270" enumeration (with a value of 6) as 90 degrees of clockwise rotation.
-        // 
-        // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.fileproperties.photoorientation.aspx
         convertDegreesRotationToExifOrientation: function (angle) {
             switch (angle) {
                 case 90:
