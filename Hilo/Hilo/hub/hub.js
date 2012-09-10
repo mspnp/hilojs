@@ -23,31 +23,31 @@
 
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(appBarEl, WinJS.Navigation);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
 
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector("#picturesLibrary");
-            this.listViewController = new Hilo.Hub.ListViewController(listViewEl, Windows.UI.ViewManagement.ApplicationView);
+            this.listViewPresenter = new Hilo.Hub.ListViewPresenter(listViewEl, Windows.UI.ViewManagement.ApplicationView);
 
             // Coordinate the parts of the hub view
-            this.hubViewController = new Hilo.Hub.HubViewController(
+            this.hubViewPresenter = new Hilo.Hub.HubViewPresenter(
                 WinJS.Navigation,
                 imageNav,
-                this.listViewController,
+                this.listViewPresenter,
                 new Hilo.ImageQueryBuilder()
             );
 
-            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.hubViewController.loadImages);
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
 
-            this.hubViewController.start(knownFolders.picturesLibrary);
+            this.hubViewPresenter.start(knownFolders.picturesLibrary);
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            this.listViewController.setViewState(viewState, lastViewState);
+            this.listViewPresenter.setViewState(viewState, lastViewState);
         },
 
         unload: function () {
-            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewController.loadImages);
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
         }
     };
 

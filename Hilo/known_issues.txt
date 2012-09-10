@@ -4,5 +4,4 @@
 August 24, 2012
 
 * Touch gestures are not working for the rotate page.
-* Crop functionality is incomplete.
 * The month group page shows an extra group when zoomed out to the year view when non-image files are present.

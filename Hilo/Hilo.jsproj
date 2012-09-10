@@ -61,7 +61,7 @@
     <Content Include="Hilo\controls\Header\Header.css" />
     <Content Include="Hilo\controls\Header\Header.html" />
     <Content Include="Hilo\controls\Header\Header.js" />
-    <Content Include="Hilo\controls\ImageNav\imageNavController.js" />
+    <Content Include="Hilo\controls\ImageNav\imageNavPresenter.js" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.css" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.html" />
     <Content Include="Hilo\controls\ImageNav\ImageNav.js" />
@@ -89,8 +89,8 @@
     <Content Include="Hilo\hub\hub.css" />
     <Content Include="Hilo\hub\hub.html" />
     <Content Include="Hilo\hub\hub.js" />
-    <Content Include="Hilo\hub\hubViewController.js" />
-    <Content Include="Hilo\hub\listViewController.js" />
+    <Content Include="Hilo\hub\hubViewPresenter.js" />
+    <Content Include="Hilo\hub\listViewPresenter.js" />
     <Content Include="Hilo\imageQueryBuilder.js" />
     <Content Include="Hilo\imageWriter.js" />
     <Content Include="Hilo\month\groups.js" />

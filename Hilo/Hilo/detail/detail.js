@@ -29,8 +29,8 @@
 
             query.execute()
                 .then(this.showImages.bind(this, query))
-                .then(function (controller) {
-                    controller.gotoImage(itemIndex);
+                .then(function (presenter) {
+                    presenter.gotoImage(itemIndex);
                 });
         },
 
@@ -42,7 +42,7 @@
             var flipview = new Hilo.Detail.FlipviewPresenter(flipviewEl, images);
 
             var imageNavEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavController(imageNavEl, WinJS.Navigation, query);
+            var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
             imageNav.enableButtons();
 
             var detailPresenter = new Hilo.Detail.DetailPresenter(flipview, filmstrip, imageNav);

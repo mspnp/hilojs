@@ -42,7 +42,7 @@ describe("Detail Presenter", function () {
             expect(flipviewPresenter.showImageAt.itemIndex).equals(1);
         });
 
-        it("should set the selected image for the image navigation controller", function () {
+        it("should set the selected image for the image navigation presenter", function () {
             expect(imageNav.setImageIndex.wasCalled).true;
             expect(imageNav.setImageIndex.itemIndex).equals(1);
         });

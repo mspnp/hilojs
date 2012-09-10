@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("listview controller", function () {
+﻿describe("listview presenter", function () {
     "use strict";
 
     describe("when snapped", function () {
@@ -19,8 +19,8 @@
             el = new Specs.WinControlStub();
             el.winControl.addEventListener = function () { };
 
-            var listviewController = new Hilo.Hub.ListViewController(el, appView);
-            listviewController.setViewState(Windows.UI.ViewManagement.ApplicationViewState.snapped);
+            var listviewPresenter = new Hilo.Hub.ListViewPresenter(el, appView);
+            listviewPresenter.setViewState(Windows.UI.ViewManagement.ApplicationViewState.snapped);
         });
 
         it("the ListView should use a ListLayout", function () {
@@ -37,8 +37,8 @@
         	var appView = {};
         	el = new Specs.WinControlStub();
 
-            var listviewController = new Hilo.Hub.ListViewController(el, appView);
-            listviewController.setViewState(Windows.UI.ViewManagement.ApplicationViewState.filled);
+            var listviewPresenter = new Hilo.Hub.ListViewPresenter(el, appView);
+            listviewPresenter.setViewState(Windows.UI.ViewManagement.ApplicationViewState.filled);
         });
 
         it("the ListView should use a GridLayout", function () {
