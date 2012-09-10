@@ -11,8 +11,7 @@
 	"use strict";
 
 	var activation = Windows.ApplicationModel.Activation,
-        app = WinJS.Application,
-        nav = WinJS.Navigation;
+        app = WinJS.Application;
 
 	function setupImages(exists) {
 		var promise;

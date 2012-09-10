@@ -53,22 +53,20 @@
             var startY = Math.min(yOrigin, yOther);
             var endX = Math.max(xOrigin, xOther);
             var endY = Math.max(yOrigin, yOther);
-            var height = endY - startY;
-            var width = endX - startX;
 
             return {
                 x: Math.round(startX),
                 y: Math.round(startY),
-                height: Math.round(height),
-                width: Math.round(width)
-            }
+                height: Math.round(endY - startY),
+                width: Math.round(endX - startX)
+            };
         },
 
         // The [Windows.Storage.FileProperties.PhotoOrientation][1] enumeration uses 
         // counter-clockwise rotation, whereas the EXIF values are clockwise.
-        // The following two methods code converts back and forth between the two. The angle
-        // is calculated by simply subtracting from 360°. Hence, a 90° counter-clockwise rotation
-        // is the same as 270° clockwise rotation.
+        // The following two methods code converts back and forth between the two.
+        // The angle is calculated by simply subtracting from 360°. Hence, a 90° 
+        // counter-clockwise rotation is the same as 270° clockwise rotation.
         // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.fileproperties.photoorientation.aspx
 
         // Convert an EXIF rotation in to degrees.

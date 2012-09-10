@@ -27,8 +27,9 @@
 
         var links = document.querySelectorAll("a");
         Array.prototype.forEach.call(links, function (a) {
-            var root = "ms-appx://" + a.host;
-            var url = a.href.replace(root, "");
+            var root = "ms-appx://" + a.host,
+                url = a.href.replace(root, "");
+
             a.href = "#";
             a.addEventListener("click", function (args) {
                 args.preventDefault();

@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Constructor Function
@@ -28,7 +28,7 @@
 
     // Methods
     // -------
-   
+
     var imageNavPresenterMethods = {
 
         // Find the "crop" and "rotate" buttons and set up click handlers on them
@@ -143,4 +143,5 @@
     WinJS.Namespace.define("Hilo.Controls.ImageNav", {
         ImageNavPresenter: WinJS.Class.mix(ImageNavPresenter, imageNavPresenterMethods, WinJS.Utilities.eventMixin)
     });
+
 })();

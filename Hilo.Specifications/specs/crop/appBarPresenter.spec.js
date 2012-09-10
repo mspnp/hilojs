@@ -1,4 +1,4 @@
-﻿describe("crop app bar presenter", function () {
+﻿describe("Crop Page Appbar Presenter", function () {
 
     var appBar, el, crop, save, reset;
 
@@ -11,26 +11,11 @@
         el.addQuerySelector("#crop", crop);
         el.addQuerySelector("#save", save);
         el.addQuerySelector("#reset", reset);
+        el.show = function () {
+            el.show.wasCalled = true;
+        };
 
         appBar = new Hilo.Crop.AppBarPresenter(el);
-    });
-
-    describe("when cropping", function () {
-        var handler;
-
-        beforeEach(function () {
-            handler = function () {
-                handler.wasCalled = true;
-            };
-
-            appBar.addEventListener("crop", handler);
-            
-            crop.dispatchEvent("click");
-        });
-
-        it("should dispatch a crop event", function () {
-            expect(handler.wasCalled).equals(true);
-        });
     });
 
     describe("when saving", function () {
@@ -59,7 +44,7 @@
                 handler.wasCalled = true;
             };
 
-            appBar.addEventListener("reset", handler);
+            appBar.addEventListener("cancel", handler);
             
             reset.dispatchEvent("click");
         });

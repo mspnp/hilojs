@@ -11,7 +11,7 @@
     "use strict";
 
     function checkOptions(options, deserialize) {
-        if (!options) return;
+        if (!options) { return; }
 
         deserialize = deserialize || Hilo.ImageQueryBuilder.deserialize;
 

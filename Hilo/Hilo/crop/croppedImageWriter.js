@@ -30,10 +30,10 @@
         // specified crop selection, saving it to the selected destination
         crop: function (sourceFile, cropSelection) {
             var that = this;
-            this.imageWriter.pickFile(sourceFile, "Cropped")
+            return this.imageWriter.pickFile(sourceFile, "Cropped")
                 .then(function (destFile) {
                     if (destFile) {
-                        that.saveCroppedImage(sourceFile, destFile, cropSelection);
+                        return that.saveCroppedImage(sourceFile, destFile, cropSelection);
                     }
                 });
 
@@ -43,7 +43,8 @@
         saveCroppedImage: function (sourceFile, destFile, cropSelection) {
 
             var that = this,
-                exifOrientation, imageSize;
+                exifOrientation,
+                imageSize;
 
             var decodeProcessor = function (decoder) {
                 // get the image size
@@ -51,15 +52,17 @@
                     width: decoder.pixelWidth,
                     height: decoder.pixelHeight
                 };
-                
+
                 // get the EXIF orientation (if it's supported)
-                var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
+                var decoderPromise = decoder.bitmapProperties
+                    .getPropertiesAsync(["System.Photo.Orientation"])
                     .then(function (retrievedProps) {
 
                         exifOrientation = retrievedProps["System.Photo.Orientation"];
 
                     }, function (error) {
-                        // the file format does not support EXIF properties, continue without applying EXIF orientation.
+                        // the file format does not support EXIF properties, continue 
+                        // without applying EXIF orientation.
                         switch (error.number) {
                             case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
                             case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
@@ -82,7 +85,7 @@
                 // result
                 var bounds = that.getRotatedBounds(exifOrientation, imageSize, cropSelection);
                 encoder.bitmapTransform.bounds = bounds;
-            }
+            };
 
             this.imageWriter.transFormAndSaveToDestination(sourceFile, destFile, {
                 decodeProcessor: decodeProcessor,
@@ -94,8 +97,7 @@
             var exifOrientationValue = exifOrientation.value,
                 height, width, degreesRotation;
 
-            if (exifOrientationValue == photoOrientation.rotate270 || exifOrientationValue == photoOrientation.rotate90)
-            {
+            if (exifOrientationValue == photoOrientation.rotate270 || exifOrientationValue == photoOrientation.rotate90) {
                 height = imageSize.width;
                 width = imageSize.height;
                 imageSize.width = width;

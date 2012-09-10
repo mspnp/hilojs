@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Much of this code and the comments found within it are borrowed from the 
@@ -28,10 +28,10 @@
 
             return hresult - 0xFFFFFFFF - 1;
         }
-    }
+    };
 
-	// Image Writer Constructor
-	// ------------------------
+    // Image Writer Constructor
+    // ------------------------
 
     function ImageWriterConstructor() { }
 
@@ -52,136 +52,135 @@
         // There is no codec or component that can handle the requested operation; for example, encoding.
         WINCODEC_ERR_COMPONENTNOTFOUND: Helpers.convertHResultToNumber(0x88982F50)
 
-    }
+    };
 
 
     // Image Writer Methods
     // --------------------
 
-	var imageWriterMethods = {
+    var imageWriterMethods = {
 
 
-	    // Open the filepicker, defaulting it to the currently
-	    // used source file, allowing another file name to be
-	    // selected if desired
-	    pickFile: function (sourceFile, fileNameSuffix) {
-	        var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+        // Open the filepicker, defaulting it to the currently
+        // used source file, allowing another file name to be
+        // selected if desired
+        pickFile: function (sourceFile, fileNameSuffix) {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
 
-	        // default to saving in the pictures library, with the original filename
-	        savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
-	        savePicker.suggestedFileName = sourceFile.displayName + "-" + fileNameSuffix + sourceFile.fileType;
+            // default to saving in the pictures library, with the original filename
+            savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
+            savePicker.suggestedFileName = sourceFile.displayName + "-" + fileNameSuffix + sourceFile.fileType;
 
-	        // Dropdown of file types the user can save the file as
-	        savePicker.fileTypeChoices.insert("BMP", [".bmp"]);
-	        savePicker.fileTypeChoices.insert("GIF", [".gif"]);
-	        savePicker.fileTypeChoices.insert("JPG", [".jpg", ".jpeg"]);
-	        savePicker.fileTypeChoices.insert("PNG", [".png"]);
-	        savePicker.fileTypeChoices.insert("TIFF", [".tiff"]);
+            // Dropdown of file types the user can save the file as
+            savePicker.fileTypeChoices.insert("BMP", [".bmp"]);
+            savePicker.fileTypeChoices.insert("GIF", [".gif"]);
+            savePicker.fileTypeChoices.insert("JPG", [".jpg", ".jpeg"]);
+            savePicker.fileTypeChoices.insert("PNG", [".png"]);
+            savePicker.fileTypeChoices.insert("TIFF", [".tiff"]);
 
-	        // run the picker and get the filename that the person chose
-	        return savePicker.pickSaveFileAsync();
-	    },
+            // run the picker and get the filename that the person chose
+            return savePicker.pickSaveFileAsync();
+        },
 
-	    // The core implementation of writing the source file to the destination file,
-	    // processing the decoder and encoder transformations provided by the caller.
-	    // 
-	    // The `sourceFile` and `destFile` are `StorageFile` objects
+        // The core implementation of writing the source file to the destination file,
+        // processing the decoder and encoder transformations provided by the caller.
+        // 
+        // The `sourceFile` and `destFile` are `StorageFile` objects
         //
-	    // The `options` parameter is an object literal that takes two named values:
-	    // * `decodeProcessor`: a function that recieves a `BitmapDecoder` object and performs any needed data extraction from the source image
-	    // * `encodeProcessor`: a function that recieves a `BitmapEncoder` object and performs any needed transforms to the destination image
-		transFormAndSaveToDestination: function (sourceFile, destFile, options) {
+        // The `options` parameter is an object literal that takes two named values:
+        // * `decodeProcessor`: a function that recieves a `BitmapDecoder` object and performs any needed data extraction from the source image
+        // * `encodeProcessor`: a function that recieves a `BitmapEncoder` object and performs any needed transforms to the destination image
+        transFormAndSaveToDestination: function (sourceFile, destFile, options) {
 
-	        // save the source to the destination
+            // save the source to the destination
 
-			// Keep data in-scope across multiple asynchronous methods.
-	        var originalWidth,
+            // Keep data in-scope across multiple asynchronous methods.
+            var originalWidth,
 				originalHeight,
 				encoder,
 				decoder,
 				sourceStream,
 	            destStream;
 
-			var that = this;
-			var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
+            var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
 
-			// Create a new encoder and initialize it with data from the original file.
-			// The encoder writes to an in-memory stream, we then copy the contents to the file.
-	        // This allows the application to perform in-place editing of the file: any unedited data
-	        // is copied directly to the destination, and the original file is overwritten
-			// with updated data.
-			sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
+            // Create a new encoder and initialize it with data from the original file.
+            // The encoder writes to an in-memory stream, we then copy the contents to the file.
+            // This allows the application to perform in-place editing of the file: any unedited data
+            // is copied directly to the destination, and the original file is overwritten
+            // with updated data.
+            sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
 
-				sourceStream = stream;
-				return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream);
+                sourceStream = stream;
+                return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream);
 
-			}).then(function (_decoder) {
-			    decoder = _decoder;
+            }).then(function (_decoder) {
+                decoder = _decoder;
 
-			    if (options.decodeProcessor) {
-			        // run any custom pre-processing from the decoder
-			        return options.decodeProcessor(decoder);
-			    }
-			}).then(function(){
+                if (options.decodeProcessor) {
+                    // run any custom pre-processing from the decoder
+                    return options.decodeProcessor(decoder);
+                }
+            }).then(function () {
 
-			    // Set the encoder's destination to the temporary, in-memory stream.
-			    return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+                // Set the encoder's destination to the temporary, in-memory stream.
+                return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
-			}).then(function (_encoder) {
-			    encoder = _encoder;
+            }).then(function (_encoder) {
+                encoder = _encoder;
 
-			    if (options.encodeProcessor) {
-			        // run any custom transform that needs to happen
-			        return options.encodeProcessor(encoder);
-			    }
-			}).then(function(){
+                if (options.encodeProcessor) {
+                    // run any custom transform that needs to happen
+                    return options.encodeProcessor(encoder);
+                }
+            }).then(function () {
 
-				// Attempt to generate a new thumbnail to reflect any rotation operation.
-			    encoder.isThumbnailGenerated = true;
+                // Attempt to generate a new thumbnail to reflect any rotation operation.
+                encoder.isThumbnailGenerated = true;
 
-			}).then(function () {
+            }).then(function () {
 
-				return encoder.flushAsync();
+                return encoder.flushAsync();
 
-			}).then(null, function (error) {
+            }).then(null, function (error) {
 
-				switch (error.number) {
-					// If the encoder does not support writing a thumbnail, then try again
-				    // but disable thumbnail generation.
-				    case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
-						encoder.isThumbnailGenerated = false;
-						return encoder.flushAsync();
-					default:
-						throw error;
-				}
+                switch (error.number) {
+                    // If the encoder does not support writing a thumbnail, then try again
+                    // but disable thumbnail generation.
+                    case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                        encoder.isThumbnailGenerated = false;
+                        return encoder.flushAsync();
+                    default:
+                        throw error;
+                }
 
-			}).then(function () {
-			    // open the destination stream
-			    return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite)
-			}).then(function (_destStream) {
-			    destStream = _destStream;
+            }).then(function () {
+                // open the destination stream
+                return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite);
+            }).then(function (_destStream) {
+                destStream = _destStream;
 
-			    // copy the contents of the memory stream to the destination
-				memStream.seek(0);
-				destStream.seek(0);
-				destStream.size = 0;
+                // copy the contents of the memory stream to the destination
+                memStream.seek(0);
+                destStream.seek(0);
+                destStream.size = 0;
 
-				return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, destStream);
-			}).done(function () {
+                return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, destStream);
+            }).done(function () {
 
-			    // Finally, close each stream to release any locks.
-				memStream && memStream.close();
-				sourceStream && sourceStream.close();
-				destStream && destStream.close();
+                // Finally, close each stream to release any locks.
+                if (memStream) { memStream.close(); }
+                if (sourceStream) { sourceStream.close(); }
+                if (destStream) { destStream.close(); }
 
-			});
-		}
+            });
+        }
     };
 
     // Image Writer Definition
     // -----------------------
 
-	WinJS.Namespace.define("Hilo", {
-	    ImageWriter: WinJS.Class.define(ImageWriterConstructor, imageWriterMethods, imageWriterTypeMembers)
-	});
+    WinJS.Namespace.define("Hilo", {
+        ImageWriter: WinJS.Class.define(ImageWriterConstructor, imageWriterMethods, imageWriterTypeMembers)
+    });
 })();

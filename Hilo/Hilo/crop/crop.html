@@ -4,25 +4,22 @@
     <meta charset="utf-8" />
     <title>crop</title>
 
-	<link href="crop.css" rel="stylesheet" />
+    <link href="crop.css" rel="stylesheet" />
 
-	<script src="/Hilo/imageWriter.js"></script>
-	<script src="/Hilo/exifHelpers.js"></script>
-	<script src="croppedImageWriter.js"></script>
-	<script src="cropSelection.js"></script>
-	<script src="cropSelectionView.js"></script>
-	<script src="cropSelectionCorner.js"></script>
-	<script src="cropSelectionController.js"></script>
-	<script src="pictureView.js"></script>
-	<script src="appBarPresenter.js"></script>
-	<script src="cropController.js"></script>
-	<script src="crop.js"></script>
+    <script src="/Hilo/imageWriter.js"></script>
+    <script src="/Hilo/exifHelpers.js"></script>
+    <script src="croppedImageWriter.js"></script>
+    <script src="cropSelection.js"></script>
+    <script src="cropSelectionView.js"></script>
+    <script src="cropSelectionCorner.js"></script>
+    <script src="cropSelectionController.js"></script>
+    <script src="pictureView.js"></script>
+    <script src="appBarPresenter.js"></script>
+    <script src="cropPresenter.js"></script>
+    <script src="crop.js"></script>
 </head>
 <body>
     <div class="crop fragment">
-        <div data-win-control="WinJS.UI.HtmlControl"
-            data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'crop' }">
-        </div>
 
         <section aria-label="Main content" role="main">
             <div class="content-wrapper">
@@ -43,19 +40,14 @@
 
         <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
             <button
-                id="crop"
-                data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'crop', section: 'selection', label: 'Crop'}">
-            </button>
-            <button
                 id="reset"
                 data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'undo', section: 'selection', label: 'Reset'}">
+                data-win-options="{icon:'cancel', section: 'global', label: 'Cancel'}">
             </button>
             <button
                 id="save"
                 data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{icon:'save', section: 'selection', label: 'Save'}">
+                data-win-options="{icon:'save', section: 'global', label: 'Accept'}">
             </button>
         </div>
     </div>

@@ -65,7 +65,7 @@
             return Math.min(min, max);
         },
 
-        adjustEndY: function(endY){
+        adjustEndY: function (endY) {
             var min = Math.max(endY, this.startY + minHeight);
             var max = Math.min(min, this.canvasSize.height);
             return Math.min(min, max);
@@ -94,7 +94,7 @@
                 endY: this.endY,
                 height: this.endY - this.startY,
                 width: this.endX - this.startX
-            }
+            };
         }
     };
 

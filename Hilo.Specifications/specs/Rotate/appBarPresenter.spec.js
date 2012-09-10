@@ -7,14 +7,13 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("Rotate Appbar Presenter", function () {
-	var appBarPresenter, el, saveButton, cancelButton, clockwiseButton, counterClockwiseButton;
+﻿describe("Rotate Page Appbar Presenter", function () {
+	var appBarPresenter, el, saveButton, cancelButton, clockwiseButton;
 
 	beforeEach(function () {
 		saveButton = new Specs.WinControlStub();
 		cancelButton = new Specs.WinControlStub();
 		clockwiseButton = new Specs.WinControlStub();
-		counterClockwiseButton = new Specs.WinControlStub();
 
 		el = new Specs.WinControlStub();
 
@@ -26,7 +25,6 @@
 			if (selector === "#save") { return saveButton; }
 			if (selector === "#cancel") { return cancelButton; }
 			if (selector === "#clockwise") { return clockwiseButton; }
-			if (selector === "#counterClockwise") { return counterClockwiseButton; }
 		};
 
 		appBarPresenter = new Hilo.Rotate.AppBarPresenter(el);

@@ -14,7 +14,6 @@
     // ---------------
 
     function raiseEvent() {
-        console.log("contents change: " + new Date());
         WinJS.Application.queueEvent({ type: "Hilo:ContentsChanged" });
         return WinJS.Promise.as();
     }

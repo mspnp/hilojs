@@ -9,7 +9,7 @@
 
 ﻿describe("Rotate Presenter", function () {
 
-    var rotatePresenter, el, menuController, imageLoaderPromise, picture, urlBuilder;
+    var rotatePresenter, el, menuPresenter, imageLoaderPromise, picture, urlBuilder;
 
     beforeEach(function () {
 		el = new Specs.WinControlStub();
@@ -27,15 +27,15 @@
 			done([picture]);
 		});
 
-		menuController = new Specs.EventStub();
+		menuPresenter = new Specs.EventStub();
 
-		rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuController, imageLoaderPromise, urlBuilder);
+		rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuPresenter, imageLoaderPromise, urlBuilder);
 	});
 
 	describe("when rotating an image", function () {
 
 		beforeEach(function () {
-			menuController.dispatchEvent("rotate", {
+			menuPresenter.dispatchEvent("rotate", {
 				rotateDegrees: 90
 			});
 		});

@@ -6,7 +6,10 @@
 
     function AppBarPresenterConstructor(el) {
         this.el = el;
+        this.menu = el.winControl;
+
         this.setupButtons();
+        this.menu.show();
     }
 
     // AppBar Presenter Members
@@ -14,19 +17,13 @@
 
     var appBarPresenterMembers = {
         setupButtons: function () {
-            this.addButtonHandler("#crop", this.cropClicked.bind(this));
             this.addButtonHandler("#save", this.saveClicked.bind(this));
-            this.addButtonHandler("#reset", this.resetClicked.bind(this));
+            this.addButtonHandler("#reset", this.cancelClicked.bind(this));
         },
 
-        addButtonHandler: function(selector, handler){
+        addButtonHandler: function (selector, handler) {
             var button = this.el.querySelector(selector);
             button.addEventListener("click", handler);
-        },
-
-        cropClicked: function (e) {
-            e.preventDefault();
-            this.dispatchEvent("crop", {});
         },
 
         saveClicked: function (e) {
@@ -34,9 +31,9 @@
             this.dispatchEvent("save", {});
         },
 
-        resetClicked: function (e) {
+        cancelClicked: function (e) {
             e.preventDefault();
-            this.dispatchEvent("reset", {});
+            this.dispatchEvent("cancel", {});
         }
     };
 
