@@ -37,6 +37,8 @@
                 new Hilo.ImageQueryBuilder()
             );
 
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.hubViewController.loadImages);
+
             this.hubViewController.start(knownFolders.picturesLibrary);
         },
 
@@ -45,7 +47,7 @@
         },
 
         unload: function () {
-            this.hubViewController.dispose();
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewController.loadImages);
         }
     };
 

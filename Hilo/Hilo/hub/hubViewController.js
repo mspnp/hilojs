@@ -79,8 +79,6 @@
                 .prefetchOptions(["System.ItemDate"])
                 .count(maxImageCount);
 
-            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.loadImages);
-
             // Retrieve and display the images
             return this.loadImages();
         },
@@ -173,14 +171,14 @@
             var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
 
             // Build the query for the month and year of the invoked image
-            return this.queryBuilder
+            var query = this.queryBuilder
                 .bindable()
                 .forMonthAndYear(monthAndYear)
                 .build(knownFolders.picturesLibrary);
-        },
 
-        dispose: function () {
-            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.loadImages);
+            query.expectedName = picture.name;
+
+            return query;
         }
     };
 
