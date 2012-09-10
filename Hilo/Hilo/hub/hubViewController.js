@@ -127,12 +127,15 @@
         selectionChanged: function (args) {
 
             if (args.detail.hasItemSelected) {
+
+                var picture = args.detail.item;
+                var indexInGroup = picture.groupIndex;
+
                 // If someone an image is selected, show the image nav
                 // app bar with the "crop" and "rotate" buttons
-                var itemIndex = args.detail.itemIndex;
-                this.imageNav.setImageIndex(itemIndex, true);
+                this.imageNav.setImageIndex(indexInGroup, true);
+
                 // build the query for the selected item
-                var picture = args.detail.item;
                 var query = this.buildQueryForPicture(picture);
                 this.imageNav.setQueryForSelection(query);
             } else {
@@ -151,14 +154,14 @@
             // get the `Hilo.Picture` item that was bound to the invoked image,
             // and the item index from the list view
             var picture = args.detail.item.data;
-            var itemIndex = args.detail.item.index;
+            var indexInGroup = picture.groupIndex;
 
             // build the query that can find this picture within it's month group
             var query = this.buildQueryForPicture(picture);
 
             // Navigate to the detail view, specifying the month query to
             // show, and the index of the individual item that was invoked
-            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: itemIndex, query: query });
+            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: indexInGroup, query: query });
         },
 
         buildQueryForPicture: function(picture){
