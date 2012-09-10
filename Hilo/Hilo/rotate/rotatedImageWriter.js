@@ -25,10 +25,10 @@
 	    // Pick a file to save the rotated version to, then save it
 	    rotate: function (sourceFile, degrees) {
 	        var that = this;
-	        this.imageWriter.pickFile(sourceFile, "Rotated")
+	        return this.imageWriter.pickFile(sourceFile, "Rotated")
                 .then(function (destFile) {
                     if (destFile) {
-                        that.saveRotatedImage(sourceFile, destFile, degrees);
+                        return that.saveRotatedImage(sourceFile, destFile, degrees);
                     }
                 });
 	    },

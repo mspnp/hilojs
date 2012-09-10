@@ -31,7 +31,9 @@ describe("hub view controller", function () {
 
             clearImageIndex: function () {
                 imageNav.clearImageIndex.wasCalled = true;
-            }
+            },
+            setQueryForSelection: function () { },
+            clearQuery: function () { }
         };
     });
 
@@ -110,7 +112,8 @@ describe("hub view controller", function () {
         describe("given nothing is selected, when selecting a picture", function () {
 
             beforeEach(function () {
-                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 1 });
+                var picture = { groupIndex: 0, itemDate: new Date() };
+                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 1, item: picture });
             });
 
             it("should set the image index and show the app bar", function () {
@@ -123,7 +126,8 @@ describe("hub view controller", function () {
         describe("when a picture is selected and deselecting it", function () {
 
             beforeEach(function () {
-                listView.dispatchEvent("selectionChanged", { hasItemSelected: true });
+                var picture = { groupIndex: 0, itemDate: new Date() };
+                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, item: picture });
                 listView.dispatchEvent("selectionChanged", { hasItemSelected: false });
             });
 
@@ -136,8 +140,9 @@ describe("hub view controller", function () {
         describe("when a picture is selected and selecting another", function () {
 
             beforeEach(function () {
-                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 0 });
-                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 1 });
+                var picture = { groupIndex: 0, itemDate: new Date() };
+                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 0, item: picture });
+                listView.dispatchEvent("selectionChanged", { hasItemSelected: true, itemIndex: 1, item: picture });
             });
 
             it("should reveal the appbar", function () {
@@ -153,8 +158,9 @@ describe("hub view controller", function () {
                 var item = {
                     data: {
                         itemDate: new Date("Jan 5 1973"),
-                        groupIndex: 99
-                    }
+                        groupIndex: 1
+                    },
+                    index: 99
                 };
                 listView.dispatchEvent("itemInvoked", { item: item });
             });

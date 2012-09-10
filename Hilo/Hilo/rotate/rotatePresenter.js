@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Rotate Presenter Constructor
@@ -38,15 +38,17 @@
 
         // Save was clicked from the appbar presenter. 
         // Call out to the rotate image writer to pick a destination file and save it.
-		saveImage: function () {
-		    var imageWriter = new Hilo.ImageWriter();
-		    var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
-		    rotateImageWriter.rotate(this.imageFile, this.rotationDegrees);
-		},
+        saveImage: function () {
+            var imageWriter = new Hilo.ImageWriter();
+            var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
+            rotateImageWriter
+                .rotate(this.imageFile, this.rotationDegrees)
+		        .then(function () { WinJS.Navigation.back(); });
+        },
 
-		cancel: function() {
-		    WinJS.Navigation.back();
-		},
+        cancel: function () {
+            WinJS.Navigation.back();
+        },
 
         // Internal method.
         // Bind to the appbar presenter's events, to handle the button clicks
@@ -83,7 +85,7 @@
             var rotation = "rotate(" + this.rotationDegrees + "deg)";
             this.el.style.transform = rotation;
         }
-	};
+    };
 
     // Rotate Presenter Definition
     // ---------------------------
