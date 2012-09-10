@@ -1,6 +1,146 @@
-﻿{
+﻿// For details on localizing a Windows app, see: http://go.microsoft.com/fwlink/?LinkId=212836
+
+{
     "appTitle": "Hilo",
     "myPicturesFolder": "Pictures",
     "crop": "Crop",
-    "rotate": "Rotate"
+    "rotate": "Rotate",
+	"CropImagePageTitle.Text": "Crop Picture",
+	"EmptyPicturesTitle": "It is lonely here without pictures",
+	"PicturesTitle": "Pictures",
+	"PicturesViewTitle.Text": "Pictures",
+	"RotateImagePageTitle.Text": "Rotate Picture"
+
+	"1": "Jan",
+	"10": "Oct",
+	"11": "Nov",
+	"12": "Dec",
+	"2": "Feb",
+	"3": "Mar",
+	"4": "Apr",
+	"5": "May",
+	"6": "Jun",
+	"7": "Jul",
+	"8": "Aug",
+	"9": "Sep",
+
+	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Accept",
+	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"AcceptCartoonizeAppBarButtonToolTip.Content":	"Accept cartoon effect",
+	"_AcceptCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"AcceptCropAppBarButtonToolTip.Content":	"Accept crop",
+	"_AcceptCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"AcceptRotateAppBarButtonToolTip.Content":	"Accept rotation",
+	"_AcceptRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"AppBar.FlowDirection":	"LeftToRight",
+	"_AppBar.FlowDirection.comment":	"Choose LeftToRight or RightToLeft, depending on your language.",
+
+	"AppName.Text":	"Hilo",
+	"_AppName.Text.comment":	"Page title on hub page.",
+
+	"BytesUnit":	"B",
+	"_BytesUnit.comment":	"Used by FileSizeConverter.",
+
+	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Cancel",
+	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"CancelCartoonizeAppBarButtonToolTip.Content":	"Cancel cartoon effect",
+	"_CancelCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"CancelCropAppBarButtonToolTip.Content":	"Cancel crop",
+	"_CancelCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"CancelRotateAppBarButtonToolTip.Content":	"Cancel rotation",
+	"_CancelRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Cartoon effect",
+	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"CartoonizeAppBarButtonToolTip.Content":	"Cartoon effect",
+	"_CartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"CartoonizeImagePageCoarsenessText.Text":	"Coarseness",
+	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
+
+	"CartoonizeImagePagePassesText.Text":	"Passes",
+	"_CartoonizeImagePagePassesText.Text.comment":	"Text below slider for cartoon effect UI.",
+
+	"CartoonizeImagePageTitle.Text":	"Cartoon effect",
+	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
+
+	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Crop",
+	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"CropAppBarButtonToolTip.Content":	"Crop picture",
+	"_CropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"CropImagePageTitle.Text":	"Crop picture",
+	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
+
+	"Description":	"A photo app using C++ and XAML",
+	"_Description.comment":	"Description field for the package manifest.",
+
+	"DisplayName":	"Hilo C++",
+	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
+
+	"DisplayNameProperty":	"Hilo",
+	"_DisplayNameProperty.comment":	"DisplayName property value for the package manifest.",
+
+	"EmptyPicturesTitle":	"The picture folder is empty.",
+	"_EmptyPicturesTitle.comment":	"Displayed on hub page when there are no photos in the users pictures library.",
+
+	"ErrorFailedToCreateInitialPage":	"Failed to create initial page",
+	"_ErrorFailedToCreateInitialPage.comment":	"Exception message.",
+
+	"ErrorWideTileTooBig":	"Wide tile can only take up to 5 images.",
+	"_ErrorWideTileTooBig.comment":	"Exception message.",
+
+	"KilobytesUnit":	"KB",
+	"_KilobytesUnit.comment":	"Used by FileSizeConverter.",
+
+	"MegabytesUnit":	"MB",
+	"_MegabytesUnit.comment":	"Used by FileSizeConverter.",
+
+	"Page.FlowDirection":	"LeftToRight",
+	"_Page.FlowDirection.comment":	"FlowDirection for each page.",
+
+	"PicturesTitle":	"Pictures",
+	"_PicturesTitle.comment":	"Page sub-title on hub page.",
+
+	"PicturesViewTitle.Text":	"Pictures",
+	"_PicturesViewTitle.Text.comment":	"Page title on image browser page.",
+
+	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Preview",
+	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"PreviewCartoonizeAppBarButtonToolTip.Content":	"Preview cartoon effect",
+	"_PreviewCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"PublisherDisplayNameProperty":	"Microsoft Corporation",
+	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
+
+	"ResumeCartoonizeAppBarButtonToolTip.Content":	"Resume cartoon effect",
+	"_ResumeCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"ResumeCropAppBarButtonToolTip.Content":	"Resume crop",
+	"_ResumeCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"ResumeRotateAppBarButtonToolTip.Content":	"Resume rotate",
+	"_ResumeRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Rotate",
+	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+
+	"RotateAppBarButtonToolTip.Content":	"Rotate picture",
+	"_RotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
+
+	"RotateImagePageTitle.Text":	"Rotate picture",
+	"_RotateImagePageTitle.Text.comment":	"Page title for snap view.",
+
+	"ShortName":	"Hilo C++",
+	"_ShortName.comment":	"ShortName property value in the package manifest. Appears as a tooltip on the Start screen. Also appears on the default wide and square tiles."
 }
