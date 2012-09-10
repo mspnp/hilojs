@@ -146,19 +146,21 @@
                 },
 
                 reload: function () {
-                    var current = WinJS.Navigation;
+                    var afterNavigationPromise = WinJS.Promise.as();
+
                     var args = {
                         detail: {
-                            location: current.location,
-                            state: current.state,
+                            location: WinJS.Navigation.location,
+                            state: WinJS.Navigation.state,
                             setPromise: function (promise) {
-                                this.promise = promise;
+                                afterNavigationPromise = promise;
                             }
                         }
                     };
+
                     this._navigated(args);
 
-                    args.detail.promise.done();
+                    afterNavigationPromise.done();
                 }
             }
         )
