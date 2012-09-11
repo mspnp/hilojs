@@ -4,15 +4,6 @@
 	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"承認",
 	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"AcceptCartoonizeAppBarButtonToolTip.Content":	"アニメーション効果を承認",
-	"_AcceptCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"AcceptCropAppBarButtonToolTip.Content":	"切り抜きの承認",
-	"_AcceptCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"AcceptRotateAppBarButtonToolTip.Content":	"回転の承認",
-	"_AcceptRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"AppBar.FlowDirection":	"LeftToRight",
 	"_AppBar.FlowDirection.comment":	"FlowDirection for every app bar.",
 
@@ -22,20 +13,8 @@
 	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"取り消し",
 	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"CancelCartoonizeAppBarButtonToolTip.Content":	"アニメーション効果の取り消し",
-	"_CancelCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"CancelCropAppBarButtonToolTip.Content":	"切り抜きの取り消し",
-	"_CancelCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"CancelRotateAppBarButtonToolTip.Content":	"回転の取り消し",
-	"_CancelRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"アニメーション効果",
 	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
-
-	"CartoonizeAppBarButtonToolTip.Content":	"アニメーション効果",
-	"_CartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
 
 	"CartoonizeImagePageCoarsenessText.Text":	"太さ",
 	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
@@ -49,16 +28,13 @@
 	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"切り抜き",
 	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"CropAppBarButtonToolTip.Content":	"図の切り抜き",
-	"_CropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"CropImagePageTitle.Text":	"図の切り抜き",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"Description":	"C++とXAMLを用いた写真アプリケーション",
+	"Description":	"JSとHTMLを用いた写真アプリケーション",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"ヒーロC++",
+	"DisplayName":	"ヒーロJS",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
 	"DisplayNameProperty":	"ヒーロ",
@@ -85,26 +61,11 @@
 	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"プレビュー",
 	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"PreviewCartoonizeAppBarButtonToolTip.Content":	"アニメーション効果のプレビュー",
-	"_PreviewCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"PublisherDisplayNameProperty":	"マイクロソフトコーポレーション",
 	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
 
-	"ResumeCartoonizeAppBarButtonToolTip.Content":	"アニメーション効果の再開",
-	"_ResumeCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"ResumeCropAppBarButtonToolTip.Content":	"切り抜きの再開",
-	"_ResumeCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"ResumeRotateAppBarButtonToolTip.Content":	"回転の再開",
-	"_ResumeRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"回転",
 	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
-
-	"RotateAppBarButtonToolTip.Content":	"写真の回転",
-	"_RotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
 
 	"RotateImagePageTitle.Text":	"写真の回転",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view."

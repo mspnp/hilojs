@@ -4,15 +4,6 @@
 	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"قبول",
 	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"AcceptCartoonizeAppBarButtonToolTip.Content":	"قبول تأثير الرسوم المتحركة",
-	"_AcceptCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"AcceptCropAppBarButtonToolTip.Content":	"قبول القص",
-	"_AcceptCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"AcceptRotateAppBarButtonToolTip.Content":	"قبول الاستدارة",
-	"_AcceptRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"AppBar.FlowDirection":	"RightToLeft",
 	"_AppBar.FlowDirection.comment":	"FlowDirection for every app bar. Set to the correct flow direction enum value for this language.",
 
@@ -22,20 +13,8 @@
 	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"إلغاء",
 	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"CancelCartoonizeAppBarButtonToolTip.Content":	"إلغاء تأثير الرسوم المتحركة",
-	"_CancelCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"CancelCropAppBarButtonToolTip.Content":	"إلغاء القص",
-	"_CancelCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"CancelRotateAppBarButtonToolTip.Content":	"إلغاء الاستدارة",
-	"_CancelRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"تأثير الرسوم المتحركة",
 	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
-
-	"CartoonizeAppBarButtonToolTip.Content":	"تأثير الرسوم المتحركة",
-	"_CartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
 
 	"CartoonizeImagePageCoarsenessText.Text":	"خشونة",
 	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
@@ -49,19 +28,16 @@
 	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"قص",
 	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"CropAppBarButtonToolTip.Content":	"قص الصورة",
-	"_CropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"CropImagePageTitle.Text":	"قص الصورة",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"Description":	"تطبيق للصور بإستخدام  c++ و xaml",
+	"Description":	"تطبيق للصور بإستخدام  js و html",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"Hilo C++",
+	"DisplayName":	"Hilo.js",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
-	"DisplayNameProperty":	"Hilo C++",
+	"DisplayNameProperty":	"Hilo.js",
 	"_DisplayNameProperty.comment":	"DisplayName property value for the package manifest.",
 
 	"EmptyPicturesTitle":	"مجلد صور فارغ.",
@@ -85,26 +61,11 @@
 	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"معاينة",
 	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
 
-	"PreviewCartoonizeAppBarButtonToolTip.Content":	"معاينة",
-	"_PreviewCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"PublisherDisplayNameProperty":	"Microsoft Corporation",
 	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
 
-	"ResumeCartoonizeAppBarButtonToolTip.Content":	"استئناف الرسوم المتحركة",
-	"_ResumeCartoonizeAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"ResumeCropAppBarButtonToolTip.Content":	"استئناف القص",
-	"_ResumeCropAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
-	"ResumeRotateAppBarButtonToolTip.Content":	"استئناف الاستدارة",
-	"_ResumeRotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
-
 	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"تدوير",
 	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
-
-	"RotateAppBarButtonToolTip.Content":	"تدوير الصورة",
-	"_RotateAppBarButtonToolTip.Content.comment":	"App bar button tooltip for snap/portrait view.",
 
 	"RotateImagePageTitle.Text":	"تدوير الصورة",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view."
