@@ -221,6 +221,7 @@
     <Content Include="specs\crop\cropSelectionController.spec.js" />
     <Content Include="specs\crop\cropSelectionCorner.spec.js" />
     <Content Include="specs\crop\cropSelectionView.spec.js" />
+    <Content Include="specs\crop\cropPresenter.spec.js" />
     <Content Include="specs\detail\detailPresenter.spec.js" />
     <Content Include="specs\detail\filmstripPresenter.spec.js" />
     <Content Include="specs\detail\flipviewPresenter.spec.js" />

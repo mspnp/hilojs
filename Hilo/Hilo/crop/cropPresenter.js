@@ -19,31 +19,60 @@
     // Constructor Function
     // --------------------
 
-    function CropPresenterConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter) {
+    function CropPresenterConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter, expectedFileName, navigation) {
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
         this.cropSelectionEl = cropSelectionEl;
         this.appBarEl = appBarEl;
         this.imageWriter = imageWriter;
+        this.expectedFileName = expectedFileName;
+        this.navigation = navigation || WinJS.Navigation;
+
+        // We'll bind the methods ahead of time, merely to improve readability
+        this.getPictureFromQueryResult = this.getPictureFromQueryResult.bind(this);
+        this.getImageUrl = this.getImageUrl.bind(this);
+        this.setupControllers = this.setupControllers.bind(this);
+        this.getImageProperties = this.getImageProperties.bind(this);
+        this.beginCrop = this.beginCrop.bind(this);
+        this.handleAppBarEvents = this.handleAppBarEvents.bind(this);
+        this.processPicture = this.processPicture.bind(this);
     }
 
     // Methods
     // -------
 
     var cropPresenterMembers = {
+
         start: function () {
-            this.imageQuery
-                .then(this.getPictureFromQueryResult.bind(this))
-                .then(this.getImageUrl.bind(this))
-                .then(this.setupControllers.bind(this))
-                .then(this.getImageProperties.bind(this))
-                .then(this.beginCrop.bind(this))
-                .then(this.handleAppBarEvents.bind(this));
+            var self = this;
+
+            return this.imageQuery
+                .then(this.getPictureFromQueryResult)
+                .then(function (storageFile) {
+                    // If the file retrieved by index does not match the name associated
+                    // with the query, we assume that it has been deleted (or modified)
+                    // and we send the user back to the hub screen.
+                    return (!storageFile || storageFile.name != self.expectedFileName)
+                        ? self.navigation.navigate("/Hilo/hub/hub.html")
+                        : self.processPicture(storageFile);
+                });
+        },
+
+        processPicture: function (storageFile) {
+            return WinJS.Promise.as(storageFile)
+                .then(this.getImageUrl)
+                .then(this.setupControllers)
+                .then(this.getImageProperties)
+                .then(this.beginCrop)
+                .then(this.handleAppBarEvents);
         },
 
         getPictureFromQueryResult: function (queryResult) {
-            this.picture = queryResult[0];
-            this.storageFile = this.picture.storageFile;
+
+            if (queryResult[0]) {
+                this.picture = queryResult[0];
+                this.storageFile = this.picture.storageFile;
+            }            
 
             // forwarding for the chained "then" calls
             return this.storageFile;

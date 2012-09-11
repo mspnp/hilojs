@@ -19,16 +19,17 @@
 
             var selectedIndex = options.itemIndex;
             var query = options.query;
+            var expectedName = query.expectedName;
             var fileLoader = query.execute(selectedIndex);
 
+            var menuEl = document.querySelector("#appbar");
             var canvasEl = document.querySelector("#cropSurface");
             var cropSelectionEl = document.querySelector("#cropSelection");
-            var menuEl = document.querySelector("#appbar");
 
             var imageWriter = new Hilo.ImageWriter();
             var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
 
-            var cropPresenter = new Hilo.Crop.CropPresenter(fileLoader, canvasEl, cropSelectionEl, menuEl, cropImageWriter);
+            var cropPresenter = new Hilo.Crop.CropPresenter(fileLoader, canvasEl, cropSelectionEl, menuEl, cropImageWriter, expectedName);
             cropPresenter.start();
         }
 

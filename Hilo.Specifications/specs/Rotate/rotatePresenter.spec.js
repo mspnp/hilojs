@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("Rotate Presenter", function () {
+describe("Rotate Page Presenter", function () {
 
     var rotatePresenter,
         el,
