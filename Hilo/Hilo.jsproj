@@ -121,7 +121,6 @@
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="i18n\ar-SA\resources.resjson" />
     <PRIResource Include="i18n\de-DE\resources.resjson" />
     <PRIResource Include="i18n\en-US\resources.resjson" />
     <PRIResource Include="i18n\ja-JP\resources.resjson" />
