@@ -9,7 +9,7 @@
 	"EmptyPicturesTitle": "It is lonely here without pictures",
 	"PicturesTitle": "Pictures",
 	"PicturesViewTitle.Text": "Pictures",
-	"RotateImagePageTitle.Text": "Rotate Picture"
+	"RotateImagePageTitle.Text": "Rotate Picture",
 
 	"1": "Jan",
 	"10": "Oct",
@@ -81,10 +81,10 @@
 	"CropImagePageTitle.Text":	"Crop picture",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"Description":	"A photo app using C++ and XAML",
+	"Description":	"A photo app using JavaScript, WinJS/WinRT, HTML and CSS",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"Hilo C++",
+	"DisplayName":	"Hilo.js",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
 	"DisplayNameProperty":	"Hilo",
@@ -141,6 +141,6 @@
 	"RotateImagePageTitle.Text":	"Rotate picture",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"ShortName":	"Hilo C++",
+	"ShortName":	"Hilo.js",
 	"_ShortName.comment":	"ShortName property value in the package manifest. Appears as a tooltip on the Start screen. Also appears on the default wide and square tiles."
 }
