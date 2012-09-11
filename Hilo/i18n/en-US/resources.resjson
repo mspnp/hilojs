@@ -1,15 +1,6 @@
 ﻿// For details on localizing a Windows app, see: http://go.microsoft.com/fwlink/?LinkId=212836
 
 {
-    "myPicturesFolder": "Pictures",
-    "crop": "Crop",
-    "rotate": "Rotate",
-	"CropImagePageTitle.Text": "Crop Picture",
-	"EmptyPicturesTitle": "It is lonely here without pictures",
-	"PicturesTitle": "Pictures",
-	"PicturesViewTitle.Text": "Pictures",
-	"RotateImagePageTitle.Text": "Rotate Picture",
-
 	"1": "Jan",
 	"10": "Oct",
 	"11": "Nov",
@@ -23,8 +14,8 @@
 	"8": "Aug",
 	"9": "Sep",
 
-	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Accept",
-	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"AcceptAppBarButton.Name":	"Accept",
+	"_AcceptAppBarButton.Name.comment":	"App bar button text.",
 
 	"AppBar.FlowDirection":	"LeftToRight",
 	"_AppBar.FlowDirection.comment":	"Choose LeftToRight or RightToLeft, depending on your language.",
@@ -35,11 +26,11 @@
 	"BytesUnit":	"B",
 	"_BytesUnit.comment":	"Used by FileSizeConverter.",
 
-	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Cancel",
-	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CancelAppBarButton.Name":	"Cancel",
+	"_CancelAppBarButton.Name.comment":	"App bar button text.",
 
-	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Cartoon effect",
-	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CartoonizeAppBarButton.Name":	"Cartoon effect",
+	"_CartoonizeAppBarButton.Name.comment":	"App bar button text.",
 
 	"CartoonizeImagePageCoarsenessText.Text":	"Coarseness",
 	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
@@ -50,8 +41,8 @@
 	"CartoonizeImagePageTitle.Text":	"Cartoon effect",
 	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Crop",
-	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CropAppBarButton.Name":	"Crop",
+	"_CropAppBarButton.Name.comment":	"App bar button text.",
 
 	"CropImagePageTitle.Text":	"Crop picture",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
@@ -89,14 +80,14 @@
 	"PicturesViewTitle.Text":	"Pictures",
 	"_PicturesViewTitle.Text.comment":	"Page title on image browser page.",
 
-	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Preview",
-	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"PreviewAppBarButton.Name":	"Preview",
+	"_PreviewAppBarButton.Name.comment":	"App bar button text.",
 
 	"PublisherDisplayNameProperty":	"Microsoft Corporation",
 	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
 
-	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Rotate",
-	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"RotateAppBarButton.Name":	"Rotate",
+	"_RotateAppBarButton.Name.comment":	"App bar button text.",
 
 	"RotateImagePageTitle.Text":	"Rotate picture",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view.",

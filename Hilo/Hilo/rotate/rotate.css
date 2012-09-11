@@ -8,10 +8,6 @@
     transition-delay: 0s;
 }
 
-#clockwise .win-commandicon {
-    transform: rotateY(180deg)
-}
-
 .content-wrapper {
     width: 100%;
     height: 100%;
