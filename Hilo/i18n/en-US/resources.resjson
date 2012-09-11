@@ -1,19 +1,6 @@
 ﻿// For details on localizing a Windows app, see: http://go.microsoft.com/fwlink/?LinkId=212836
 
 {
-	"1": "Jan",
-	"10": "Oct",
-	"11": "Nov",
-	"12": "Dec",
-	"2": "Feb",
-	"3": "Mar",
-	"4": "Apr",
-	"5": "May",
-	"6": "Jun",
-	"7": "Jul",
-	"8": "Aug",
-	"9": "Sep",
-
 	"AcceptAppBarButton.Name":	"Accept",
 	"_AcceptAppBarButton.Name.comment":	"App bar button text.",
 

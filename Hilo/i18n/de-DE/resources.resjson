@@ -6,8 +6,8 @@
     "crop": "Zuschneiden",
     "rotate": "Rotieren",
 
-	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"annehmen",
-	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"AcceptAppBarButton.Name":	"annehmen",
+	"_AcceptAppBarButton.Name.comment":	"App bar button text.",
 
 	"AppBar.FlowDirection":	"LeftToRight",
 	"_AppBar.FlowDirection.comment":	"FlowDirection for every app bar.",
@@ -15,11 +15,11 @@
 	"AppName.Text":	"Hilo.js",
 	"_AppName.Text.comment":	"Page title on hub page.",
 
-	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Storniere",
-	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CancelAppBarButton.Name":	"Storniere",
+	"_CancelAppBarButton.Name.comment":	"App bar button text.",
 
-	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Bildeffekt",
-	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CartoonizeAppBarButton.Name":	"Bildeffekt",
+	"_CartoonizeAppBarButton.Name.comment":	"App bar button text.",
 
 	"CartoonizeImagePageCoarsenessText.Text":	"Bildeffekt",
 	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
@@ -30,8 +30,8 @@
 	"CartoonizeImagePageTitle.Text":	"Bildeffekt",
 	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Vergrӧβerung",
-	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CropAppBarButton.Name":	"Vergrӧβerung",
+	"_CropAppBarButton.Name.comment":	"App bar button text.",
 
 	"CropImagePageTitle.Text":	"Vergrӧβerung",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
@@ -63,14 +63,14 @@
 	"PicturesViewTitle.Text":	"Bilder",
 	"_PicturesViewTitle.Text.comment":	"Page title on image browser page.",
 
-	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Vorschau",
-	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"PreviewAppBarButton.Name":	"Vorschau",
+	"_PreviewAppBarButton.Name.comment":	"App bar button text.",
 
 	"PublisherDisplayNameProperty":	"Microsoft Corporation",
 	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
 
-	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"Drehung",
-	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"RotateAppBarButton.Name":	"Drehung",
+	"_RotateAppBarButton.Name.comment":	"App bar button text.",
 
 	"RotateImagePageTitle.Text":	"Bild drehen",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view."

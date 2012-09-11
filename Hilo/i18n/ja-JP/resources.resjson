@@ -1,8 +1,8 @@
 ﻿// For details on localizing a Windows app, see: http://go.microsoft.com/fwlink/?LinkId=212836
 
 {
-	"AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"承認",
-	"_AcceptAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"AcceptAppBarButton.Name":	"承認",
+	"_AcceptAppBarButton.Name.comment":	"App bar button text.",
 
 	"AppBar.FlowDirection":	"LeftToRight",
 	"_AppBar.FlowDirection.comment":	"FlowDirection for every app bar.",
@@ -10,11 +10,11 @@
 	"AppName.Text":	"ヒーロ",
 	"_AppName.Text.comment":	"Page title on hub page.",
 
-	"CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"取り消し",
-	"_CancelAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CancelAppBarButton.Name":	"取り消し",
+	"_CancelAppBarButton.Name.comment":	"App bar button text.",
 
-	"CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"アニメーション効果",
-	"_CartoonizeAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CartoonizeAppBarButton.Name":	"アニメーション効果",
+	"_CartoonizeAppBarButton.Name.comment":	"App bar button text.",
 
 	"CartoonizeImagePageCoarsenessText.Text":	"太さ",
 	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
@@ -25,8 +25,8 @@
 	"CartoonizeImagePageTitle.Text":	"アニメーション効果",
 	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"切り抜き",
-	"_CropAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"CropAppBarButton.Name":	"切り抜き",
+	"_CropAppBarButton.Name.comment":	"App bar button text.",
 
 	"CropImagePageTitle.Text":	"図の切り抜き",
 	"_CropImagePageTitle.Text.comment":	"Page title for snap view.",
@@ -58,14 +58,14 @@
 	"PicturesViewTitle.Text":	"写真",
 	"_PicturesViewTitle.Text.comment":	"Page title on image browser page.",
 
-	"PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"プレビュー",
-	"_PreviewAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"PreviewAppBarButton.Name":	"プレビュー",
+	"_PreviewAppBarButton.Name.comment":	"App bar button text.",
 
 	"PublisherDisplayNameProperty":	"マイクロソフトコーポレーション",
 	"_PublisherDisplayNameProperty.comment":	"PublisherDisplayName property value for the package manifest.",
 
-	"RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name":	"回転",
-	"_RotateAppBarButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name.comment":	"App bar button text.",
+	"RotateAppBarButton.Name":	"回転",
+	"_RotateAppBarButton.Name.comment":	"App bar button text.",
 
 	"RotateImagePageTitle.Text":	"写真の回転",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view."
