@@ -46,11 +46,13 @@
     // Private Methods
     // ---------------
 
+    // <SnippetHilojs_1002>
     // The constructor function for `TileUpdater`
     var TileUpdater = function () {
         this.tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
         this.tileUpdater.enableNotificationQueue(true);
     };
+    // </SnippetHilojs_1002>
 
     // The members for `TileUpdater`.
     var tileUpdaterMethods = {
@@ -60,13 +62,16 @@
             });
         },
 
+        // <SnippetHilojs_1003>
         queueTileUpdates: function (notifications) {
             var that = this;
             notifications.forEach(function (notification) {
                 that.tileUpdater.update(notification);
             });
         },
+        // </SnippetHilojs_1003>
 
+        // <SnippetHilojs_1001>
         update: function () {
             // Bind the function to a context, so that `this` will be resolved
             // when it is invoked in the promise.
@@ -87,6 +92,7 @@
                 .then(Hilo.Tiles.createTileUpdates)
                 .then(queueTileUpdates);
         }
+        // </SnippetHilojs_1001>
     }
 
     // Public API

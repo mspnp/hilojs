@@ -31,6 +31,7 @@
         return wideTile;
     }
 
+    // <SnippetHilojs_1006>
     function buildTileNotification(thumbnailPaths) {
         // The square tile will just display the first image used for wide tile.
         var squareTileFile = thumbnailPaths[0];
@@ -43,6 +44,7 @@
 
         return notification;
     }
+    // </SnippetHilojs_1006>
 
     function fisherYatesShuffle(set) {
         // http://en.wikipedia.org/wiki/Fisher-Yates_shuffle

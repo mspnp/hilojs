@@ -23,6 +23,7 @@
     // Private Methods
     // ---------------
 
+    // <SnippetHilojs_1005>
     function writeThumbnailToFile(sourceFile, targetFile) {
         var whenFileIsOpen = targetFile.openAsync(fileAccessMode.readWrite);
         var whenThumbailIsReady = sourceFile.getThumbnailAsync(thumbnailMode.singleItem);
@@ -46,6 +47,7 @@
             outputStream.close();
         });
     }
+    // </SnippetHilojs_1005>
 
     function copyFilesToFolder(sourceFiles, targetFolder) {
 
@@ -70,6 +72,7 @@
         });
     }
 
+    // <SnippetHilojs_1004>
     function createTileFriendlyImages(files) {
         var localFolder = applicationData.current.localFolder;
 
@@ -100,6 +103,7 @@
             .then(copyThumbnailsToFolder)
             .then(returnFileNames);
     }
+    // </SnippetHilojs_1004>
 
     // Public API
     // ----------
