@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Page Control
@@ -19,13 +19,15 @@
 
             var selectedIndex = options.itemIndex;
             var query = options.query;
+            var expectedName = query.expectedName;
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");
             var appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
 
             var imgEl = document.querySelector("#image");
-            new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL);
+            var presenter = new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL, expectedName);
+            presenter.start();
         },
 
         unload: function () {

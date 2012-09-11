@@ -13,21 +13,28 @@
     // Rotate Presenter Constructor
     // ----------------------------
 
-    function RotatePresenter(el, appBarPresenter, fileLoader, urlBuilder) {
+    function RotatePresenter(el, appBarPresenter, fileLoader, urlBuilder, expectedFileName, navigation) {
+
         this.el = el;
         this.appBarPresenter = appBarPresenter;
-        this.rotationDegrees = 0;
+        this.fileLoader = fileLoader;
         this.urlBuilder = urlBuilder;
+        this.expectedFileName = expectedFileName;
+        this.navigation = navigation || WinJS.Navigation;
 
-        this._bindToEvents();
-
-        fileLoader.then(this._loadAndShowImage.bind(this));
+        this.rotationDegrees = 0;
     }
 
     // Rotate Presenter Members
     // ------------------------
 
     var rotatePresenterMembers = {
+
+        start: function () {
+            this._bindToEvents();
+            return this.fileLoader.then(this._loadAndShowImage.bind(this));
+        },
+
         // A rotation button was clicked on the app bar presenter.
         // Take the rotation degrees specified and add it to the current
         // image rotation. 
@@ -39,15 +46,17 @@
         // Save was clicked from the appbar presenter. 
         // Call out to the rotate image writer to pick a destination file and save it.
         saveImage: function () {
+            var self = this;
             var imageWriter = new Hilo.ImageWriter();
             var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
+
             rotateImageWriter
                 .rotate(this.imageFile, this.rotationDegrees)
-		        .then(function () { WinJS.Navigation.back(); });
+		        .then(function () { self.navigation.back(); });
         },
 
         cancel: function () {
-            WinJS.Navigation.back();
+            this.navigation.back();
         },
 
         // Internal method.
@@ -64,8 +73,12 @@
             var storageFile = queryResult[0].storageFile;
             this.imageFile = storageFile;
 
-            var url = this.urlBuilder.createObjectURL(storageFile);
-            this.el.src = url;
+            if (storageFile.name != this.expectedFileName) {
+                this.navigation.navigate("/Hilo/hub/hub.html");
+            } else {
+                var url = this.urlBuilder.createObjectURL(storageFile);
+                this.el.src = url;
+            }
         },
 
         // Internal method

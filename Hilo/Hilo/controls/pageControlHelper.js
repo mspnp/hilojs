@@ -16,7 +16,18 @@
         deserialize = deserialize || Hilo.ImageQueryBuilder.deserialize;
 
         if (options.query && !options.query.execute) {
-            options.query = deserialize(options.query);
+            var original = options.query;
+            var query = deserialize(original);
+
+            // Copy any properties that were not produced 
+            // from the deserialization.
+            Object.keys(original).forEach(function (property) {
+                if (!query[property]) {
+                    query[property] = original[property];
+                }
+            });
+
+            options.query = query;
         }
     }
 
