@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Page Control
@@ -29,6 +29,9 @@
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
             this.queryBuilder = new Hilo.ImageQueryBuilder();
+
+            var appBarEl = document.querySelector("#appbar");
+            this.imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
 
             // First, setup the various data adapters needed
             this.monthGroups = new Hilo.month.Groups(this.queryBuilder, this.targetFolder, this.getMonthYearFrom);
@@ -73,6 +76,9 @@
             listview.groupDataSource = groups;
             listview.itemDataSource = members;
             listview.addEventListener("iteminvoked", this._imageInvoked.bind(this));
+            listview.addEventListener("selectionchanged", this._selectionChanged.bind(this));
+
+            this.monthListView = listview;
         },
 
         _determineIndexInGroup: function (absoluteItemIndex, groupKey) {
@@ -80,24 +86,53 @@
             return absoluteItemIndex - firstIndex;
         },
 
+        _buildQueryForPicture: function (item) {
+
+            var picture = item.data;
+            var monthYear = this.getMonthYearFrom(picture.itemDate);
+
+            // Build a query to represent the month/year group that was selected
+            var query = this.queryBuilder
+                .bindable()                     // ensure the images are data-bind-able
+                .forMonthAndYear(monthYear)     // only load images for the month and year group we selected
+                .build(this.targetFolder);
+
+            var groupIndex = this._determineIndexInGroup(item.index, monthYear);
+
+            return {
+                query: query,
+                itemIndex: groupIndex,
+                itemName: picture.name
+            };
+        },
+
         _imageInvoked: function (args) {
             var self = this;
 
             return args.detail.itemPromise.then(function (item) {
 
-                var monthYear = self.getMonthYearFrom(item.data.itemDate);
+                var options = self._buildQueryForPicture(item);
 
-                // Build a query to represent the month/year group that was selected
-                var query = self.queryBuilder
-                    .bindable()                     // ensure the images are data-bind-able
-                    .forMonthAndYear(monthYear)     // only load images for the month and year group we selected
-                    .build(self.targetFolder);
-
-                var selected = self._determineIndexInGroup(item.index, monthYear);
-
-                // Navigate to the detail view to show the results of this query with the selected item
-                self.navigate("/Hilo/detail/detail.html", { query: query, itemIndex: selected });
+                // Navigate to the detail page to show the results
+                // of this query with the selected item
+                self.navigate("/Hilo/detail/detail.html", options);
             });
+        },
+
+        _selectionChanged: function (args) {
+            var self = this;
+
+            this.monthListView.selection
+                .getItems()
+                .then(function (items) {
+                    if (items[0]) {
+                        var selected = items[0];
+                        var options = self._buildQueryForPicture(selected);
+                        self.imageNav.setNavigationOptions(options, true);
+                    } else {
+                        self.imageNav.clearNavigationOptions(true);
+                    }
+                });
         }
     };
 

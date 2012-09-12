@@ -28,7 +28,7 @@
             var self = this;
             this.query = options.query;
 
-            this.query.execute()
+            return this.query.execute()
                 .then(this.bindImages.bind(this))
                 .then(function () {
                     self.gotoImage(options.itemIndex, options.itemName);

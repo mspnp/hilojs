@@ -23,8 +23,8 @@
 
             this.bindPageTitle(query.settings.monthAndYear);
 
-            var filmstripEl = document.querySelector("#filmstrip");
-            var flipviewEl = document.querySelector("#flipview");
+            var filmstripEl = document.querySelector("#filmstrip"),
+                flipviewEl = document.querySelector("#flipview");
 
             var imageNavEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
