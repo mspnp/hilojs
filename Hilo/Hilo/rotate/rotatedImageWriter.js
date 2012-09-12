@@ -43,28 +43,47 @@
 
             var decodeProcessor = function (decoder) {
 
-                // get the EXIF orientation (if it's supported)
-                var decoderPromise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"])
-                .then(function (retrievedProps) {
-
-                    // EXIF found and usable
-                    useEXIFOrientation = true;
-                    var exifRotation = retrievedProps["System.Photo.Orientation"];
-                    originalRotation = Hilo.EXIFHelpers.convertExifOrientationToDegreesRotation(exifRotation.value);
-
-                }, function (error) {
-                    // the file format does not support EXIF properties, continue 
-                    // without applying EXIF orientation.
-                    switch (error.number) {
-                        case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
-                            useEXIFOrientation = false;
-                            originalRotation = 0;
-                            break;
-                        default:
-                            throw error;
+                var getOrientation = new WinJS.Promise(function (whenComplete, whenError) {
+                    try {
+                        var promise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"]);
+                        whenComplete(promise);
+                    }
+                    catch (error) {
+                        whenError(error)
                     }
                 });
+
+                // get the EXIF orientation (if it's supported)
+                var decoderPromise = getOrientation
+                    .then(function (retrievedProps) {
+
+                        // Since an exception was not thrown when we invoked 
+                        // `getPropertiesAsync`, we know that EXIF was found.
+                        useEXIFOrientation = true;
+
+                        if (retrievedProps.size !== 0) {
+                            // Even though the EXIF properties were returned, 
+                            // they still might not include the `System.Photo.Orientation`.
+                            // In that case, we will assume that the image is not rotated.
+                            var exifRotation = retrievedProps.lookup("System.Photo.Orientation");
+                            originalRotation = Hilo.EXIFHelpers.convertExifOrientationToDegreesRotation(exifRotation.value);
+                        } else {
+                            originalRotation = 0;
+                        }
+
+                    }, function (error) {
+                        // the file format does not support EXIF properties, continue 
+                        // without applying EXIF orientation.
+                        switch (error.number) {
+                            case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                            case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
+                                useEXIFOrientation = false;
+                                originalRotation = 0;
+                                break;
+                            default:
+                                throw error;
+                        }
+                    });
 
                 return decoderPromise;
             };
