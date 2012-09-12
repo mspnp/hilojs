@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Imports And Constants
@@ -51,13 +51,16 @@
 
     function copyFilesToFolder(sourceFiles, targetFolder) {
 
-        var allFilesCopied = sourceFiles.map(function (fileInfo) {
+        var allFilesCopied = sourceFiles.map(function (fileInfo, index) {
             // Create a new file in the target folder for each 
             // file in `sourceFiles`.
+            var thumbnailFileName = index + ".jpg";
             var copyThumbnailToFile = writeThumbnailToFile.bind(this, fileInfo);
-            var whenFileCreated = targetFolder.createFileAsync(fileInfo.name + ".jpg", creationCollisionOption.replaceExisting);
+            var whenFileCreated = targetFolder.createFileAsync(thumbnailFileName, creationCollisionOption.replaceExisting);
 
-            return whenFileCreated.then(copyThumbnailToFile);
+            return whenFileCreated
+                .then(copyThumbnailToFile)
+                .then(function () { return thumbnailFileName; });
         });
 
         // We now want to wait until all of the files are finished 
@@ -65,12 +68,6 @@
         // a single promise that is returned from this method.
         return WinJS.Promise.join(allFilesCopied);
     };
-
-    function returnFileNamesFor(files) {
-        return files.map(function (fileInfo) {
-            return fileInfo.name + ".jpg";
-        });
-    }
 
     // <SnippetHilojs_1004>
     function createTileFriendlyImages(files) {
@@ -90,18 +87,11 @@
         // the `targetFolder` parameter supplied.
         var copyThumbnailsToFolder = copyFilesToFolder.bind(null, files);
 
-        // Partially apply `returnFileNamesFor` using `files`. Note that the
-        // resulting function does not require any more arguments and hence 
-        // it will not use the output from the preceding promise when it is
-        // finally invoked.
-        var returnFileNames = returnFileNamesFor.bind(null, files);
-
         // Promise to build the thumbnails and return the list of local file paths.
         var whenFolderCreated = localFolder.createFolderAsync(thumbnailFolderName, creationCollisionOption.replaceExisting);
 
         return whenFolderCreated
-            .then(copyThumbnailsToFolder)
-            .then(returnFileNames);
+            .then(copyThumbnailsToFolder);
     }
     // </SnippetHilojs_1004>
 
