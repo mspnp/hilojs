@@ -4,6 +4,10 @@
     background-repeat: no-repeat;
 }
 
+.month .win-template.win-groupheader {
+    overflow:visible;
+}
+
 .month .semanticZoomContainer {
     /* 
         The semantic zoom control produces a container that will collapse,

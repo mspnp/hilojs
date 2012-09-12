@@ -245,7 +245,7 @@
                 key: monthYear,
                 firstItemIndexHint: null, // we need to set this later
                 data: {
-                    title: count ? monthYear : 'invalid files',
+                    title: count ? monthYear.replace(" ", "&nbsp;") : 'invalid files',
                     count: count
                 },
                 groupKey: count ?  monthYear.split(' ')[1] : 'invalid files'
