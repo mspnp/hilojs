@@ -92,6 +92,8 @@
             this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, this.canvasEl, this.cropSelectionEl);
             this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
 
+            this.pictureView.addEventListener("preview", this.cropImage.bind(this));
+
             // forwarding for the chained "then" calls
             return storageFile;
         },
@@ -117,8 +119,6 @@
         },
 
         saveImageAs: function () {
-
-            this.cropImage();
 
             var cropRect = this.cropSelection.getCoords();
             var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, cropRect, this.offset);

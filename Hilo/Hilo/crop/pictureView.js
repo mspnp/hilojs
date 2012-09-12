@@ -20,6 +20,7 @@
         this.loadImage(imageUrl);
 
         cropSelection.addEventListener("move", this.drawImage.bind(this));
+        canvasEl.addEventListener("click", this.click.bind(this));
     }
 
     // Picture View Members
@@ -70,6 +71,10 @@
         reset: function (scaledImageCoordinates) {
             this.canvasSize = this.canvasEl.getBoundingClientRect();
             this.setImageSubset(scaledImageCoordinates);
+        },
+
+        click: function () {
+            this.dispatchEvent("preview");
         }
     };
 
@@ -77,7 +82,7 @@
     // -----------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        PictureView: WinJS.Class.define(PictureViewConstructor, pictureViewMembers)
+        PictureView: WinJS.Class.mix(PictureViewConstructor, pictureViewMembers, WinJS.Utilities.eventMixin)
     });
 
 })();
