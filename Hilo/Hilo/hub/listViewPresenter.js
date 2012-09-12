@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Imports And Constants
@@ -81,7 +81,7 @@
 
             var that = this;
             WinJS.Promise.as(itemLoader).then(function (items) {
-                var selectedItem = items[0];
+                var selectedItem = (items && items[0]) ? items[0] : {};
                 that.dispatchEvent("selectionChanged", {
                     hasItemSelected: hasItemSelected,
                     itemIndex: selectedItem.index,
