@@ -53,12 +53,26 @@
                     height: decoder.pixelHeight
                 };
 
+                var getOrientation = new WinJS.Promise(function (whenComplete, whenError) {
+                    try {
+                        var promise = decoder.bitmapProperties.getPropertiesAsync(["System.Photo.Orientation"]);
+                        whenComplete(promise);
+                    }
+                    catch (error) {
+                        whenError(error)
+                    }
+                });
+
                 // get the EXIF orientation (if it's supported)
-                var decoderPromise = decoder.bitmapProperties
-                    .getPropertiesAsync(["System.Photo.Orientation"])
+                var decoderPromise = getOrientation
                     .then(function (retrievedProps) {
 
-                        exifOrientation = retrievedProps["System.Photo.Orientation"];
+                        // Even though the EXIF properties were returned, 
+                        // they still might not include the `System.Photo.Orientation`.
+                        // In that case, we will assume that the image is not rotated.
+                        exifOrientation = (retrievedProps.size !== 0)
+                            ? retrievedProps["System.Photo.Orientation"]
+                            : photoOrientation.normal;
 
                     }, function (error) {
                         // the file format does not support EXIF properties, continue 
