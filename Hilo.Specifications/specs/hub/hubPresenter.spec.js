@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("hub view presenter", function () {
+describe("Hub Page Presenter", function () {
     "use strict";
 
     var hubView, nav, imageNav, listView;
@@ -24,16 +24,15 @@ describe("hub view presenter", function () {
         };
 
         imageNav = {
-            setImageIndex: function (index) {
-                imageNav.setImageIndex.wasCalled = true;
-                imageNav.setImageIndex.itemIndex = index;
+            setNavigationOptions: function (options, hide) {
+                imageNav.setNavigationOptions.wasCalled = true;
+                imageNav.setNavigationOptions.options = options;
+                imageNav.setNavigationOptions.hidden = !!hide;
             },
 
-            clearImageIndex: function () {
-                imageNav.clearImageIndex.wasCalled = true;
-            },
-            setQueryForSelection: function () { },
-            clearQuery: function () { }
+            clearNavigationOptions: function () {
+                imageNav.clearNavigationOptions.wasCalled = true;
+            }
         };
     });
 
@@ -117,8 +116,8 @@ describe("hub view presenter", function () {
             });
 
             it("should set the image index and show the app bar", function () {
-                expect(imageNav.setImageIndex.wasCalled).true;
-                expect(imageNav.setImageIndex.itemIndex).equals(1);
+                expect(imageNav.setNavigationOptions.wasCalled).true;
+                expect(imageNav.setNavigationOptions.options.itemIndex).equals(1);
             });
 
         });
@@ -132,7 +131,7 @@ describe("hub view presenter", function () {
             });
 
             it("should hide the appbar", function () {
-                expect(imageNav.clearImageIndex.wasCalled).true;
+                expect(imageNav.clearNavigationOptions.wasCalled).true;
             });
 
         });
@@ -146,8 +145,9 @@ describe("hub view presenter", function () {
             });
 
             it("should reveal the appbar", function () {
-                expect(imageNav.setImageIndex.wasCalled).true;
-                expect(imageNav.setImageIndex.itemIndex).equals(1);
+                expect(imageNav.setNavigationOptions.wasCalled).true;
+                expect(imageNav.setNavigationOptions.hidden).ok;
+                expect(imageNav.setNavigationOptions.options.itemIndex).equals(1);
             });
 
         });

@@ -89,7 +89,7 @@
     <Content Include="Hilo\hub\hub.css" />
     <Content Include="Hilo\hub\hub.html" />
     <Content Include="Hilo\hub\hub.js" />
-    <Content Include="Hilo\hub\hubViewPresenter.js" />
+    <Content Include="Hilo\hub\hubPresenter.js" />
     <Content Include="Hilo\hub\listViewPresenter.js" />
     <Content Include="Hilo\imageQueryBuilder.js" />
     <Content Include="Hilo\imageWriter.js" />

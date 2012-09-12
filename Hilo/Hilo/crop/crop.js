@@ -19,7 +19,8 @@
 
             var selectedIndex = options.itemIndex;
             var query = options.query;
-            var expectedName = query.expectedName;
+            var expectedName = options.itemName;
+
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");

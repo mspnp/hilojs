@@ -43,7 +43,7 @@ describe("image nav presenter", function () {
         var cropTriggered;
 
         beforeEach(function () {
-            presenter.setImageIndex(1);
+            presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" });
             crop.dispatchEvent("click");
         });
 
@@ -59,13 +59,18 @@ describe("image nav presenter", function () {
             var args = nav.navigate.args[1];
             expect(args.hasOwnProperty("query")).true;
         });
+
+        it("should include the file name it expects the item index to match in the query", function () {
+            var args = nav.navigate.args[1];
+            expect(args.hasOwnProperty("itemName")).true;
+        });
     });
 
     describe("given an image is selected, when clicking rotate", function () {
         var cropTriggered;
 
         beforeEach(function () {
-            presenter.setImageIndex(2);
+            presenter.setNavigationOptions({ itemIndex: 2, query: {}, itemName: "some.jpg" });
             rotate.dispatchEvent("click");
         });
 
@@ -94,7 +99,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.show = function () { isShown = true; };
-                presenter.setImageIndex(1, true);
+                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" }, true);
             });
 
             it("should show the appbar", function () {
@@ -107,7 +112,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.show = function () { isShown = true; };
-                presenter.setImageIndex(1);
+                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" });
             });
 
             it("should show not attempt to show the appbar", function () {
@@ -129,7 +134,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.hide = function () { isHidden = true; };
-                presenter.clearImageIndex(true);
+                presenter.clearNavigationOptions(true);
             });
 
             it("should show the appbar", function () {
@@ -142,7 +147,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.hide = function () { isHidden = true; };
-                presenter.clearImageIndex();
+                presenter.clearNavigationOptions();
             });
 
             it("should show not attempt to hide the appbar", function () {

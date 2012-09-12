@@ -17,10 +17,10 @@
     // The maximum number of images to display on the hub page 
     var maxImageCount = 6;
 
-    // Hub View Presenter Constructor
+    // Hub Presenter Constructor
     // -------------------------------
 
-    // The Hub view presenter is an implementation of [the mediator pattern][1],
+    // The Hub presenter is an implementation of [the mediator pattern][1],
     // designed to coordinate multiple components of an individual page to
     // facilitate all of the functionality of that page. 
     //
@@ -40,7 +40,7 @@
     //
     // [1]: http://en.wikipedia.org/wiki/Mediator_pattern
     //
-    function HubViewPresenterConstructor(nav, imageNav, listview, queryBuilder) {
+    function HubPresenterConstructor(nav, imageNav, listview, queryBuilder) {
         this.nav = nav;
         this.imageNav = imageNav;
         this.listview = listview;
@@ -59,10 +59,10 @@
         this.itemClicked = this.itemClicked.bind(this);
     };
 
-    // Hub View Presenter Methods
+    // Hub Presenter Methods
     // ---------------------------
 
-    var hubViewPresenterMembers = {
+    var hubPresenterMembers = {
 
         // Starts processing the events from individual components, to 
         // facilitate the functionality of the other components.
@@ -129,21 +129,18 @@
             if (args.detail.hasItemSelected) {
 
                 var picture = args.detail.item;
-                var indexInGroup = picture.groupIndex;
-
-                // If someone an image is selected, show the image nav
-                // app bar with the "crop" and "rotate" buttons
-                this.imageNav.setImageIndex(indexInGroup, true);
 
                 // build the query for the selected item
-                var query = this.buildQueryForPicture(picture);
-                this.imageNav.setQueryForSelection(query);
+                var options = this.buildQueryForPicture(picture);
+
+                // If an image is selected, show the image nav
+                // app bar with the "crop" and "rotate" buttons
+                this.imageNav.setNavigationOptions(options, true);
+
             } else {
                 // If no images are selected, hide the app bar
-                this.imageNav.clearImageIndex(true);
-                this.imageNav.clearQuery();
+                this.imageNav.clearNavigationOptions(true);
             }
-
         },
 
         // When an item is "invoked" (clicked or tapped), navigate to
@@ -154,22 +151,17 @@
             // get the `Hilo.Picture` item that was bound to the invoked image,
             // and the item index from the list view
             var picture = args.detail.item.data;
-            var indexInGroup = picture.groupIndex;
 
             // build the query that can find this picture within it's month group
-            var query = this.buildQueryForPicture(picture);
+            var options = this.buildQueryForPicture(picture);
 
             // Navigate to the detail view, specifying the month query to
             // show, and the index of the individual item that was invoked
-            this.nav.navigate("/Hilo/detail/detail.html", { itemIndex: indexInGroup, query: query });
+            this.nav.navigate("/Hilo/detail/detail.html", options);
         },
 
-        buildQueryForPicture: function(picture){
-            // Build various parameters to determine the image
-            // index and the month and year it was taken.
-            // TODO: get the actual item index based on the query that is built
-            var itemIndex = picture.groupIndex;
-            var dateTaken = picture.itemDate;
+        buildQueryForPicture: function (picture) {
+
             // TODO: Perhaps we can pass the `getMonthYearFrom` as a dependency?
             var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
 
@@ -179,9 +171,11 @@
                 .forMonthAndYear(monthAndYear)
                 .build(knownFolders.picturesLibrary);
 
-            query.expectedName = picture.name;
-
-            return query;
+            return {
+                query: query,
+                itemIndex: picture.groupIndex,
+                itemName: picture.name
+            };
         }
     };
 
@@ -189,7 +183,7 @@
     // ----------
 
     WinJS.Namespace.define("Hilo.Hub", {
-        HubViewPresenter: WinJS.Class.define(HubViewPresenterConstructor, hubViewPresenterMembers)
+        HubViewPresenter: WinJS.Class.define(HubPresenterConstructor, hubPresenterMembers)
     });
 
 })();

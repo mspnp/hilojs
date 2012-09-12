@@ -17,9 +17,10 @@
 
         ready: function (element, options) {
 
-            var selectedIndex = options.itemIndex;
-            var query = options.query;
-            var expectedName = query.expectedName;
+            var selectedIndex = options.itemIndex,
+                query = options.query,
+                expectedName = options.itemName;
+
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");

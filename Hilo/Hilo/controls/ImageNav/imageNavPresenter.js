@@ -43,19 +43,29 @@
         // Internal method. Handles the `click` event of the "#rotate" HTML element
         // and calls the navigation to go to the rotate page.
         _rotateClicked: function () {
-            this.nav.navigate("/Hilo/rotate/rotate.html", {
-                itemIndex: this.selectedImageIndex,
-                query: this.query
-            });
+            this.nav.navigate("/Hilo/rotate/rotate.html", this.navigationOptions);
         },
 
         // Internal method. Handles the `click` event of the "#crop" HTML element
         // and calls the navigation to go to the crop page.
         _cropClicked: function () {
-            this.nav.navigate("/Hilo/crop/crop.html", {
-                itemIndex: this.selectedImageIndex,
-                query: this.query
-            });
+            this.nav.navigate("/Hilo/crop/crop.html", this.navigationOptions);
+        },
+
+        setNavigationOptions: function (options, shouldShow) {
+            this.navigationOptions = options;
+            this.enableButtons();
+            if (shouldShow) {
+                this.appbar.show();
+            }
+        },
+
+        clearNavigationOptions: function (shouldHide) {
+            delete this.navigationOptions;
+            this.disableButtons();
+            if (shouldHide) {
+                this.appbar.hide();
+            }
         },
 
         // Set the currently selected image index. This tells the ImageNav control
@@ -71,13 +81,13 @@
         //   imageNavPresenter.setImageIndex(itemIndex);
         // });
         // ```
-        setImageIndex: function (itemIndex, shouldShow) {
-            this.selectedImageIndex = itemIndex;
-            this.enableButtons();
-            if (shouldShow) {
-                this.appbar.show();
-            }
-        },
+        //setImageIndex: function (itemIndex, shouldShow) {
+        //    this.selectedImageIndex = itemIndex;
+        //    this.enableButtons();
+        //    if (shouldShow) {
+        //        this.appbar.show();
+        //    }
+        //},
 
         // Clear the currently selected image index. This tells the ImageNav control
         // to disable the buttons and hide the app bar.
@@ -92,21 +102,21 @@
         //   }
         // });
         // ```
-        clearImageIndex: function (shouldHide) {
-            this.selectedImageIndex = -1;
-            this.disableButtons();
-            if (shouldHide) {
-                this.appbar.hide();
-            }
-        },
+        //clearImageIndex: function (shouldHide) {
+        //    this.selectedImageIndex = -1;
+        //    this.disableButtons();
+        //    if (shouldHide) {
+        //        this.appbar.hide();
+        //    }
+        //},
 
-        setQueryForSelection: function (query) {
-            this.query = query;
-        },
+        //setQueryForSelection: function (query) {
+        //    this.query = query;
+        //},
 
-        clearQuery: function () {
-            delete this.query;
-        },
+        //clearQuery: function () {
+        //    delete this.query;
+        //},
 
         // Enable the buttons on the app bar. This method can be called when the
         // app bar is intended to always be shown on the screen, in order to always

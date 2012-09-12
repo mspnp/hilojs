@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Filmstrip Presenter Constructor
@@ -24,7 +24,7 @@
     // ---------------------------
 
     var filmstripPresenterMembers = {
-        bindImages: function(images){
+        bindImages: function (images) {
             this.winControl.itemDataSource = new WinJS.Binding.List(images).dataSource;
         },
 
@@ -32,14 +32,14 @@
             this.winControl.addEventListener("iteminvoked", this.itemClicked.bind(this));
         },
 
-        getSelectedIndices: function(){
+        getSelectedIndices: function () {
             return this.winControl.selection.getIndices();
         },
 
         itemClicked: function (args) {
-            var selectedIndex = args.detail.itemIndex;
             this.dispatchEvent("imageInvoked", {
-                itemIndex: selectedIndex
+                itemIndex: args.detail.itemIndex,
+                itemPromise: args.detail.itemPromise
             });
         }
     }
