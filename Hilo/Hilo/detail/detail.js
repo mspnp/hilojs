@@ -21,9 +21,7 @@
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
-            // bind the title based on the query's month/year
-            var pageTitle = document.querySelector("#pageTitle");
-            WinJS.Binding.processAll(pageTitle, { title: query.settings.monthAndYear });
+            this.bindPageTitle(query.settings.monthAndYear);
 
             var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");

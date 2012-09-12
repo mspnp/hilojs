@@ -15,8 +15,15 @@
         var url = "/Hilo/" + pageId + "/" + pageId + ".html";
 
         members.ready = wrapWithDefaultReady(members.ready);
+        members.bindPageTitle = bindPageTitle;
 
         return WinJS.UI.Pages.define(url, members);
+    }
+
+    function bindPageTitle(title) {
+        // bind the title based on the query's month/year
+        var pageTitleEl = document.querySelector("#pageTitle");
+        WinJS.Binding.processAll(pageTitleEl, { title: title });
     }
 
     // Examines the page for `a` tags, extracting the url and wiring
