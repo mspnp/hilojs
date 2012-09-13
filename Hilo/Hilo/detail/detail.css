@@ -14,6 +14,12 @@
     }
 }
 
+#filmstrip-backbutton{
+	display: inline;
+	float: left;
+	margin: 35px;
+}
+
 .detail .flipViewImage {
     background-image: url('/images/Hilo150b.png');
     background-size: contain;
