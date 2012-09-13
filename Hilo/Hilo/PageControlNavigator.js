@@ -123,11 +123,18 @@
                 // has completed.
                 navigated: function () {
                     // Do application specific on-navigated work here
-                    var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
-                    if (backButton) {
-                        backButton.onclick = function () { nav.back(); };
+                    var backButtons = document.querySelectorAll(".win-backbutton");
+                    var onClick = function () { nav.back(); };
+                    var canGoBack = nav.canGoBack;
+                    var backButton;
 
-                        if (nav.canGoBack) {
+                    var length = backButtons.length,
+                        i;
+                    for (i = 0; i < length; i++) {
+                        backButton = backButtons[i];
+
+                        backButton.onclick = onClick;
+                        if (canGoBack) {
                             backButton.removeAttribute("disabled");
                         } else {
                             backButton.setAttribute("disabled", "disabled");
