@@ -10,7 +10,7 @@
 (function () {
     "use strict";
 
-    // throttle
+    // Throttle
     // --------
     //
     // This throttle function is used to throttle the file system changes.
