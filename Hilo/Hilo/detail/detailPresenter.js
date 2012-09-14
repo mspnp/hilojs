@@ -47,9 +47,15 @@
         },
 
         imageClicked: function (args) {
-            var self = this;
+            var self = this,
+                itemIndex = args.detail.itemIndex;
+
             args.detail.itemPromise.then(function (item) {
-                self.gotoImage(args.detail.itemIndex, item.data.name);
+                self.gotoImage(itemIndex, item.data.name);
+            });
+
+            this.dispatchEvent("pageSelected", {
+                itemIndex: itemIndex
             });
         },
 

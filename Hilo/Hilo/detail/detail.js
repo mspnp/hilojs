@@ -16,20 +16,22 @@
     var page = {
 
         ready: function (element, options) {
-
-            var query = options.query;
-
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
+            var query = options.query;
             this.bindPageTitle(query.settings.monthAndYear);
-
-            var filmstripEl = document.querySelector("#filmstrip"),
-                flipviewEl = document.querySelector("#flipview");
 
             var imageNavEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
 
+            var filmstripEl = document.querySelector("#filmstrip")
+            var flipviewEl = document.querySelector("#flipview");
+
             var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, imageNav);
+            detailPresenter.addEventListener("pageSelected", function (args) {
+                var itemIndex = args.detail.itemIndex;
+                options.itemIndex = itemIndex;
+            });
             detailPresenter.start(options);
         },
 
