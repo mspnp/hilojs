@@ -10,67 +10,77 @@
 (function () {
     "use strict";
 
-    // Private Methods
-    // ---------------
+    // throttle
+    // --------
+    //
+    // This throttle function is used to throttle the file system changes.
+    // That is, if changes come in too fast and frequent, they would
+    // cause a continuous flicker in the UI. Throttling the changes
+    // prevents this from happening by limiting the application event
+    // trigger to once every 15 seconds.
 
-    function raiseEvent() {
-        WinJS.Application.queueEvent({ type: "Hilo:ContentsChanged" });
-        return WinJS.Promise.as();
-    }
+    function throttle(callback, delayInSeconds) {
+        var lastRun = Date.now();
 
-    function listen(folder) {
+        // Return the throttled version of the callback function
+        return function () {
+            var args = arguments,
+                delay = delayInSeconds * 1000,
+                timeSinceLastRun = Date.now() - lastRun;
 
-        var state = {
-            pendingChange: false,
-            refreshInterval: 15 * 1000,
-            lastUpdatedAt: new Date(),
-            hasRecentlyUpdated: function () {
-                return (new Date() - this.lastUpdatedAt) < this.refreshInterval;
+            if (timeSinceLastRun >= delay) {
+                callback.apply(null, args);
+                lastRun = Date.now();
             }
         };
-
-        var disposable = {};
-        var builder = new Hilo.ImageQueryBuilder();
-        var query = builder.build(folder);
-        var handler = contentsChanged.bind(null, state);
-        query.fileQuery.addEventListener("contentschanged", handler);
-
-        disposable.query = query;
-
-        return query.fileQuery
-            .getFilesAsync(0, 1)
-            .then(function () {
-                // We don't want to actually return the file we retrieved,
-                // so we'll ignore the incoming argument. However, we need
-                // `query` to stay in scope so that the events will fire.
-                // We've attached it to `disposable` and we'll return it via 
-                // the promise.
-                return disposable;
-            });
     }
 
-    function contentsChanged(state, args) {
+    // Content Changed Listener
+    // ------------------------
+    //
+    // Creates a query object to look at files form the Pictures library, then 
+    // attaches to the file system event for content changing within that library.
+    // When a file system change occurs, an application level event is queued up
+    // so that other parts of the application can be notified and response
+    // accordingly.
 
-        if (state.pendingChange) {
-            return;
+    var contentChangedListener = {
+
+        // Create the file system query and listen for file system changes
+        listen: function (folder) {
+            // Build the query and listen to the contentschanged event
+            var builder = new Hilo.ImageQueryBuilder();
+
+            // throttle the event handler so that it only runs once every 10 seconds
+            var handler = throttle(this.raiseEvent, 10);
+
+            // We need to hold a reference to the query object so that our event
+            // listener does not fall out of scope and get garbage collected. 
+            this.query = builder.build(folder);
+            this.query.fileQuery.addEventListener("contentschanged", handler);
+
+            // Run the file load and grab the first image in the set. This sets
+            // up the file system watchers behind the scenes, allowing the
+            // event listener to work
+            this.query.fileQuery.getFilesAsync(0, 1);
+        },
+
+        // Trigger the application specific event so that other parts
+        // of the app can respond appropriately.
+        raiseEvent: function () {
+            WinJS.Application.queueEvent({ type: "Hilo:ContentsChanged" });
         }
-
-        state.pendingChange = true;
-
-        var secondsToWait = state.hasRecentlyUpdated() ? state.refreshInterval : 0;
-
-        setTimeout(function () {
-            raiseEvent();
-            state.pendingChange = false;
-            state.lastUpdatedAt = new Date();
-        }, (secondsToWait) + 25);
-    }
+    };
 
     // Public API
     // ----------
+    //
+    // Export the contentChangedListener object as an object
+    // avialable on the `Hilo` namespace, directly, so that it
+    // can be used in the application.
 
-    WinJS.Namespace.define("Hilo.contentChangedListener", {
-        listen: listen
+    WinJS.Namespace.define("Hilo", {
+        contentChangedListener: contentChangedListener
     });
 
 }());
