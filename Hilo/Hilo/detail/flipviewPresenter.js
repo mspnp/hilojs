@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Flipview Presenter Constructor
@@ -17,6 +17,7 @@
         this.el = el;
         this.winControl = el.winControl;
         this.bindImages(images);
+        this.el.addEventListener("pageselected", this.pageSelected.bind(this));
     }
 
     // Flipview Presenter Members
@@ -24,7 +25,18 @@
 
     var flipviewPresenterMembers = {
         bindImages: function (images) {
-            this.winControl.itemDataSource = new WinJS.Binding.List(images).dataSource;
+            this.bindingList = new WinJS.Binding.List(images);
+            this.winControl.itemDataSource = this.bindingList.dataSource;
+        },
+
+        pageSelected: function (args) {
+            var itemIndex = this.winControl.currentPage;
+            var item = this.bindingList.getAt(itemIndex);
+
+            this.dispatchEvent("pageSelected", {
+                itemIndex: itemIndex,
+                itemPromise: WinJS.Promise.as({ data: item })
+            });
         },
 
         showImageAt: function (index) {

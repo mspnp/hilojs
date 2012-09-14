@@ -38,6 +38,7 @@
         bindImages: function (images) {
 
             this.flipview = new Hilo.Detail.FlipviewPresenter(this.flipviewEl, images);
+            this.flipview.addEventListener("pageSelected", this.imageClicked.bind(this));
 
             this.filmstrip = new Hilo.Detail.FilmstripPresenter(this.filmstripEl, images);
             this.filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
