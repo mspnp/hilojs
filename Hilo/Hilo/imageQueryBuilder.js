@@ -304,7 +304,7 @@
             return this;
         },
 
-        // Internal method to take the options specified in the queryb uilder
+        // Internal method to take the options specified in the query builder
         // and turn them in to a [QueryOptions][6] object. 
         //
         // Note that not all settings from the query builder are applicable
