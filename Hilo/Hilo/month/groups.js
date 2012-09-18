@@ -89,7 +89,11 @@
             // If we still need items that weren't in the cache,
             // we'll setup a promise to fetch them from WinRT and
             // append them to any items we found in the cache.
-            if (cached.nextCount > 0) {
+            // We also need to confirm that we are not requesting items
+            // beyond the total count. Without this check, we would occasionally
+            // and in an unpredictable way end up calling `itemsFromIndex`
+            // too many time (with significant performance impact).
+            if (cached.nextCount > 0 && cached.nextCount < this.totalCount) {
 
                 collectGroups = this
                     .fetch(cached.nextStart, cached.nextCount)
@@ -248,7 +252,7 @@
                     title: count ? monthYear.replace(" ", "&nbsp;") : 'invalid files',
                     count: count
                 },
-                groupKey: count ?  monthYear.split(' ')[1] : 'invalid files'
+                groupKey: count ? monthYear.split(' ')[1] : 'invalid files'
             };
 
             return result;
