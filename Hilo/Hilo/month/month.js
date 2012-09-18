@@ -15,6 +15,14 @@
 
     var viewStates = Windows.UI.ViewManagement.ApplicationViewState;
 
+    // Side-effect free functions
+    function groupKeyFromDate(date) {
+        var month = date.getMonth();
+        var year = date.getFullYear();
+
+        return year + "::" + month;
+    }
+
     // Page Control
     // ------------
 
@@ -22,7 +30,7 @@
 
         // Imports
         // -------
-        getMonthYearFrom: Hilo.dateFormatter.getMonthYearFrom,
+        _dateFormatter: Hilo.dateFormatter,
         targetFolder: Windows.Storage.KnownFolders.picturesLibrary,
         navigate: WinJS.Navigation.navigate,
 
@@ -30,6 +38,8 @@
         // ----------
 
         ready: function (element, options) {
+            var self = this;
+
             var currentViewState = Windows.UI.ViewManagement.ApplicationView.value;
             this._setLayout(currentViewState);
 
@@ -41,15 +51,18 @@
             this.imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
 
             // First, setup the various data adapters needed
-            this.monthGroups = new Hilo.month.Groups(this.queryBuilder, this.targetFolder, this.getMonthYearFrom);
-            this.monthGroupMembers = new Hilo.month.Members(this.queryBuilder, this.targetFolder, this.getMonthYearFrom);
-
-            var yearGroupMembers = this._setYearGroupDataAdapter(this.monthGroups);
-            var yearGroups = yearGroupMembers.groups;
-
-            // Then provide the adapters to the list view controls
+            this.monthGroups = new Hilo.month.Groups(this.queryBuilder, this.targetFolder, this._dateFormatter);
+            this.monthGroupMembers = new Hilo.month.Members(this.queryBuilder, this.targetFolder, this._dateFormatter);
             this._setupMonthGroupListView(this.monthGroups, this.monthGroupMembers);
-            this._setupYearGroupListView(yearGroups, yearGroupMembers);
+
+            var yearGroupMembers = new Hilo.month.Years(this.queryBuilder, this.targetFolder, this._dateFormatter, this.monthGroups.getGroupByKey);
+
+            var yearList = document.querySelector("#yeargroup").winControl;
+            yearList.setItemDataSource(yearGroupMembers);
+            yearList.getGroupForMonthYear = function (data) {
+                var groupKey = groupKeyFromDate(new Date(data.year, data.month));
+                return self.monthGroups.getGroupByKey(groupKey);
+            };
         },
 
         updateLayout: function (element, viewState, lastViewState) {
@@ -77,24 +90,8 @@
                 layout = WinJS.UI.GridLayout;
             };
 
-            yearGroup.winControl.layout = new layout();
+            yearGroup.winControl.setLayout(new layout());
             monthGroup.winControl.layout = new layout();
-        },
-
-        _setYearGroupDataAdapter: function (monthGroups) {
-            var yearGroupMembers = WinJS.UI.computeDataSourceGroups(monthGroups, function (item) {
-                return item.groupKey
-            }, function (item) {
-                return { title: item.groupKey }
-            });
-            return yearGroupMembers;
-        },
-
-        _setupYearGroupListView: function (groups, members) {
-            var listview = document.querySelector("#yeargroup").winControl;
-            listview.itemDataSource = members;
-            listview.groupDataSource = groups;
-            listview.layout.maxRows = 3;
         },
 
         _setupMonthGroupListView: function (groups, members) {
@@ -115,7 +112,7 @@
         _buildQueryForPicture: function (item) {
 
             var picture = item.data;
-            var monthYear = this.getMonthYearFrom(picture.itemDate);
+            var monthYear = this._dateFormatter.getMonthYearFrom(picture.itemDate);
 
             // Build a query to represent the month/year group that was selected
             var query = this.queryBuilder
@@ -165,5 +162,6 @@
     var MonthPageControl = Hilo.controls.pages.define("month", monthPageControlMembers);
 
     WinJS.Namespace.define("Hilo.month", { pageControl: MonthPageControl });
+    WinJS.Namespace.define("Hilo.month", { groupKeyFromDate: groupKeyFromDate });
 
 })();

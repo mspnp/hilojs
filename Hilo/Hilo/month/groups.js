@@ -15,6 +15,13 @@
     var search = Windows.Storage.Search,
         commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
+    function groupKeyForDate(date) {
+        var month = date.getMonth();
+        var year = date.getFullYear();
+
+        return year + "::" + month;
+    }
+
     // Private Methods
     // ---------------
 
@@ -45,7 +52,7 @@
         return next;
     }
 
-    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, getMonthYearFrom) {
+    var DataAdapter = WinJS.Class.define(function (queryBuilder, folder, dateFormatter) {
 
         // The query builder doesn't currently support the folder query. Since this is
         // an entirely different base for the query and since this is the only place in 
@@ -57,7 +64,7 @@
 
         // We expect this function to return world-ready value from the month and year
         // separated by a space.
-        this.getMonthYearFrom = getMonthYearFrom;
+        this._dateFormatter = dateFormatter;
 
         // We'll cache the total number of month groups whenever
         // `getCount` is called, then we can provide the value 
@@ -72,7 +79,6 @@
             byKey: {},
             firstIndices: []
         };
-
     }, {
 
         itemsFromIndex: function (requestIndex, countBefore, countAfter) {
@@ -93,7 +99,7 @@
             // beyond the total count. Without this check, we would occasionally
             // and in an unpredictable way end up calling `itemsFromIndex`
             // too many time (with significant performance impact).
-            if (cached.nextCount > 0 && cached.nextCount < this.totalCount) {
+            if (cached.nextCount > 0 && (!this.totalCount || cached.nextCount < this.totalCount)) {
 
                 collectGroups = this
                     .fetch(cached.nextStart, cached.nextCount)
@@ -241,32 +247,56 @@
             var count = values[0],
                         firstItemDate = values[1];
 
-            var monthYear = this.getMonthYearFrom(firstItemDate);
+            var month = this._dateFormatter.getMonthFrom(firstItemDate);
+            var year = this._dateFormatter.getYearFrom(firstItemDate);
 
             // TODO: The way we are handling zero count groups
             // is a temporary solution
             var result = {
-                key: monthYear,
-                firstItemIndexHint: null, // we need to set this later
+                key: groupKeyForDate(firstItemDate),
+                firstItemIndexHint: 0, // we need to set this later
                 data: {
-                    title: count ? monthYear.replace(" ", "&nbsp;") : 'invalid files',
+                    title: month + "&nbsp;" + year,
                     count: count
                 },
-                groupKey: count ? monthYear.split(' ')[1] : 'invalid files'
+                groupKey: year
             };
 
             return result;
-        }
+        },
+
+        getGroupByKey: function (groupKey) {
+            var self = this;
+            var groupIndex = this.cache.byKey[groupKey];
+
+            if (!groupIndex) {
+
+                return self.getCount()
+                    .then(function () {
+                        var nextIndex = self.cache.byIndex.length;
+                        var remaining = self.totalCount - self.cache.byIndex.length;
+                        return self.fetch(nextIndex, remaining)
+                    })
+                    .then(function () {
+                        return self.getGroupByKey(groupKey);
+                    });
+
+            } else {
+                var group = this.cache.byIndex[groupIndex];
+                return WinJS.Promise.as(group);
+            }
+        },
+
     });
 
-    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, getMonthYearFrom) {
-        this.adapter = new DataAdapter(queryBuilder, folder, getMonthYearFrom);
+    var Groups = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, dateFormatter) {
+        this.adapter = new DataAdapter(queryBuilder, folder, dateFormatter);
         this._baseDataSourceConstructor(this.adapter);
+
+        this.getGroupByKey = this.getGroupByKey.bind(this);
     }, {
-        getFirstIndexForGroup: function (groupKey) {
-            var groupIndex = this.adapter.cache.byKey[groupKey];
-            var group = this.adapter.cache.byIndex[groupIndex];
-            return group.firstItemIndexHint;
+        getGroupByKey: function (groupKey) {
+            return this.adapter.getGroupByKey(groupKey);
         }
     });
 

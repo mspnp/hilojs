@@ -7,18 +7,16 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     'use strict';
 
     // Private Methods
     // ---------------
 
-    var DataAdapter = WinJS.Class.define(function (query, identifyMonthGroup) {
-
+    var DataAdapter = WinJS.Class.define(function (query, groupKeyFromDate) {
         this.totalCount;
-
         this.query = query;
-        this.identifyMonthGroup = identifyMonthGroup;
+        this._groupKeyFromDate = groupKeyFromDate;
 
     }, {
 
@@ -63,19 +61,19 @@
             return {
                 key: model.name,
                 data: model,
-                groupKey: this.identifyMonthGroup(model.itemDate)
+                groupKey: this._groupKeyFromDate(model.itemDate)
             };
         }
     });
 
-    var Members = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder, identifyMonthGroup) {
+    var Members = WinJS.Class.derive(WinJS.UI.VirtualizedDataSource, function (queryBuilder, folder) {
 
         var query = queryBuilder
             .prefetchOptions(['System.ItemDate'])
             .bindable()
             .build(folder);
 
-        this._baseDataSourceConstructor(new DataAdapter(query, identifyMonthGroup));
+        this._baseDataSourceConstructor(new DataAdapter(query, Hilo.month.groupKeyFromDate));
     });
 
     // Export Public API

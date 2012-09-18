@@ -1,73 +1,130 @@
 ﻿.month .thumbnail {
-	background-image: url('/images/Hilo150b.png');
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 200px;
-	width: 200px;
+    background-image: url('/images/Hilo150b.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 200px;
 }
 
 .month .win-template.win-groupheader {
-	overflow: visible;
+    overflow: visible;
 }
 
 .month .semanticZoomContainer {
-	/* 
+    /* 
         The semantic zoom control produces a container that will collapse,
         and consequently the list view controls inside will only be one row
         tall. We want them to use all of the available space, so we tell the
         semantic zoom to use all of the available height.        
         */
-	height: 100%;
+    height: 100%;
 }
 
-	.month .semanticZoomContainer .win-horizontal.win-viewport .win-surface {
-		margin-bottom: 60px;
-		margin-left: 50px;
-		margin-right: 120px;
-	}
+    .month .semanticZoomContainer .win-horizontal.win-viewport .win-surface {
+        margin-bottom: 60px;
+        margin-left: 50px;
+        margin-right: 120px;
+    }
 
-	.month .semanticZoomContainer .win-listview .win-groupheader {
-		padding: 0;
-		margin: 0;
-		padding-bottom: 20px;
-		margin-left: 70px;
-	}
+    .month .semanticZoomContainer .win-listview .win-groupheader {
+        padding: 0;
+        margin: 0;
+        padding-bottom: 20px;
+        margin-left: 70px;
+    }
 
 .month .yearMonthItem {
-	background-color: #F19720;
-	width: 150px;
-	height: 150px;
-	position: relative;
+    background-color: #F19720;
+    width: 150px;
+    height: 150px;
+    position: relative;
 }
 
-	.month .yearMonthItem span {
-		position: absolute;
-		bottom: 8px;
-		right: 8px;
-		color: black;
-		font-weight: bold;
-		font-size: 18px;
-	}
+    .month .yearMonthItem span {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        color: black;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+
+.month .year-group {
+    display: -ms-grid;
+}
+
+    .month .year-group .header {
+        font-size: 36px;
+        -ms-grid-row: 1;
+    }
+
+    .month .year-group .body {
+        display: -ms-flexbox;
+        -ms-flex-wrap: wrap;
+        -ms-grid-row: 2;
+        width: 640px;
+        height: 480px;
+    }
+
+    .month .year-group .month-item {
+        width: 150px;
+        height: 150px;
+        background-color: #F19720;
+        color: black;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+        .month .year-group .month-item[disabled="true"] {
+            background-color: white;
+        }
+
+        .month .year-group .month-item .month-name {
+            -ms-grid-row-align: end;
+            -ms-grid-column-align: end;
+            display: block;
+            -ms-grid-row: 1;
+            -ms-grid-column: 1;
+            font-size: 28px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .month .year-group .month-item .month-count {
+            display: none;
+        }
+
+.month .win-listview :not(.win-footprint).win-container {
+    background-color: transparent;
+}
+
+/* most likely temp*/
+.month .win-listview, .month #yeargroup {
+    height: 100%;
+}
 
 @media screen and (-ms-view-state: snapped) {
-	.month section[role=main] {
-		margin-left: 0px;
-	}
+    .month section[role=main] {
+        margin-left: 0px;
+    }
 
-	.month .semanticZoomContainer .win-horizontal.win-viewport .win-surface {
-		margin-left: 0px;
-	}
+    .month .semanticZoomContainer .win-horizontal.win-viewport .win-surface {
+        margin-left: 0px;
+    }
 
-	.month .semanticZoomContainer .win-listview .win-groupheader {
-		margin-left: 20px;
-	}
+    .month .semanticZoomContainer .win-listview .win-groupheader {
+        margin-left: 20px;
+    }
 
-	.month .yearMonthItem span {
-		font-size: 12px;
-	}
+    .month .yearMonthItem span {
+        font-size: 12px;
+    }
 
-	.month .thumbnail {
-		height: 75px;
-		width: 75px;
-	}
+    .month .thumbnail {
+        height: 75px;
+        width: 75px;
+    }
 }
