@@ -90,8 +90,8 @@
         this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
 
         this._set("thumbnailOptions", Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
-        this._set("thumbnailMode", storage.FileProperties.ThumbnailMode.singleItem);
-        this._set("thumbnailSize", 1024);
+        this._set("thumbnailMode", storage.FileProperties.ThumbnailMode.picturesView);
+        this._set("thumbnailSize", 256);
 
         this._set("sortOrder", commonFileQuery.orderByDate);
         this._set("indexerOption", search.IndexerOption.useIndexerWhenAvailable);
