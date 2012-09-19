@@ -46,6 +46,7 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
+            Hilo.navigator.reload();
         },
 
         unload: function () {
