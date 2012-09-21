@@ -16,6 +16,10 @@
 <body>
     <div class="rotate fragment">
 
+        <div data-win-control="WinJS.UI.HtmlControl"
+            data-win-options="{uri: '/Hilo/Controls/Header/Header.html', titleResource: 'RotateImagePageTitle.Text' }">
+        </div>
+
         <section aria-label="Main content" role="main">
             <div class="content-wrapper">
                 <img src="#" id="image" class="rotatable" />
@@ -24,7 +28,16 @@
 
         <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
             <button
+                id="unSnap"
+				class="snap-view-button"
+                data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{icon:'rotate', section: 'selection'}"
+	            data-win-res="{winControl: {label:'RotateAppBarButton.Name'}}">
+            </button>
+            
+            <button
                 id="clockwise"
+				class="full-screen-button"
                 data-win-control="WinJS.UI.AppBarCommand"
                 data-win-options="{icon:'rotate', section: 'selection'}"
 	            data-win-res="{winControl: {label:'RotateAppBarButton.Name'}}">
@@ -39,6 +52,7 @@
 
             <button
                 id="save"
+				class="full-screen-button"
                 data-win-control="WinJS.UI.AppBarCommand"
                 data-win-options="{icon:'save', section: 'global'}"
 	            data-win-res="{winControl: {label:'AcceptAppBarButton.Name'}}">

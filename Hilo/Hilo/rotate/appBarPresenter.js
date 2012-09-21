@@ -38,7 +38,13 @@
             this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise.bind(this));
             this.saveButton = this._addButton("#save", this.saveChanges.bind(this));
             this.cancelButton = this._addButton("#cancel", this.cancelChanges.bind(this));
+            this.unSnapButton = this._addButton("#unSnap", this.unSnap.bind(this));
             this._disableButtons();
+        },
+
+        // Unsnap the view, back in to full screen mode
+        unSnap: function () {
+            this.dispatchEvent("unsnap", {});
         },
 
         // Rotate clockwise was clicked

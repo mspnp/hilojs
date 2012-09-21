@@ -59,12 +59,17 @@
             this.navigation.back();
         },
 
+        unsnap: function () {
+            Windows.UI.ViewManagement.ApplicationView.tryUnsnap();
+        },
+
         // Internal method.
         // Bind to the appbar presenter's events, to handle the button clicks
         _bindToEvents: function () {
             this.appBarPresenter.addEventListener("rotate", this.rotateImage.bind(this));
             this.appBarPresenter.addEventListener("save", this.saveImage.bind(this));
             this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
+            this.appBarPresenter.addEventListener("unsnap", this.unsnap.bind(this));
         },
 
         // Internal method.
