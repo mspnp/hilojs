@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("The data adapter from the month groups", function () {
+describe("The data adapter from the month groups", function () {
     "use strict";
 
     var adapter;
@@ -33,11 +33,12 @@
             createFolderQueryWithOptions: function () { return storageFolderQueryResult; }
         };
 
-        var identifyMonthGroup = function (date) {
-            return "month year";
+        var dateFormatter = {
+            getMonthFrom: function (date) { return "January"; },
+            getYearFrom: function (date) { return "1975"; },
         };
 
-        adapter = new Hilo.month.GroupsDataAdapter(queryBuilder, storageFolder, identifyMonthGroup);
+        adapter = new Hilo.month.GroupsDataAdapter(queryBuilder, storageFolder, dateFormatter);
     });
 
     describe("when converting folders to list view groups, the result", function () {
@@ -86,24 +87,17 @@
         });
 
         it("should make the folder's tile the month year combo", function () {
-            expect(result.data.title).equal("month year");
+            expect(result.data.title).equal("January&nbsp;1975");
         });
 
         it("should include a key for the folder", function () {
-            expect(result.key).equal("month year");
+            expect(result.key).equal("1975::0");
         });
 
         it("should include a group key for the folder (for use in the semantic zoom)", function () {
-            expect(result.groupKey).equal("year");
+            expect(result.groupKey).equal("1975");
         });
 
-        it("should create an unpopolated property `firstItemIndexHint`", function () {
-            // We expect this property to be populated with
-            // a value after the initial conversion because
-            // we don't have enough information to do so
-            // at the time.
-            expect(result.firstItemIndexHint).null;
-        });
     });
 
     describe("when requesting the total count of folders", function () {

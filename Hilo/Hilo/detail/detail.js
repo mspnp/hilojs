@@ -19,7 +19,9 @@
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
             var query = options.query;
-            this.bindPageTitle(query.settings.monthAndYear);
+            var queryDate = query.settings.monthAndYear;
+            var pageTitle = Hilo.dateFormatter.getMonthFrom(queryDate) + " " + Hilo.dateFormatter.getYearFrom(queryDate);
+            this.bindPageTitle(pageTitle);
 
             var imageNavEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);

@@ -72,12 +72,12 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             query = queryBuilder
-				.forMonthAndYear("Jan 2012")
+				.forMonthAndYear(new Date(2012, 0))
 				.build(storageFolder);
         });
 
         it("should configure the query for the specified month and year", function () {
-            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate: Jan 2012");
+            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T08:00:00Z..2012-02-01T07:59:59Z");
         });
     });
 

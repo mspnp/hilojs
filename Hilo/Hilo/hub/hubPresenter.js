@@ -162,13 +162,10 @@
 
         buildQueryForPicture: function (picture) {
 
-            // TODO: Perhaps we can pass the `getMonthYearFrom` as a dependency?
-            var monthAndYear = Hilo.dateFormatter.getMonthYearFrom(picture.itemDate);
-
             // Build the query for the month and year of the invoked image
             var query = this.queryBuilder
                 .bindable()
-                .forMonthAndYear(monthAndYear)
+                .forMonthAndYear(picture.itemDate)
                 .build(knownFolders.picturesLibrary);
 
             return {

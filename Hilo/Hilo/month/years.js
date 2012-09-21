@@ -129,7 +129,7 @@
             } else {
 
                 var queryOptions = self._query.queryOptions;
-                var filter = self._dateFormatter.createMonthRangeFromYearAndMonth(year, month);
+                var filter = self._dateFormatter.createFilterRangeFromYearAndMonth(year, month);
                 queryOptions.applicationSearchFilter = filter;
 
                 return folder.createFileQueryWithOptions(queryOptions)

@@ -241,6 +241,20 @@
         this.fileQuery = this._buildFileQuery();
     }
 
+
+    function translateToAQSFilter(value) {
+        var month, year;
+
+        if (value.getFullYear && value.getMonth) {
+            year = value.getFullYear();
+            month = value.getMonth();
+        } else {
+            throw new Error("wat");
+        }
+
+        return Hilo.dateFormatter.createFilterRangeFromYearAndMonth(year, month);
+    }
+
     // Query Object Members
     // --------------------
 
@@ -320,7 +334,7 @@
             //queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
-                queryOptions.applicationSearchFilter = "System.ItemDate: " + this.settings.monthAndYear;
+                queryOptions.applicationSearchFilter = translateToAQSFilter(this.settings.monthAndYear);
             }
 
             return queryOptions;
