@@ -32,8 +32,10 @@
 
                 // When the app is launched, we want to update its tile
                 // on the start screen
-                var tileUpdater = new Hilo.Tiles.TileUpdater();
-                tileUpdater.update();
+                if (!Windows.ApplicationModel.DesignMode.designModeEnabled) {
+                    var tileUpdater = new Hilo.Tiles.TileUpdater();
+                    tileUpdater.update();
+                }
 
                 // Begin listening for changes in the `picturesLibrary`,
                 // if files are added, deleted, or modified, then we'll
