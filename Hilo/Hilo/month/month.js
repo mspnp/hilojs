@@ -10,6 +10,11 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+
+    var viewStates = Windows.UI.ViewManagement.ApplicationViewState;
+
     // Page Control
     // ------------
 
@@ -25,6 +30,8 @@
         // ----------
 
         ready: function (element, options) {
+            var currentViewState = Windows.UI.ViewManagement.ApplicationView.value;
+            this._setLayout(currentViewState);
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
@@ -46,7 +53,9 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            Hilo.navigator.reload();
+            if (viewState !== lastViewState) {
+                this._setLayout(viewState);
+            }
         },
 
         unload: function () {
@@ -55,6 +64,22 @@
 
         // Private Methods
         // ---------------
+
+        _setLayout: function(viewState){
+            //Hilo.navigator.reload();
+            var yearGroup = document.querySelector("#yeargroup");
+            var monthGroup = document.querySelector("#monthgroup");
+
+            var layout;
+            if (viewState === viewStates.snapped) {
+                layout = WinJS.UI.ListLayout;
+            } else {
+                layout = WinJS.UI.GridLayout;
+            };
+
+            yearGroup.winControl.layout = new layout();
+            monthGroup.winControl.layout = new layout();
+        },
 
         _setYearGroupDataAdapter: function (monthGroups) {
             var yearGroupMembers = WinJS.UI.computeDataSourceGroups(monthGroups, function (item) {
