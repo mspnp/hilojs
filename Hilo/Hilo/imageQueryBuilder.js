@@ -249,7 +249,7 @@
             year = value.getFullYear();
             month = value.getMonth();
         } else {
-            throw new Error("wat");
+            throw new Error("Expected a date value.");
         }
 
         return Hilo.dateFormatter.createFilterRangeFromYearAndMonth(year, month);

@@ -78,7 +78,7 @@
         // Private Methods
         // ---------------
 
-        _setLayout: function(viewState){
+        _setLayout: function (viewState) {
             //Hilo.navigator.reload();
             var yearGroup = document.querySelector("#yeargroup");
             var monthGroup = document.querySelector("#monthgroup");
@@ -104,29 +104,32 @@
             this.monthListView = listview;
         },
 
-        _determineIndexInGroup: function (absoluteItemIndex, groupKey) {
-            var firstIndex = this.monthGroups.getFirstIndexForGroup(groupKey);
-            return absoluteItemIndex - firstIndex;
+        _determineIndexInGroup: function (absoluteItemIndex, itemDate) {
+            var groupKey = groupKeyFromDate(itemDate);
+            return this.monthGroups.getGroupByKey(groupKey)
+                .then(function (group) {
+                    return absoluteItemIndex - group.firstItemIndexHint;
+                });
         },
 
         _buildQueryForPicture: function (item) {
 
             var picture = item.data;
-            var monthYear = this._dateFormatter.getMonthYearFrom(picture.itemDate);
 
             // Build a query to represent the month/year group that was selected
             var query = this.queryBuilder
                 .bindable()                     // ensure the images are data-bind-able
-                .forMonthAndYear(monthYear)     // only load images for the month and year group we selected
+                .forMonthAndYear(picture.itemDate)     // only load images for the month and year group we selected
                 .build(this.targetFolder);
 
-            var groupIndex = this._determineIndexInGroup(item.index, monthYear);
-
-            return {
-                query: query,
-                itemIndex: groupIndex,
-                itemName: picture.name
-            };
+            return this._determineIndexInGroup(item.index, picture.itemDate)
+            .then(function (groupIndex) {
+                return {
+                    query: query,
+                    itemIndex: groupIndex,
+                    itemName: picture.name
+                };
+            });
         },
 
         _imageInvoked: function (args) {
@@ -134,11 +137,12 @@
 
             return args.detail.itemPromise.then(function (item) {
 
-                var options = self._buildQueryForPicture(item);
-
-                // Navigate to the detail page to show the results
-                // of this query with the selected item
-                self.navigate("/Hilo/detail/detail.html", options);
+                return self._buildQueryForPicture(item).
+                    then(function (options) {
+                        // Navigate to the detail page to show the results
+                        // of this query with the selected item
+                        self.navigate("/Hilo/detail/detail.html", options);
+                    });
             });
         },
 
@@ -150,8 +154,10 @@
                 .then(function (items) {
                     if (items[0]) {
                         var selected = items[0];
-                        var options = self._buildQueryForPicture(selected);
-                        self.imageNav.setNavigationOptions(options, true);
+                        return self._buildQueryForPicture(selected)
+                            .then(function (options) {
+                                self.imageNav.setNavigationOptions(options, true);
+                            });
                     } else {
                         self.imageNav.clearNavigationOptions(true);
                     }
