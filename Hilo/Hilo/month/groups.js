@@ -15,13 +15,6 @@
     var search = Windows.Storage.Search,
         commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
-    function groupKeyForDate(date) {
-        var month = date.getMonth();
-        var year = date.getFullYear();
-
-        return year + "::" + month;
-    }
-
     // Private Methods
     // ---------------
 
@@ -46,7 +39,7 @@
             // return something. We'll return an arbitrary date value. We 
             // don't expect the value to be used though becaue empty groups
             // should not be added to list view.
-            next = WinJS.Promise.as(new Date("Jan 1, 1975"));
+            next = WinJS.Promise.as(new Date(1900, 1));
         }
 
         return next;
@@ -69,7 +62,7 @@
         // We'll cache the total number of month groups whenever
         // `getCount` is called, then we can provide the value 
         // in the result of `itemsFromIndex`.
-        this.totalCount;
+        this.totalCount = null;
 
         // We cache various bits data about the month groups
         // so that we won't have to go back the file system
@@ -136,7 +129,9 @@
             // Look up the index in the cache for the given key,
             // and then delegate back to `itemsFromIndex`.
             var index = this.cache.byKey[key];
-
+            if (index === undefined) {
+                index = this.cache.byIndex.length;
+            }
             return this.itemsFromIndex(index, countBefore, countAfter);
         },
 
@@ -146,7 +141,7 @@
                 item;
 
             // Locate the items in the cache
-            for (index = start; index <= (start + count) ; index++) {
+            for (index = start; index < (start + count) ; index++) {
                 item = this.cache.byIndex[index];
                 // As soon as we hit an index that is not 
                 // present in the cache, we exit the loop
@@ -155,7 +150,7 @@
                 }
                 found.push(item);
             }
-
+            if (isNaN(start)) { debugger; }
             // In addition to returning the items from the cache,
             // we also include some meta data about what was _not_
             // found in the cache.
@@ -253,7 +248,7 @@
             // TODO: The way we are handling zero count groups
             // is a temporary solution
             var result = {
-                key: groupKeyForDate(firstItemDate),
+                key: Hilo.month.groupKeyFromDate(firstItemDate),
                 firstItemIndexHint: 0, // we need to set this later
                 data: {
                     title: month + "&nbsp;" + year,

@@ -121,7 +121,7 @@
 
         _getGroupForYearMonth: function (folder, year, month) {
             var self = this;
-            var cacheId = year + "::" + month;
+            var cacheId = year + "]]" + month;
             var fromCache = self._cache[cacheId];
 
             if (fromCache) {
