@@ -19,11 +19,16 @@
         setupButtons: function () {
             this.addButtonHandler("#save", this.saveClicked.bind(this));
             this.addButtonHandler("#reset", this.cancelClicked.bind(this));
+            this.addButtonHandler("#unSnap", this.unSnapClicked.bind(this));
         },
 
         addButtonHandler: function (selector, handler) {
             var button = this.el.querySelector(selector);
             button.addEventListener("click", handler);
+        },
+
+        unSnapClicked: function () {
+            this.dispatchEvent("unsnap", {});
         },
 
         saveClicked: function (e) {

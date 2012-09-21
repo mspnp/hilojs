@@ -25,3 +25,21 @@ body {
 		height: 100%;
 		width: 100%;
 	}
+
+.full-screen-button {
+	display: inline;
+}
+
+.snap-view-button {
+	display: none;
+}
+
+@media screen and (-ms-view-state: snapped) {
+	.full-screen-button {
+		display: none;
+	}
+
+	.snap-view-button {
+		display: inline;
+	}
+}

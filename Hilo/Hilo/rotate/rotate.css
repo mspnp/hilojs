@@ -14,34 +14,18 @@
     text-align: center;
 }
 
+#rotate-header {
+	display: none;
+}
+
 #image {
     margin: 0px auto;
     max-height: 85%;
 }
 
-.full-screen-button {
-	display: inline;
-}
-
-.snap-view-button {
-	display: none;
-}
-
-.fragment header[role=banner] {
-	display: none;
-}
-
 @media screen and (-ms-view-state: snapped) {
-	.fragment header[role=banner] {
+	#rotate-header {
 		display: -ms-grid;
-	}
-
-	.full-screen-button {
-		display: none;
-	}
-
-	.snap-view-button {
-		display: inline;
 	}
 
 	#image {

@@ -17,6 +17,7 @@
 .canvas-wrapper {
     margin: 0px auto;
     max-height: 85%;
+	display: block;
 }
 
 #cropSelection {
@@ -58,4 +59,37 @@
 #bottomRight {
     bottom: -15px;
     right: -15px;
+}
+
+#crop-header {
+	display: none;
+}
+
+#image {
+	display: none;
+}
+
+@media screen and (-ms-view-state: snapped) {
+	#crop-header { 
+		display: -ms-grid;
+	}
+
+	#image {
+		max-width: 289px;
+		display: block;
+	}
+
+	.canvas-wrapper {
+		display: none;
+	}
+
+	#cropSelection {
+	    display: none;
+		border: 0px;
+	}
+
+	.corner {
+	    display: none;
+	}
+
 }

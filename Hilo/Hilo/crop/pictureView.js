@@ -44,6 +44,9 @@
                 that.drawImage();
             };
 
+            var imgEl = document.getElementById("image");
+            if (imgEl) { imgEl.src = imageUrl; }
+
             this.image.src = imageUrl;
         },
 

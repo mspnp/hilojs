@@ -21,6 +21,10 @@
 <body>
     <div class="crop fragment">
 
+        <div id="crop-header" data-win-control="WinJS.UI.HtmlControl"
+            data-win-options="{uri: '/Hilo/Controls/Header/Header.html', titleResource: 'CropImagePageTitle.Text' }">
+        </div>
+
         <section aria-label="Main content" role="main">
             <div class="content-wrapper">
 
@@ -35,18 +39,29 @@
                     <canvas id="cropSurface"></canvas>
                 </div>
 
+                <img src="#" id="image" class="rotatable" />
             </div>
         </section>
 
         <div id="appbar" data-win-control="WinJS.UI.AppBar" data-win-options="{sticky: true}">
+	        <button
+				class="snap-view-button"
+				id="unSnap"
+	            data-win-control="WinJS.UI.AppBarCommand"
+	            data-win-options="{id:'crop', icon:'crop', section: 'selection'}"
+	            data-win-res="{winControl: {label:'CropAppBarButton.Name'}}">
+	        </button>
+
             <button
                 id="reset"
                 data-win-control="WinJS.UI.AppBarCommand"
                 data-win-options="{icon:'cancel', section: 'global'}"
 	            data-win-res="{winControl: {label:'CancelAppBarButton.Name'}}">
             </button>
+
             <button
                 id="save"
+				class="full-screen-button"
                 data-win-control="WinJS.UI.AppBarCommand"
                 data-win-options="{icon:'save', section: 'global'}"
 	            data-win-res="{winControl: {label:'AcceptAppBarButton.Name'}}">

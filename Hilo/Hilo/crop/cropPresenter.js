@@ -116,6 +116,11 @@
         handleAppBarEvents: function () {
             this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
             this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));
+            this.appBarPresenter.addEventListener("unsnap", this.unSnapView.bind(this));
+        },
+
+        unSnapView: function () {
+            Windows.UI.ViewManagement.ApplicationView.tryUnsnap();
         },
 
         saveImageAs: function () {
