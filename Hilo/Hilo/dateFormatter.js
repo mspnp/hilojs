@@ -22,11 +22,8 @@
         format = Windows.Globalization.DateTimeFormatting,
         globalizationPreferences = Windows.System.UserProfile.GlobalizationPreferences;
 
-    // Get the current system calendar type
-    var systemCalendarType = globalizationPreferences.calendars.getAt(0);
-
     // Construct a calendar that we can use for formatting dates
-    var calendar = new global.Calendar(globalizationPreferences.languages, systemCalendarType, global.ClockIdentifiers.twelveHour);
+    var calendar = new global.Calendar();
 
     // Instatiate a throw-away instance of `DateTimeFormatter`
     // just so we can acquire the geographic region in order 
@@ -34,11 +31,40 @@
     // the appropriate values.
     var geographicRegion = new format.DateTimeFormatter("shortdate").resolvedGeographicRegion;
 
-    // Construct a `DateTimeFormatter` that will _only_ return the full month and full year for 
-    // the current system calendar settings.
-    var dtf = new format.DateTimeFormatter(
-        format.YearFormat.full,
+    // Construct a `DateTimeFormatter` that will _only_ return the full month.
+    var monthFormatter = new format.DateTimeFormatter(
+        format.YearFormat.none,
         format.MonthFormat.full,
+        format.DayFormat.none,
+        format.DayOfWeekFormat.none,
+        format.HourFormat.none,
+        format.MinuteFormat.none,
+        format.SecondFormat.none,
+        globalizationPreferences.languages,
+        geographicRegion,
+        calendar.getCalendarSystem(),
+        calendar.getClock()
+        );
+
+    // Construct a `DateTimeFormatter` that will _only_ return an abbreviated month.
+    var abbreviatedMonthFormatter = new format.DateTimeFormatter(
+        format.YearFormat.none,
+        format.MonthFormat.abbreviated,
+        format.DayFormat.none,
+        format.DayOfWeekFormat.none,
+        format.HourFormat.none,
+        format.MinuteFormat.none,
+        format.SecondFormat.none,
+        globalizationPreferences.languages,
+        geographicRegion,
+        calendar.getCalendarSystem(),
+        calendar.getClock()
+        );
+
+    // Construct a `DateTimeFormatter` that will _only_ return the full year.
+    var yearFormatter = new format.DateTimeFormatter(
+        format.YearFormat.full,
+        format.MonthFormat.none,
         format.DayFormat.none,
         format.DayOfWeekFormat.none,
         format.HourFormat.none,
@@ -53,15 +79,146 @@
     // Private Methods
     // ---------------
 
-    function getMonthYearFrom(date) {
-        return dtf.format(date);
+    function getMonthFrom(date) {
+        return monthFormatter.format(date);
+    }
+
+    function getAbbreviatedMonthFrom(date) {
+        return abbreviatedMonthFormatter.format(date);
+    }
+
+    function getYearFrom(date) {
+        return yearFormatter.format(date);
+    }
+
+    function getISO8601WithoutMilliseconds(date) {
+        var isoDate = date.toISOString();
+        return isoDate.replace(/\.\d\d\dZ$/, "Z");
+    }
+
+    function calendarFor(year, month) {
+        var calendar = new global.Calendar();
+
+        // In JavaScript, the first month is 0. 
+        month = month + 1;
+
+        calendar.year = year;
+        calendar.month = month;
+        return calendar;
+    }
+
+    function startOfMonthAsISO8601(calendar) {
+        calendar.day = calendar.firstDayInThisMonth;
+        calendar.period = calendar.firstPeriodInThisDay;
+        calendar.hour = calendar.firstHourInThisPeriod;
+        calendar.minute = calendar.firstMinuteInThisHour;
+        calendar.second = calendar.firstSecondInThisMinute;
+
+        return getISO8601WithoutMilliseconds(calendar.getDateTime());
+    }
+
+    function endOfMonthAsISO8601(calendar) {
+        calendar.day = calendar.lastDayInThisMonth;
+        calendar.period = calendar.lastPeriodInThisDay;
+        calendar.hour = calendar.lastHourInThisPeriod;
+        calendar.minute = calendar.lastMinuteInThisHour;
+        calendar.second = calendar.lastSecondInThisMinute;
+
+        return getISO8601WithoutMilliseconds(calendar.getDateTime());
+    }
+
+    function createFilterRangeFromYearAndMonth(year, month) {
+        var calendar = calendarFor(year, month);
+
+        var startOfRange = startOfMonthAsISO8601(calendar);
+        var endOfRange = endOfMonthAsISO8601(calendar);
+
+        return "System.ItemDate:" + startOfRange + ".." + endOfRange;
+    }
+
+    function createFilterFromYearAndMonth(year, month) {
+        var calendar = calendarFor(year, month);
+
+        var startOfRange = startOfMonthAsISO8601(calendar);
+
+        return "System.ItemDate:" + startOfRange;
+    }
+
+    function createFilterFromDate(date) {
+        return createFilterFromYearAndMonth(date.getFullYear(), date.getMonth());
+    }
+
+    function getAbbreviatedMonthFrom(date) {
+        return abbreviatedMonthFormatter.format(date);
+    }
+
+    function getISO8601WithoutMilliseconds(date) {
+        var isoDate = date.toISOString();
+        return isoDate.replace(/\.\d\d\dZ$/, "Z");
+    }
+
+    function calendarFor(year, month) {
+        var calendar = new global.Calendar();
+
+        // In JavaScript, the first month is 0. 
+        month = month + 1;
+
+        calendar.year = year;
+        calendar.month = month;
+        return calendar;
+    }
+
+    function startOfMonthAsISO8601(calendar) {
+        calendar.day = calendar.firstDayInThisMonth;
+        calendar.period = calendar.firstPeriodInThisDay;
+        calendar.hour = calendar.firstHourInThisPeriod;
+        calendar.minute = calendar.firstMinuteInThisHour;
+        calendar.second = calendar.firstSecondInThisMinute;
+
+        return getISO8601WithoutMilliseconds(calendar.getDateTime());
+    }
+
+    function endOfMonthAsISO8601(calendar) {
+        calendar.day = calendar.lastDayInThisMonth;
+        calendar.period = calendar.lastPeriodInThisDay;
+        calendar.hour = calendar.lastHourInThisPeriod;
+        calendar.minute = calendar.lastMinuteInThisHour;
+        calendar.second = calendar.lastSecondInThisMinute;
+
+        return getISO8601WithoutMilliseconds(calendar.getDateTime());
+    }
+
+    function createFilterRangeFromYearAndMonth(year, month) {
+        var calendar = calendarFor(year, month);
+
+        var startOfRange = startOfMonthAsISO8601(calendar);
+        var endOfRange = endOfMonthAsISO8601(calendar);
+
+        return "System.ItemDate:" + startOfRange + ".." + endOfRange;
+    }
+
+    function createFilterFromYearAndMonth(year, month) {
+        var calendar = calendarFor(year, month);
+
+        var startOfRange = startOfMonthAsISO8601(calendar);
+
+        return "System.ItemDate:" + startOfRange;
+    }
+
+    function createFilterFromDate(date) {
+        return createFilterFromYearAndMonth(date.getFullYear(), date.getMonth());
     }
 
     // Public API
     // ----------
 
     WinJS.Namespace.define("Hilo.dateFormatter", {
-        getMonthYearFrom: getMonthYearFrom
+        getMonthFrom: getMonthFrom,
+        getAbbreviatedMonthFrom: getAbbreviatedMonthFrom,
+        getYearFrom: getYearFrom,
+        createFilterFromDate: createFilterFromDate,
+        createFilterFromYearAndMonth: createFilterFromYearAndMonth,
+        createFilterRangeFromYearAndMonth: createFilterRangeFromYearAndMonth
     });
 
 }());
