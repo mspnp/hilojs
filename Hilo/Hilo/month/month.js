@@ -19,7 +19,6 @@
     function groupKeyFromDate(date) {
         var month = date.getMonth();
         var year = date.getFullYear();
-        if (year == "1975") { debugger; }
         return year + "::" + month;
     }
 
