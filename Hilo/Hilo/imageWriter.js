@@ -96,11 +96,11 @@
 
             // Keep data in-scope across multiple asynchronous methods.
             var originalWidth,
-				originalHeight,
-				encoder,
-				decoder,
-				sourceStream,
-	            destStream;
+                originalHeight,
+                encoder,
+                decoder,
+                sourceStream,
+                destStream;
 
             var memStream = new Windows.Storage.Streams.InMemoryRandomAccessStream();
 
@@ -169,10 +169,11 @@
             }).done(function () {
 
                 // Finally, close each stream to release any locks.
+                // <SnippetHilojs_1902>
                 if (memStream) { memStream.close(); }
                 if (sourceStream) { sourceStream.close(); }
                 if (destStream) { destStream.close(); }
-
+                // <SnippetHilojs_1902>
             });
         }
     };

@@ -10,6 +10,7 @@
 (function () {
     "use strict";
 
+    // <SnippetHilojs_1805>
     function checkOptions(options, deserialize) {
         if (!options) { return; }
 
@@ -30,6 +31,7 @@
             options.query = query;
         }
     }
+    // </SnippetHilojs_1805>
 
     WinJS.Namespace.define("Hilo.controls", {
         checkOptions: checkOptions

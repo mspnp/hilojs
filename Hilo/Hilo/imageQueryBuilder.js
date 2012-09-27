@@ -113,6 +113,7 @@
         // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
         // deserializedQuery.execute();
         // ```
+        // <SnippetHilojs_1804>
         deserialize: function (serializedQuery) {
             // Even though we pass in the entire query object, we really only care
             // about the settings. They allow us to reconstruct the correct query.
@@ -130,6 +131,7 @@
 
             return new Query(settings);
         }
+        // </SnippetHilojs_1804>
     };
 
     // Image Query Builder Members
@@ -314,9 +316,11 @@
         // This implementation does not add anything beyond the builtin logic,
         // however we include it in order to demonstrate were you could 
         // customize the serialization if you needed.
+        // <SnippetHilojs_1802>
         toJSON: function () {
             return this;
         },
+        // </SnippetHilojs_1802>
 
         // Internal method to take the options specified in the query builder
         // and turn them in to a [QueryOptions][6] object. 
@@ -326,6 +330,7 @@
         // `execute` method, instead.
         //
         // [6]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.search.queryoptions.aspx
+        // <SnippetHilojs_1901>
         _buildQueryOptions: function () {
             var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
             queryOptions.indexerOption = this.settings.indexerOption;
@@ -339,6 +344,7 @@
 
             return queryOptions;
         },
+        // </SnippetHilojs_1901>
 
         // Internal method. Converts a QueryOptions object in to a file query.
         _buildFileQuery: function () {

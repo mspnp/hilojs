@@ -22,6 +22,7 @@
     // the following should always be set to true.
     WinJS.Binding.optimizeBindingReferences = true;
 
+    // <SnippetHilojs_1803>
     app.addEventListener("activated", function (args) {
 
         var currentState = args.detail;
@@ -74,7 +75,9 @@
             args.setPromise(processAndNavigate);
         }
     }, false);
+    // </SnippetHilojs_1803>
 
+    // <SnippetHilojs_1801>
     app.addEventListener("checkpoint", function (args) {
         // TODO: This application is about to be suspended. Save any state
         // that needs to persist across suspensions here. If you need to 
@@ -82,6 +85,7 @@
         // suspended, call args.setPromise().
         app.sessionState.history = nav.history;
     }, false);
+    // </SnippetHilojs_1801>
 
     app.start();
 })();
