@@ -44,7 +44,6 @@
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <PackageCertificateKeyFile>Hilo.Specifications_TemporaryKey.pfx</PackageCertificateKeyFile>
     <JSLintSkip>|\lib\</JSLintSkip>
   </PropertyGroup>
   <ItemGroup>
