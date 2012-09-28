@@ -40,9 +40,7 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            if (lastViewState === viewStates.snapped || lastViewState === viewStates.filled) {
-                Hilo.navigator.reload();
-            }
+            Hilo.navigator.reload();
         },
 
     };
