@@ -173,7 +173,7 @@
                 if (memStream) { memStream.close(); }
                 if (sourceStream) { sourceStream.close(); }
                 if (destStream) { destStream.close(); }
-                // <SnippetHilojs_1902>
+                // </SnippetHilojs_1902>
             });
         }
     };
