@@ -52,7 +52,11 @@
 
             rotateImageWriter
                 .rotate(this.imageFile, this.rotationDegrees)
-		        .then(function () { self.navigation.back(); });
+		        .then(function (success) {
+		            if (success) {
+		                self.navigation.back();
+		            }
+		        });
         },
 
         cancel: function () {

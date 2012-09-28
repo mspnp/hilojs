@@ -126,15 +126,17 @@
         },
 
         saveImageAs: function () {
-
+            var self = this;
             var cropRect = this.cropSelection.getCoords();
             var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, cropRect, this.offset);
 
             this.imageWriter
                 .crop(this.storageFile, selectionRectScaledToImage)
-                .then(function () {
-                    WinJS.Navigation.back();
-                });
+		        .then(function (success) {
+		            if (success) {
+		                self.navigation.back();
+		            }
+		        });
         },
 
         cancel: function () {

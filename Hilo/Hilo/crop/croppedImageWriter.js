@@ -33,7 +33,10 @@
             return this.imageWriter.pickFile(sourceFile, "Cropped")
                 .then(function (destFile) {
                     if (destFile) {
-                        return that.saveCroppedImage(sourceFile, destFile, cropSelection);
+                        that.saveCroppedImage(sourceFile, destFile, cropSelection);
+                        return true;
+                    } else {
+                        return false;
                     }
                 });
 

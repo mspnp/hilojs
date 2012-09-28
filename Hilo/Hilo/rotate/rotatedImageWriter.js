@@ -28,7 +28,10 @@
             return this.imageWriter.pickFile(sourceFile, "Rotated")
                 .then(function (destFile) {
                     if (destFile) {
-                        return that.saveRotatedImage(sourceFile, destFile, degrees);
+                        that.saveRotatedImage(sourceFile, destFile, degrees);
+                        return true;
+                    } else {
+                        return false;
                     }
                 });
         },
