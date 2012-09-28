@@ -13,7 +13,7 @@
     // Imports And Constants
     // ---------------------
 
-    var viewStates = Windows.UI.ViewManagement.ApplicationViewState;
+    var scaleResolution = 0.7;
 
     // Page Control
     // ------------
@@ -35,8 +35,13 @@
             var imageWriter = new Hilo.ImageWriter();
             var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
 
-            var cropPresenter = new Hilo.Crop.CropPresenter(fileLoader, canvasEl, cropSelectionEl, menuEl, cropImageWriter, expectedName);
-            cropPresenter.start();
+            var screenResolution = {
+                height: window.innerHeight * scaleResolution,
+                width: window.innerWidth * scaleResolution
+            };
+
+            this.cropPresenter = new Hilo.Crop.CropPresenter(fileLoader, canvasEl, cropSelectionEl, menuEl, cropImageWriter, expectedName, WinJS.Navigation, screenResolution);
+            this.cropPresenter.start();
         },
 
         updateLayout: function (element, viewState, lastViewState) {

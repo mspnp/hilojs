@@ -13,13 +13,15 @@
     // Imports And Constants
     // ---------------------
 
-    var screenMaxHeight = 800;
-    var screenMaxWidth = 1600;
+    var screenMaxHeight, screenMaxWidth;
 
     // Constructor Function
     // --------------------
 
-    function CropPresenterConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter, expectedFileName, navigation) {
+    function CropPresenterConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter, expectedFileName, navigation, screenRes) {
+        screenMaxHeight = screenRes.height;
+        screenMaxWidth = screenRes.width;
+
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
         this.cropSelectionEl = cropSelectionEl;
