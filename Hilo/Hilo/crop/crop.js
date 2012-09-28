@@ -10,6 +10,11 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+
+    var viewStates = Windows.UI.ViewManagement.ApplicationViewState;
+
     // Page Control
     // ------------
 
@@ -32,7 +37,13 @@
 
             var cropPresenter = new Hilo.Crop.CropPresenter(fileLoader, canvasEl, cropSelectionEl, menuEl, cropImageWriter, expectedName);
             cropPresenter.start();
-        }
+        },
+
+        updateLayout: function (element, viewState, lastViewState) {
+            if (lastViewState === viewStates.snapped && viewState !== viewStates.snapped) {
+                Hilo.navigator.reload();
+            }
+        },
 
     };
 
