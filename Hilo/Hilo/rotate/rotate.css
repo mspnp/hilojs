@@ -21,7 +21,7 @@
 #image {
     margin: 0px auto;
     max-height: 85%;
-	display: block;
+	display: block !important;
 }
 
 @media screen and (-ms-view-state: snapped) {
