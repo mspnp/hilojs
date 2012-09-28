@@ -38,6 +38,10 @@
             this.addCorner("#topRight", position.topRight);
             this.addCorner("#bottomLeft", position.bottomLeft);
             this.addCorner("#bottomRight", position.bottomRight);
+            this.addCorner("#topMiddle", position.topMiddle);
+            this.addCorner("#rightMiddle", position.rightMiddle);
+            this.addCorner("#bottomMiddle", position.bottomMiddle);
+            this.addCorner("#leftMiddle", position.leftMiddle);
         },
 
         addCorner: function (selector, position) {

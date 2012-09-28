@@ -20,7 +20,11 @@
     var topLeft = 0,
         topRight = 1,
         bottomLeft = 2,
-        bottomRight = 3
+        bottomRight = 3,
+        topMiddle = 4,
+        rightMiddle = 5,
+        bottomMiddle = 6,
+        leftMiddle = 7
 
     // CropSelection Corner Constructor
     // -----------------------------
@@ -62,7 +66,11 @@
             topLeft: topLeft,
             topRight: topRight,
             bottomLeft: bottomLeft,
-            bottomRight: bottomRight
+            bottomRight: bottomRight,
+            topMiddle: topMiddle,
+            rightMiddle: rightMiddle,
+            bottomMiddle: bottomMiddle,
+            leftMiddle: leftMiddle
         }
     };
 
@@ -196,6 +204,26 @@
     // The "bottom right" corner
     positionalCoordFunctions[bottomRight] = function (point) {
         return { endX: point.x, endY: point.y }
+    };
+
+    // The "top middle" corner
+    positionalCoordFunctions[topMiddle] = function (point) {
+        return { startY: point.y }
+    };
+
+    // The "right middle" corner
+    positionalCoordFunctions[rightMiddle] = function (point) {
+        return { endX: point.x }
+    };
+
+    // The "bottom middle" corner
+    positionalCoordFunctions[bottomMiddle] = function (point) {
+        return { endY: point.y }
+    };
+
+    // The "left middle" corner
+    positionalCoordFunctions[leftMiddle] = function (point) {
+        return { startX: point.x }
     };
 
     // CropSelection Corner Type Definition

@@ -32,33 +32,58 @@
 .corner {
     position: absolute;
     display: block;
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     overflow: hidden;
     border: 0px;
     background-color: #fff;
-    opacity: 0.5;
+    opacity: 0.75;
     cursor: crosshair;
+	border-radius: 20px;
 }
 
 #topLeft {
-    top: -15px;
-    left: -15px;
+    top: -20px;
+    left: -20px;
 }
 
 #topRight {
-    top: -15px;
-    right: -15px;
+    top: -20px;
+    right: -20px;
 }
 
 #bottomLeft {
-    bottom: -15px;
-    left: -15px;
+    bottom: -20px;
+    left: -20px;
 }
 
 #bottomRight {
-    bottom: -15px;
-    right: -15px;
+    bottom: -20px;
+    right: -20px;
+}
+
+#topMiddle {
+    top: -20px;
+    left: 50%;
+	margin: 0px 0px 0px -20px;
+}
+
+#rightMiddle {
+    top: 50%;
+    right: -20px;
+	margin: -20px 0px 0px 0px;
+}
+
+#bottomMiddle {
+    bottom: -20px;
+    left: 50%;
+	margin: 0px 0px 0px -20px;
+}
+
+#leftMiddle {
+    top: 50%;
+    left: -20px;
+	margin: -20px 0px 0px 0px;
 }
 
 #crop-header {

@@ -13,8 +13,8 @@
     // Imports And Constants
     // ---------------------
 
-    var minHeight = 30,
-        minWidth = 30;
+    var minHeight = 90,
+        minWidth = 90;
 
     // CropSelection Constructor
     // -------------------------
