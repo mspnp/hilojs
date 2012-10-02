@@ -11,7 +11,7 @@
     'use strict';
 
     var YearList = WinJS.Class.define(function YearList_ctor(element, options) {
-
+        // <SnippetHilojs_1709>
         var listViewEl = document.createElement("div");
 
         element.appendChild(listViewEl);
@@ -24,7 +24,7 @@
 
         this.listView = listView;
         listView.layout.maxRows = 3;
-
+        // </SnippetHilojs_1709>
         var self = this;
         listView.itemTemplate = function (itemPromise, recycledElement) {
 

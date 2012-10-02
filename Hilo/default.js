@@ -20,7 +20,9 @@
     // According to the official documentation, 
     // http://msdn.microsoft.com/en-us/library/windows/apps/jj215606.aspx
     // the following should always be set to true.
+    // <SnippetHilojs_1601>
     WinJS.Binding.optimizeBindingReferences = true;
+    // </SnippetHilojs_1601>
 
     // <SnippetHilojs_1803>
     app.addEventListener("activated", function (args) {

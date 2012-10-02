@@ -19,7 +19,9 @@
         this.context = canvasEl.getContext("2d");
         this.loadImage(imageUrl);
 
+        // <SnippetHilojs_1702>
         cropSelection.addEventListener("move", this.drawImage.bind(this));
+        // </SnippetHilojs_1702>
         canvasEl.addEventListener("click", this.click.bind(this));
     }
 
@@ -76,9 +78,11 @@
             this.setImageSubset(scaledImageCoordinates);
         },
 
+        // <SnippetHilojs_1703>
         click: function () {
             this.dispatchEvent("preview");
         }
+        // </SnippetHilojs_1703>
     };
 
     // Picture View Definition

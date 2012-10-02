@@ -23,8 +23,10 @@
             var pageTitle = Hilo.dateFormatter.getMonthFrom(queryDate) + " " + Hilo.dateFormatter.getYearFrom(queryDate);
             this.bindPageTitle(pageTitle);
 
+            // <SnippetHilojs_1711>
             var imageNavEl = document.querySelector("#appbar");
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
+            // </SnippetHilojs_1711>
 
             var filmstripEl = document.querySelector("#filmstrip")
             var flipviewEl = document.querySelector("#flipview");
