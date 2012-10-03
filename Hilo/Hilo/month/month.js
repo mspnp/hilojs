@@ -54,6 +54,7 @@
             this.monthGroupMembers = new Hilo.month.Members(this.queryBuilder, this.targetFolder, this._dateFormatter);
             this._setupMonthGroupListView(this.monthGroups, this.monthGroupMembers);
 
+            // <SnippetHilojs_1708>
             var yearGroupMembers = new Hilo.month.Years(this.queryBuilder, this.targetFolder, this._dateFormatter, this.monthGroups.getGroupByKey);
 
             var yearList = document.querySelector("#yeargroup").winControl;
@@ -62,6 +63,7 @@
                 var groupKey = groupKeyFromDate(new Date(data.year, data.month));
                 return self.monthGroups.getGroupByKey(groupKey);
             };
+            // </SnippetHilojs_1708>
         },
 
         updateLayout: function (element, viewState, lastViewState) {

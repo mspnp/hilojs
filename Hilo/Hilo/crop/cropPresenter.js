@@ -89,12 +89,16 @@
 
         setupControllers: function (storageFile) {
             this.cropSelection = new Hilo.Crop.CropSelection();
+            // <SnippetHilojs_1701>
             this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.cropSelection, this.url);
+            // </SnippetHilojs_1701>
             this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, this.canvasEl, this.cropSelectionEl);
             this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, this.canvasEl, this.cropSelectionEl);
             this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
 
+            // <SnippetHilojs_1704>
             this.pictureView.addEventListener("preview", this.cropImage.bind(this));
+            // </SnippetHilojs_1704>
 
             // forwarding for the chained "then" calls
             return storageFile;
@@ -132,11 +136,11 @@
 
             this.imageWriter
                 .crop(this.storageFile, selectionRectScaledToImage)
-		        .then(function (success) {
-		            if (success) {
-		                self.navigation.back();
-		            }
-		        });
+                .then(function (success) {
+                    if (success) {
+                        self.navigation.back();
+                    }
+                });
         },
 
         cancel: function () {
@@ -145,6 +149,8 @@
 
         // Run the image crop process, visually, to show what the crop result
         // will look like when the file is saved.
+        // <SnippetHilojs_1609>
+        // <SnippetHilojs_1705>
         cropImage: function () {
             // Get the canvas-based rectangle of the crop selection
             var coords = this.cropSelection.getCoords();
@@ -164,6 +170,8 @@
             // will correctly crop to what has been visually selected
             this.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
         },
+        // </SnippetHilojs_1705>
+        // </SnippetHilojs_1609>
 
         // Calculate the canvas size, according to the scale, using
         // the crop selection rectangle

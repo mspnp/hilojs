@@ -24,18 +24,23 @@
     // ---------------
 
     // <SnippetHilojs_1005>
+    // <SnippetHilojs_1108>
     function writeThumbnailToFile(sourceFile, targetFile) {
+        // <SnippetHilojs_1106>
         var whenFileIsOpen = targetFile.openAsync(fileAccessMode.readWrite);
         var whenThumbailIsReady = sourceFile.getThumbnailAsync(thumbnailMode.singleItem);
         var whenEverythingIsReady = WinJS.Promise.join([whenFileIsOpen, whenThumbailIsReady]);
+        // </SnippetHilojs_1106>
 
         var inputStream, outputStream;
 
+        // <SnippetHilojs_1107>
         whenEverythingIsReady.then(function (args) {
             // `args` contains the output from both `whenFileIsOpen` and `whenThumbailIsReady`.
             // We can identify them by the order they were in when we joined them.
             outputStream = args[0];
             var thumbnail = args[1];
+            // </SnippetHilojs_1107>
             inputStream = thumbnail.getInputStreamAt(0);
             return randomAccessStream.copyAsync(inputStream, outputStream);
 
@@ -47,8 +52,10 @@
             outputStream.close();
         });
     }
+    // </SnippetHilojs_1108>
     // </SnippetHilojs_1005>
 
+    // <SnippetHilojs_1105>
     function copyFilesToFolder(sourceFiles, targetFolder) {
 
         var allFilesCopied = sourceFiles.map(function (fileInfo, index) {
@@ -68,8 +75,10 @@
         // a single promise that is returned from this method.
         return WinJS.Promise.join(allFilesCopied);
     };
+    // </SnippetHilojs_1105>
 
     // <SnippetHilojs_1004>
+    // <SnippetHilojs_1104>
     function createTileFriendlyImages(files) {
         var localFolder = applicationData.current.localFolder;
 
@@ -93,6 +102,7 @@
         return whenFolderCreated
             .then(copyThumbnailsToFolder);
     }
+    // </SnippetHilojs_1104>
     // </SnippetHilojs_1004>
 
     // Public API

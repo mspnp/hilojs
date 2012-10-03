@@ -63,19 +63,24 @@
         },
 
         // <SnippetHilojs_1003>
+        // <SnippetHilojs_1103>
         queueTileUpdates: function (notifications) {
             var that = this;
             notifications.forEach(function (notification) {
                 that.tileUpdater.update(notification);
             });
         },
+        // </SnippetHilojs_1103>
         // </SnippetHilojs_1003>
 
         // <SnippetHilojs_1001>
+        // <SnippetHilojs_1101>
         update: function () {
             // Bind the function to a context, so that `this` will be resolved
             // when it is invoked in the promise.
+            // <SnippetHilojs_1102>
             var queueTileUpdates = this.queueTileUpdates.bind(this);
+            // </SnippetHilojs_1102>
 
             // Build a query to get the number of images needed for the tiles
             var queryBuilder = new Hilo.ImageQueryBuilder();
@@ -92,6 +97,7 @@
                 .then(Hilo.Tiles.createTileUpdates)
                 .then(queueTileUpdates);
         }
+        // </SnippetHilojs_1101>
         // </SnippetHilojs_1001>
     }
 

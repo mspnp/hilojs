@@ -24,10 +24,12 @@
     // --------------------------
 
     var flipviewPresenterMembers = {
+        // <SnippetHilojs_1606>
         bindImages: function (images) {
             this.bindingList = new WinJS.Binding.List(images);
             this.winControl.itemDataSource = this.bindingList.dataSource;
         },
+        // </SnippetHilojs_1606>
 
         pageSelected: function (args) {
             var itemIndex = this.winControl.currentPage;

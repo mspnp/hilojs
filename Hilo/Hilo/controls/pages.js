@@ -20,11 +20,13 @@
         return WinJS.UI.Pages.define(url, members);
     }
 
+    // <SnippetHilojs_1603>
     function bindPageTitle(title) {
         // bind the title based on the query's month/year
         var pageTitleEl = document.querySelector("#pageTitle");
         WinJS.Binding.processAll(pageTitleEl, { title: title });
     }
+    // </SnippetHilojs_1603>
 
     // Examines the page for `a` tags, extracting the url and wiring
     // a handler that invokes the built-in navigation logic.
