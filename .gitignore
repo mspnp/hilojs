@@ -99,3 +99,4 @@ lib
 
 *.orig
 *.pfx
+*.diagsession
