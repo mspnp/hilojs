@@ -15,17 +15,6 @@
 
     var thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
 
-    // Private/Helper Methods
-    // ----------------------
-
-    function urlFor(blob) {
-        var url = "";
-        if (blob) {
-            url = "url(" + URL.createObjectURL(blob) + ")";
-        }
-        return url;
-    }
-
     // Picture Constructor Function
     // ----------------------------
 
@@ -33,6 +22,7 @@
         var self = this;
 
         this.storageFile = file;
+        this.urlList = [];
 
         this._initObservable();
         this.addProperty("name", file.name);
@@ -42,10 +32,12 @@
         this.addProperty("className", "thumbnail");
 
         file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-            self.updateProperty("url", urlFor(thumbnail));
+            if (self.isDisposed) { return; }
+            self.setUrl("url", thumbnail);
         });
 
         file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
+            if (self.isDisposed) { return; }
             self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
         });
     }
@@ -54,8 +46,39 @@
     // ------------------------
 
     var pictureMethods = {
+        dispose: function () {
+            if (this.isDisposed) { return; }
+            this.isDisposed = true;
+
+            this.revokeUrls();
+            delete this.storageFile;
+            delete this.urlList;
+        },
+
         loadImage: function () {
-            this.updateProperty("src", urlFor(this.storageFile));
+            return this.setUrl("src", this.storageFile);
+        },
+
+        setUrl: function (attrName, obj) {
+            var url = URL.createObjectURL(thumbnail, { oneTimeOnly: true });
+            var config = {
+                attrName: attrName,
+                url: url,
+                backgroundUrl: "url(" + url + ")"
+            };
+
+            this.urlList.push(config);
+            this.updateProperty(attrName, config.backgroundUrl);
+
+            return config;
+        },
+
+        revokeUrls: function () {
+            for (var i = 0; i < this.urlList.length; i++) {
+                var urlConfig = this.urlList[i];
+                URL.revokeObjectURL(urlConfig.url);
+            }
+            this.urlList = [];
         }
     };
 
@@ -86,7 +109,7 @@
             // We are not using img tags because a bad file results in a broken image
 
             if (!source.src) {
-                source.updateProperty("src", URL.createObjectURL(source.storageFile));
+                source.loadImage();
             }
 
             target.style.backgroundImage = 'url(' + source.src + ')';
