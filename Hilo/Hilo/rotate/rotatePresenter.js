@@ -14,7 +14,6 @@
     // ----------------------------
 
     function RotatePresenter(el, appBarPresenter, fileLoader, urlBuilder, expectedFileName, navigation) {
-
         this.el = el;
         this.appBarPresenter = appBarPresenter;
         this.fileLoader = fileLoader;
@@ -23,6 +22,11 @@
         this.navigation = navigation || WinJS.Navigation;
 
         this.rotationDegrees = 0;
+
+        this.rotateImage = this.rotateImage.bind(this);
+        this.saveImage = this.saveImage.bind(this);
+        this.cancel = this.cancel.bind(this);
+        this.unsnap = this.unsnap.bind(this);
     }
 
     // Rotate Presenter Members
@@ -36,6 +40,8 @@
         },
 
         dispose: function () {
+            this._unbindEvents();
+
             this.hiloPicture.dispose();
             delete this.hiloPicture;
 
@@ -82,10 +88,17 @@
         // Internal method.
         // Bind to the appbar presenter's events, to handle the button clicks
         _bindToEvents: function () {
-            this.appBarPresenter.addEventListener("rotate", this.rotateImage.bind(this));
-            this.appBarPresenter.addEventListener("save", this.saveImage.bind(this));
-            this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
-            this.appBarPresenter.addEventListener("unsnap", this.unsnap.bind(this));
+            this.appBarPresenter.addEventListener("rotate", this.rotateImage);
+            this.appBarPresenter.addEventListener("save", this.saveImage);
+            this.appBarPresenter.addEventListener("cancel", this.cancel);
+            this.appBarPresenter.addEventListener("unsnap", this.unsnap);
+        },
+
+        _unbindEvents: function(){
+            this.appBarPresenter.removeEventListener("rotate", this.rotateImage);
+            this.appBarPresenter.removeEventListener("save", this.saveImage);
+            this.appBarPresenter.removeEventListener("cancel", this.cancel);
+            this.appBarPresenter.removeEventListener("unsnap", this.unsnap);
         },
 
         // Internal method.

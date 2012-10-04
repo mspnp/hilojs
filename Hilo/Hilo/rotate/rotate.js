@@ -24,14 +24,17 @@
             var fileLoader = query.execute(selectedIndex);
 
             var menuEl = document.querySelector("#appbar");
-            var appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
+            this.appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
 
             var imgEl = document.querySelector("#rotate-image");
-            this.presenter = new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL, expectedName);
+            this.presenter = new Hilo.Rotate.RotatePresenter(imgEl, this.appBarPresenter, fileLoader, URL, expectedName);
             this.presenter.start();
         },
 
         unload: function () {
+            this.appBarPresenter.dispose();
+            delete this.appBarPresenter;
+
             this.presenter.dispose();
             delete this.presenter;
         }

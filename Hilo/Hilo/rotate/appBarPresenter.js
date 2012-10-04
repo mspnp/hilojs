@@ -24,6 +24,11 @@
         this.el = el;
         this.menu = el.winControl;
 
+        this.rotateClockwise = this.rotateClockwise.bind(this);
+        this.saveChanges = this.saveChanges.bind(this);
+        this.cancelChanges = this.cancelChanges.bind(this);
+        this.unSnap = this.unSnap.bind(this);
+
         this.setupButtons();
         this.menu.show();
     }
@@ -33,12 +38,22 @@
 
     var appBarPresenterMembers = {
 
+        dispose: function () {
+            this._removeButton("#clockwise", this.rotateClockwise);
+            this._removeButton("#save", this.saveChanges);
+            this._removeButton("#cancel", this.cancelChanges);
+            this._removeButton("#unSnap", this.unSnap);
+
+            delete this.el;
+            delete this.menu;
+        },
+
         // Set up all of the button click handlers and initially disable save / cancel
         setupButtons: function () {
-            this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise.bind(this));
-            this.saveButton = this._addButton("#save", this.saveChanges.bind(this));
-            this.cancelButton = this._addButton("#cancel", this.cancelChanges.bind(this));
-            this.unSnapButton = this._addButton("#unSnap", this.unSnap.bind(this));
+            this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise);
+            this.saveButton = this._addButton("#save", this.saveChanges);
+            this.cancelButton = this._addButton("#cancel", this.cancelChanges);
+            this.unSnapButton = this._addButton("#unSnap", this.unSnap);
             this._disableButtons();
         },
 
@@ -75,6 +90,11 @@
             var buttonEl = this.el.querySelector(selector).winControl;
             buttonEl.addEventListener("click", clickHandler);
             return buttonEl;
+        },
+
+        _removeButton: function (selector, clickHandler) {
+            var buttonEl = this.el.querySelector(selector).winControl;
+            buttonEl.removeEventListener("click", clickHandler);
         },
 
         // Internal method.
