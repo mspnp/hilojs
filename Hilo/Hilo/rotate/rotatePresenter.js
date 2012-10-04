@@ -98,9 +98,7 @@
                 this.navigation.navigate("/Hilo/hub/hub.html");
             } else {
                 this.hiloPicture = new Hilo.Picture(storageFile);
-                this.hiloPicture.addEventListener("url:set", function (args) {
-                    that.el.src = args.detail.url;
-                });
+                this.el.src = this.hiloPicture.getUrl("src");
             }
         },
 

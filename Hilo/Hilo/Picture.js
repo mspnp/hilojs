@@ -22,7 +22,7 @@
         var self = this;
 
         this.storageFile = file;
-        this.urlList = [];
+        this.urlList = {};
 
         this._initObservable();
         this.addProperty("name", file.name);
@@ -40,6 +40,8 @@
             if (self.isDisposed) { return; }
             self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
         });
+
+        this.loadImage();
     }
 
     // Picture Instance Methods
@@ -60,14 +62,18 @@
         },
 
         setUrl: function (attrName, obj) {
-            var url = URL.createObjectURL(obj, { oneTimeOnly: true });
+            var url = URL.createObjectURL(obj);
             var config = {
                 attrName: attrName,
                 url: url,
                 backgroundUrl: "url(" + url + ")"
             };
 
-            this.urlList.push(config);
+            if (this.urlList[attrName]) {
+                URL.revokeObjectUrl(this.urlList[attrName].url);
+            };
+
+            this.urlList[attrName] = config;
             this.updateProperty(attrName, config.backgroundUrl);
 
             this.dispatchEvent("url:set", config);
@@ -75,12 +81,25 @@
             return config;
         },
 
-        revokeUrls: function () {
-            for (var i = 0; i < this.urlList.length; i++) {
-                var urlConfig = this.urlList[i];
-                URL.revokeObjectURL(urlConfig.url);
+        getUrl: function (name) {
+            var config = this.urlList[name];
+            var url;
+
+            if (config) {
+                url = config.url;
             }
-            this.urlList = [];
+
+            return url;
+        },
+
+        revokeUrls: function () {
+            for (var attr in this.urlList) {
+                if (this.urlList.hasOwnProperty(attr)) {
+                    var urlConfig = this.urlList[attr];
+                    URL.revokeObjectURL(urlConfig.url);
+                }
+            }
+            this.urlList = {};
         }
     };
 
@@ -110,7 +129,7 @@
             // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
             // We are not using img tags because a bad file results in a broken image
 
-            if (!source.src) {
+            if (!source.src || source.src) {
                 source.loadImage();
             }
 
