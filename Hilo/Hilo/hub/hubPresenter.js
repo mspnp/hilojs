@@ -83,6 +83,10 @@
             return this.loadImages();
         },
 
+        dispose: function () {
+            this.dataSource.forEach(function (img) { img.dispose(); });
+        },
+
         loadImages: function () {
             var query = this.queryBuilder.build(this.folder);
 
@@ -92,6 +96,7 @@
         },
 
         bindImages: function (items) {
+            this.dataSource = items;
 
             if (items.length > 0) {
                 items[0].className = items[0].className + " first";

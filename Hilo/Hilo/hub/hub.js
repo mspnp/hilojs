@@ -48,6 +48,8 @@
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
+            this.hubViewPresenter.dispose();
+            delete this.hubViewPresenter;
         }
     };
 

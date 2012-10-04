@@ -60,7 +60,7 @@
         },
 
         setUrl: function (attrName, obj) {
-            var url = URL.createObjectURL(thumbnail, { oneTimeOnly: true });
+            var url = URL.createObjectURL(obj, { oneTimeOnly: true });
             var config = {
                 attrName: attrName,
                 url: url,

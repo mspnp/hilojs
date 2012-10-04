@@ -5,17 +5,9 @@ Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hilo", "Hilo\Hilo.jsproj", 
 EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hilo.Specifications", "Hilo.Specifications\Hilo.Specifications.jsproj", "{B6BF7ADA-B5EA-43FE-B2E3-46FE16B95D23}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Diagnostic Sessions", "Diagnostic Sessions", "{B32C5670-306F-4478-92A6-08A27BE6FE66}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 1
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://rd18-tfs:8080/tfs/defaultcollection
-		SccProjectUniqueName0 = Hilo\\Hilo.jsproj
-		SccProjectName0 = Hilo
-		SccAuxPath0 = http://rd18-tfs:8080/tfs/defaultcollection
-		SccLocalPath0 = Hilo
-		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
