@@ -18,7 +18,7 @@
 	display: none;
 }
 
-#image {
+#rotate-image {
     margin: 0px auto;
     max-height: 85%;
 	display: block !important;

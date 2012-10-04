@@ -35,6 +35,18 @@
             return this.fileLoader.then(this._loadAndShowImage.bind(this));
         },
 
+        dispose: function () {
+            this.hiloPicture.dispose();
+            delete this.hiloPicture;
+
+            delete this.el;
+            delete this.appBarPresenter;
+            delete this.fileLoader;
+            delete this.urlBuilder;
+            delete this.expectedFileName;
+            delete this.navigation;
+        },
+
         // A rotation button was clicked on the app bar presenter.
         // Take the rotation degrees specified and add it to the current
         // image rotation. 
@@ -51,7 +63,7 @@
             var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
 
             rotateImageWriter
-                .rotate(this.imageFile, this.rotationDegrees)
+                .rotate(this.hiloPicture.storageFile, this.rotationDegrees)
 		        .then(function (success) {
 		            if (success) {
 		                self.navigation.back();
@@ -79,14 +91,16 @@
         // Internal method.
         // Take the query result from the image query and display the image that it loaded.
         _loadAndShowImage: function (queryResult) {
+            var that = this;
             var storageFile = queryResult[0].storageFile;
-            this.imageFile = storageFile;
 
             if (storageFile.name != this.expectedFileName) {
                 this.navigation.navigate("/Hilo/hub/hub.html");
             } else {
-                var url = this.urlBuilder.createObjectURL(storageFile);
-                this.el.src = url;
+                this.hiloPicture = new Hilo.Picture(storageFile);
+                this.hiloPicture.addEventListener("url:set", function (args) {
+                    that.el.src = args.detail.url;
+                });
             }
         },
 

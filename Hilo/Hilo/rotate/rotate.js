@@ -27,11 +27,13 @@
             var appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
 
             var imgEl = document.querySelector("#image");
-            var presenter = new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL, expectedName);
-            presenter.start();
+            this.presenter = new Hilo.Rotate.RotatePresenter(imgEl, appBarPresenter, fileLoader, URL, expectedName);
+            this.presenter.start();
         },
 
         unload: function () {
+            this.presenter.dispose();
+            delete this.presenter;
         }
     };
 

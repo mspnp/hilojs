@@ -70,6 +70,8 @@
             this.urlList.push(config);
             this.updateProperty(attrName, config.backgroundUrl);
 
+            this.dispatchEvent("url:set", config);
+
             return config;
         },
 
@@ -122,7 +124,7 @@
     var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
 
     WinJS.Namespace.define("Hilo", {
-        Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin)
+        Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin, WinJS.Utilities.eventMixin)
     });
 
 }());

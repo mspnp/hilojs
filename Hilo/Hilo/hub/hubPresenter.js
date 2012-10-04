@@ -15,7 +15,7 @@
 
     var knownFolders = Windows.Storage.KnownFolders;
     // The maximum number of images to display on the hub page 
-    var maxImageCount = 6;
+    var maxImageCount = 600;
 
     // Hub Presenter Constructor
     // -------------------------------
