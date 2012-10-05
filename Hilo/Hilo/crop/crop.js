@@ -48,6 +48,10 @@
             Hilo.navigator.reload();
         },
 
+        unload: function () {
+            Hilo.Picture.revokeUrls();
+        }
+
     };
 
     Hilo.controls.pages.define("crop", page);

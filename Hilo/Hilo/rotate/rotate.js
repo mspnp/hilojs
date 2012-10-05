@@ -32,6 +32,8 @@
         },
 
         unload: function () {
+            Hilo.Picture.revokeUrls();
+
             this.appBarPresenter.dispose();
             delete this.appBarPresenter;
 

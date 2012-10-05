@@ -74,6 +74,7 @@
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+            Hilo.Picture.revokeUrls();
         },
 
         // Private Methods

@@ -33,7 +33,7 @@
 
         file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
             if (self.isDisposed) { return; }
-            self.setUrl("url", thumbnail);
+            Hilo.Picture.setUrl(self, "url", thumbnail);
         });
 
         file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
@@ -52,33 +52,16 @@
             if (this.isDisposed) { return; }
             this.isDisposed = true;
 
-            this.revokeUrls();
             delete this.storageFile;
             delete this.urlList;
         },
 
         loadImage: function () {
-            return this.setUrl("src", this.storageFile);
+            return Hilo.Picture.setUrl(this, "src", this.storageFile);
         },
 
-        setUrl: function (attrName, obj) {
-            var url = URL.createObjectURL(obj);
-            var config = {
-                attrName: attrName,
-                url: url,
-                backgroundUrl: "url(" + url + ")"
-            };
-
-            if (this.urlList[attrName]) {
-                URL.revokeObjectUrl(this.urlList[attrName].url);
-            };
-
-            this.urlList[attrName] = config;
-            this.updateProperty(attrName, config.backgroundUrl);
-
-            this.dispatchEvent("url:set", config);
-
-            return config;
+        addUrl: function (attrName, urlConfig) {
+            this.urlList[attrName] = urlConfig;
         },
 
         getUrl: function (name) {
@@ -90,7 +73,14 @@
             }
 
             return url;
-        },
+        }
+    };
+
+    // Picture Type methods
+    // --------------------
+
+    var pictureTypeMethods = {
+        urlList: [],
 
         revokeUrls: function () {
             for (var attr in this.urlList) {
@@ -99,14 +89,25 @@
                     URL.revokeObjectURL(urlConfig.url);
                 }
             }
-            this.urlList = {};
-        }
-    };
+            this.urlList = [];
+        },
 
-    // Picture Type methods
-    // --------------------
+        setUrl: function (picture, attrName, obj) {
+            var url = URL.createObjectURL(obj);
+            var config = {
+                attrName: attrName,
+                url: url,
+                backgroundUrl: "url(" + url + ")"
+            };
 
-    var pictureTypeMethods = {
+            this.urlList.push(config);
+            picture.addUrl(attrName, config);
+            picture.updateProperty(attrName, config.backgroundUrl);
+
+            picture.dispatchEvent("url:set", config);
+
+            return config;
+        },
 
         // This is a convenience method, typically used in combination with `array.map`:
         //
