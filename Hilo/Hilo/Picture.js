@@ -62,6 +62,8 @@
 
         addUrl: function (attrName, urlConfig) {
             this.urlList[attrName] = urlConfig;
+            this.updateProperty(attrName, config.backgroundUrl);
+            this.dispatchEvent("url:set", config);
         },
 
         getUrl: function (name) {
@@ -102,9 +104,6 @@
 
             this.urlList.push(config);
             picture.addUrl(attrName, config);
-            picture.updateProperty(attrName, config.backgroundUrl);
-
-            picture.dispatchEvent("url:set", config);
 
             return config;
         },
