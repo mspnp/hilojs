@@ -10,15 +10,19 @@
 (function () {
     "use strict";
 
+    // <SnippetHilojs_1405>
     function define(pageId, members) {
 
         var url = "/Hilo/" + pageId + "/" + pageId + ".html";
 
+        // <SnippetHilojs_1407>
         members.ready = wrapWithDefaultReady(members.ready);
         members.bindPageTitle = bindPageTitle;
 
         return WinJS.UI.Pages.define(url, members);
+        // </SnippetHilojs_1407>
     }
+    // </SnippetHilojs_1405>
 
     // <SnippetHilojs_1603>
     function bindPageTitle(title) {
@@ -50,6 +54,7 @@
     // Takes the `ready` function that the developer provided for a page 
     // control and wraps it with additional functionality that we want to
     // occur on every page.
+    // <SnippetHilojs_1406>
     function wrapWithDefaultReady(customReady) {
 
         customReady = customReady || function () { };
@@ -74,12 +79,14 @@
             return ready(element, options);
         };
     }
+    // </SnippetHilojs_1406>
 
     // Public API
     // ----------
-
+    // <SnippetHilojs_1404>
     WinJS.Namespace.define("Hilo.controls.pages", {
         define: define
     });
+    // </SnippetHilojs_1404>
 
 }());

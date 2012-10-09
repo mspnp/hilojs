@@ -113,14 +113,17 @@
         // [application view state][4]. 
         // 
         // [4]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.viewmanagement.applicationviewstate
+        // <SnippetHilojs_1412>
         setViewState: function (viewState) {
             this.lv.layout = this.selectLayout(viewState);
         },
+        // </SnippetHilojs_1412>
 
         // Determines the correct layout for the screen based
         // on the current view state and last view state. If the
         // current view state is the same as the last view state,
         // no changes are made to the layout.
+        // <SnippetHilojs_1413>
         selectLayout: function (viewState, lastViewState) {
 
             if (lastViewState === viewState) { return; }
@@ -135,6 +138,7 @@
                 return layout;
             }
         },
+        // </SnippetHilojs_1413>
 
         // Get the indices of the selected items from the ListView
         getIndices: function () {

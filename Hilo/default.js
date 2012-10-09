@@ -66,12 +66,14 @@
                 .processAll()
                 .then(function () {
 
+                    // <SnippetHilojs_1409>
                     if (nav.location) {
                         nav.history.current.initialPlaceholder = true;
                         return nav.navigate(nav.location, nav.state);
                     } else {
                         return nav.navigate(Hilo.navigator.home);
                     }
+                    // </SnippetHilojs_1409>
                 });
 
             // Pass along the promise we just created so that WinJS will know 

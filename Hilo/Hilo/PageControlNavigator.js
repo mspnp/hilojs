@@ -112,12 +112,14 @@
                     );
                 },
 
+                // <SnippetHilojs_1410>
                 _resized: function (args) {
                     if (this.pageControl && this.pageControl.updateLayout) {
                         this.pageControl.updateLayout.call(this.pageControl, this.pageElement, appView.value, this.lastViewstate);
                     }
                     this.lastViewstate = appView.value;
                 },
+                // </SnippetHilojs_1410>
 
                 // This function updates application controls once a navigation
                 // has completed.
