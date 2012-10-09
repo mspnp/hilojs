@@ -6,9 +6,6 @@ EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hilo.Specifications", "Hilo.Specifications\Hilo.Specifications.jsproj", "{B6BF7ADA-B5EA-43FE-B2E3-46FE16B95D23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Diagnostic Sessions", "Diagnostic Sessions", "{094E32E6-AD68-4109-9A5B-A473F15244A7}"
-	ProjectSection(SolutionItems) = preProject
-		20121009 (3).diagsession = 20121009 (3).diagsession
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
