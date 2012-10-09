@@ -62,8 +62,8 @@
 
         addUrl: function (attrName, urlConfig) {
             this.urlList[attrName] = urlConfig;
-            this.updateProperty(attrName, config.backgroundUrl);
-            this.dispatchEvent("url:set", config);
+            this.updateProperty(attrName, urlConfig.backgroundUrl);
+            this.dispatchEvent("url:set", urlConfig);
         },
 
         getUrl: function (name) {
