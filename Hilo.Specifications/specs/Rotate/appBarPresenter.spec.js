@@ -8,12 +8,13 @@
 // ===============================================================================
 
 ﻿describe("Rotate Page Appbar Presenter", function () {
-	var appBarPresenter, el, saveButton, cancelButton, clockwiseButton;
+    var appBarPresenter, el, saveButton, cancelButton, clockwiseButton, unSnap;
 
 	beforeEach(function () {
 		saveButton = new Specs.WinControlStub();
 		cancelButton = new Specs.WinControlStub();
 		clockwiseButton = new Specs.WinControlStub();
+		unSnap = new Specs.WinControlStub();
 
 		el = new Specs.WinControlStub();
 
@@ -25,6 +26,7 @@
 			if (selector === "#save") { return saveButton; }
 			if (selector === "#cancel") { return cancelButton; }
 			if (selector === "#clockwise") { return clockwiseButton; }
+			if (selector === "#unSnap") { return unSnap; }
 		};
 
 		appBarPresenter = new Hilo.Rotate.AppBarPresenter(el);

@@ -19,21 +19,20 @@ describe("crop selection controller", function () {
         cropSelectionEl.id = "cropSelection";
         frag.appendChild(cropSelectionEl);
 
-        var topLeft = document.createElement("div");
-        topLeft.id = "topLeft";
-        cropSelectionEl.appendChild(topLeft);
+        addHandle("topLeft", cropSelectionEl);
+        addHandle("topRight", cropSelectionEl);
+        addHandle("bottomLeft", cropSelectionEl);
+        addHandle("bottomRight", cropSelectionEl);
+        addHandle("topMiddle", cropSelectionEl);
+        addHandle("bottomMiddle", cropSelectionEl);
+        addHandle("rightMiddle", cropSelectionEl);
+        addHandle("leftMiddle", cropSelectionEl);
+    }
 
-        var topRight = document.createElement("div");
-        topRight.id = "topRight";
-        cropSelectionEl.appendChild(topRight);
-
-        var bottomLeft = document.createElement("div");
-        bottomLeft.id = "bottomLeft";
-        cropSelectionEl.appendChild(bottomLeft);
-
-        var bottomRight = document.createElement("div");
-        bottomRight.id = "bottomRight";
-        cropSelectionEl.appendChild(bottomRight);
+    function addHandle(id, cropSelectionEl) {
+        var handle = document.createElement("div");
+        handle.id = id;
+        cropSelectionEl.appendChild(handle);
     }
 
     var controller, canvasEl, cropSelectionEl, cropSelection;

@@ -1,16 +1,18 @@
 ﻿describe("Crop Page Appbar Presenter", function () {
 
-    var appBar, el, crop, save, reset;
+    var appBar, el, crop, save, reset, unSnap;
 
     beforeEach(function () {
         crop = new Specs.WinControlStub();
         save = new Specs.WinControlStub();
         reset = new Specs.WinControlStub();
+        unSnap = new Specs.WinControlStub();
 
         el = new Specs.WinControlStub();
         el.addQuerySelector("#crop", crop);
         el.addQuerySelector("#save", save);
         el.addQuerySelector("#reset", reset);
+        el.addQuerySelector("#unSnap", unSnap);
         el.show = function () {
             el.show.wasCalled = true;
         };

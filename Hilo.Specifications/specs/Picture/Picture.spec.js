@@ -7,8 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-//TODO: re-write these specs to run in Mocha, instead of Jasmine
-describe("The view model for a picture", function () {
+xdescribe("The view model for a picture", function () {
     "use strict";
 
     var viewmodel;
