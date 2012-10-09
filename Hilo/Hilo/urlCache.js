@@ -41,8 +41,8 @@
         getUrl: function (key, attrName, target) {
             var self = this;
 
-            if (this.urlList[key]) {
-                return WinJS.Promise.as(this.urlList[key]);
+            if (this.urlList[key] && this.urlList[key][attrName]) {
+                return WinJS.Promise.as(this.urlList[key][attrName]);
             }
 
             var promise = new WinJS.Promise(function (complete) {

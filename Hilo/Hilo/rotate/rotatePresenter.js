@@ -111,7 +111,7 @@
                 this.navigation.navigate("/Hilo/hub/hub.html");
             } else {
                 this.hiloPicture = new Hilo.Picture(storageFile);
-                this.el.src = this.hiloPicture.getUrl("src");
+                this.el.src = this.hiloPicture.src.url;
             }
         },
 

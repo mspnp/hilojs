@@ -69,7 +69,7 @@
 
         addUrl: function (urlConfig) {
             this.urlList[urlConfig.attrName] = urlConfig;
-            this.updateProperty(urlConfig.attrName, urlConfig.backgroundUrl);
+            this.updateProperty(urlConfig.attrName, urlConfig);
             this.dispatchEvent("url:set", urlConfig);
         },
 
@@ -109,12 +109,7 @@
             // We are assuming that we'll always extract the `src` property from the `source`
             // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
             // We are not using img tags because a bad file results in a broken image
-
-            //if (!source.src || source.src) {
-            //    source.loadImage();
-            //}
-
-            //target.style.backgroundImage = 'url(' + source.src + ')';
+            target.style.backgroundImage = source.src.backgroundUrl;
         }),
     };
 
