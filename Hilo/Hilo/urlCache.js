@@ -56,22 +56,24 @@
         },
 
         clear: function (key) {
-            var urlConfigs, urlConfig;
+            var urlConfigs, urlConfig, urlName;
             urlConfigs = this.urlList[key];
-            for (urlConfig in urlConfigs) {
-                if (urlConfigs.hasOwnProperty(urlConfig)) {
+            for (urlName in urlConfigs) {
+                if (urlConfigs.hasOwnProperty(urlName)) {
+                    urlConfig = urlConfigs[urlName];
                     URL.revokeObjectURL(urlConfig.url);
                 }
             }
         },
 
         clearAll: function () {
-            var urlConfigs, urlConfig, attr;
+            var urlConfigs, urlName, urlConfig, attr;
             for (attr in this.urlList) {
                 if (this.urlList.hasOwnProperty(attr)) {
                     urlConfigs = this.urlList[attr];
-                    for (urlConfig in urlConfigs) {
-                        if (urlConfigs.hasOwnProperty(urlConfig)) {
+                    for (urlName in urlConfigs) {
+                        if (urlConfigs.hasOwnProperty(urlName)) {
+                            urlConfig = urlConfigs[urlName];
                             URL.revokeObjectURL(urlConfig.url);
                         }
                     }
