@@ -49,7 +49,7 @@
         },
 
         unload: function () {
-            Hilo.Picture.revokeUrls();
+            Hilo.UrlCache.clearAll();
         }
 
     };

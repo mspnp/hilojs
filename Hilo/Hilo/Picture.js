@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function () {
+(function () {
     "use strict";
 
     // Imports And Constants
@@ -21,8 +21,11 @@
     function Picture(file) {
         var self = this;
 
+        this.addUrl = this.addUrl.bind(this);
+
         this.storageFile = file;
         this.urlList = {};
+        this.isDisposed = false;
 
         this._initObservable();
         this.addProperty("name", file.name);
@@ -31,17 +34,12 @@
         this.addProperty("itemDate", "");
         this.addProperty("className", "thumbnail");
 
-        file.getThumbnailAsync(thumbnailMode.picturesView).then(function (thumbnail) {
-            if (self.isDisposed) { return; }
-            Hilo.Picture.setUrl(self, "url", thumbnail);
-        });
-
         file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
             if (self.isDisposed) { return; }
             self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
         });
 
-        this.loadImage();
+        this.loadUrls();
     }
 
     // Picture Instance Methods
@@ -52,17 +50,26 @@
             if (this.isDisposed) { return; }
             this.isDisposed = true;
 
+            Hilo.UrlCache.clear(this.storageFile.name);
             delete this.storageFile;
             delete this.urlList;
         },
 
-        loadImage: function () {
-            return Hilo.Picture.setUrl(this, "src", this.storageFile);
+        loadUrls: function () {
+            var file = this.storageFile;
+
+            Hilo.UrlCache.getUrl(this.storageFile.path, "url", function () {
+                return file.getThumbnailAsync(thumbnailMode.picturesView);
+            }).then(this.addUrl);
+
+            Hilo.UrlCache
+                .getUrl(file.name, "src", file)
+                .then(this.addUrl);
         },
 
-        addUrl: function (attrName, urlConfig) {
-            this.urlList[attrName] = urlConfig;
-            this.updateProperty(attrName, urlConfig.backgroundUrl);
+        addUrl: function (urlConfig) {
+            this.urlList[urlConfig.attrName] = urlConfig;
+            this.updateProperty(urlConfig.attrName, urlConfig.backgroundUrl);
             this.dispatchEvent("url:set", urlConfig);
         },
 
@@ -82,32 +89,6 @@
     // --------------------
 
     var pictureTypeMethods = {
-        urlList: [],
-
-        revokeUrls: function () {
-            for (var attr in this.urlList) {
-                if (this.urlList.hasOwnProperty(attr)) {
-                    var urlConfig = this.urlList[attr];
-                    URL.revokeObjectURL(urlConfig.url);
-                }
-            }
-            this.urlList = [];
-        },
-
-        setUrl: function (picture, attrName, obj) {
-            var url = URL.createObjectURL(obj);
-            var config = {
-                attrName: attrName,
-                url: url,
-                backgroundUrl: "url(" + url + ")"
-            };
-
-            this.urlList.push(config);
-            picture.addUrl(attrName, config);
-
-            return config;
-        },
-
         // This is a convenience method, typically used in combination with `array.map`:
         //
         // ```js
@@ -129,11 +110,11 @@
             // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
             // We are not using img tags because a bad file results in a broken image
 
-            if (!source.src || source.src) {
-                source.loadImage();
-            }
+            //if (!source.src || source.src) {
+            //    source.loadImage();
+            //}
 
-            target.style.backgroundImage = 'url(' + source.src + ')';
+            //target.style.backgroundImage = 'url(' + source.src + ')';
         }),
     };
 

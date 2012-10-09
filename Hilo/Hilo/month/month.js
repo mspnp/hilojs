@@ -74,7 +74,7 @@
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
-            Hilo.Picture.revokeUrls();
+            Hilo.UrlCache.clearAll();
         },
 
         // Private Methods
@@ -102,7 +102,6 @@
             listview.itemDataSource = members;
             listview.addEventListener("iteminvoked", this._imageInvoked.bind(this));
             listview.addEventListener("selectionchanged", this._selectionChanged.bind(this));
-
             this.monthListView = listview;
         },
 

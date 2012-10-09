@@ -48,7 +48,7 @@
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
-            Hilo.Picture.revokeUrls();
+            Hilo.UrlCache.clearAll();
             this.hubViewPresenter.dispose();
             delete this.hubViewPresenter;
         }
