@@ -36,8 +36,10 @@
                 // When the app is launched, we want to update its tile
                 // on the start screen
                 if (!Windows.ApplicationModel.DesignMode.designModeEnabled) {
+                    // <SnippetHilojs_1010>
                     var tileUpdater = new Hilo.Tiles.TileUpdater();
                     tileUpdater.update();
+                    // </SnippetHilojs_1010>
                 }
 
                 // Begin listening for changes in the `picturesLibrary`,

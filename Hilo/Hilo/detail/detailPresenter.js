@@ -12,18 +12,20 @@
 
     // Detail Presenter Constructor
     // ----------------------------
-
+    // <SnippetHilojs_1205>
     function DetailPresenterConstructor(filmstripEl, flipviewEl, imageNav) {
         this.flipviewEl = flipviewEl;
         this.filmstripEl = filmstripEl;
         this.imageNav = imageNav;
     }
+    // </SnippetHilojs_1205>
 
     // Detail Presenter Members
     // ------------------------
 
     var detailPresenterMembers = {
 
+        // <SnippetHilojs_1206>
         start: function (options) {
             var self = this;
             this.query = options.query;
@@ -33,8 +35,10 @@
                 .then(function () {
                     self.gotoImage(options.itemIndex, options.itemName);
                 });
-        },
+            },
+        // </SnippetHilojs_1206>
 
+        // <SnippetHilojs_1207>
         bindImages: function (images) {
 
             this.flipview = new Hilo.Detail.FlipviewPresenter(this.flipviewEl, images);
@@ -45,6 +49,7 @@
 
             this.imageNav.enableButtons();
         },
+        // </SnippetHilojs_1207>
 
         imageClicked: function (args) {
             var self = this,
@@ -74,7 +79,9 @@
     // Detail Presenter Definition
     // ---------------------------
 
+    // <SnippetHilojs_1204>
     WinJS.Namespace.define("Hilo.Detail", {
         DetailPresenter: WinJS.Class.mix(DetailPresenterConstructor, detailPresenterMembers, WinJS.Utilities.eventMixin)
     });
+    // </SnippetHilojs_1204>
 })();

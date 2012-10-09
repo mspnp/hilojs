@@ -74,10 +74,12 @@
             this.listview.addEventListener("itemInvoked", this.itemClicked);
 
             // Configure and then build the query for this page
+            // <SnippetHilojs_1301>
             this.queryBuilder
                 .bindable()
                 .prefetchOptions(["System.ItemDate"])
                 .count(maxImageCount);
+            // </SnippetHilojs_1301>
 
             // Retrieve and display the images
             return this.loadImages();
@@ -88,13 +90,18 @@
         },
 
         loadImages: function () {
+            // <SnippetHilojs_1309>
             var query = this.queryBuilder.build(this.folder);
+            // </SnippetHilojs_1309>
 
+            // <SnippetHilojs_1313>
             return query.execute()
                 .then(this.bindImages)
                 .then(this.animateEnterPage);
+            // </SnippetHilojs_1313>
         },
 
+        // <SnippetHilojs_1315>
         bindImages: function (items) {
             this.dataSource = items;
 
@@ -120,6 +127,7 @@
 
             this.listview.setDataSource(items);
         },
+        // </SnippetHilojs_1315>
 
         animateEnterPage: function () {
             var elements = document.querySelectorAll(".titlearea, section[role=main]");

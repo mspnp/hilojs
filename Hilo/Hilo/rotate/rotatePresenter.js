@@ -103,7 +103,7 @@
 
         // Internal method.
         // Take the query result from the image query and display the image that it loaded.
-        _loadAndShowImage: function (queryResult) {
+        // <SnippetHilojs_1611>        _loadAndShowImage: function (queryResult) {
             var that = this;
             var storageFile = queryResult[0].storageFile;
 
@@ -114,6 +114,7 @@
                 this.el.src = this.hiloPicture.src.url;
             }
         },
+        // </SnippetHilojs_1611>
 
         // Internal method
         // Sets the CSS rotation of the image element. A CSS transition has also

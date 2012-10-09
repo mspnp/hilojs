@@ -67,6 +67,7 @@
                 });
 
                 // get the EXIF orientation (if it's supported)
+                // <SnippetHilojs_1110>
                 var decoderPromise = getOrientation
                     .then(function (retrievedProps) {
 
@@ -92,6 +93,7 @@
                                 throw error;
                         }
                     });
+                    // </SnippetHilojs_1110>
 
                 return decoderPromise;
             };

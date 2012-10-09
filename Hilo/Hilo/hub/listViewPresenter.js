@@ -91,6 +91,7 @@
         },
 
         // Event handler for "invoking" (clicking or tapping) an image
+        // <SnippetHilojs_1212>
         imageNavigated: function (args) {
             var that = this;
             args.detail.itemPromise.then(function (item) {
@@ -100,6 +101,7 @@
                 });
             });
         },
+        // </SnippetHilojs_1212>
 
         // Bind an array of objects to the `ListView` by converting
         // it in to a bindable list, and data source.

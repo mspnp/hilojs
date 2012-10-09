@@ -15,6 +15,7 @@
 
     var page = {
 
+        // <SnippetHilojs_1203>
         ready: function (element, options) {
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
@@ -38,6 +39,7 @@
             });
             detailPresenter.start(options);
         },
+        // </SnippetHilojs_1203>
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);

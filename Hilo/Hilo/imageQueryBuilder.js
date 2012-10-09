@@ -84,6 +84,7 @@
     //
     // [3]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/freeze
 
+    // <SnippetHilojs_1304>
     function ImageQueryBuilderConstructor() {
         this._settings = {};
         this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
@@ -98,6 +99,7 @@
         this._set("startingIndex", 0);
         this._set("bindable", false);
     }
+    // </SnippetHilojs_1304>
 
     // Image Query Builder Type Members
     // --------------------------------
@@ -152,9 +154,11 @@
         // Creates "bindable" objects using the `Hilo.Picture` object,
         // which is required when the resulting image objects must be
         // bound to a UI element, such as a `ListView`.
+        // <SnippetHilojs_1307>
         bindable: function () {
             return this._set("bindable", true);
         },
+        // </SnippetHilojs_1307>
 
         // Set the number of images to retrieve. Setting this will
         // override the `imageAt` setting.
@@ -182,11 +186,13 @@
         // with this method, as an array, using the [attribute names][4].
         //
         // [4]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd561977(v=vs.85).aspx
+        // <SnippetHilojs_1308>
         prefetchOptions: function (attributeArray) {
             this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.none);
             this._set("prefetchAttributes", attributeArray);
             return this;
         },
+        // </SnippetHilojs_1308>
 
         // Only pictures taken within the specified month and year will
         // be loaded. The `monthAndYear` parameter should be a string that
@@ -198,18 +204,22 @@
 
         // Internal method to set a key / value pair, used for
         // building the final query.
+        // <SnippetHilojs_1305>
         _set: function (key, value) {
             this._settings[key] = value;
             return this;
         }
+        // </SnippetHilojs_1305>
     };
 
     // Hilo.ImageQueryBuilder Type Definition
     // --------------------------------------
 
+    // <SnippetHilojs_1303>
     WinJS.Namespace.define("Hilo", {
         ImageQueryBuilder: WinJS.Class.define(ImageQueryBuilderConstructor, imageQueryBuilderMembers, imageQueryBuilderTypeMembers)
     });
+    // </SnippetHilojs_1303>
 
 
     // Query Object Constructor
@@ -219,6 +229,7 @@
     // module. It cannot be instnatiated directly, but must be created through
     // the use of the ImageQueryBuilder. 
 
+    // <SnippetHilojs_1302>
     function QueryObjectConstructor(settings) {
         // Duplicate and the settings by copying them
         // from the original, to a new object. This is
@@ -242,6 +253,7 @@
         this.queryOptions = this._buildQueryOptions();
         this.fileQuery = this._buildFileQuery();
     }
+    // </SnippetHilojs_1302>
 
 
     function translateToAQSFilter(value) {
@@ -275,6 +287,7 @@
         // ```
         //
         // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
+        // <SnippetHilojs_1314>
         execute: function () {
             var start, count;
             var queryPromise;
@@ -311,6 +324,7 @@
 
             return queryPromise;
         },
+        // </SnippetHilojs_1314>
 
         // This method is called by convention when this object is serialized.
         // This implementation does not add anything beyond the builtin logic,
@@ -331,6 +345,7 @@
         //
         // [6]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.search.queryoptions.aspx
         // <SnippetHilojs_1901>
+        // <SnippetHilojs_1311>
         _buildQueryOptions: function () {
             var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
             queryOptions.indexerOption = this.settings.indexerOption;
@@ -344,19 +359,24 @@
 
             return queryOptions;
         },
+        // </SnippetHilojs_1311>
         // </SnippetHilojs_1901>
 
         // Internal method. Converts a QueryOptions object in to a file query.
+        // <SnippetHilojs_1312>
         _buildFileQuery: function () {
             return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
         },
+        // </SnippetHilojs_1312>
 
         // Internal method. Wraps the original `StorageFile` objects in 
         // `Hilo.Picture` objects, so that they can be bound to UI controls
         // such as the `WinJS.UI.ListView`.
+        // <SnippetHilojs_1109>
         _createViewModels: function (files) {
             return WinJS.Promise.wrap(files.map(Hilo.Picture.from));
         }
+        // </SnippetHilojs_1109>
     };
 
     // Query Type Definition
