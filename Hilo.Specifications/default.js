@@ -43,6 +43,18 @@
 		specRunner.run();
 	}
 
+	WinJS.Application.onerror = function (e) {
+	    var errorsList = document.querySelector("#errors ul");
+	    var errorEl = document.createElement("li");
+	    errorEl.innerText = JSON.stringify(e.detail.exception);
+	    errorsList.appendChild(errorEl);
+
+	    document.querySelector("#errors").style.display = "block";
+        // By returning true, we signal that the exception was handled,
+        // preventing the application from being terminated
+        return true;
+    };
+
 	app.addEventListener("activated", function (args) {
 		if (args.detail.kind === activation.ActivationKind.launch) {
 			args.setPromise(WinJS.UI.processAll().then(function () {

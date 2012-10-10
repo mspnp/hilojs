@@ -188,6 +188,7 @@
     <Content Include="..\Hilo\Hilo\urlCache.js">
       <Link>Hilo\urlCache.js</Link>
     </Content>
+    <Content Include="default.css" />
     <Content Include="default.html" />
     <Content Include="default.js" />
     <Content Include="images\logo.png" />

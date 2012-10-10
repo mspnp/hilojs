@@ -12,6 +12,7 @@
 	<script src="//Microsoft.WinJS.1.0/js/ui.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="/lib/mocha.css">
+	<link rel="stylesheet" type="text/css" href="/default.css">
 	<script src="/lib/mocha.js"></script>
 	<script src="/lib/chai.js"></script>
 	<!-- We need to tell mocha that we prefer to use the BDD style for defining our tests. -->
@@ -40,6 +41,17 @@
 	<div id="mocha">
 		<!-- This div is a hook for the test harness. -->
 	</div>
+
+	<div id="errors">
+		<div id="close" onClick="document.querySelector('#errors').style.display='none'">X</div>
+		<h1>Error Running The Test Suite</h1>
+		<p>
+			Errors have occurred outside of the test runner. Please correct the follow items and re-run
+			the test suite.
+		</p>
+		<ul></ul>
+	</div>
+
 </body>
 
 </html>
