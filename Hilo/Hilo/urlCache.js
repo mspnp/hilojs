@@ -83,12 +83,12 @@
         },
 
         _buildUrlConfig: function (key, attrName, obj) {
-            var url = URL.createObjectURL(obj);
+            var url = (obj) ? URL.createObjectURL(obj) : "";
 
             var config = {
                 attrName: attrName,
                 url: url,
-                backgroundUrl: "url(" + url + ")"
+                backgroundUrl: "url(" + url + ")",
             };
 
             if (!this.urlList[key]) {

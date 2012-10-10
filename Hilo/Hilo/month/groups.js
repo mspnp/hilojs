@@ -264,7 +264,7 @@
             var self = this;
             var groupIndex = this.cache.byKey[groupKey];
 
-            if (!groupIndex) {
+            if (groupIndex === undefined) {
 
                 return self.getCount()
                     .then(function () {
