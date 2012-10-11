@@ -34,11 +34,7 @@
         this.addProperty("itemDate", "");
         this.addProperty("className", "thumbnail");
 
-        file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
-            if (self.isDisposed) { return; }
-            self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
-        });
-
+        this.loadFileProperties();
         this.loadUrls();
     }
 
@@ -55,12 +51,26 @@
             delete this.urlList;
         },
 
+        loadFileProperties: function () {
+            var file = this.storageFile,
+                self = this;
+
+            if (file && file.properties) {
+                file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
+                    if (self.isDisposed) { return; }
+                    self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
+                });
+            }
+        },
+
         loadUrls: function () {
             var file = this.storageFile;
 
-            Hilo.UrlCache.getUrl(this.storageFile.path, "url", function () {
-                return file.getThumbnailAsync(thumbnailMode.picturesView);
-            }).then(this.addUrl);
+            if (file && file.getThumbnailAsync) {
+                Hilo.UrlCache.getUrl(file.path, "url", function () {
+                    return file.getThumbnailAsync(thumbnailMode.picturesView);
+                }).then(this.addUrl);
+            }
 
             Hilo.UrlCache
                 .getUrl(file.name, "src", file)

@@ -13,11 +13,10 @@
     // Rotate Presenter Constructor
     // ----------------------------
 
-    function RotatePresenter(el, appBarPresenter, fileLoader, urlBuilder, expectedFileName, navigation) {
+    function RotatePresenter(el, appBarPresenter, fileLoader, expectedFileName, navigation) {
         this.el = el;
         this.appBarPresenter = appBarPresenter;
         this.fileLoader = fileLoader;
-        this.urlBuilder = urlBuilder;
         this.expectedFileName = expectedFileName;
         this.navigation = navigation || WinJS.Navigation;
 
@@ -48,7 +47,6 @@
             delete this.el;
             delete this.appBarPresenter;
             delete this.fileLoader;
-            delete this.urlBuilder;
             delete this.expectedFileName;
             delete this.navigation;
         },
@@ -94,7 +92,7 @@
             this.appBarPresenter.addEventListener("unsnap", this.unsnap);
         },
 
-        _unbindEvents: function(){
+        _unbindEvents: function () {
             this.appBarPresenter.removeEventListener("rotate", this.rotateImage);
             this.appBarPresenter.removeEventListener("save", this.saveImage);
             this.appBarPresenter.removeEventListener("cancel", this.cancel);

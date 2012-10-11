@@ -11,29 +11,36 @@ describe("Rotate Page Presenter", function () {
 
     var rotatePresenter,
         el,
-        menuPresenter,
+        appBarPresenter,
         imageLoaderPromise,
         picture,
-        urlBuilder,
-        navigation;
+        navigation,
+        imageFiles;
+
+    before(function (done) {
+        // Note that this is a `before` block and not a `beforeEach`.
+        // This is because we only need to copy the thumbnails once
+        // for the entire set of assertions.
+        // If we were to copy the files in a `beforeEach`, the tests
+        // would run slower and we would risk creation collisions.
+        Shared.getImages()
+            .then(function (images) {
+                imageFiles = images;
+            })
+            .then(done);
+    });
 
     beforeEach(function () {
         el = new Specs.WinControlStub();
         el.style = {};
 
-        picture = { storageFile: { name: "some.jpg" } };
-
-        urlBuilder = {
-            createObjectURL: function () {
-                return "a url";
-            }
-        };
+        picture = new Hilo.Picture(imageFiles[0]);
 
         imageLoaderPromise = new WinJS.Promise(function (done) {
             done([picture]);
         });
 
-        menuPresenter = new Specs.EventStub();
+        appBarPresenter = new Specs.EventStub();
 
         navigation = {
             back: function () {
@@ -45,20 +52,20 @@ describe("Rotate Page Presenter", function () {
             }
         };
 
-        rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuPresenter, imageLoaderPromise, urlBuilder, navigation);
+        rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, navigation);
     });
 
     describe("when the file name matches the expectation", function () {
 
         beforeEach(function (done) {
-            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuPresenter, imageLoaderPromise, urlBuilder, "some.jpg", navigation);
+            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, "some.jpg", navigation);
             rotatePresenter.start().then(function () { done(); });
         });
 
         describe("when rotating an image", function () {
 
             beforeEach(function () {
-                menuPresenter.dispatchEvent("rotate", {
+                appBarPresenter.dispatchEvent("rotate", {
                     rotateDegrees: 90
                 });
             });
@@ -66,17 +73,13 @@ describe("Rotate Page Presenter", function () {
             it("should add the specified degrees to the image rotation", function () {
                 expect(el.style.transform).equals("rotate(90deg)");
             });
-
-            it("should not navigate anywhere", function () {
-                expect(navigation.navigate.wasCalled).not.equal(true);
-            });
         });
     });
 
     describe("when the file name does not match the expectation", function () {
 
         beforeEach(function (done) {
-            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, menuPresenter, imageLoaderPromise, urlBuilder, "different.jpg", navigation);
+            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, "different.jpg", navigation);
             rotatePresenter.start().then(function () { done(); });
         });
 
