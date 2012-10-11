@@ -243,7 +243,6 @@
     <Content Include="specs\Helpers\MocksAndStubs.js" />
     <Content Include="specs\Helpers\shared.js" />
     <Content Include="specs\Tiles\createTileFriendlyImages.spec.js" />
-    <Content Include="Hilo\.gitkeep" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hilo\controls\ImageNav\" />
