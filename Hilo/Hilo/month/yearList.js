@@ -11,6 +11,8 @@
     'use strict';
 
     var YearList = WinJS.Class.define(function YearList_ctor(element, options) {
+        var self = this;
+
         // <SnippetHilojs_1709>
         var listViewEl = document.createElement("div");
 
@@ -25,7 +27,7 @@
         this.listView = listView;
         listView.layout.maxRows = 3;
         // </SnippetHilojs_1709>
-        var self = this;
+
         listView.itemTemplate = function (itemPromise, recycledElement) {
 
             var container = recycledElement || document.createElement("div");
@@ -41,20 +43,24 @@
 
             var handler = function (item, args) {
                 WinJS.UI.Animation.pointerDown(this);
-                self.getGroupForMonthYear(item).then(function (monthGroup) {
-                    self.zoomableView._selectedItem = monthGroup;
-                    self.zoomableView._triggerZoom();
-                });
+                self.zoomableView._selectedItem = {
+                    groupKey: item.groupKey,
+                    firstItemIndexHint: item.firstItemIndexHint
+                };
+                self.zoomableView._triggerZoom();
 
             };
 
             return itemPromise.then(function (item) {
 
-                header.innerText = item.data.title;
+                header.innerText = item.data.year;
 
-                item.data.months.forEach(function (month) {
+                var monthsInYear = 12;
+                var month;
+                for (var i = 0; i < monthsInYear; i++) {
+                    month = item.data.months[i];
 
-                    var d = new Date(item.data.title, month.index);
+                    var d = new Date(item.data.year, i);
                     var name = self._dateFormatter.getAbbreviatedMonthFrom(d);
                     var m$ = document.createElement("div");
 
@@ -68,18 +74,11 @@
 
                     body.appendChild(m$);
 
-                    month.itemPromise.then(function (data) {
-                        if (data.count > 0) {
-                            m$.addEventListener("click", handler.bind(m$, data));
-                            m$.removeAttribute("disabled");
-                        }
-
-                        var span = document.createElement("span");
-                        span.innerText = data.count;
-                        span.className = "month-count";
-                        m$.appendChild(span);
-                    });
-                });
+                    if (month) {
+                        m$.addEventListener("click", handler.bind(m$, month));
+                        m$.removeAttribute("disabled");
+                    };
+                }
 
                 return container;
             });
@@ -100,10 +99,6 @@
 
         setLayout: function (layout) {
             this.listView.layout = layout;
-        },
-
-        getGroupForMonthYear: function (item) {
-            throw new Error("`getGroupForMonthYear` should be set by the page control.");
         },
 
         zoomableView: {

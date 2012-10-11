@@ -6,6 +6,16 @@ EndProject
 Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "Hilo.Specifications", "Hilo.Specifications\Hilo.Specifications.jsproj", "{B6BF7ADA-B5EA-43FE-B2E3-46FE16B95D23}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://rd18-tfs:8080/tfs/defaultcollection
+		SccProjectUniqueName0 = Hilo\\Hilo.jsproj
+		SccProjectName0 = Hilo
+		SccAuxPath0 = http://rd18-tfs:8080/tfs/defaultcollection
+		SccLocalPath0 = Hilo
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM

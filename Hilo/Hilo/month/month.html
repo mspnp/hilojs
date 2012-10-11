@@ -6,20 +6,16 @@
 
     <link href="month.css" rel="stylesheet" />
     <script src="month.js"></script>
-    <script src="members.js"></script>
-    <script src="groups.js"></script>
-    <script src="years.js"></script>
     <script src="yearList.js"></script>
-
 </head>
 <body>
     <div class="month fragment">
 
         <div data-win-control="WinJS.UI.HtmlControl"
-            data-win-options="{uri: '/Hilo/Controls/Header/Header.html', titleResource: 'PicturesViewTitle.Text' }">
+            data-win-options="{uri: '/Hilo/Controls/Header/Header.html', titleResource: 'PicturesViewTitle.Text' }" data-win-design-locked="true">
         </div>
 
-        <section aria-label="Main content" role="main">
+        <section aria-label="Main content" role="main" data-win-design-locked="true">
 
             <div id="monthItemTemplate" data-win-control="WinJS.Binding.Template">
                 <div data-win-bind="style.backgroundImage: url.backgroundUrl; className: className"></div>
@@ -54,7 +50,8 @@
             </div>
 
         </section>
-        <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/ImageNav/ImageNav.html'}"></section>
+    	<progress id="loadingProgress" class="win-ring"></progress>
+        <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/ImageNav/ImageNav.html'}" data-win-design-locked="true"></section>
     </div>
 </body>
 </html>

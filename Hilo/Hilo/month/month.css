@@ -10,6 +10,15 @@
     overflow: visible;
 }
 
+.month .win-ring {
+    -ms-grid-row-span: 1;
+    -ms-grid-row: 2;
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+    height: 40px;
+    width: 40px;
+}
+
 .month .semanticZoomContainer {
     /* 
         The semantic zoom control produces a container that will collapse,
@@ -76,12 +85,11 @@
         margin-bottom: 10px;
         position: relative;
         border: 4px solid transparent;
-
     }
 
-    .month .year-group .month-item:hover{
-        border: 4px solid gray;
-    }
+        .month .year-group .month-item:hover {
+            border: 4px solid gray;
+        }
 
         .month .year-group .month-item[disabled="true"] {
             background-color: white;
@@ -99,18 +107,18 @@
             right: 10px;
         }
 
-        .month .year-group .month-item .month-count {
-            display: none;
-        }
 
 .month .win-listview :not(.win-footprint).win-container {
     background-color: transparent;
 }
 
-/* most likely temp*/
-.month .win-listview, .month #yeargroup {
+.month #yeargroup, .month .win-listview {
     height: 100%;
 }
+
+    .month #yeargroup .win-container:hover {
+        outline: transparent none 5px;
+    }
 
 @media screen and (-ms-view-state: snapped) {
     .month section[role=main] {
