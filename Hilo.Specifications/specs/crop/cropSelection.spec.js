@@ -171,11 +171,11 @@ describe("crop selection", function () {
         });
 
         it("should reset the endx to startx + minwidth", function () {
-            expect(cropSelection.endX).equals(40);
+            expect(cropSelection.endX).equals(50);
         });
 
         it("should reset the endy to starty + minheight", function () {
-            expect(cropSelection.endY).equals(40);
+            expect(cropSelection.endY).equals(50);
         });
     });
 
@@ -213,11 +213,11 @@ describe("crop selection", function () {
         });
 
         it("should reset the startx to endx - minwidth", function () {
-            expect(cropSelection.startX).equals(20);
+            expect(cropSelection.startX).equals(10);
         });
 
         it("should reset the starty to endy - minheight", function () {
-            expect(cropSelection.startY).equals(20);
+            expect(cropSelection.startY).equals(10);
         });
     });
 });
