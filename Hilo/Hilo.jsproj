@@ -123,9 +123,9 @@
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="i18n\de-DE\resources.resjson" />
-    <PRIResource Include="i18n\en-US\resources.resjson" />
-    <PRIResource Include="i18n\ja-JP\resources.resjson" />
+    <PRIResource Include="strings\de-DE\resources.resjson" />
+    <PRIResource Include="strings\en-US\resources.resjson" />
+    <PRIResource Include="strings\ja-JP\resources.resjson" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0, Version=1.0" />
