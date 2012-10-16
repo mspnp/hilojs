@@ -148,6 +148,10 @@
         // Get the selected items
         getItems: function () {
             return this.lv.selection.getItems();
+        },
+
+        hide: function () {
+            this.el.style.display = "none";
         }
     };
 

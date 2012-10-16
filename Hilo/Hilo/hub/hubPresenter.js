@@ -57,6 +57,7 @@
         this.bindImages = this.bindImages.bind(this);
         this.selectionChanged = this.selectionChanged.bind(this);
         this.itemClicked = this.itemClicked.bind(this);
+        this.displayLibraryEmpty = this.displayLibraryEmpty.bind(this);
     };
 
     // Hub Presenter Methods
@@ -90,14 +91,22 @@
         },
 
         loadImages: function () {
+            var self = this;
+
             // <SnippetHilojs_1309>
             var query = this.queryBuilder.build(this.folder);
             // </SnippetHilojs_1309>
 
             // <SnippetHilojs_1313>
             return query.execute()
-                .then(this.bindImages)
-                .then(this.animateEnterPage);
+                .then(function (items) {
+                    if (items.length === 0) {
+                        self.displayLibraryEmpty();
+                    } else {
+                        self.bindImages(items)
+                            .then(self.animateEnterPage);
+                    }
+                });
             // </SnippetHilojs_1313>
         },
 
@@ -128,6 +137,14 @@
             this.listview.setDataSource(items);
         },
         // </SnippetHilojs_1315>
+
+        displayLibraryEmpty: function () {
+            this.imageNav.disableButtons();
+            this.listview.hide();
+
+            document.querySelector("#navigateToMonth").style.display = "none";
+            document.querySelector(".empty-library").style.display = "block";
+        },
 
         animateEnterPage: function () {
             var elements = document.querySelectorAll(".titlearea, section[role=main]");
