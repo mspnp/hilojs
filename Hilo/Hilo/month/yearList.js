@@ -8,7 +8,7 @@
 // ===============================================================================
 
 (function () {
-    'use strict';
+    "use strict";
 
     var YearList = WinJS.Class.define(function YearList_ctor(element, options) {
         var self = this;
@@ -133,7 +133,7 @@
     // Export Public API
     // -----------------
 
-    WinJS.Namespace.define('Hilo.month', {
+    WinJS.Namespace.define("Hilo.month", {
         YearList: YearList
     });
 

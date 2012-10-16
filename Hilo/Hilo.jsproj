@@ -92,6 +92,7 @@
     <Content Include="Hilo\hub\listViewPresenter.js" />
     <Content Include="Hilo\imageQueryBuilder.js" />
     <Content Include="Hilo\imageWriter.js" />
+    <Content Include="Hilo\month\monthPresenter.js" />
     <Content Include="Hilo\month\month.css" />
     <Content Include="Hilo\month\month.html" />
     <Content Include="Hilo\month\month.js" />
