@@ -10,6 +10,10 @@
     overflow: visible;
 }
 
+.month .win-groupheader span {
+    white-space: nowrap;
+}
+
 .month .win-ring {
     -ms-grid-row-span: 1;
     -ms-grid-row: 2;
@@ -122,23 +126,18 @@
 
 @media screen and (-ms-view-state: snapped) {
     .month section[role=main] {
-        margin-left: 0px;
     }
 
-    .month .semanticZoomContainer .win-horizontal.win-viewport .win-surface {
-        margin-left: 0px;
+    .month .semanticZoomContainer .win-viewport .win-surface {
+        margin-left: 0;
     }
 
-    .month .semanticZoomContainer .win-listview .win-groupheader {
-        margin-left: 20px;
-    }
-
-    .month .yearMonthItem span {
-        font-size: 12px;
+    .month .win-item {
+        padding-left: 40px;
     }
 
     .month .thumbnail {
-        height: 75px;
-        width: 75px;
+        width: 232px;
+        height: 160px;
     }
 }

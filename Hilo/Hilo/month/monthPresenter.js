@@ -20,14 +20,18 @@
     var itemDateProperty = "System.ItemDate";
     var maxImagesPerGroup = 8;
 
-    function MonthPresenterConstructor(loadingIndicatorEl, semanticZoom, zoomOutListView, zoomInListView) {
+    function MonthPresenterConstructor(loadingIndicatorEl, semanticZoom, zoomedInListView, zoomedOutListView, imageNav, queryBuilder) {
 
         this.loadingIndicatorEl = loadingIndicatorEl;
         this.semanticZoom = semanticZoom;
+        this.imageNav = imageNav;
 
-        this.zoomInListView = zoomInListView;
-        this.zoomOutListView = zoomOutListView;
+        this.zoomedOutListView = zoomedOutListView;
+        this.zoomedInListView = zoomedInListView;
 
+        this.queryBuilder = queryBuilder;
+
+        this.selectLayout = this.selectLayout.bind(this);
         this._buildYearGroups = this._buildYearGroups.bind(this);
         this._queryImagesPerMonth = this._queryImagesPerMonth.bind(this);
         this._buildViewModelsForMonths = this._buildViewModelsForMonths.bind(this);
@@ -39,9 +43,12 @@
 
     var monthPresenterMembers = {
 
+        _navigate: WinJS.Navigation.navigate,
+
         start: function (targetFolder) {
             var self = this;
 
+            this.targetFolder = targetFolder;
             this.semanticZoom.enableButton = false;
             this.groupsByKey = {};
             this.displayedImages = [];
@@ -53,7 +60,7 @@
                 .done(function (dataSources) {
                     self._setupListViews(dataSources.images, dataSources.years);
                     self.loadingIndicatorEl.style.display = "none";
-                    self.semanticZoom.enableButton = true;
+                    self.selectLayout();
                 });
         },
 
@@ -115,20 +122,28 @@
                         filesInFolder = files;
                         // Since we filtered for zero count, we 
                         // can assume that we have at least 1 file
+
                         return files.getAt(0).properties.retrievePropertiesAsync([itemDateProperty]);
                     })
                     .then(function (retrieved) {
                         var date = retrieved[itemDateProperty];
                         var groupKey = (date.getFullYear() * 100) + (date.getMonth());
+                        var firstImage;
 
-                        filesInFolder.forEach(function (file) {
+                        filesInFolder.forEach(function (file, index) {
                             var image = new Hilo.Picture(file);
                             image.groupKey = groupKey;
                             self.displayedImages.push(image);
+
+                            if(index === 0) {
+                                firstImage = image;
+                            }
                         });
 
                         var monthGroupViewModel = {
                             itemDate: date,
+                            name: firstImage.name,
+                            backgroundUrl: firstImage.src.backgroundUrl,
                             title: folder.groupKey,
                             sortOrder: groupKey,
                             count: folder.count,
@@ -153,11 +168,7 @@
             }
 
             function groupData(item) {
-                var group = self.groupsByKey[item.groupKey];
-                return {
-                    title: group.title.replace(" ", "&nbsp;"),
-                    count: group.count
-                };
+                return self.groupsByKey[item.groupKey];
             }
 
             function groupSort(left, right) {
@@ -208,7 +219,7 @@
                 .build(this.targetFolder);
 
             var group = this.groupsByKey[item.groupKey];
-            var indexInGroup = item.index - group.firstItemIndexHint
+            var indexInGroup = (group) ? item.index - group.firstItemIndexHint : 0;
 
             return {
                 query: query,
@@ -219,13 +230,12 @@
 
         _setupListViews: function (imageList, yearList) {
 
-            this.zoomOutListView.itemDataSource = imageList.dataSource;
-            this.zoomOutListView.groupDataSource = imageList.groups.dataSource;
+            this.imageList = imageList;
 
-            this.zoomOutListView.addEventListener("iteminvoked", this._imageInvoked.bind(this));
-            this.zoomOutListView.addEventListener("selectionchanged", this._selectionChanged.bind(this));
+            this.zoomedInListView.addEventListener("iteminvoked", this._imageInvoked.bind(this));
+            this.zoomedInListView.addEventListener("selectionchanged", this._selectionChanged.bind(this));
 
-            this.zoomInListView.setItemDataSource(yearList.dataSource);
+            this.zoomedOutListView.setItemDataSource(yearList.dataSource);
         },
 
         _imageInvoked: function (args) {
@@ -236,14 +246,14 @@
                 var options = self._buildQueryForPicture(item);
                 // Navigate to the detail page to show the results
                 // of this query with the selected item
-                self.navigate("/Hilo/detail/detail.html", options);
+                self._navigate("/Hilo/detail/detail.html", options);
             });
         },
 
         _selectionChanged: function (args) {
             var self = this;
 
-            this.monthgroup.selection
+            this.zoomedInListView.selection
                 .getItems()
                 .then(function (items) {
                     if (items[0]) {
@@ -254,6 +264,35 @@
                         self.imageNav.clearNavigationOptions(true);
                     }
                 });
+        },
+
+        selectLayout: function (viewState) {
+
+            viewState = viewState || Windows.UI.ViewManagement.ApplicationView.value;
+
+            if (viewState === Windows.UI.ViewManagement.ApplicationViewState.snapped) {
+
+                this.zoomedInListView.layout = new WinJS.UI.ListLayout();
+                this.zoomedInListView.itemDataSource = this.imageList.groups.dataSource;
+                this.zoomedInListView.groupDataSource = null;
+
+                this.zoomedInListView.itemTemplate = document.querySelector("#monthSnappedTemplate");
+
+                if (this.semanticZoom.zoomedOut) {
+                    this.semanticZoom.zoomedOut = false;
+                }
+                this.semanticZoom.enableButton = false;
+
+            } else {
+                this.zoomedInListView.layout = new WinJS.UI.GridLayout();
+
+                this.zoomedInListView.itemDataSource = this.imageList.dataSource;
+                this.zoomedInListView.groupDataSource = this.imageList.groups.dataSource;
+                this.zoomedInListView.itemTemplate = document.querySelector("#monthItemTemplate");
+                this.zoomedInListView.groupHeaderTemplate = document.querySelector("#monthGroupHeaderTemplate");
+
+                this.semanticZoom.enableButton = true;
+            }
         }
     };
 

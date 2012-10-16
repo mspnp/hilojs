@@ -31,24 +31,25 @@
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
 
             var loadingIndicator = document.querySelector("#loadingProgress");
-            var semanticZoom = document.querySelector(".semanticZoomContainer").winControl;
+            this.semanticZoom = document.querySelector(".semanticZoomContainer").winControl;
 
-            var zoomInListView = document.querySelector("#monthgroup").winControl;
+            this.zoomInListView = document.querySelector("#monthgroup").winControl;
             var zoomOutListView = document.querySelector("#yeargroup").winControl;
 
-            var presenter = new Hilo.month.MonthPresenter(loadingIndicator, semanticZoom, zoomInListView, zoomOutListView, imageNav);
-            presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
+            this.presenter = new Hilo.month.MonthPresenter(loadingIndicator, this.semanticZoom, this.zoomInListView, zoomOutListView, imageNav, this.queryBuilder);
+            this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
         },
 
         updateLayout: function (element, viewState, lastViewState) {
             if (viewState !== lastViewState) {
+                this.presenter.selectLayout(viewState);
             }
         },
 
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
-        },
+        }
 
     };
 

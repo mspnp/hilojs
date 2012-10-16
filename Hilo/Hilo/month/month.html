@@ -26,6 +26,11 @@
                 <span data-win-bind="innerHTML: title"></span>&nbsp;(<span data-win-bind="innerText: count"></span>)
             </div>
 
+            <div id="monthSnappedTemplate" data-win-control="WinJS.Binding.Template">
+                <span data-win-bind="innerHTML: title"></span>&nbsp;(<span data-win-bind="innerText: count"></span>)
+                <div data-win-bind="style.backgroundImage: backgroundUrl;" class="thumbnail"></div>
+            </div>
+
             <div id="yearItemTemplate" data-win-control="WinJS.Binding.Template">
                 <div class="yearMonthItem"><span data-win-bind="innerHTML: title"></span></div>
             </div>
@@ -38,8 +43,6 @@
 
                 <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
                     layout: {type: WinJS.UI.GridLayout},
-                    itemTemplate: select('#monthItemTemplate'), 
-                    groupHeaderTemplate: select('#monthGroupHeaderTemplate'), 
                     selectionMode: 'single'}">
                 </div>
 
@@ -51,7 +54,7 @@
             </div>
 
         </section>
-    	<progress id="loadingProgress" class="win-ring"></progress>
+        <progress id="loadingProgress" class="win-ring"></progress>
         <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/ImageNav/ImageNav.html'}" data-win-design-locked="true"></section>
     </div>
 </body>
