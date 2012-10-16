@@ -1,4 +1,4 @@
-// ===============================================================================
+﻿// ===============================================================================
 //  Microsoft patterns & practices
 //  Hilo JS Guidance
 // ===============================================================================
@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("Rotate Page Appbar Presenter", function () {
+describe("Rotate Page Appbar Presenter", function () {
     var appBarPresenter, el, saveButton, cancelButton, clockwiseButton, unSnap;
 
 	beforeEach(function () {

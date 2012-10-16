@@ -1,4 +1,4 @@
-// ===============================================================================
+﻿// ===============================================================================
 //  Microsoft patterns & practices
 //  Hilo JS Guidance
 // ===============================================================================
@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿(function (globals) {
+(function (globals) {
 	"use strict";
 
 	var activation = Windows.ApplicationModel.Activation,

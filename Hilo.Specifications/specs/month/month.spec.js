@@ -1,4 +1,4 @@
-// ===============================================================================
+﻿// ===============================================================================
 //  Microsoft patterns & practices
 //  Hilo JS Guidance
 // ===============================================================================
@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿//TODO: fix these specs. the `month.js` file is looking for DOM elements that don't exist at test time.
+//TODO: fix these specs. the `month.js` file is looking for DOM elements that don't exist at test time.
 
 xdescribe("The month page control", function () {
     "use strict";

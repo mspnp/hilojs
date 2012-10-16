@@ -1,4 +1,4 @@
-// ===============================================================================
+﻿// ===============================================================================
 //  Microsoft patterns & practices
 //  Hilo JS Guidance
 // ===============================================================================
@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("The data adapter from the month group members", function () {
+describe("The data adapter from the month group members", function () {
     "use strict";
 
     var adapter;

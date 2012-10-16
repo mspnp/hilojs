@@ -1,4 +1,4 @@
-// ===============================================================================
+﻿// ===============================================================================
 //  Microsoft patterns & practices
 //  Hilo JS Guidance
 // ===============================================================================
@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-﻿describe("listview presenter", function () {
+describe("listview presenter", function () {
     "use strict";
 
     describe("when snapped", function () {
