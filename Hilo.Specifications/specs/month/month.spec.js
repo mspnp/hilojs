@@ -9,7 +9,7 @@
 
 //TODO: fix these specs. the `month.js` file is looking for DOM elements that don't exist at test time.
 
-xdescribe("The month page control", function () {
+xdescribe("Month Page Control", function () {
     "use strict";
 
     var page;

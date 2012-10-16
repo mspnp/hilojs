@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("The helper for page controls", function () {
+describe("Helper for page controls", function () {
 
     describe("when checking the incoming options", function () {
         var attemptedToDeserialize;

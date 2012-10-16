@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-xdescribe("The view model for a picture", function () {
+xdescribe("View model for a picture", function () {
     "use strict";
 
     var viewmodel;
