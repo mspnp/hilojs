@@ -52,7 +52,7 @@
                         whenComplete(promise);
                     }
                     catch (error) {
-                        whenError(error)
+                        whenError(error);
                     }
                 });
 

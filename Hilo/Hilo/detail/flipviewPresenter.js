@@ -48,7 +48,7 @@
         showImageAt: function (index) {
             this.winControl.currentPage = index;
         }
-    }
+    };
 
     // Flipview Presenter Definition
     // -----------------------------

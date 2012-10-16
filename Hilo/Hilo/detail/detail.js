@@ -29,7 +29,7 @@
             var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
             // </SnippetHilojs_1711>
 
-            var filmstripEl = document.querySelector("#filmstrip")
+            var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");
 
             var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, imageNav);

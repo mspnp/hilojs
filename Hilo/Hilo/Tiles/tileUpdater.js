@@ -99,7 +99,7 @@
         }
         // </SnippetHilojs_1101>
         // </SnippetHilojs_1001>
-    }
+    };
 
     // Public API
     // ----------

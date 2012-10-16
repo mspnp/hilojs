@@ -100,3 +100,5 @@ lib
 *.orig
 *.pfx
 *.diagsession
+
+jscop-output.txt

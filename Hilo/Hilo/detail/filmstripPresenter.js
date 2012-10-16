@@ -42,7 +42,7 @@
                 itemPromise: args.detail.itemPromise
             });
         }
-    }
+    };
 
     // Filmstrip Presenter Definition
     // ------------------------------

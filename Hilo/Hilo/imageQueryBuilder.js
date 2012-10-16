@@ -147,7 +147,7 @@
         // The StorageFolder to load the images from must be specified.
         build: function (storageFolder) {
             this._set("folder", storageFolder);
-            this._set("folderKey", generateFolderId(storageFolder))
+            this._set("folderKey", generateFolderId(storageFolder));
             return new Query(this._settings);
         },
 

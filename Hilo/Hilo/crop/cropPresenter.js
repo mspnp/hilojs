@@ -54,9 +54,15 @@
                     // If the file retrieved by index does not match the name associated
                     // with the query, we assume that it has been deleted (or modified)
                     // and we send the user back to the hub screen.
-                    return (!storageFile || storageFile.name != self.expectedFileName)
-                        ? self.navigation.navigate("/Hilo/hub/hub.html")
-                        : self.processPicture(storageFile);
+                    var fileName;
+
+                    if (!storageFile || storageFile.name != self.expectedFileName) {
+                        fileName = self.navigation.navigate("/Hilo/hub/hub.html");
+                    } else {
+                        fileName = self.processPicture(storageFile);
+                    }
+
+                    return fileName;
                 });
         },
 
@@ -197,7 +203,7 @@
                 startY: 0,
                 endX: size.width,
                 endY: size.height
-            }
+            };
         },
 
         // take a rectangle that was based on a scaled canvas size
