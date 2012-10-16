@@ -80,7 +80,7 @@ describe("image query builder", function () {
         });
 
         it("should configure the query for the specified month and year", function () {
-            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T08:00:00Z..2012-02-01T07:59:59Z");
+            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T06:00:00Z..2012-02-01T05:59:59Z");
         });
     });
     // </SnippetHilojs_2003>
