@@ -7,6 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
+// <SnippetHilojs_2001>
 describe("image query builder", function () {
 
     var queryBuilder, storageFolder;
@@ -20,6 +21,7 @@ describe("image query builder", function () {
             done();
         });
     });
+// </SnippetHilojs_2001>
 
     describe("when building a query", function () {
         var query;
@@ -67,28 +69,31 @@ describe("image query builder", function () {
         });
     });
 
+    // <SnippetHilojs_2003>
     describe("when specifying a month and year for images", function () {
         var query;
 
         beforeEach(function () {
             query = queryBuilder
-				.forMonthAndYear(new Date(2012, 0))
-				.build(storageFolder);
+                .forMonthAndYear(new Date(2012, 0))
+                .build(storageFolder);
         });
 
         it("should configure the query for the specified month and year", function () {
             expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T08:00:00Z..2012-02-01T07:59:59Z");
         });
     });
+    // </SnippetHilojs_2003>
 
+    // <SnippetHilojs_2002>
     describe("when executing a query that specifies the number of images to load", function () {
         var queryResult;
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.count(1)
-				.build(storageFolder)
-        		.execute();
+                .count(1)
+                .build(storageFolder)
+                .execute();
         });
 
         it("should load the specified number of images", function (done) {
@@ -98,14 +103,15 @@ describe("image query builder", function () {
             }).done(null, done);
         });
     });
+    // </SnippetHilojs_2002>
 
     describe("when executing a query that does not specifies the number of images to load", function () {
         var queryResult;
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.build(storageFolder)
-				.execute();
+                .build(storageFolder)
+                .execute();
         });
 
         it("should load all images in the folder", function (done) {
@@ -121,9 +127,9 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.imageAt(1)
-				.build(storageFolder)
-				.execute();
+                .imageAt(1)
+                .build(storageFolder)
+                .execute();
         });
 
         it("should only load that one image when executing", function (done) {
@@ -139,9 +145,9 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.bindable()
-				.build(storageFolder)
-				.execute();
+                .bindable()
+                .build(storageFolder)
+                .execute();
         });
 
         it("should return instances of bindable Picture objects", function (done) {
@@ -158,9 +164,9 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.imageAt(0)
-				.build(storageFolder)
-        		.execute();
+                .imageAt(0)
+                .build(storageFolder)
+                .execute();
         });
 
         it("should load the one specified image", function (done) {
@@ -177,8 +183,8 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             queryResult = queryBuilder
-				.build(storageFolder)
-	        	.execute(imageIndex);
+                .build(storageFolder)
+                .execute(imageIndex);
         });
 
         it("should load the one specified image", function (done) {
