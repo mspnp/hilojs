@@ -103,8 +103,8 @@
                     if (items.length === 0) {
                         self.displayLibraryEmpty();
                     } else {
-                        self.bindImages(items)
-                            .then(self.animateEnterPage);
+                        self.bindImages(items);
+                        self.animateEnterPage();
                     }
                 });
             // </SnippetHilojs_1313>

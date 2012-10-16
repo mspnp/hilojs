@@ -33,17 +33,17 @@
         loadImage: function (imageUrl) {
             this.image = new Image();
 
-            var that = this;
+            var self = this;
             this.image.onload = function () {
 
-                that.imageSubset = {
+                self.imageSubset = {
                     startX: 0,
                     startY: 0,
-                    endX: that.image.width,
-                    endY: that.image.height
+                    endX: self.image.width,
+                    endY: self.image.height
                 };
 
-                that.drawImage();
+                self.drawImage();
             };
 
             var imgEl = document.getElementById("image");

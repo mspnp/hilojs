@@ -79,10 +79,10 @@
                 itemLoader = this.getItems();
             }
 
-            var that = this;
+            var self = this;
             WinJS.Promise.as(itemLoader).then(function (items) {
                 var selectedItem = (items && items[0]) ? items[0] : {};
-                that.dispatchEvent("selectionChanged", {
+                self.dispatchEvent("selectionChanged", {
                     hasItemSelected: hasItemSelected,
                     itemIndex: selectedItem.index,
                     item: selectedItem.data
@@ -93,9 +93,9 @@
         // Event handler for "invoking" (clicking or tapping) an image
         // <SnippetHilojs_1212>
         imageNavigated: function (args) {
-            var that = this;
+            var self = this;
             args.detail.itemPromise.then(function (item) {
-                that.dispatchEvent("itemInvoked", {
+                self.dispatchEvent("itemInvoked", {
                     item: item,
                     itemIndex: args.detail.itemIndex
                 });

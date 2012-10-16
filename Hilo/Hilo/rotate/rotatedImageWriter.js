@@ -24,11 +24,11 @@
 
         // Pick a file to save the rotated version to, then save it
         rotate: function (sourceFile, degrees) {
-            var that = this;
+            var self = this;
             return this.imageWriter.pickFile(sourceFile, "Rotated")
                 .then(function (destFile) {
                     if (destFile) {
-                        that.saveRotatedImage(sourceFile, destFile, degrees);
+                        self.saveRotatedImage(sourceFile, destFile, degrees);
                         return true;
                     } else {
                         return false;
@@ -40,7 +40,7 @@
         saveRotatedImage: function (sourceFile, destFile, degrees) {
 
             // Keep data in-scope across multiple asynchronous methods.
-            var that = this,
+            var self = this,
                 originalRotation,
 				useEXIFOrientation;
 
@@ -92,7 +92,7 @@
             };
 
             var encodeProcessor = function (encoder) {
-                var adjustedDegrees = that.normalizeDegrees(degrees + originalRotation);
+                var adjustedDegrees = self.normalizeDegrees(degrees + originalRotation);
 
                 if (useEXIFOrientation) {
                     // EXIF is supported, so update the orientation flag to reflect 
@@ -115,7 +115,7 @@
                 } else {
 
                     // EXIF is not supported, so rever to bitmap rotation
-                    var rotation = that.getBitmapRotation(adjustedDegrees);
+                    var rotation = self.getBitmapRotation(adjustedDegrees);
                     return encoder.bitmapTransform.rotation = rotation;
 
                 }

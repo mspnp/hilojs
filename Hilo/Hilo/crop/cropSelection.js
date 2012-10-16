@@ -32,7 +32,7 @@
     var cropSelectionMembers = {
 
         addProp: function (propName, initialValue, adjust) {
-            var that = this;
+            var self = this;
             var propertyValue = initialValue;
 
             Object.defineProperty(this, propName, {
@@ -42,7 +42,7 @@
                 set: function (value) {
                     if (adjust) { value = adjust(value); }
                     propertyValue = value;
-                    that.dispatchMove();
+                    self.dispatchMove();
                 }
             });
         },

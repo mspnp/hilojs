@@ -90,9 +90,9 @@
                 // This function responds to navigation by adding new pages
                 // to the DOM.
                 _navigated: function (args) {
-                    var that = this;
-                    var oldElement = that.pageElement;
-                    var newElement = that._createPageElement();
+                    var self = this;
+                    var oldElement = self.pageElement;
+                    var newElement = self._createPageElement();
                     var parentedComplete;
                     var parented = new WinJS.Promise(function (c) { parentedComplete = c; });
 
@@ -103,10 +103,10 @@
                             }
                             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
                         }).then(function parentElement(control) {
-                            that.element.appendChild(newElement);
-                            that.element.removeChild(oldElement);
+                            self.element.appendChild(newElement);
+                            self.element.removeChild(oldElement);
                             oldElement.innerText = "";
-                            that.navigated();
+                            self.navigated();
                             parentedComplete();
                         })
                     );

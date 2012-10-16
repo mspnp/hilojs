@@ -103,7 +103,7 @@
         // Take the query result from the image query and display the image that it loaded.
         // <SnippetHilojs_1611>
         _loadAndShowImage: function (queryResult) {
-            var that = this;
+            var self = this;
             var storageFile = queryResult[0].storageFile;
 
             if (storageFile.name != this.expectedFileName) {

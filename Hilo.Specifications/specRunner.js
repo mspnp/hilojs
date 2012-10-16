@@ -124,9 +124,9 @@
             } else {
 
                 // More folders to find. Recursively load them.
-                var that = this;
+                var self = this;
                 return folder.then(function (newParent) {
-                    return that.getFolder(names.join("/"), newParent);
+                    return self.getFolder(names.join("/"), newParent);
                 });
 
             }

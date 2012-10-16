@@ -29,11 +29,11 @@
         // choose a destination file, then crop the image down to the
         // specified crop selection, saving it to the selected destination
         crop: function (sourceFile, cropSelection) {
-            var that = this;
+            var self = this;
             return this.imageWriter.pickFile(sourceFile, "Cropped")
                 .then(function (destFile) {
                     if (destFile) {
-                        that.saveCroppedImage(sourceFile, destFile, cropSelection);
+                        self.saveCroppedImage(sourceFile, destFile, cropSelection);
                         return true;
                     } else {
                         return false;
@@ -45,7 +45,7 @@
         // Do the actual file cropping and save it to the destination file
         saveCroppedImage: function (sourceFile, destFile, cropSelection) {
 
-            var that = this,
+            var self = this,
                 exifOrientation,
                 imageSize;
 
@@ -102,7 +102,7 @@
                 // set the bounds (crop position / size) of the encoder, 
                 // so that we only get the crop selection in the final
                 // result
-                var bounds = that.getRotatedBounds(exifOrientation, imageSize, cropSelection);
+                var bounds = self.getRotatedBounds(exifOrientation, imageSize, cropSelection);
                 encoder.bitmapTransform.bounds = bounds;
             };
 

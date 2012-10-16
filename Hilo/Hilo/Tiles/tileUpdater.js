@@ -65,9 +65,9 @@
         // <SnippetHilojs_1003>
         // <SnippetHilojs_1103>
         queueTileUpdates: function (notifications) {
-            var that = this;
+            var self = this;
             notifications.forEach(function (notification) {
-                that.tileUpdater.update(notification);
+                self.tileUpdater.update(notification);
             });
         },
         // </SnippetHilojs_1103>
