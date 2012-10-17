@@ -148,67 +148,6 @@
         return createFilterFromYearAndMonth(date.getFullYear(), date.getMonth());
     }
 
-    function getAbbreviatedMonthFrom(date) {
-        return abbreviatedMonthFormatter.format(date);
-    }
-
-    function getISO8601WithoutMilliseconds(date) {
-        var isoDate = date.toISOString();
-        return isoDate.replace(/\.\d\d\dZ$/, "Z");
-    }
-
-    function calendarFor(year, month) {
-        var calendar = new global.Calendar();
-
-        // In JavaScript, the first month is 0. 
-        month = month + 1;
-
-        calendar.year = year;
-        calendar.month = month;
-        return calendar;
-    }
-
-    function startOfMonthAsISO8601(calendar) {
-        calendar.day = calendar.firstDayInThisMonth;
-        calendar.period = calendar.firstPeriodInThisDay;
-        calendar.hour = calendar.firstHourInThisPeriod;
-        calendar.minute = calendar.firstMinuteInThisHour;
-        calendar.second = calendar.firstSecondInThisMinute;
-
-        return getISO8601WithoutMilliseconds(calendar.getDateTime());
-    }
-
-    function endOfMonthAsISO8601(calendar) {
-        calendar.day = calendar.lastDayInThisMonth;
-        calendar.period = calendar.lastPeriodInThisDay;
-        calendar.hour = calendar.lastHourInThisPeriod;
-        calendar.minute = calendar.lastMinuteInThisHour;
-        calendar.second = calendar.lastSecondInThisMinute;
-
-        return getISO8601WithoutMilliseconds(calendar.getDateTime());
-    }
-
-    function createFilterRangeFromYearAndMonth(year, month) {
-        var calendar = calendarFor(year, month);
-
-        var startOfRange = startOfMonthAsISO8601(calendar);
-        var endOfRange = endOfMonthAsISO8601(calendar);
-
-        return "System.ItemDate:" + startOfRange + ".." + endOfRange;
-    }
-
-    function createFilterFromYearAndMonth(year, month) {
-        var calendar = calendarFor(year, month);
-
-        var startOfRange = startOfMonthAsISO8601(calendar);
-
-        return "System.ItemDate:" + startOfRange;
-    }
-
-    function createFilterFromDate(date) {
-        return createFilterFromYearAndMonth(date.getFullYear(), date.getMonth());
-    }
-
     // Public API
     // ----------
 
