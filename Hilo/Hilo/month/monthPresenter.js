@@ -39,6 +39,7 @@
         this._setupListViews = this._setupListViews.bind(this);
         this._imageInvoked = this._imageInvoked.bind(this);
         this._selectionChanged = this._selectionChanged.bind(this);
+        this._groupHeaderTemplate = this._groupHeaderTemplate.bind(this);
     };
 
     var monthPresenterMembers = {
@@ -135,7 +136,7 @@
                             image.groupKey = groupKey;
                             self.displayedImages.push(image);
 
-                            if(index === 0) {
+                            if (index === 0) {
                                 firstImage = image;
                             }
                         });
@@ -266,6 +267,24 @@
                 });
         },
 
+        _groupHeaderTemplate: function (templateId) {
+            var self = this;
+
+            return function (itemPromise, recycledElement) {
+                var template = document.querySelector("#" + templateId)
+                var instance = document.createElement("div");
+                return itemPromise.then(function (item) {
+                    instance.innerHTML = template.innerHTML;
+                    WinJS.Binding.processAll(instance, item.data);
+                    instance.querySelector("a").addEventListener("click", function () {
+                        var options = self._buildQueryForPicture(item);
+                        self._navigate("/Hilo/detail/detail.html", options);
+                    });
+                    return instance;
+                });
+            }
+        },
+
         selectLayout: function (viewState) {
 
             viewState = viewState || Windows.UI.ViewManagement.ApplicationView.value;
@@ -289,7 +308,7 @@
                 this.zoomedInListView.itemDataSource = this.imageList.dataSource;
                 this.zoomedInListView.groupDataSource = this.imageList.groups.dataSource;
                 this.zoomedInListView.itemTemplate = document.querySelector("#monthItemTemplate");
-                this.zoomedInListView.groupHeaderTemplate = document.querySelector("#monthGroupHeaderTemplate");
+                this.zoomedInListView.groupHeaderTemplate = this._groupHeaderTemplate("monthGroupHeaderTemplate");
 
                 this.semanticZoom.enableButton = true;
             }

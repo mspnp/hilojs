@@ -12,6 +12,7 @@
 
 .month .win-groupheader span {
     white-space: nowrap;
+    overflow: visible;
 }
 
 .month .win-ring {

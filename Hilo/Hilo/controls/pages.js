@@ -38,7 +38,7 @@
         //TODO: We should discuss how to define the application flow,
         // We might not want to hard code links into the markup.
 
-        var links = document.querySelectorAll("a");
+        var links = document.querySelectorAll("a[data-navigate]");
         Array.prototype.forEach.call(links, function (a) {
             var root = "ms-appx://" + a.host,
                 url = a.href.replace(root, "");
