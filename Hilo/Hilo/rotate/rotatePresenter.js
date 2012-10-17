@@ -11,19 +11,25 @@
     // Rotate Presenter Constructor
     // ----------------------------
 
-    function RotatePresenter(el, appBarPresenter, fileLoader, expectedFileName, navigation) {
+    function RotatePresenter(el, appBarPresenter, fileLoader, expectedFileName, touchProvider, navigation) {
         this.el = el;
         this.appBarPresenter = appBarPresenter;
         this.fileLoader = fileLoader;
         this.expectedFileName = expectedFileName;
         this.navigation = navigation || WinJS.Navigation;
+        this.touchProvider = touchProvider;
 
         this.rotationDegrees = 0;
 
         this.rotateImage = this.rotateImage.bind(this);
+        this._rotateImage = this._rotateImage.bind(this);
+        this._rotateImageWithoutTransition = this._rotateImageWithoutTransition.bind(this);
         this.saveImage = this.saveImage.bind(this);
         this.cancel = this.cancel.bind(this);
         this.unsnap = this.unsnap.bind(this);
+
+        touchProvider.setRotation = this._rotateImageWithoutTransition;
+        touchProvider.animateRotation = this._rotateImage;
     }
 
     // Rotate Presenter Members
@@ -66,11 +72,11 @@
 
             rotateImageWriter
                 .rotate(this.hiloPicture.storageFile, this.rotationDegrees)
-		        .then(function (success) {
-		            if (success) {
-		                self.navigation.back();
-		            }
-		        });
+                .then(function (success) {
+                    if (success) {
+                        self.navigation.back();
+                    }
+                });
         },
 
         cancel: function () {
@@ -128,6 +134,15 @@
             // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/ff974936.aspx
 
             var rotation = "rotate(" + this.rotationDegrees + "deg)";
+            this.el.className = "rotatable";
+            this.el.style.transform = rotation;
+
+            this.appBarPresenter._enableButtons();
+        },
+
+        _rotateImageWithoutTransition: function (absoluteRotation) {
+            var rotation = "rotate(" + absoluteRotation + "deg)";
+            this.el.className = "";
             this.el.style.transform = rotation;
         }
     };
