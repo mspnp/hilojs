@@ -1,11 +1,9 @@
-﻿// ===============================================================================
-//  Microsoft patterns & practices
-//  Hilo JS Guidance
-// ===============================================================================
-//  Copyright © Microsoft Corporation.  All rights reserved.
-//  This code released under the terms of the 
-//  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
-// ===============================================================================
+﻿// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
+//
+// Copyright (c) Microsoft Corporation. All rights reserved
 
 // For an introduction to the Page Control template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkId=232511

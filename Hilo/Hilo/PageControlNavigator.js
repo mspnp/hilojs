@@ -1,11 +1,9 @@
-﻿// ===============================================================================
-//  Microsoft patterns & practices
-//  Hilo JS Guidance
-// ===============================================================================
-//  Copyright © Microsoft Corporation.  All rights reserved.
-//  This code released under the terms of the 
-//  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
-// ===============================================================================
+﻿// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+// PARTICULAR PURPOSE.
+//
+// Copyright (c) Microsoft Corporation. All rights reserved
 
 
 // The code in this file originated from the Visual Studio template. On the whole,
