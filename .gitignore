@@ -101,4 +101,5 @@ lib
 *.pfx
 *.diagsession
 
-jscop-output.txt
+*-output.txt
+*.cmd
