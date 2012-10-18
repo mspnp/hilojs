@@ -145,7 +145,7 @@ describe("image query builder", function () {
 
         beforeEach(function () {
             queryResult = queryBuilder
-                .bindable()
+                .bindable(true)
                 .build(storageFolder)
                 .execute();
         });

@@ -75,7 +75,7 @@
             // Configure and then build the query for this page
             // <SnippetHilojs_1301>
             this.queryBuilder
-                .bindable()
+                .bindable(true)
                 .prefetchOptions(["System.ItemDate"])
                 .count(maxImageCount);
             // </SnippetHilojs_1301>
@@ -192,7 +192,7 @@
 
             // Build the query for the month and year of the invoked image
             var query = this.queryBuilder
-                .bindable()
+                .bindable(true)
                 .forMonthAndYear(picture.itemDate)
                 .build(knownFolders.picturesLibrary);
 

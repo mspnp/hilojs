@@ -152,9 +152,29 @@
         // Creates "bindable" objects using the `Hilo.Picture` object,
         // which is required when the resulting image objects must be
         // bound to a UI element, such as a `ListView`.
+        //
+        // Bindable takes one parameter: a boolean to determine wheter
+        // or not bindable `Picture` objects are returned. If no
+        // parameter is specified, it defaults to `false`.
+        //
         // <SnippetHilojs_1307>
-        bindable: function () {
-            return this._set("bindable", true);
+        bindable: function (bindable) {
+            // !! is a JavaScript coersion trick to convert any value
+            // in to a true boolean value. 
+            //
+            // When checking equality and boolean values, JavaScript 
+            // coerces `undefined`, `null`, `0`, `""`, and `false` into 
+            // a boolean value of `false`. All other values are coerced 
+            // into a boolean value of `true`.
+            //
+            // The first ! then, negates the coerced value. For example,
+            // a value of "" (empty string) will be coerced in to `false`.
+            // Therefore `!""` will return `true`. 
+            //
+            // The second ! then inverts the negated value to the
+            // correct boolean form, as a true boolean value. For example,
+            // `!!""` returns `false` and `!!"something"` returns true.
+            return this._set("bindable", !!bindable);
         },
         // </SnippetHilojs_1307>
 

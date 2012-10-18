@@ -213,7 +213,7 @@
 
             // Build a query to represent the month/year group that was selected
             var query = this.queryBuilder
-                .bindable()                     // ensure the images are data-bind-able
+                .bindable(true)                     // ensure the images are data-bind-able
                 .forMonthAndYear(picture.itemDate)     // only load images for the month and year group we selected
                 .build(this.targetFolder);
 
