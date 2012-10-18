@@ -23,14 +23,14 @@
             this.bindPageTitle(pageTitle);
 
             // <SnippetHilojs_1711>
-            var imageNavEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(imageNavEl, WinJS.Navigation, query);
+            var hiloAppBarEl = document.querySelector("#appbar");
+            var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(hiloAppBarEl, WinJS.Navigation, query);
             // </SnippetHilojs_1711>
 
             var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");
 
-            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, imageNav);
+            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, hiloAppBar);
             detailPresenter.addEventListener("pageSelected", function (args) {
                 var itemIndex = args.detail.itemIndex;
                 options.itemIndex = itemIndex;

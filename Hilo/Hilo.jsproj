@@ -60,10 +60,10 @@
     <Content Include="Hilo\controls\Header\Header.css" />
     <Content Include="Hilo\controls\Header\Header.html" />
     <Content Include="Hilo\controls\Header\Header.js" />
-    <Content Include="Hilo\controls\ImageNav\imageNavPresenter.js" />
-    <Content Include="Hilo\controls\ImageNav\ImageNav.css" />
-    <Content Include="Hilo\controls\ImageNav\ImageNav.html" />
-    <Content Include="Hilo\controls\ImageNav\ImageNav.js" />
+    <Content Include="Hilo\controls\HiloAppBar\hiloAppBarPresenter.js" />
+    <Content Include="Hilo\controls\HiloAppBar\hiloAppBar.css" />
+    <Content Include="Hilo\controls\HiloAppBar\hiloAppBar.html" />
+    <Content Include="Hilo\controls\HiloAppBar\hiloAppBar.js" />
     <Content Include="Hilo\controls\pages.js" />
     <Content Include="Hilo\controls\pageControlHelper.js" />
     <Content Include="Hilo\crop\crop.css" />

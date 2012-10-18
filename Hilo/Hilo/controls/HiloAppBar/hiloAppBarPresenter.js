@@ -11,11 +11,11 @@
     // Constructor Function
     // --------------------
 
-    // The `ImageNavPresenter` requires two parameters:
+    // The `HiloAppBarPresenter` requires two parameters:
     //
     // 1. `el`: the HTML element of the control
     // 2. `nav`: the WinJS.Navigation object
-    function ImageNavPresenter(el, nav, query) {
+    function HiloAppBarPresenter(el, nav, query) {
         this.el = el;
         this.appbar = el.winControl;
         this.nav = nav;
@@ -27,7 +27,7 @@
     // Methods
     // -------
 
-    var imageNavPresenterMethods = {
+    var hiloAppBarPresenterMethods = {
 
         // Find the "crop" and "rotate" buttons and set up click handlers on them
         setupButtons: function () {
@@ -66,7 +66,7 @@
             }
         },
 
-        // Set the currently selected image index. This tells the ImageNav control
+        // Set the currently selected image index. This tells the HiloAppBar control
         // to enable the buttons and show the app bar. 
         //
         // Call this method when an item from a ListView has been invoked or selected,
@@ -76,7 +76,7 @@
         // listView.on("iteminvoked", function(){
         //   var indices = listView.getIndices();
         //   var itemIndex = indices[0];
-        //   imageNavPresenter.setImageIndex(itemIndex);
+        //   hiloAppBarPresenter.setImageIndex(itemIndex);
         // });
         // ```
         //setImageIndex: function (itemIndex, shouldShow) {
@@ -87,7 +87,7 @@
         //    }
         //},
 
-        // Clear the currently selected image index. This tells the ImageNav control
+        // Clear the currently selected image index. This tells the HiloAppBar control
         // to disable the buttons and hide the app bar.
         //
         // Call this method when the last item from a ListView has been de-selected.
@@ -96,7 +96,7 @@
         // listView.on("selectionchanged", function(){
         //   var indices = listView.getIndices();
         //   if (indices.length === 0){
-        //     imageNavPresenter.clearImageIndex();
+        //     hiloAppBarPresenter.clearImageIndex();
         //   }
         // });
         // ```
@@ -137,10 +137,10 @@
     // Public API
     // ----------
 
-    // Export `Hilo.Controls.ImageNav.ImageNavPresenter` as a type that can be
-    // instantiated and used to control the `ImageNav` PageControl.
+    // Export `Hilo.Controls.HiloAppBar.HiloAppBarPresenter` as a type that can be
+    // instantiated and used to control the `HiloAppBar` PageControl.
     //
-    // The `ImageNavPresenter` includes the `WinJS.Utilities.eventMixin` to provide
+    // The `HiloAppBarPresenter` includes the `WinJS.Utilities.eventMixin` to provide
     // standard event methods, including `addEventListener` and `dispatchEvent`. See
     // [the eventMixin documentation][1] and the article on [Adding functionality with 
     // WinJS mixins][2] for more information.
@@ -148,8 +148,8 @@
     // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/br211693.aspx
     // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/hh967789.aspx
 
-    WinJS.Namespace.define("Hilo.Controls.ImageNav", {
-        ImageNavPresenter: WinJS.Class.mix(ImageNavPresenter, imageNavPresenterMethods, WinJS.Utilities.eventMixin)
+    WinJS.Namespace.define("Hilo.Controls.HiloAppBar", {
+        HiloAppBarPresenter: WinJS.Class.mix(HiloAppBarPresenter, hiloAppBarPresenterMethods, WinJS.Utilities.eventMixin)
     });
 
 })();

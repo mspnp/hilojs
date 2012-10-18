@@ -36,7 +36,7 @@ describe("image nav presenter", function () {
             }
         };
 
-        presenter = new Hilo.Controls.ImageNav.ImageNavPresenter(el, nav);
+        presenter = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(el, nav);
     });
 
     describe("given an image is selected, when clicking crop", function () {

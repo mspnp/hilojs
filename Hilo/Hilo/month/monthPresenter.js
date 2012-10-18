@@ -18,11 +18,11 @@
     var itemDateProperty = "System.ItemDate";
     var maxImagesPerGroup = 8;
 
-    function MonthPresenterConstructor(loadingIndicatorEl, semanticZoom, zoomedInListView, zoomedOutListView, imageNav, queryBuilder) {
+    function MonthPresenterConstructor(loadingIndicatorEl, semanticZoom, zoomedInListView, zoomedOutListView, hiloAppBar, queryBuilder) {
 
         this.loadingIndicatorEl = loadingIndicatorEl;
         this.semanticZoom = semanticZoom;
-        this.imageNav = imageNav;
+        this.hiloAppBar = hiloAppBar;
 
         this.zoomedOutListView = zoomedOutListView;
         this.zoomedInListView = zoomedInListView;
@@ -258,9 +258,9 @@
                     if (items[0]) {
                         var selected = items[0];
                         var options = self._buildQueryForPicture(selected);
-                        self.imageNav.setNavigationOptions(options, true);
+                        self.hiloAppBar.setNavigationOptions(options, true);
                     } else {
-                        self.imageNav.clearNavigationOptions(true);
+                        self.hiloAppBar.clearNavigationOptions(true);
                     }
                 });
         },

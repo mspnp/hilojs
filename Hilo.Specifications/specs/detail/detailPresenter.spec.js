@@ -9,15 +9,15 @@
 
 xdescribe("Detail Presenter", function () {
 
-    var detailPresenter, filmstripPresenter, flipviewPresenter, imageNav;
+    var detailPresenter, filmstripPresenter, flipviewPresenter, hiloAppBar;
 
     beforeEach(function () {
         filmstripPresenter = new Specs.WinControlStub();
 
-        imageNav = {
+        hiloAppBar = {
             setImageIndex: function (index) {
-                imageNav.setImageIndex.wasCalled = true;
-                imageNav.setImageIndex.itemIndex = index;
+                hiloAppBar.setImageIndex.wasCalled = true;
+                hiloAppBar.setImageIndex.itemIndex = index;
             }
         }
 
@@ -28,7 +28,7 @@ xdescribe("Detail Presenter", function () {
             }
         };
 
-        detailPresenter = new Hilo.Detail.DetailPresenter(flipviewPresenter, filmstripPresenter, imageNav);
+        detailPresenter = new Hilo.Detail.DetailPresenter(flipviewPresenter, filmstripPresenter, hiloAppBar);
 
         var query = {
             execute: function () {
@@ -49,8 +49,8 @@ xdescribe("Detail Presenter", function () {
         });
 
         it("should set the selected image for the image navigation presenter", function () {
-            expect(imageNav.setImageIndex.wasCalled).true;
-            expect(imageNav.setImageIndex.itemIndex).equals(1);
+            expect(hiloAppBar.setImageIndex.wasCalled).true;
+            expect(hiloAppBar.setImageIndex.itemIndex).equals(1);
         });
     });
 

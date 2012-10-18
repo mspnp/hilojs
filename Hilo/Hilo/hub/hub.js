@@ -21,7 +21,7 @@
 
             // Handle the app bar button clicks, and showing / hiding the app bar
             var appBarEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
+            var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(appBarEl, WinJS.Navigation);
 
             // Handle selecting and invoking (clicking) images
             var listViewEl = document.querySelector("#picturesLibrary");
@@ -30,7 +30,7 @@
             // Coordinate the parts of the hub view
             this.hubViewPresenter = new Hilo.Hub.HubViewPresenter(
                 WinJS.Navigation,
-                imageNav,
+                hiloAppBar,
                 this.listViewPresenter,
                 new Hilo.ImageQueryBuilder()
             );

@@ -26,7 +26,7 @@
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
             var appBarEl = document.querySelector("#appbar");
-            var imageNav = new Hilo.Controls.ImageNav.ImageNavPresenter(appBarEl, WinJS.Navigation);
+            var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(appBarEl, WinJS.Navigation);
 
             var loadingIndicator = document.querySelector("#loadingProgress");
             this.semanticZoom = document.querySelector(".semanticZoomContainer").winControl;
@@ -34,7 +34,7 @@
             this.zoomInListView = document.querySelector("#monthgroup").winControl;
             var zoomOutListView = document.querySelector("#yeargroup").winControl;
 
-            this.presenter = new Hilo.month.MonthPresenter(loadingIndicator, this.semanticZoom, this.zoomInListView, zoomOutListView, imageNav, this.queryBuilder);
+            this.presenter = new Hilo.month.MonthPresenter(loadingIndicator, this.semanticZoom, this.zoomInListView, zoomOutListView, hiloAppBar, this.queryBuilder);
             this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
         },
 

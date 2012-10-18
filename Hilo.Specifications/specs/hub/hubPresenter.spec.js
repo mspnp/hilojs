@@ -10,7 +10,7 @@
 describe("Hub Page Presenter", function () {
     "use strict";
 
-    var hubView, nav, imageNav, listView;
+    var hubView, nav, hiloAppBar, listView;
 
     beforeEach(function () {
         listView = new Specs.WinControlStub();
@@ -23,15 +23,15 @@ describe("Hub Page Presenter", function () {
             }
         };
 
-        imageNav = {
+        hiloAppBar = {
             setNavigationOptions: function (options, hide) {
-                imageNav.setNavigationOptions.wasCalled = true;
-                imageNav.setNavigationOptions.options = options;
-                imageNav.setNavigationOptions.hidden = !!hide;
+                hiloAppBar.setNavigationOptions.wasCalled = true;
+                hiloAppBar.setNavigationOptions.options = options;
+                hiloAppBar.setNavigationOptions.hidden = !!hide;
             },
 
             clearNavigationOptions: function () {
-                imageNav.clearNavigationOptions.wasCalled = true;
+                hiloAppBar.clearNavigationOptions.wasCalled = true;
             }
         };
     });
@@ -75,7 +75,7 @@ describe("Hub Page Presenter", function () {
                 };
             };
 
-            hubView = new Hilo.Hub.HubViewPresenter(nav, imageNav, listView, queryBuilder);
+            hubView = new Hilo.Hub.HubViewPresenter(nav, hiloAppBar, listView, queryBuilder);
             hubView.start({}).then(function () { done(); });
         });
 
@@ -102,7 +102,7 @@ describe("Hub Page Presenter", function () {
             whenFolderIsReady.then(function (folder) {
                 var queryBuilder = new Hilo.ImageQueryBuilder()
 
-                hubView = new Hilo.Hub.HubViewPresenter(nav, imageNav, listView, queryBuilder);
+                hubView = new Hilo.Hub.HubViewPresenter(nav, hiloAppBar, listView, queryBuilder);
                 hubView.start(folder).then(function () { done(); });
 
             });
@@ -116,8 +116,8 @@ describe("Hub Page Presenter", function () {
             });
 
             it("should set the image index and show the app bar", function () {
-                expect(imageNav.setNavigationOptions.wasCalled).true;
-                expect(imageNav.setNavigationOptions.options.itemIndex).equals(1);
+                expect(hiloAppBar.setNavigationOptions.wasCalled).true;
+                expect(hiloAppBar.setNavigationOptions.options.itemIndex).equals(1);
             });
 
         });
@@ -131,7 +131,7 @@ describe("Hub Page Presenter", function () {
             });
 
             it("should hide the appbar", function () {
-                expect(imageNav.clearNavigationOptions.wasCalled).true;
+                expect(hiloAppBar.clearNavigationOptions.wasCalled).true;
             });
 
         });
@@ -145,9 +145,9 @@ describe("Hub Page Presenter", function () {
             });
 
             it("should reveal the appbar", function () {
-                expect(imageNav.setNavigationOptions.wasCalled).true;
-                expect(imageNav.setNavigationOptions.hidden).ok;
-                expect(imageNav.setNavigationOptions.options.itemIndex).equals(1);
+                expect(hiloAppBar.setNavigationOptions.wasCalled).true;
+                expect(hiloAppBar.setNavigationOptions.hidden).ok;
+                expect(hiloAppBar.setNavigationOptions.options.itemIndex).equals(1);
             });
 
         });

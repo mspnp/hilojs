@@ -11,10 +11,10 @@
     // Detail Presenter Constructor
     // ----------------------------
     // <SnippetHilojs_1205>
-    function DetailPresenterConstructor(filmstripEl, flipviewEl, imageNav) {
+    function DetailPresenterConstructor(filmstripEl, flipviewEl, hiloAppBar) {
         this.flipviewEl = flipviewEl;
         this.filmstripEl = filmstripEl;
-        this.imageNav = imageNav;
+        this.hiloAppBar = hiloAppBar;
     }
     // </SnippetHilojs_1205>
 
@@ -45,7 +45,7 @@
             this.filmstrip = new Hilo.Detail.FilmstripPresenter(this.filmstripEl, images);
             this.filmstrip.addEventListener("imageInvoked", this.imageClicked.bind(this));
 
-            this.imageNav.enableButtons();
+            this.hiloAppBar.enableButtons();
         },
         // </SnippetHilojs_1207>
 
@@ -66,7 +66,7 @@
 
             this.flipview.showImageAt(itemIndex);
 
-            this.imageNav.setNavigationOptions({
+            this.hiloAppBar.setNavigationOptions({
                 itemIndex: itemIndex,
                 itemName: fileName,
                 query: this.query

@@ -25,7 +25,7 @@
     // The HubViewPresenter requires 4 parameters for the constructor function:
     //
     // 1. `nav` - the `WinJS.Navigation` object, used to navigate to other pages
-    // 2. `imageNav` - an instance of `Hilo.Controls.ImageNav.ImageNavPresenter`
+    // 2. `hiloAppBar` - an instance of `Hilo.Controls.HiloAppBar.HiloAppBarPresenter`
     // 3. `listView` - an instance of `Hilo.Hub.ListViewPresenter`
     // 4. `queryBuilder` - an instance of `Hilo.ImageQueryBuilder`
     // 
@@ -38,9 +38,9 @@
     //
     // [1]: http://en.wikipedia.org/wiki/Mediator_pattern
     //
-    function HubPresenterConstructor(nav, imageNav, listview, queryBuilder) {
+    function HubPresenterConstructor(nav, hiloAppBar, listview, queryBuilder) {
         this.nav = nav;
-        this.imageNav = imageNav;
+        this.hiloAppBar = hiloAppBar;
         this.listview = listview;
         this.queryBuilder = queryBuilder;
 
@@ -137,7 +137,7 @@
         // </SnippetHilojs_1315>
 
         displayLibraryEmpty: function () {
-            this.imageNav.disableButtons();
+            this.hiloAppBar.disableButtons();
             this.listview.hide();
 
             document.querySelector("#navigateToMonth").style.display = "none";
@@ -151,7 +151,7 @@
 
         // The callback method for item selection in the listview changing.
         // This function coordinates the selection changes with the 
-        // ImageNavPresenter to show and hide it appropriately.
+        // HiloAppBarPresenter to show and hide it appropriately.
         selectionChanged: function (args) {
 
             if (args.detail.hasItemSelected) {
@@ -163,11 +163,11 @@
 
                 // If an image is selected, show the image nav
                 // app bar with the "crop" and "rotate" buttons
-                this.imageNav.setNavigationOptions(options, true);
+                this.hiloAppBar.setNavigationOptions(options, true);
 
             } else {
                 // If no images are selected, hide the app bar
-                this.imageNav.clearNavigationOptions(true);
+                this.hiloAppBar.clearNavigationOptions(true);
             }
         },
 
