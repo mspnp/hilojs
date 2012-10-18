@@ -3,7 +3,7 @@
 }
 
 .rotatable {
-    transition-property: transform;
+    transition-property: height, width, transform;
     transition-duration: 1s;
     transition-delay: 0s;
 }

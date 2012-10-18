@@ -8,6 +8,8 @@
 (function () {
     "use strict";
 
+    var scaleResolution = 0.65;
+
     // Rotate Presenter Constructor
     // ----------------------------
 
@@ -110,15 +112,17 @@
         // Take the query result from the image query and display the image that it loaded.
         // <SnippetHilojs_1611>
         _loadAndShowImage: function (queryResult) {
-            var self = this;
-            var storageFile = queryResult[0].storageFile;
+            var storageFile = queryResult[0].storageFile,
+                self = this;
 
             if (storageFile.name !== this.expectedFileName) {
                 this.navigation.navigate("/Hilo/hub/hub.html");
-            } else {
-                this.hiloPicture = new Hilo.Picture(storageFile);
-                this.el.src = this.hiloPicture.src.url;
+                return;
             }
+
+            this.hiloPicture = new Hilo.Picture(storageFile);
+            this.el.src = this.hiloPicture.src.url;
+            this._adjustImageSize();
         },
         // </SnippetHilojs_1611>
 
@@ -141,12 +145,31 @@
             this.el.style.transform = rotation;
 
             this.appBarPresenter._enableButtons();
+
+            this._adjustImageSize();
         },
 
         _rotateImageWithoutTransition: function (absoluteRotation) {
             var rotation = "rotate(" + absoluteRotation + "deg)";
             this.el.className = "";
             this.el.style.transform = rotation;
+        },
+
+        _adjustImageSize: function () {
+            var windowHeight = window.innerHeight,
+                height, width,
+                scaleSize = windowHeight * scaleResolution;
+
+            if (this.rotationDegrees % 180 === 0) {
+                width = "auto";
+                height = scaleSize + "px";
+            } else {
+                width = scaleSize + "px";
+                height = "auto";
+            }
+
+            this.el.style.width = width;
+            this.el.style.height = height;
         }
     };
 
