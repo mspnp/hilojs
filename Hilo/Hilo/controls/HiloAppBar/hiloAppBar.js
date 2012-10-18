@@ -16,7 +16,7 @@
     // This control provides a re-usable implementation of the application's `AppBar`
     // for navigating to the "crop" and "rotate" screens. 
     //
-    // There are two important components in this control: the `HiloAppBar.html` file
+    // There are two important components in this control: the `hiloAppBar.html` file
     // which can be included in any page that needs the standard image naviagation
     // app bar, and the `HiloAppBarPresenter.js` which is the presenter that is used
     // to facilitate the app bar's functionality. 
