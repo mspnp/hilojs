@@ -33,26 +33,60 @@
     // URL Cache
     // ---------
 
+    // The `Hilo.UrlCache` object exists to maintain control over the memory used
+    // by `URL.createObjectUrl`. This function, by design, uses a chunk of memory
+    // for each url it creates, and does not clean that memory up automatically.
+    //
+    // For more information on the memory leaks that can be caused by the use of
+    // URL.createObjectUrl, see the MSDN article on [Accessing The File System Efficiently][1]
+    //
+    // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/hh781216.aspx
     var urlCache = {
+
+        // Hold a list of keys with an array of url's for any given key
         urlList: {},
 
+        // Cache, build and retreve a a `urlconfig` object, storing it for the given
+        // key and attribute name combination. Uses the `target` attribute to
+        // build the object url. 
+        //
+        // If a url for the request key / attrName exists, it is returned.
+        // If one does not exist, it is created and stored in cache.
         getUrl: function (key, attrName, target) {
-            var self = this;
+            var self = this,
+                promise;
 
+            // Check to see if we have an `urlconfig` for the specified
+            // key and attribute name
             if (this.urlList[key] && this.urlList[key][attrName]) {
-                return WinJS.Promise.as(this.urlList[key][attrName]);
+
+                // We have it already. Return it as a promise
+                promise = WinJS.Promise.as(this.urlList[key][attrName]);
+
+            } else {
+
+                // We don't have it yet. Build one inside of a promise.
+                promise = new WinJS.Promise(function (complete) {
+                    // Get the target object
+                    resultAsPromise(target).then(function (obj) {
+
+                        // build the url configuration and store it
+                        var urlConfig = self._buildUrlConfig(attrName, obj);
+                        self._storeUrlConfig(key, attrName, urlConfig);
+
+                        // resolve the promise to retrive the url configuration
+                        complete(urlConfig);
+                    });
+                });
             }
 
-            var promise = new WinJS.Promise(function (complete) {
-                resultAsPromise(target).then(function (obj) {
-                    var urlConfig = self._buildUrlConfig(key, attrName, obj);
-                    complete(urlConfig);
-                });
-            });
-
+            // Return the resulting promise, whether it's cached or
+            // building a new `urlconfig`
             return promise;
         },
 
+        // Clear all url configurations for the given key, destroying the
+        // object url for each one.
         clear: function (key) {
             var urlConfigs, urlConfig, urlName;
             urlConfigs = this.urlList[key];
@@ -64,23 +98,24 @@
             }
         },
 
+        // Clear all url configurations, destroying the object url
+        // for each one.
         clearAll: function () {
             var urlConfigs, urlName, urlConfig, attr;
+
+            // clear the url's for the individual key
             for (attr in this.urlList) {
-                if (this.urlList.hasOwnProperty(attr)) {
-                    urlConfigs = this.urlList[attr];
-                    for (urlName in urlConfigs) {
-                        if (urlConfigs.hasOwnProperty(urlName)) {
-                            urlConfig = urlConfigs[urlName];
-                            URL.revokeObjectURL(urlConfig.url);
-                        }
-                    }
-                }
+                this.clear(attr);
             }
+
+            // reset the url list back to a new, empty object,
+            // to ensure every last bit has been released
             this.urlList = {};
         },
 
-        _buildUrlConfig: function (key, attrName, obj) {
+        // Internal method. Builds a url configuration object
+        // based on the key, provided
+        _buildUrlConfig: function (attrName, obj) {
             var url = (obj) ? URL.createObjectURL(obj) : "";
 
             var config = {
@@ -89,13 +124,19 @@
                 backgroundUrl: "url(" + url + ")",
             };
 
+            return config;
+        },
+
+        // Internal method. Stores the provided configuration
+        // for the specified key and attribute name.
+        _storeUrlConfig: function (key, attrName, config) {
+            // if we don't have this key, add it
             if (!this.urlList[key]) {
                 this.urlList[key] = {};
             }
 
+            // store the url config for the key / attribute name
             this.urlList[key][attrName] = config;
-
-            return config;
         }
     };
 
