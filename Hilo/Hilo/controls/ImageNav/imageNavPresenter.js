@@ -61,7 +61,7 @@
         },
 
         clearNavigationOptions: function (shouldHide) {
-            delete this.navigationOptions;
+            this.navigationOptions = null;
             this.disableButtons();
             if (shouldHide) {
                 this.appbar.hide();

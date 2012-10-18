@@ -35,10 +35,10 @@
             Hilo.UrlCache.clearAll();
 
             this.appBarPresenter.dispose();
-            delete this.appBarPresenter;
+            this.appBarPresenter = null;
 
             this.presenter.dispose();
-            delete this.presenter;
+            this.presenter = null;
         }
     };
 

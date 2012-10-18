@@ -61,7 +61,7 @@
         },
 
         stopCornerMove: function () {
-            delete this._currentCorner;
+            this._currentCorner = null;
         },
 
         cornerMove: function (args) {

@@ -293,20 +293,21 @@
             var queryPromise;
 
             switch (arguments.length) {
-                case (0): {
+                case (0): 
                     start = this.settings.startingIndex;
                     count = this.settings.count;
                     break;
-                }
-                case (1): {
+                case (1): 
                     start = arguments[0];
                     count = 1;
                     break;
-                }
-                case (2): {
+                case (2): 
                     start = arguments[0];
                     count = arguments[1];
-                }
+                    break;
+                default: 
+                    throw new Error("Unsupported number of arguments passed to `query.execute`.");
+                    break;
             }
 
             if (count) {

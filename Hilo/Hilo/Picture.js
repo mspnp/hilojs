@@ -47,8 +47,8 @@
             this.isDisposed = true;
 
             Hilo.UrlCache.clear(this.storageFile.name);
-            delete this.storageFile;
-            delete this.urlList;
+            this.storageFile = null;
+            this.urlList = null;
         },
 
         loadFileProperties: function () {

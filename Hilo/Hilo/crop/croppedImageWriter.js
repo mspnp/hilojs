@@ -116,7 +116,7 @@
             var exifOrientationValue = exifOrientation.value,
                 height, width, degreesRotation;
 
-            if (exifOrientationValue == photoOrientation.rotate270 || exifOrientationValue == photoOrientation.rotate90) {
+            if (exifOrientationValue === photoOrientation.rotate270 || exifOrientationValue === photoOrientation.rotate90) {
                 height = imageSize.width;
                 width = imageSize.height;
                 imageSize.width = width;

@@ -44,8 +44,8 @@
             this._removeButton("#cancel", this.cancelChanges);
             this._removeButton("#unSnap", this.unSnap);
 
-            delete this.el;
-            delete this.menu;
+            this.el = null;
+            this.menu = null;
         },
 
         // Set up all of the button click handlers and initially disable save / cancel

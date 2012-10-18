@@ -42,13 +42,13 @@
             this._unbindEvents();
 
             this.hiloPicture.dispose();
-            delete this.hiloPicture;
 
-            delete this.el;
-            delete this.appBarPresenter;
-            delete this.fileLoader;
-            delete this.expectedFileName;
-            delete this.navigation;
+            this.el = null;
+            this.hiloPicture = null;
+            this.appBarPresenter = null;
+            this.fileLoader = null;
+            this.expectedFileName = null;
+            this.navigation = null;
         },
 
         // A rotation button was clicked on the app bar presenter.
@@ -106,7 +106,7 @@
             var self = this;
             var storageFile = queryResult[0].storageFile;
 
-            if (storageFile.name != this.expectedFileName) {
+            if (storageFile.name !== this.expectedFileName) {
                 this.navigation.navigate("/Hilo/hub/hub.html");
             } else {
                 this.hiloPicture = new Hilo.Picture(storageFile);

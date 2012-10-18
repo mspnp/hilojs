@@ -50,7 +50,7 @@
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
             Hilo.UrlCache.clearAll();
             this.hubViewPresenter.dispose();
-            delete this.hubViewPresenter;
+            this.hubViewPresenter = null;
         }
     };
 

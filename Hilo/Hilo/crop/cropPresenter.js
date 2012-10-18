@@ -56,7 +56,7 @@
                     // and we send the user back to the hub screen.
                     var fileName;
 
-                    if (!storageFile || storageFile.name != self.expectedFileName) {
+                    if (!storageFile || storageFile.name !== self.expectedFileName) {
                         fileName = self.navigation.navigate("/Hilo/hub/hub.html");
                     } else {
                         fileName = self.processPicture(storageFile);
