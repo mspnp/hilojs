@@ -27,8 +27,7 @@
         var images = xml.getElementsByTagName("image");
 
         thumbnailFilePaths.forEach(function (thumbnailFilePath, index) {
-            var element = images.getAt(index);
-            element.attributes.getNamedItem("src").innerText = thumbnailFilePath;
+            images[index].setAttribute("src", thumbnailFilePath);
         });
 
         return xml;

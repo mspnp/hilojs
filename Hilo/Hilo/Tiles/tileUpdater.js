@@ -48,6 +48,7 @@
     // The constructor function for `TileUpdater`
     var TileUpdater = function () {
         this.tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
+        this.tileUpdater.clear();
         this.tileUpdater.enableNotificationQueue(true);
     };
     // </SnippetHilojs_1002>
