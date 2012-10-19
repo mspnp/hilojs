@@ -60,7 +60,7 @@
             // Run the file load and grab the first image in the set. This sets
             // up the file system watchers behind the scenes, allowing the
             // event listener to work
-            this.query.fileQuery.getFilesAsync(0, 1);
+            this.query.fileQuery.getFilesAsync(0, 1).done();
         },
 
         // Trigger the application specific event so that other parts
