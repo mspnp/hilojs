@@ -54,6 +54,8 @@
 
     // Public API
     // ----------
+    // <SnippetHilojs_1403>
     Hilo.controls.pages.define("hub", page);
+    // </SnippetHilojs_1403>
 
 }());

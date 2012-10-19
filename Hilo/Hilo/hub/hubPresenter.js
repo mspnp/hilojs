@@ -174,6 +174,7 @@
         // When an item is "invoked" (clicked or tapped), navigate to
         // the detail screen to display this image in the month-group
         // that it belongs to, based on the "ItemDate" of the picture.
+        // <SnippetHilojs_1402>
         itemClicked: function (args) {
 
             // get the `Hilo.Picture` item that was bound to the invoked image,
@@ -187,6 +188,7 @@
             // show, and the index of the individual item that was invoked
             this.nav.navigate("/Hilo/detail/detail.html", options);
         },
+        // </SnippetHilojs_1402>
 
         buildQueryForPicture: function (picture) {
 
