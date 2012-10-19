@@ -21,7 +21,7 @@
         globalizationPreferences = Windows.System.UserProfile.GlobalizationPreferences;
 
     // Construct a calendar that we can use for formatting dates
-    var calendar = new global.Calendar();
+    var resolvedCalendar = new global.Calendar();
 
     // Instatiate a throw-away instance of `DateTimeFormatter`
     // just so we can acquire the geographic region in order 
@@ -40,8 +40,8 @@
         format.SecondFormat.none,
         globalizationPreferences.languages,
         geographicRegion,
-        calendar.getCalendarSystem(),
-        calendar.getClock()
+        resolvedCalendar.getCalendarSystem(),
+        resolvedCalendar.getClock()
         );
 
     // Construct a `DateTimeFormatter` that will _only_ return an abbreviated month.
@@ -55,8 +55,8 @@
         format.SecondFormat.none,
         globalizationPreferences.languages,
         geographicRegion,
-        calendar.getCalendarSystem(),
-        calendar.getClock()
+        resolvedCalendar.getCalendarSystem(),
+        resolvedCalendar.getClock()
         );
 
     // Construct a `DateTimeFormatter` that will _only_ return the full year.
@@ -70,8 +70,8 @@
         format.SecondFormat.none,
         globalizationPreferences.languages,
         geographicRegion,
-        calendar.getCalendarSystem(),
-        calendar.getClock()
+        resolvedCalendar.getCalendarSystem(),
+        resolvedCalendar.getClock()
         );
 
     // Private Methods
