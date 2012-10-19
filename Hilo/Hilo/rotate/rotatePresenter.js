@@ -8,7 +8,7 @@
 (function () {
     "use strict";
 
-    var scaleResolution = 0.65;
+    var scaleResolution = 0.40;
 
     // Rotate Presenter Constructor
     // ----------------------------
@@ -122,7 +122,12 @@
 
             this.hiloPicture = new Hilo.Picture(storageFile);
             this.el.src = this.hiloPicture.src.url;
-            this._adjustImageSize();
+
+            var self = this;
+            storageFile.properties.getImagePropertiesAsync().then(function (props) {
+                self.imageProperties = props;
+                self._adjustImageSize();
+            })
         },
         // </SnippetHilojs_1611>
 
@@ -156,20 +161,27 @@
         },
 
         _adjustImageSize: function () {
-            var windowHeight = window.innerHeight,
-                height, width,
-                scaleSize = windowHeight * scaleResolution;
+            var maxHeight, maxWidth;
 
-            if (this.rotationDegrees % 180 === 0) {
-                width = "auto";
-                height = scaleSize + "px";
+            var scaleHeight = window.innerHeight / this.imageProperties.height,
+                scaleWidth = window.innerWidth / this.imageProperties.width,
+                scale = Math.min(scaleWidth, scaleHeight),
+                height = this.imageProperties.height * scale,
+                width = this.imageProperties.width * scale,
+                rotation = (height > width) ? 0 : 90,
+                rotated = (this.rotationDegrees % 180 === rotation);
+
+            if (rotated) {
+                maxHeight = height;
+                maxWidth = width * scaleResolution;
             } else {
-                width = scaleSize + "px";
-                height = "auto";
+                maxHeight = height * scaleResolution;
+                maxWidth = width;
             }
 
-            this.el.style.width = width;
-            this.el.style.height = height;
+            var style = this.el.style;
+            style.maxWidth = maxWidth + "px";
+            style.maxWeight = maxHeight + "px";
         }
     };
 
