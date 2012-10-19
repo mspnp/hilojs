@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="HiloJS" Version="1.0.0.0" Publisher="CN=mspnp" />
+  <Identity Name="Microsoft.SDKSamples.Hilo.JS" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>Hilo</DisplayName>
-    <PublisherDisplayName>patterns &amp; practices</PublisherDisplayName>
-    <Logo>images\storelogo.png</Logo>
+    <DisplayName>ms-resource:DisplayNameProperty</DisplayName>
+    <Logo>images\HiloStoreLogo.png</Logo>
+    <PublisherDisplayName>ms-resource:PublisherDisplayNameProperty</PublisherDisplayName>
   </Properties>
   <Prerequisites>
     <OSMinVersion>6.2.0</OSMinVersion>
@@ -15,9 +15,9 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <VisualElements DisplayName="Hilo JS" Logo="images\Hilo150b.png" SmallLogo="images\Hilo30.png" Description="Hilo JavaScript Picture Viewer" ForegroundText="light" BackgroundColor="#292929">
-        <DefaultTile ShowName="allLogos" WideLogo="images\Hilo310b.png" ShortName="Hilo JS" />
-        <SplashScreen Image="images\splashscreen.png" BackgroundColor="#292929" />
+      <VisualElements DisplayName="ms-resource:DisplayName" Logo="images\HiloLogo.png" SmallLogo="images\HiloSmallLogo.png" Description="ms-resource:Description" ForegroundText="light" BackgroundColor="#00b2f0">
+        <DefaultTile ShowName="allLogos" WideLogo="images\HiloWideLogo.png" ShortName="ms-resource:ShortName" />
+        <SplashScreen Image="images\HiloSplash.png" BackgroundColor="#292929" />
       </VisualElements>
     </Application>
   </Applications>
