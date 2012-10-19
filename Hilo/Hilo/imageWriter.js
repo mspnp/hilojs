@@ -58,7 +58,6 @@
 
     var imageWriterMethods = {
 
-
         // Open the filepicker, defaulting it to the currently
         // used source file, allowing another file name to be
         // selected if desired
@@ -90,6 +89,8 @@
         // * `encodeProcessor`: a function that recieves a `BitmapEncoder` object and performs any needed transforms to the destination image
         transFormAndSaveToDestination: function (sourceFile, destFile, options) {
 
+            var self = this;
+
             // save the source to the destination
 
             // Keep data in-scope across multiple asynchronous methods.
@@ -110,76 +111,81 @@
             sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
 
                 sourceStream = stream;
-                return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream);
+                return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream)
+                    .then(function (_decoder) {
+                        decoder = _decoder;
 
-            }).then(function (_decoder) {
-                decoder = _decoder;
+                        if (options.decodeProcessor) {
+                            // run any custom pre-processing from the decoder
+                            return options.decodeProcessor(decoder);
+                        }
+                    }).then(function () {
 
-                if (options.decodeProcessor) {
-                    // run any custom pre-processing from the decoder
-                    return options.decodeProcessor(decoder);
-                }
-            }).then(function () {
+                        // Set the encoder's destination to the temporary, in-memory stream.
+                        return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
-                // Set the encoder's destination to the temporary, in-memory stream.
-                return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+                    }).then(function (_encoder) {
+                        encoder = _encoder;
 
-            }).then(function (_encoder) {
-                encoder = _encoder;
+                        if (options.encodeProcessor) {
+                            // run any custom transform that needs to happen
+                            return options.encodeProcessor(encoder);
+                        }
+                    }).then(function () {
 
-                if (options.encodeProcessor) {
-                    // run any custom transform that needs to happen
-                    return options.encodeProcessor(encoder);
-                }
-            }).then(function () {
+                        // Attempt to generate a new thumbnail to reflect any rotation operation.
+                        encoder.isThumbnailGenerated = true;
 
-                // Attempt to generate a new thumbnail to reflect any rotation operation.
-                encoder.isThumbnailGenerated = true;
+                    }).then(function () {
 
-            }).then(function () {
-
-                return encoder.flushAsync();
-
-            }).then(null, function (error) {
-
-                switch (error.number) {
-                    // If the encoder does not support writing a thumbnail, then try again
-                    // but disable thumbnail generation.
-                    case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
-                        encoder.isThumbnailGenerated = false;
                         return encoder.flushAsync();
-                    default:
-                        throw error;
-                }
 
-            }).then(function () {
-                // open the destination stream
-                return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite);
-            }).then(function (_destStream) {
-                destStream = _destStream;
+                    }).then(null, function (error) {
 
-                // copy the contents of the memory stream to the destination
-                memStream.seek(0);
-                destStream.seek(0);
-                destStream.size = 0;
+                        switch (error.number) {
+                            // If the encoder does not support writing a thumbnail, then try again
+                            // but disable thumbnail generation.
+                            case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
+                                encoder.isThumbnailGenerated = false;
+                                return encoder.flushAsync();
+                            default:
+                                throw error;
+                        }
 
-                return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, destStream);
-            }).done(function () {
+                    }).then(function () {
+                        // open the destination stream
+                        return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite);
+                    }).then(function (_destStream) {
+                        destStream = _destStream;
 
-                // Finally, close each stream to release any locks.
-                // <SnippetHilojs_1902>
-                if (memStream) { memStream.close(); }
-                if (sourceStream) { sourceStream.close(); }
-                if (destStream) { destStream.close(); }
-                // </SnippetHilojs_1902>
+                        // copy the contents of the memory stream to the destination
+                        memStream.seek(0);
+                        destStream.seek(0);
+                        destStream.size = 0;
+
+                        return Windows.Storage.Streams.RandomAccessStream.copyAsync(memStream, destStream);
+                    }).done(function () {
+
+                        // Finally, close each stream to release any locks.
+                        // <SnippetHilojs_1902>
+                        if (memStream) { memStream.close(); }
+                        if (sourceStream) { sourceStream.close(); }
+                        if (destStream) { destStream.close(); }
+                        // </SnippetHilojs_1902>
+                    });
+
+            }, function (error) {
+                self.dispatchEvent("errorOpeningSource", error);
+                destFile.deleteAsync();
             });
         }
     };
 
     // Image Writer Definition
     // -----------------------
+    var ImageWriter = WinJS.Class.define(ImageWriterConstructor, imageWriterMethods, imageWriterTypeMembers);
 
     WinJS.Namespace.define("Hilo", {
-        ImageWriter: WinJS.Class.define(ImageWriterConstructor, imageWriterMethods, imageWriterTypeMembers)
+        ImageWriter: WinJS.Class.mix(ImageWriter, WinJS.Utilities.eventMixin)
     });
 })();

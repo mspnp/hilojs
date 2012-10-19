@@ -15,6 +15,8 @@
 
         ready: function (element, options) {
 
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+
             var selectedIndex = options.itemIndex,
                 query = options.query,
                 expectedName = options.itemName;
@@ -32,6 +34,7 @@
         },
 
         unload: function () {
+            WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
 
             this.appBarPresenter.dispose();

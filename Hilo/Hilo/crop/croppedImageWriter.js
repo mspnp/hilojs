@@ -16,7 +16,11 @@
     // --------------------------------
 
     function CroppedImageWriterConstructor(imageWriter) {
+        var self = this;
         this.imageWriter = imageWriter;
+        this.imageWriter.addEventListener("errorOpeningSource", function (error) {
+            self.dispatchEvent("errorOpeningSource", error);
+        });
     }
 
     // Cropped Image Writer Members
@@ -91,7 +95,7 @@
                                 throw error;
                         }
                     });
-                    // </SnippetHilojs_1110>
+                // </SnippetHilojs_1110>
 
                 return decoderPromise;
             };
@@ -131,7 +135,7 @@
     // -------------------------------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        CroppedImageWriter: WinJS.Class.define(CroppedImageWriterConstructor, croppedImageWriterMembers)
+        CroppedImageWriter: WinJS.Class.mix(CroppedImageWriterConstructor, croppedImageWriterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();

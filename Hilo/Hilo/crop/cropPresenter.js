@@ -30,6 +30,10 @@
         this.expectedFileName = expectedFileName;
         this.navigation = navigation || WinJS.Navigation;
 
+        this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
+            WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+        });
+
         // We'll bind the methods ahead of time, merely to improve readability
         this.getPictureFromQueryResult = this.getPictureFromQueryResult.bind(this);
         this.getImageUrl = this.getImageUrl.bind(this);
@@ -54,15 +58,11 @@
                     // If the file retrieved by index does not match the name associated
                     // with the query, we assume that it has been deleted (or modified)
                     // and we send the user back to the hub screen.
-                    var fileName;
-
                     if (!storageFile || storageFile.name !== self.expectedFileName) {
-                        fileName = self.navigation.navigate("/Hilo/hub/hub.html");
+                        return self.navigation.navigate("/Hilo/hub/hub.html");
                     } else {
-                        fileName = self.processPicture(storageFile);
+                        return self.processPicture(storageFile);
                     }
-
-                    return fileName;
                 });
         },
 

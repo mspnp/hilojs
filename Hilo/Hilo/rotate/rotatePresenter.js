@@ -69,6 +69,9 @@
             var self = this;
             var imageWriter = new Hilo.ImageWriter();
             var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
+            rotateImageWriter.addEventListener("errorOpeningSourceFile", function (error) {
+                WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+            });
 
             rotateImageWriter
                 .rotate(this.hiloPicture.storageFile, this.rotationDegrees)

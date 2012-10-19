@@ -12,7 +12,11 @@
     // --------------------------------
 
     function RotatedImageWriterConstructor(imageWriter) {
+        var self = this;
         this.imageWriter = imageWriter;
+        this.imageWriter.addEventListener("errorOpeningSource", function (error) {
+            self.dispatchEvent("errorOpeningSource", error);
+        });
     }
 
     // Rotated Image Writer Members
@@ -180,7 +184,7 @@
     // -------------------------------
 
     WinJS.Namespace.define("Hilo.Rotate", {
-        RotatedImageWriter: WinJS.Class.define(RotatedImageWriterConstructor, rotatedImageWriterMembers)
+        RotatedImageWriter: WinJS.Class.mix(RotatedImageWriterConstructor, rotatedImageWriterMembers, WinJS.Utilities.eventMixin)
     });
 
 })();
