@@ -65,18 +65,14 @@
 
             } else {
 
-                // We don't have it yet. Build one inside of a promise.
-                promise = new WinJS.Promise(function (complete) {
-                    // Get the target object
-                    resultAsPromise(target).then(function (obj) {
+                // We don't have it yet, so get the target object
+                promise = resultAsPromise(target).then(function (obj) {
 
-                        // build the url configuration and store it
-                        var urlConfig = self._buildUrlConfig(attrName, obj);
-                        self._storeUrlConfig(key, attrName, urlConfig);
+                    // build the url configuration and store it
+                    var urlConfig = self._buildUrlConfig(attrName, obj);
+                    self._storeUrlConfig(key, attrName, urlConfig);
 
-                        // resolve the promise to retrive the url configuration
-                        complete(urlConfig);
-                    });
+                    return urlConfig;
                 });
             }
 
