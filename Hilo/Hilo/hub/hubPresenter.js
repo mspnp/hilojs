@@ -85,7 +85,11 @@
         },
 
         dispose: function () {
-            this.dataSource.forEach(function (img) { img.dispose(); });
+            if (this.dataSource) {
+                this.dataSource.forEach(function (img) {
+                    img.dispose();
+                });
+            }
         },
 
         loadImages: function () {

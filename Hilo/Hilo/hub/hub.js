@@ -35,7 +35,7 @@
                 new Hilo.ImageQueryBuilder()
             );
 
-            WinJS.Application.addEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
             this.hubViewPresenter.start(knownFolders.picturesLibrary);
         },
@@ -45,7 +45,7 @@
         },
 
         unload: function () {
-            WinJS.Application.removeEventListener("Hilo:ContentsChanged", this.hubViewPresenter.loadImages);
+            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
             this.hubViewPresenter.dispose();
             this.hubViewPresenter = null;
