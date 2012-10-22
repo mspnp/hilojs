@@ -51,6 +51,10 @@
         unload: function () {
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
+        },
+
+        getAnimationElements: function () {
+            return [];
         }
 
     };
