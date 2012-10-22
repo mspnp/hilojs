@@ -3,14 +3,13 @@
 }
 
 .rotatable {
-    transition-property: height, width, max-height, max-width, transform;
+    transition-property: top, height, width, max-height, max-width, transform;
     transition-duration: 1s;
     transition-delay: 0s;
 }
 
 .content-wrapper {
     width: 100%;
-    height: 100%;
     text-align: center;
 }
 
@@ -20,7 +19,6 @@
 
 #rotate-image {
     margin: 0px auto;
-    max-height: 85%;
 	display: block !important;
 }
 
