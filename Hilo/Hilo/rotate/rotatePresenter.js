@@ -8,7 +8,7 @@
 (function () {
     "use strict";
 
-    var scaleResolution = 0.40;
+    var scaleResolution = 0.60;
 
     // Rotate Presenter Constructor
     // ----------------------------
@@ -163,9 +163,9 @@
         _adjustImageSize: function () {
             var maxHeight, maxWidth;
 
-            var scaleHeight = window.innerHeight / this.imageProperties.height,
-                scaleWidth = window.innerWidth / this.imageProperties.width,
-                scale = Math.min(scaleWidth, scaleHeight),
+            var screenSize = Math.min(window.innerHeight, window.innerWidth),
+                imageSize = Math.max(this.imageProperties.height, this.imageProperties.width),
+                scale = screenSize / imageSize,
                 height = this.imageProperties.height * scale,
                 width = this.imageProperties.width * scale,
                 rotation = (height > width) ? 0 : 90,
