@@ -45,6 +45,7 @@
         margin: 0;
         padding-bottom: 20px;
         margin-left: 70px;
+        overflow: visible;
     }
 
 .month .yearMonthItem {
