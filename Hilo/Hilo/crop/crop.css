@@ -15,7 +15,7 @@
 }
 
 .canvas-wrapper {
-    margin: 0px auto;
+    margin: 0 auto;
     max-height: 85%;
 	display: block;
 }
@@ -35,7 +35,7 @@
     height: 40px;
     width: 40px;
     overflow: hidden;
-    border: 0px;
+    border: 0;
     background-color: #fff;
     opacity: 0.75;
     cursor: crosshair;
@@ -65,25 +65,25 @@
 #topMiddle {
     top: -20px;
     left: 50%;
-	margin: 0px 0px 0px -20px;
+	margin: 0 0 0 -20px;
 }
 
 #rightMiddle {
     top: 50%;
     right: -20px;
-	margin: -20px 0px 0px 0px;
+	margin: -20px 0 0 0;
 }
 
 #bottomMiddle {
     bottom: -20px;
     left: 50%;
-	margin: 0px 0px 0px -20px;
+	margin: 0 0 0 -20px;
 }
 
 #leftMiddle {
     top: 50%;
     left: -20px;
-	margin: -20px 0px 0px 0px;
+	margin: -20px 0 0 0;
 }
 
 #crop-header {
@@ -110,7 +110,7 @@
 
 	#cropSelection {
 	    display: none;
-		border: 0px;
+		border: 0;
 	}
 
 	.corner {

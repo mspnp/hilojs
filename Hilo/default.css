@@ -14,7 +14,7 @@ body {
 .fragment {
 	/* Define a grid with rows for a banner and a body */
 	-ms-grid-columns: 1fr;
-	-ms-grid-rows: 128px 1fr 0px;
+	-ms-grid-rows: 128px 1fr 0;
 	display: -ms-grid;
 	height: 100%;
 	width: 100%;

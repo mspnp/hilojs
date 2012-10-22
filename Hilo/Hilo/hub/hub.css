@@ -48,18 +48,18 @@
     }
 
     .hub section[role=main] {
-        margin-left: 0px;
+        margin-left: 0;
         width: 300px;
     }
 
         .hub section[role=main] #picturesLibrary {
-            margin-left: 0px;
+            margin-left: 0;
         }
 
         .hub section[role=main] .thumbnail, .hub section[role=main] .thumbnail.first {
-            margin: 0px;
-            padding: 0px;
-            left: 0px;
+            margin: 0;
+            padding: 0;
+            left: 0;
             width: 272px;
             height: 200px;
             position: relative;
