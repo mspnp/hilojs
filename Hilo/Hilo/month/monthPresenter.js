@@ -223,7 +223,8 @@
             return {
                 query: query,
                 itemIndex: indexInGroup,
-                itemName: picture.name
+                itemName: picture.name,
+                picture: picture
             };
         },
 

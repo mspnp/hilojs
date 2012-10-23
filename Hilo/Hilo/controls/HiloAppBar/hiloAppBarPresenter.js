@@ -53,7 +53,9 @@
         setNavigationOptions: function (options, shouldShow) {
             this.navigationOptions = options;
 
-            if (!options.picture.isCorrupt) {
+            if (options.picture.isCorrupt) {
+                this.disableButtons();
+            } else {
                 this.enableButtons();
             }
 
