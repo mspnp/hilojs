@@ -27,6 +27,7 @@
 
         this._initObservable();
         this.addProperty("name", file.name);
+        this.addProperty("isCorrupt", false);
         this.addProperty("url", "");
         this.addProperty("src", "");
         this.addProperty("itemDate", "");
@@ -57,6 +58,11 @@
                 file.properties.retrievePropertiesAsync(["System.ItemDate"]).then(function (retrieved) {
                     if (self.isDisposed) { return; }
                     self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
+                });
+                file.properties.getImagePropertiesAsync().done(function (props) {
+                    if (props.height === 0 && props.width === 0) {
+                        self.updateProperty("isCorrupt", true);
+                    }
                 });
             }
         },

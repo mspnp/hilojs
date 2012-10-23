@@ -52,7 +52,11 @@
 
         setNavigationOptions: function (options, shouldShow) {
             this.navigationOptions = options;
-            this.enableButtons();
+
+            if (!options.picture.isCorrupt) {
+                this.enableButtons();
+            }
+
             if (shouldShow) {
                 this.appbar.show();
             }

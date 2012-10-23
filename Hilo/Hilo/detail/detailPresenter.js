@@ -31,7 +31,7 @@
             return this.query.execute()
                 .then(this.bindImages.bind(this))
                 .then(function () {
-                    self.gotoImage(options.itemIndex, options.itemName);
+                    self.gotoImage(options.itemIndex, options.picture);
                 });
             },
         // </SnippetHilojs_1206>
@@ -54,7 +54,7 @@
                 itemIndex = args.detail.itemIndex;
 
             args.detail.itemPromise.then(function (item) {
-                self.gotoImage(itemIndex, item.data.name);
+                self.gotoImage(itemIndex, item.data);
             });
 
             this.dispatchEvent("pageSelected", {
@@ -62,14 +62,15 @@
             });
         },
 
-        gotoImage: function (itemIndex, fileName) {
+        gotoImage: function (itemIndex, picture) {
 
             this.flipview.showImageAt(itemIndex);
 
             this.hiloAppBar.setNavigationOptions({
                 itemIndex: itemIndex,
-                itemName: fileName,
-                query: this.query
+                itemName: picture.name,
+                query: this.query,
+                picture: picture
             });
         }
     };
