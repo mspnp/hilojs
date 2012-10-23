@@ -172,17 +172,16 @@
                 rotated = (this.rotationDegrees % 180 === rotation);
 
             if (rotated) {
-                maxHeight = height;
+                maxHeight = height * scaleResolution;
                 maxWidth = width * scaleResolution;
             } else {
-                maxHeight = height * scaleResolution;
+                maxHeight = height;
                 maxWidth = width;
             }
 
             var style = this.el.style;
-
-            style.maxHeight = maxHeight + "px";
-            style.maxWidth = maxWidth + "px";
+            style.height = maxHeight + "px";
+            style.width = maxWidth + "px";
         }
     };
 
