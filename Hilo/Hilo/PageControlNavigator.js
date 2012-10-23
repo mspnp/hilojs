@@ -145,16 +145,22 @@
                 // Updates the back button state. Called after navigation has
                 // completed.
                 _updateBackButton: function () {
-                    var backButton = this.pageElement.querySelector(".win-backbutton");
-                    if (backButton) {
-                        backButton.onclick = function () { nav.back(); };
 
-                        if (nav.canGoBack) {
-                            backButton.removeAttribute("disabled");
-                        } else {
-                            backButton.setAttribute("disabled", "disabled");
-                        }
-                    }
+                    // This logic was customised from the original code provided by the
+                    // template to accomodate pages with multiple back buttons. Specifically,
+                    // the detail page.
+                    var elements = this.pageElement.querySelectorAll(".win-backbutton")
+
+                    Array.prototype.forEach
+                        .call(elements, function (backButton) {
+                            backButton.onclick = function () { nav.back(); };
+
+                            if (nav.canGoBack) {
+                                backButton.removeAttribute("disabled");
+                            } else {
+                                backButton.setAttribute("disabled", "disabled");
+                            }
+                        });
                 },
 
                 reload: function () {
