@@ -180,8 +180,9 @@
             }
 
             var style = this.el.style;
+
+            style.maxHeight = maxHeight + "px";
             style.maxWidth = maxWidth + "px";
-            style.maxWeight = maxHeight + "px";
         }
     };
 
