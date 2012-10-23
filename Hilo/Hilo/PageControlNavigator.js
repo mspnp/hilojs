@@ -145,7 +145,7 @@
                 // Updates the back button state. Called after navigation has
                 // completed.
                 _updateBackButton: function () {
-                    var backButton = this.pageElement.querySelector("header[role=banner] .win-backbutton");
+                    var backButton = this.pageElement.querySelector(".win-backbutton");
                     if (backButton) {
                         backButton.onclick = function () { nav.back(); };
 
