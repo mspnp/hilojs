@@ -14,7 +14,7 @@
         var url = "/Hilo/" + pageId + "/" + pageId + ".html";
 
         // <SnippetHilojs_1407>
-        members.ready = wrapWithDefaultReady(members.ready);
+        members.ready = wrapWithCommonReady(members.ready);
         members.bindPageTitle = bindPageTitle;
 
         return WinJS.UI.Pages.define(url, members);
@@ -33,8 +33,6 @@
     // Examines the page for `a` tags, extracting the url and wiring
     // a handler that invokes the built-in navigation logic.
     function processLinks() {
-        //TODO: We should discuss how to define the application flow,
-        // We might not want to hard code links into the markup.
 
         var links = document.querySelectorAll("a[data-navigate]");
         Array.prototype.forEach.call(links, function (a) {
@@ -53,9 +51,9 @@
     // control and wraps it with additional functionality that we want to
     // occur on every page.
     // <SnippetHilojs_1406>
-    function wrapWithDefaultReady(customReady) {
+    function wrapWithCommonReady(pageSpecificReadyFunction) {
 
-        customReady = customReady || function () { };
+        pageSpecificReadyFunction = pageSpecificReadyFunction || function () { };
 
         return function (element, options) {
 
@@ -68,10 +66,10 @@
             // for example, that it is properly deserialized when resuming.
             Hilo.controls.checkOptions(options);
 
-            // We need to bind the `customReady` function explicitly, otherwise it will 
-            // lose the context that the developer expects (that is, it will not 
-            // resolve `this` correctly at execution time.
-            var ready = customReady.bind(this);
+            // We need to bind the `pageSpecificReadyFunction` function explicitly, 
+            // otherwise it will lose the context that the developer expects (that is, 
+            // it will not resolve `this` correctly at execution time.
+            var ready = pageSpecificReadyFunction.bind(this);
 
             // Invoke the custom `ready`
             return ready(element, options);
