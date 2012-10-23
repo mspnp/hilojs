@@ -205,7 +205,8 @@
             return {
                 query: query,
                 itemIndex: picture.groupIndex,
-                itemName: picture.name
+                itemName: picture.name,
+                picture: picture
             };
         }
     };
