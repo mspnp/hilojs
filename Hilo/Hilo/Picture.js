@@ -61,24 +61,46 @@
                 });
                 file.properties.getImagePropertiesAsync().done(function (props) {
                     if (props.height === 0 && props.width === 0) {
-                        self.updateProperty("isCorrupt", true);
+                        self.setCorruptImage();
                     }
                 });
             }
         },
 
+        setCorruptImage: function(){
+            this.updateProperty("isCorrupt", true);
+            var urlConfig = {
+                attrName: "url",
+                url: "/Assets/HiloStoreLogo.scale-180.png",
+                backgroundUrl: 'url("/Assets/HiloStoreLogo.scale-180.png")',
+            };
+
+            this.addUrl(urlConfig);
+            urlConfig.attrName = "src";
+            this.addUrl(urlConfig);
+        },
+
         loadUrls: function () {
             var file = this.storageFile;
+            var self = this;
 
             if (file && file.getThumbnailAsync) {
                 Hilo.UrlCache.getUrl(file.path, "url", function () {
                     return file.getThumbnailAsync(thumbnailMode.picturesView);
-                }).then(this.addUrl);
+                }).then(function (urlConfig) {
+                    if (!self.isCorrupt) {
+                        self.addUrl(urlConfig);
+                    }
+                });
             }
 
             Hilo.UrlCache
                 .getUrl(file.name, "src", file)
-                .then(this.addUrl);
+                .then(function (urlConfig) {
+                    if (!self.isCorrupt) {
+                        self.addUrl(urlConfig);
+                    }
+                });
         },
 
         addUrl: function (urlConfig) {
