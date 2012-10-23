@@ -62,7 +62,6 @@
 .detail .filmstrip-thumbnail {
 	width: 200px;
 	height: 100px;
-	margin-bottom: 10px;
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -71,9 +70,4 @@
 	height: 100%;
 }
 
-.detail .win-backbutton {
-	-ms-grid-column-align: start;
-	-ms-grid-row-align: start;
-	-ms-grid-column: 1;
-	-ms-grid-row: 1;
-}
+

@@ -24,7 +24,10 @@
             <button id="filmstrip-backbutton" class="win-backbutton" aria-label="Back"></button>
             <div id="filmstrip"
                 data-win-control="WinJS.UI.ListView"
-                data-win-options="{itemTemplate: select('#filmstrip-thumbnail')}">
+                data-win-options="{
+                    itemTemplate: select('#filmstrip-thumbnail'),
+                    selectionMode: 'none'
+                }">
             </div>
         </div>
 
