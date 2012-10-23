@@ -55,6 +55,12 @@
 
             args.detail.itemPromise.then(function (item) {
                 self.gotoImage(itemIndex, item.data);
+
+                if (item.data.isCorrupt) {
+                    self.hiloAppBar.disableButtons();
+                } else {
+                    self.hiloAppBar.enableButtons();
+                }
             });
 
             this.dispatchEvent("pageSelected", {
