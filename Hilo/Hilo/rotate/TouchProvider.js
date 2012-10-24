@@ -9,7 +9,7 @@
     "use strict";
     var pointerDeviceType = Windows.Devices.Input.PointerDeviceType;
 
-
+    // <SnippetHilojs_1713>
     function TouchProviderConstructor(inputElement) {
 
         var recognizer = new Windows.UI.Input.GestureRecognizer();
@@ -21,21 +21,21 @@
         inputElement.addEventListener("MSPointerDown", function (evt) {
             var pp = evt.currentPoint;
             if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-                recognizer.processDownEvent(pp);
+            recognizer.processDownEvent(pp);
             }
         }, false);
 
         inputElement.addEventListener("MSPointerMove", function (evt) {
             var pps = evt.intermediatePoints;
             if (pps[0] && pps[0].pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-                recognizer.processMoveEvents(pps);
+            recognizer.processMoveEvents(pps);
             }
         }, false);
 
         inputElement.addEventListener("MSPointerUp", function (evt) {
             var pp = evt.currentPoint;
             if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-                recognizer.processUpEvent(pp);
+            recognizer.processUpEvent(pp);
             }
         }, false);
 
@@ -44,6 +44,7 @@
 
         this.displayRotation = 0;
     }
+    // </SnippetHilojs_1713>
 
     var touchProviderMembers = {
 
@@ -53,6 +54,7 @@
         animateRotation: function () {
         },
 
+        // <SnippetHilojs_1714>
         _manipulationUpdated: function (args) {
             var degrees = this.displayRotation + args.cumulative.rotation;
             this.setRotation(degrees);
@@ -65,6 +67,7 @@
             this.displayRotation = (this.displayRotation + adjustment) % 360;
             this.animateRotation(adjustment);
         }
+        // </SnippetHilojs_1714>
     };
 
     WinJS.Namespace.define("Hilo.Rotate", {
