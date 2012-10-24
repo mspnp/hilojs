@@ -7,6 +7,8 @@
 
 (function () {
     "use strict";
+    var pointerDeviceType = Windows.Devices.Input.PointerDeviceType;
+
 
     function TouchProviderConstructor(inputElement) {
 
@@ -18,17 +20,23 @@
 
         inputElement.addEventListener("MSPointerDown", function (evt) {
             var pp = evt.currentPoint;
-            recognizer.processDownEvent(pp);
+            if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                recognizer.processDownEvent(pp);
+            }
         }, false);
 
         inputElement.addEventListener("MSPointerMove", function (evt) {
             var pps = evt.intermediatePoints;
-            recognizer.processMoveEvents(pps);
+            if (pps[0] && pps[0].pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                recognizer.processMoveEvents(pps);
+            }
         }, false);
 
         inputElement.addEventListener("MSPointerUp", function (evt) {
             var pp = evt.currentPoint;
-            recognizer.processUpEvent(pp);
+            if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                recognizer.processUpEvent(pp);
+            }
         }, false);
 
         recognizer.addEventListener("manipulationupdated", this._manipulationUpdated);
