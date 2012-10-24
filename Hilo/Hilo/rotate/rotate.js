@@ -25,9 +25,9 @@
 
             var menuEl = document.querySelector("#appbar");
             this.appBarPresenter = new Hilo.Rotate.AppBarPresenter(menuEl);
-
+            // <SnippetHilojs_1712>
             var touchProvider = new Hilo.Rotate.TouchProvider(element);
-
+            // </SnippetHilojs_1712>
             var imgEl = document.querySelector("#rotate-image");
             this.presenter = new Hilo.Rotate.RotatePresenter(imgEl, this.appBarPresenter, fileLoader, expectedName, touchProvider);
             this.presenter.start();

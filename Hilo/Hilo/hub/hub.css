@@ -28,6 +28,7 @@
         width: 800px;
     }
 
+    /* <SnippetHilojs_1617> */
     .hub section[role=main] .thumbnail {
         width: 200px;
         height: 200px;
@@ -37,6 +38,7 @@
             width: 410px;
             height: 410px;
         }
+    /* </SnippetHilojs_1617> */
 }
 
 @media screen and (-ms-view-state: snapped) {

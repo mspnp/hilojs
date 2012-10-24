@@ -29,9 +29,10 @@
         this.saveImage = this.saveImage.bind(this);
         this.cancel = this.cancel.bind(this);
         this.unsnap = this.unsnap.bind(this);
-
+        // <SnippetHilojs_1715>
         touchProvider.setRotation = this._rotateImageWithoutTransition;
         touchProvider.animateRotation = this._rotateImage;
+        // </SnippetHilojs_1715>
     }
 
     // Rotate Presenter Members
