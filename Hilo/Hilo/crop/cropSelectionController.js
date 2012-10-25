@@ -18,6 +18,7 @@
 
         this.reset();
         this.setupCorners();
+        cropSelection.addEventListener("reset", this.reset.bind(this));
     }
 
     // Rubber Band Controller Members

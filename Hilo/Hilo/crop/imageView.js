@@ -72,7 +72,6 @@
             this.resizeCanvas(canvasSize);
 
             // reset and re-draw all of the controllers and presenters
-            // this.cropSelectionController.reset();
             this.reset(cropRect);
             this.cropSelection.reset(canvasSize);
 
