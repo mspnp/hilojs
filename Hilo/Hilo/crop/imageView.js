@@ -8,6 +8,11 @@
 (function () {
     "use strict";
 
+    // Imports And Constants
+    // ---------------------
+
+    var scaleResolution = 0.7;
+
     // Image View Constructor
     // ------------------------
 
@@ -55,8 +60,8 @@
         // re-size it to fit the available display
         // area of the screen
         calculateScaleToScreen: function (size) {
-            var heightScale = window.innerHeight / size.height,
-                widthScale = window.innerWidth / size.width;
+            var heightScale = (window.innerHeight / size.height) * scaleResolution,
+                widthScale = (window.innerWidth / size.width) * scaleResolution;
 
             return Math.min(heightScale, widthScale);
         },
@@ -69,7 +74,7 @@
 
             // reset and re-draw all of the controllers and presenters
             // this.cropSelectionController.reset();
-            // this.imageView.reset(cropRect);
+            this.reset(cropRect);
             this.cropSelection.reset(canvasSize);
             // this.cropSelectionView.reset();
 
@@ -97,9 +102,8 @@
         drawImage: function () {
             if (!this.image) { return; }
 
-            var imageSize = this.image.imageSize;
-            var imageHeight = imageSize.height;//this.imageSubset.endY - this.imageSubset.startY;
-            var imageWidth = imageSize.width;//this.imageSubset.endX - this.imageSubset.startX;
+            var imageHeight = this.imageSubset.endY - this.imageSubset.startY;
+            var imageWidth = this.imageSubset.endX - this.imageSubset.startX;
             var image = new Image();
 
             image.onLoad = function () {
@@ -107,8 +111,7 @@
                     image,
 
                     // cropped area of the image to draw
-                    // this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
-                    0, 0, imageWidth, imageHeight,
+                    this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
 
                     // scale the cropped area in to the entire canvas
                     0, 0, this.canvasSize.width, this.canvasSize.height
@@ -118,12 +121,12 @@
         },
 
         setImageSubset: function (imageCoords) {
-            //this.imageSubset = imageCoords;
+            this.imageSubset = imageCoords;
         },
 
         reset: function (scaledImageCoordinates) {
-            //this.canvasSize = this.canvasEl.getBoundingClientRect();
-            //this.setImageSubset(scaledImageCoordinates);
+            this.canvasSize = this.canvasEl.getBoundingClientRect();
+            this.setImageSubset(scaledImageCoordinates);
         },
 
         // <SnippetHilojs_1703>
@@ -135,8 +138,8 @@
         // change the size of the specified canvas element to the calculated
         // size, and return the new size
         resizeCanvas: function (canvasSize) {
-            //this.canvasEl.height = canvasSize.height;
-            //this.canvasEl.width = canvasSize.width;
+            this.canvasEl.height = canvasSize.height;
+            this.canvasEl.width = canvasSize.width;
         }
     };
 
