@@ -19,7 +19,7 @@
 
         this.reset(cropSelection.getCoords());
 
-        cropSelection.addEventListener("move", this.cropSelectionMove.bind(this));
+        cropSelection.addEventListener("reset", this.reset.bind(this));
     }
 
     // CropSelection View Members
@@ -31,12 +31,12 @@
         },
 
         reset: function () {
-            this.boundingRect = this.canvas.getBoundingClientRect();
             var coords = this.cropSelection.getCoords();
             this.draw(coords);
         },
 
         draw: function (coords) {
+            this.boundingRect = this.canvas.getBoundingClientRect();
 
             this.cropSelectionEl.style.display = "block";
 

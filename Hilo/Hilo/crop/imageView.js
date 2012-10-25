@@ -25,7 +25,7 @@
         this.loadImage(image);
 
         // <SnippetHilojs_1702>
-        cropSelection.addEventListener("move", this.drawImage.bind(this));
+        //cropSelection.addEventListener("move", this.drawImage.bind(this));
         // </SnippetHilojs_1702>
         canvasEl.addEventListener("click", this.click.bind(this));
 
@@ -39,7 +39,6 @@
         run: function () {
             this.imageToScreenScale = this.calculateScaleToScreen(this.image.imageSize);
             var imageRect = this.sizeToRect(this.image.imageSize);
-
             this.drawImageSelectionToScale(imageRect, this.imageToScreenScale);
         },
 
@@ -76,7 +75,6 @@
             // this.cropSelectionController.reset();
             this.reset(cropRect);
             this.cropSelection.reset(canvasSize);
-            // this.cropSelectionView.reset();
 
             // draw the background image once everything is set up
             this.drawImage();
@@ -105,11 +103,8 @@
             var imageHeight = this.imageSubset.endY - this.imageSubset.startY;
             var imageWidth = this.imageSubset.endX - this.imageSubset.startX;
 
-            var image = new Image();
-            image.src = this.image.url;
-
             this.context.drawImage(
-                image,
+                this.imageToPaint,
 
                 // cropped area of the image to draw
                 this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
@@ -126,6 +121,10 @@
         reset: function (scaledImageCoordinates) {
             this.canvasSize = this.canvasEl.getBoundingClientRect();
             this.setImageSubset(scaledImageCoordinates);
+
+            // build a DOM image object that the canvas can paint
+            this.imageToPaint = new Image();
+            this.imageToPaint.src = this.image.url;
         },
 
         // <SnippetHilojs_1703>

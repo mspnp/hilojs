@@ -76,6 +76,10 @@
             this.endY = this.canvasSize.height;
             this.startX = 0;
             this.startY = 0;
+
+            this.dispatchEvent("reset", {
+                coords: this.getCoords()
+            });
         },
 
         dispatchMove: function () {
