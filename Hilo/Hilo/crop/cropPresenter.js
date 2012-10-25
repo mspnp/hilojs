@@ -18,13 +18,12 @@
     // Constructor Function
     // --------------------
 
-    function CropPresenterConstructor(imageQuery, canvasEl, cropSelectionEl, appBarEl, imageWriter, expectedFileName, navigation, screenRes) {
+    function CropPresenterConstructor(imageQuery, canvasEl, appBarEl, imageWriter, expectedFileName, navigation, screenRes) {
         screenMaxHeight = screenRes.height;
         screenMaxWidth = screenRes.width;
 
         this.imageQuery = imageQuery;
         this.canvasEl = canvasEl;
-        this.cropSelectionEl = cropSelectionEl;
         this.appBarEl = appBarEl;
         this.imageWriter = imageWriter;
         this.expectedFileName = expectedFileName;
@@ -94,16 +93,10 @@
         },
 
         setupControllers: function (storageFile) {
-            this.cropSelection = new Hilo.Crop.CropSelection();
-            // <SnippetHilojs_1701>
-            this.pictureView = new Hilo.Crop.PictureView(this.canvasEl, this.cropSelection, this.url);
-            // </SnippetHilojs_1701>
-            this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, this.canvasEl, this.cropSelectionEl);
-            this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, this.canvasEl, this.cropSelectionEl);
             this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
 
             // <SnippetHilojs_1704>
-            this.pictureView.addEventListener("preview", this.cropImage.bind(this));
+            this.imageView.addEventListener("preview", this.cropImage.bind(this));
             // </SnippetHilojs_1704>
 
             // forwarding for the chained "then" calls
@@ -118,10 +111,7 @@
         // Start the image cropping process by drawing the image and
         // crop selection to scale, and then listen for the "crop" button click
         beginCrop: function (props) {
-            var imageRect = this.sizeToRect(props);
             this.offset = { x: 0, y: 0 };
-            this.imageToScreenScale = this.calculateScaleToScreen(props);
-            this.drawImageSelectionToScale(imageRect, this.imageToScreenScale);
         },
 
         // register event listeners for all of the app bar buttons
@@ -179,33 +169,6 @@
         // </SnippetHilojs_1705>
         // </SnippetHilojs_1609>
 
-        // Calculate the canvas size, according to the scale, using
-        // the crop selection rectangle
-        drawImageSelectionToScale: function (cropRect, imageToScreenScale) {
-            var canvasSize = this.resizeCanvas(cropRect, imageToScreenScale);
-
-            // reset and re-draw all of the controllers and presenters
-            this.cropSelectionController.reset();
-            this.pictureView.reset(cropRect);
-            this.cropSelection.reset(canvasSize);
-            this.cropSelectionView.reset();
-
-            // draw the background image once everything is set up
-            this.pictureView.drawImage();
-        },
-
-        // convert a size (height/width) in to a rect
-        sizeToRect: function (size) {
-            return {
-                height: size.height,
-                width: size.width,
-                startX: 0,
-                startY: 0,
-                endX: size.width,
-                endY: size.height
-            };
-        },
-
         // take a rectangle that was based on a scaled canvas size
         // and scale the rect up to the real image size, accounting
         // for the offset of the rectangle location
@@ -225,43 +188,8 @@
                 height: height,
                 width: width
             };
-        },
-
-        // take a given size (height and width) and
-        // calculate the scale that will correctly
-        // re-size it to fit the available display
-        // area of the screen
-        calculateScaleToScreen: function (size) {
-            var heightScale, widthScale;
-
-            heightScale = screenMaxHeight / size.height,
-            widthScale = screenMaxWidth / size.width;
-
-            return Math.min(heightScale, widthScale);
-        },
-
-        // calculate the final size by multiplying 
-        // an original size by a specified scale
-        calculateSizeFromScale: function (imageSize, scale) {
-            var height = imageSize.height * scale;
-            var width = imageSize.width * scale;
-
-            return {
-                height: height,
-                width: width
-            };
-        },
-
-        // change the size of the specified canvas element to the calculated
-        // size, and return the new size
-        resizeCanvas: function (imageSelectionSize, imageToScreenScale) {
-            var canvasSize = this.calculateSizeFromScale(imageSelectionSize, imageToScreenScale);
-
-            this.canvasEl.height = canvasSize.height;
-            this.canvasEl.width = canvasSize.width;
-
-            return canvasSize;
         }
+
     };
 
     // Crop Presenter Definition

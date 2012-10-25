@@ -59,12 +59,19 @@
                     if (self.isDisposed) { return; }
                     self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
                 });
-                file.properties.getImagePropertiesAsync().done(function (props) {
+                this.getProperties().then(function (props) {
                     if (props.height === 0 && props.width === 0) {
                         self.setCorruptImage();
                     }
                 });
             }
+        },
+
+        getProperties: function () {
+            if (!this.imagePropertiesPromise) {
+                this.imagePropertiesPromise = this.storageFile.properties.getImagePropertiesAsync();
+            }
+            return this.imagePropertiesPromise;
         },
 
         setCorruptImage: function(){

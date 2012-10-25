@@ -84,7 +84,8 @@
     <Content Include="Hilo\crop\cropPresenter.js" />
     <Content Include="Hilo\crop\appBarPresenter.js" />
     <Content Include="Hilo\crop\croppedImageWriter.js" />
-    <Content Include="Hilo\crop\pictureView.js" />
+    <Content Include="Hilo\crop\image.js" />
+    <Content Include="Hilo\crop\imageView.js" />
     <Content Include="Hilo\crop\cropSelection.js" />
     <Content Include="Hilo\crop\cropSelectionController.js" />
     <Content Include="Hilo\crop\cropSelectionCorner.js" />
