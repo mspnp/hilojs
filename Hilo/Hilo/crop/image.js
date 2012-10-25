@@ -45,7 +45,7 @@
 
                     self.setOriginalSize(props.height, props.width);
                     if (!self.dataUrl) {
-                        self.setUrl(self.picture.getUrl("url"));
+                        self.setUrl(self.picture.getUrl("src"));
                         self.setImageSize(props.height, props.width);
                     }
 

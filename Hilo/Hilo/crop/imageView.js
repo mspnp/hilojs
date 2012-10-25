@@ -104,20 +104,19 @@
 
             var imageHeight = this.imageSubset.endY - this.imageSubset.startY;
             var imageWidth = this.imageSubset.endX - this.imageSubset.startX;
+
             var image = new Image();
-
-            image.onLoad = function () {
-                this.context.drawImage(
-                    image,
-
-                    // cropped area of the image to draw
-                    this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
-
-                    // scale the cropped area in to the entire canvas
-                    0, 0, this.canvasSize.width, this.canvasSize.height
-                );
-            }
             image.src = this.image.url;
+
+            this.context.drawImage(
+                image,
+
+                // cropped area of the image to draw
+                this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
+
+                // scale the cropped area in to the entire canvas
+                0, 0, this.canvasSize.width, this.canvasSize.height
+            );
         },
 
         setImageSubset: function (imageCoords) {
