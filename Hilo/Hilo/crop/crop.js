@@ -26,7 +26,7 @@
                 query = options.query,
                 expectedName = options.itemName;
 
-            var menuEl = document.querySelector("#appbar"),
+            var appBarEl = document.querySelector("#appbar"),
                 canvasEl = document.querySelector("#cropSurface"),
                 cropSelectionEl = document.querySelector("#cropSelection");
 
@@ -49,13 +49,16 @@
                     imageView.drawImage();
                     cropSelectionView.cropSelectionMove(args);
                 });
+
+                var imageWriter = new Hilo.ImageWriter();
+                var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
+
+                var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
+
+                this.cropPresenter = new Hilo.Crop.CropPresenter(image, imageView, cropSelection, cropImageWriter, appBarPresenter);
+                this.cropPresenter.start();
             });
 
-            //var imageWriter = new Hilo.ImageWriter();
-            //var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter, options.dataUrl);
-
-            //this.cropPresenter = new Hilo.Crop.CropPresenter(imageQuery, canvasEl, menuEl, cropImageWriter, expectedName, WinJS.Navigation, screenResolution);
-            //this.cropPresenter.start();
         },
 
         updateLayout: function (element, viewState, lastViewState) {

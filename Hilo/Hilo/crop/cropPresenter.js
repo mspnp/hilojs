@@ -10,37 +10,31 @@
 (function () {
     "use strict";
 
-    // Imports And Constants
-    // ---------------------
-
-    var screenMaxHeight, screenMaxWidth;
-
     // Constructor Function
     // --------------------
 
-    function CropPresenterConstructor(imageQuery, canvasEl, appBarEl, imageWriter, expectedFileName, navigation, screenRes) {
-        screenMaxHeight = screenRes.height;
-        screenMaxWidth = screenRes.width;
-
-        this.imageQuery = imageQuery;
-        this.canvasEl = canvasEl;
-        this.appBarEl = appBarEl;
+    function CropPresenterConstructor(image, imageView, cropSelection, imageWriter, appBarPresenter) {
+        this.image = image;
+        this.imageView = imageView;
         this.imageWriter = imageWriter;
-        this.expectedFileName = expectedFileName;
-        this.navigation = navigation || WinJS.Navigation;
+        this.cropSelection = cropSelection;
+        this.appBarPresenter = appBarPresenter;
+        //this.navigation = navigation || WinJS.Navigation;
 
-        this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
-            WinJS.Navigation.navigate("/Hilo/hub/hub.html");
-        });
+        //this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
+        //    WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+        //});
+
+        // If the file retrieved by index does not match the name associated
+        // with the query, we assume that it has been deleted (or modified)
+        // and we send the user back to the hub screen.
+        //if (!storageFile || storageFile.name !== self.expectedFileName) {
+        //    return self.navigation.navigate("/Hilo/hub/hub.html");
+        //}
 
         // We'll bind the methods ahead of time, merely to improve readability
-        this.getPictureFromQueryResult = this.getPictureFromQueryResult.bind(this);
-        this.getImageUrl = this.getImageUrl.bind(this);
-        this.setupControllers = this.setupControllers.bind(this);
-        this.getImageProperties = this.getImageProperties.bind(this);
         this.beginCrop = this.beginCrop.bind(this);
         this.handleAppBarEvents = this.handleAppBarEvents.bind(this);
-        this.processPicture = this.processPicture.bind(this);
     }
 
     // Methods
@@ -49,63 +43,9 @@
     var cropPresenterMembers = {
 
         start: function () {
-            var self = this;
-
-            return this.imageQuery
-                .then(this.getPictureFromQueryResult)
-                .then(function (storageFile) {
-                    // If the file retrieved by index does not match the name associated
-                    // with the query, we assume that it has been deleted (or modified)
-                    // and we send the user back to the hub screen.
-                    if (!storageFile || storageFile.name !== self.expectedFileName) {
-                        return self.navigation.navigate("/Hilo/hub/hub.html");
-                    } else {
-                        return self.processPicture(storageFile);
-                    }
-                });
-        },
-
-        processPicture: function (storageFile) {
-            return WinJS.Promise.as(storageFile)
-                .then(this.getImageUrl)
-                .then(this.setupControllers)
-                .then(this.getImageProperties)
-                .then(this.beginCrop)
-                .then(this.handleAppBarEvents);
-        },
-
-        getPictureFromQueryResult: function (queryResult) {
-
-            if (queryResult[0]) {
-                this.picture = queryResult[0];
-                this.storageFile = this.picture.storageFile;
-            }            
-
-            // forwarding for the chained "then" calls
-            return this.storageFile;
-        },
-
-        getImageUrl: function (storageFile) {
-            this.url = URL.createObjectURL(storageFile);
-
-            // forwarding for the chained "then" calls
-            return storageFile;
-        },
-
-        setupControllers: function (storageFile) {
-            this.appBarPresenter = new Hilo.Crop.AppBarPresenter(this.appBarEl);
-
-            // <SnippetHilojs_1704>
             this.imageView.addEventListener("preview", this.cropImage.bind(this));
-            // </SnippetHilojs_1704>
-
-            // forwarding for the chained "then" calls
-            return storageFile;
-        },
-
-        // Retrieve all of the "Image Properties" from the storage file, async
-        getImageProperties: function (storageFile) {
-            return storageFile.properties.getImagePropertiesAsync();
+            this.handleAppBarEvents();
+            this.beginCrop();
         },
 
         // Start the image cropping process by drawing the image and

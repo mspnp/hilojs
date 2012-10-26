@@ -132,7 +132,7 @@
 
         // <SnippetHilojs_1703>
         click: function () {
-            //this.dispatchEvent("preview");
+            this.dispatchEvent("preview");
         },
         // </SnippetHilojs_1703>
 
