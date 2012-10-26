@@ -13,11 +13,10 @@
     // Constructor Function
     // --------------------
 
-    function CropPresenterConstructor(image, imageView, cropSelection, imageWriter, appBarPresenter) {
+    function CropPresenterConstructor(image, imageView, imageWriter, appBarPresenter) {
         this.image = image;
         this.imageView = imageView;
         this.imageWriter = imageWriter;
-        this.cropSelection = cropSelection;
         this.appBarPresenter = appBarPresenter;
         //this.navigation = navigation || WinJS.Navigation;
 
@@ -51,11 +50,11 @@
 
         saveImageAs: function () {
             var self = this;
-            var cropRect = this.cropSelection.getCoords();
-            var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, cropRect, this.offset);
+            var storageFile = this.image.getStorageFile();
+            var selectionRectScaledToImage = this.imageView.getScaledSelectionRectangle();
 
             this.imageWriter
-                .crop(this.storageFile, selectionRectScaledToImage)
+                .crop(storageFile, selectionRectScaledToImage)
                 .then(function (success) {
                     if (success) {
                         self.navigation.back();

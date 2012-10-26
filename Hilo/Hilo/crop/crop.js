@@ -55,7 +55,7 @@
 
                 var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
 
-                this.cropPresenter = new Hilo.Crop.CropPresenter(image, imageView, cropSelection, cropImageWriter, appBarPresenter);
+                this.cropPresenter = new Hilo.Crop.CropPresenter(image, imageView, cropImageWriter, appBarPresenter);
                 this.cropPresenter.start();
             });
 

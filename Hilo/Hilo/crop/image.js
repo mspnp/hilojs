@@ -60,6 +60,10 @@
             });
         },
 
+        getStorageFile: function () {
+            return this.picture.storageFile;
+        },
+
         // Store the size of the original image so the crop process
         // can use it to calculate scale and position of cropping
         setOriginalSize: function (height, width) {

@@ -77,15 +77,16 @@
             this.imageToPaint.onload = this.drawImage.bind(this);
             this.imageToPaint.src = this.image.url;
         },
-
-        cropImage: function(){
-            // Get the canvas-based rectangle of the crop selection
+        
+        // calculate the selected area of the original image by scaling
+        // the canvas based selection out to the original image
+        getScaledSelectionRectangle: function () {
             var coords = this.cropSelection.getCoords();
+            return this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.offset);
+        },
 
-            // calculate the selected area of the original image by scaling
-            // the canvas based selection out to the original image
-            var selectionRectScaledToImage = this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.offset);
-
+        cropImage: function () {
+            var selectionRectScaledToImage = this.getScaledSelectionRectangle();
             // reset image scale so that it reflects the difference between
             // the current canvas size (the crop selection), and the original 
             // image size, then re-draw everything at that new scale
