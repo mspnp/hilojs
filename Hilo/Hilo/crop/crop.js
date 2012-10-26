@@ -35,21 +35,20 @@
                 width: window.innerWidth * scaleResolution
             };
 
-            var cropSelection = new Hilo.Crop.CropSelection();
-            var cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
-            var cropSelectionController = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
-
             var imageQuery = query.execute(selectedIndex);
             var image = new Hilo.Crop.Image(imageQuery, options.dataUrl);
-            var imageView = new Hilo.Crop.ImageView(image, cropSelection, canvasEl);
 
-            cropSelection.addEventListener("move", function (args) {
-                imageView.drawImage(args);
-                cropSelectionView.cropSelectionMove(args);
-            });
+            image.addEventListener("urlUpdated", function () {
 
-            image.addEventListener("sizeUpdated", function (args) {
-                imageView.run();
+                var cropSelection = new Hilo.Crop.CropSelection();
+                var cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
+                var cropSelectionController = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
+                var imageView = new Hilo.Crop.ImageView(image, cropSelection, canvasEl);
+
+                cropSelection.addEventListener("move", function (args) {
+                    imageView.drawImage();
+                    cropSelectionView.cropSelectionMove(args);
+                });
             });
 
             //var imageWriter = new Hilo.ImageWriter();
