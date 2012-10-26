@@ -24,7 +24,7 @@
         this.image = image;
 
         image.addEventListener("sizeUpdated", this.run.bind(this));
-        image.addEventListener("urlUpdated", this.run.bind(this));
+        image.addEventListener("urlUpdated", this.drawImage.bind(this));
 
         // <SnippetHilojs_1702>
         //cropSelection.addEventListener("move", this.drawImage.bind(this));
@@ -42,9 +42,7 @@
             this.imageToScreenScale = this.calculateScaleToScreen(this.image.imageSize);
             var imageRect = this.sizeToRect(this.image.imageSize);
             this.drawImageSelectionToScale(imageRect, this.imageToScreenScale);
-            
-            // HACK! HACK! HACK! need a real event to listen to, somewhere, instead of this garbage
-            setTimeout(this.drawImage.bind(this), 50);
+            this.drawImage();
         },
 
         // convert a size (height/width) in to a rect
@@ -128,9 +126,7 @@
 
             // build a DOM image object that the canvas can paint
             this.imageToPaint = new Image();
-            this.imageToPaint.onLoad = function () {
-                debugger;
-            };
+            this.imageToPaint.onload = this.drawImage.bind(this);
             this.imageToPaint.src = this.image.url;
         },
 

@@ -113,7 +113,7 @@
         addUrl: function (urlConfig) {
             this.urlList[urlConfig.attrName] = urlConfig;
             this.updateProperty(urlConfig.attrName, urlConfig);
-            this.dispatchEvent("url:set", urlConfig);
+            this.dispatchEvent("url:set:" + urlConfig.attrName, urlConfig);
         },
 
         getUrl: function (name) {
