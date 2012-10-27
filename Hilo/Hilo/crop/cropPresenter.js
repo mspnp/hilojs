@@ -18,6 +18,7 @@
         this.imageView = imageView;
         this.imageWriter = imageWriter;
         this.appBarPresenter = appBarPresenter;
+
     }
 
     // Methods
@@ -30,6 +31,15 @@
             this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
             this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));
             this.appBarPresenter.addEventListener("unsnap", this.unSnapView.bind(this));
+
+            this.imageView.addEventListener("preview", this.cropImage.bind(this));
+        },
+
+        cropImage: function(){
+            var dataUrl = this.imageView.cropImage();
+            this.dispatchEvent("imagePreview", {
+                dataUrl: dataUrl
+            });
         },
 
         unSnapView: function () {

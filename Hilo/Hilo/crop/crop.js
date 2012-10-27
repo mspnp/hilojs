@@ -26,42 +26,52 @@
                 query = options.query,
                 expectedName = options.itemName;
 
-            var appBarEl = document.querySelector("#appbar"),
-                canvasEl = document.querySelector("#cropSurface"),
-                cropSelectionEl = document.querySelector("#cropSelection");
-
             var screenResolution = {
                 height: window.innerHeight * scaleResolution,
                 width: window.innerWidth * scaleResolution
             };
 
             var imageQuery = query.execute(selectedIndex);
-            var image = new Hilo.Crop.Image(imageQuery, options.dataUrl, expectedName);
+            this.image = new Hilo.Crop.Image(imageQuery, options.dataUrl, expectedName);
 
-            image.addEventListener("urlUpdated", function () {
+            this.image.addEventListener("urlUpdated", this.loadAndDisplayCrop.bind(this, options));
 
-                var cropSelection = new Hilo.Crop.CropSelection();
-                var cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
-                var cropSelectionController = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
-                var imageView = new Hilo.Crop.ImageView(image, cropSelection, canvasEl);
+        },
 
-                cropSelection.addEventListener("move", function (args) {
-                    imageView.drawImage();
-                    cropSelectionView.cropSelectionMove(args);
-                });
+        loadAndDisplayCrop: function (options) {
+            var self = this;
 
-                var imageWriter = new Hilo.ImageWriter();
-                var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
-                var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
-                this.cropPresenter = new Hilo.Crop.CropPresenter(image, imageView, cropImageWriter, appBarPresenter);
+            var appBarEl = document.querySelector("#appbar"),
+                canvasEl = document.querySelector("#cropSurface"),
+                cropSelectionEl = document.querySelector("#cropSelection"),
+                imageEl = document.querySelector("#image");
 
-                this.cropPresenter.addEventListener("imageSaved", function () {
-                    WinJS.Navigation.back();
-                });
+            var cropSelection = new Hilo.Crop.CropSelection();
+            var cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
+            var cropSelectionController = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
+            var imageView = new Hilo.Crop.ImageView(this.image, cropSelection, canvasEl, imageEl);
 
-                this.cropPresenter.start();
+            cropSelection.addEventListener("move", function (args) {
+                imageView.drawImage();
+                cropSelectionView.cropSelectionMove(args);
             });
 
+            var imageWriter = new Hilo.ImageWriter();
+            var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
+            var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
+            this.cropPresenter = new Hilo.Crop.CropPresenter(this.image, imageView, cropImageWriter, appBarPresenter);
+
+            this.cropPresenter.addEventListener("imageSaved", function () {
+                WinJS.Navigation.back();
+            });
+
+            this.cropPresenter.addEventListener("imagePreview", function (args) {
+                var dataUrl = args.detail.dataUrl;
+                options.dataUrl = dataUrl;
+                self.image.setDataUrl(dataUrl);
+            });
+
+            this.cropPresenter.start();
         },
 
         updateLayout: function (element, viewState, lastViewState) {

@@ -16,24 +16,29 @@
     // Image View Constructor
     // ------------------------
 
-    function ImageViewConstructor(image, cropSelection, canvasEl) {
+    function ImageViewConstructor(image, cropSelection, canvasEl, imageEl) {
+        var self = this;
+
         this.cropSelection = cropSelection;
         this.canvasEl = canvasEl;
+        this.imageEl = imageEl;
         this.canvasSize = canvasEl.getBoundingClientRect();
         this.context = canvasEl.getContext("2d");
         this.image = image;
-
         this.offset = { x: 0, y: 0 };
 
         image.addEventListener("sizeUpdated", this.run.bind(this));
         image.addEventListener("urlUpdated", this.drawImage.bind(this));
+        image.addEventListener("dataUrlUpdated", function (args) {
+            self.loadImage(args.detail.url);
+        });
 
         // <SnippetHilojs_1702>
         //cropSelection.addEventListener("move", this.drawImage.bind(this));
         // </SnippetHilojs_1702>
         canvasEl.addEventListener("click", this.click.bind(this));
 
-        this.loadImage(image);
+        this.loadImage(image.dataUrl);
     }
 
     // Image View Members
@@ -41,7 +46,7 @@
 
     var imageViewMembers = {
         click: function () {
-            this.cropImage();
+            this.dispatchEvent("preview", {});
         },
 
         run: function () {
@@ -97,6 +102,9 @@
             // and not relative to the canvas size, so that cropping multiple times
             // will correctly crop to what has been visually selected
             this.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
+
+            // Get the data Url for the image, and send it along
+            return this.canvasEl.toDataURL();
         },
 
         // take a rectangle that was based on a scaled canvas size
@@ -170,8 +178,7 @@
         },
 
         loadImage: function (imageUrl) {
-            this.imgEl = document.getElementById("image");
-            this.imgEl.src = imageUrl;
+            this.imageEl.src = imageUrl;
         },
 
         setImageSubset: function (imageCoords) {

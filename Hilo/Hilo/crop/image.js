@@ -16,7 +16,6 @@
     function ImageConstructor(imageQuery, dataUrl, expectedFileName) {
         this.expectedFileName = expectedFileName;
         this.dataUrl = dataUrl;
-        this.loadImageFromDataUrl(dataUrl);
         this.loadImageFromQuery(imageQuery);
     }
 
@@ -25,25 +24,8 @@
 
     var imageMembers = {
 
-        // Load the data from the `dataUrl` that was provided, and 
-        // override the set url and image size, if any, so that
-        // we can show the cropped image instead of the original
-        loadImageFromDataUrl: function(dataUrl){
-            var self = this;
-
-            // create a DOM image to get image data
-            var domImage = new Image();
-            domImage.onload = function () {
-                self.setImageSize(domImage.height, domImage.width);
-            };
-
-            this.setUrl(dataUrl);
-        },
-
         // Load image data from the provided `imageQuery` and
-        // set the original image size. If no `dataUrl` is provided
-        // to this image object, then use the image query to 
-        // load and show the image
+        // set the original image size. 
         loadImageFromQuery: function (imageQuery) {
             var self = this;
 
@@ -52,12 +34,8 @@
                 self.picture.getProperties().then(function (props) {
 
                     self.validateFileName();
-                    self.setOriginalSize(props.height, props.width);
-
-                    if (!self.dataUrl) {
-                        self.setUrl(self.picture.getUrl("src"));
-                        self.setImageSize(props.height, props.width);
-                    }
+                    self.setUrl(self.picture.getUrl("src"));
+                    self.setImageSize(props.height, props.width);
 
                 });
             });
@@ -107,6 +85,13 @@
             this.url = imageUrl;
             this.dispatchEvent("urlUpdated", {
                 url: imageUrl
+            });
+        },
+
+        setDataUrl: function (dataUrl) {
+            this.dataUrl = dataUrl;
+            this.dispatchEvent("dataUrlUpdated", {
+                url: dataUrl
             });
         }
     };
