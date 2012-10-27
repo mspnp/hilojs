@@ -36,7 +36,7 @@
             };
 
             var imageQuery = query.execute(selectedIndex);
-            var image = new Hilo.Crop.Image(imageQuery, options.dataUrl);
+            var image = new Hilo.Crop.Image(imageQuery, options.dataUrl, expectedName);
 
             image.addEventListener("urlUpdated", function () {
 

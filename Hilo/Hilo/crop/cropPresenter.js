@@ -18,18 +18,6 @@
         this.imageView = imageView;
         this.imageWriter = imageWriter;
         this.appBarPresenter = appBarPresenter;
-        //this.navigation = navigation || WinJS.Navigation;
-
-        //this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
-        //    WinJS.Navigation.navigate("/Hilo/hub/hub.html");
-        //});
-
-        // If the file retrieved by index does not match the name associated
-        // with the query, we assume that it has been deleted (or modified)
-        // and we send the user back to the hub screen.
-        //if (!storageFile || storageFile.name !== self.expectedFileName) {
-        //    return self.navigation.navigate("/Hilo/hub/hub.html");
-        //}
     }
 
     // Methods
@@ -52,6 +40,10 @@
             var self = this;
             var storageFile = this.image.getStorageFile();
             var selectionRectScaledToImage = this.imageView.getScaledSelectionRectangle();
+
+            this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
+                WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+            });
 
             this.imageWriter
                 .crop(storageFile, selectionRectScaledToImage)

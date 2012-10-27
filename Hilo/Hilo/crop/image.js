@@ -13,7 +13,8 @@
     // Image Constructor
     // -----------------
 
-    function ImageConstructor(imageQuery, dataUrl) {
+    function ImageConstructor(imageQuery, dataUrl, expectedFileName) {
+        this.expectedFileName = expectedFileName;
         this.dataUrl = dataUrl;
         this.loadImageFromDataUrl(dataUrl);
         this.loadImageFromQuery(imageQuery);
@@ -50,7 +51,9 @@
                 self.picture = results[0];
                 self.picture.getProperties().then(function (props) {
 
+                    self.validateFileName();
                     self.setOriginalSize(props.height, props.width);
+
                     if (!self.dataUrl) {
                         self.setUrl(self.picture.getUrl("src"));
                         self.setImageSize(props.height, props.width);
@@ -58,6 +61,16 @@
 
                 });
             });
+        },
+
+        validateFileName: function(){
+
+            // If the file retrieved by index does not match the name associated
+            // with the query, we assume that it has been deleted (or modified)
+            // and we send the user back to the hub screen.
+            if (!this.picture || this.picture.name !== this.expectedFileName) {
+                return WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+            }
         },
 
         getStorageFile: function () {
