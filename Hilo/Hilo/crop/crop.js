@@ -41,20 +41,20 @@
                 cropSelectionEl = document.querySelector("#cropSelection"),
                 imageEl = document.querySelector("#image");
 
-            var cropSelection = new Hilo.Crop.CropSelection(options.cropSelectionCoords);
-            var cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
-            var cropSelectionController = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
-            var imageView = new Hilo.Crop.ImageView(this.image, cropSelection, canvasEl, imageEl);
+            this.cropSelection = new Hilo.Crop.CropSelection(options.cropSelectionCoords);
+            this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, canvasEl, cropSelectionEl);
+            var cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, canvasEl, cropSelectionEl);
+            this.imageView = new Hilo.Crop.ImageView(this.image, this.cropSelection, canvasEl, imageEl);
 
-            cropSelection.addEventListener("move", function (args) {
-                imageView.drawImage();
-                cropSelectionView.cropSelectionMove(args);
+            this.cropSelection.addEventListener("move", function (args) {
+                self.imageView.drawImage();
+                self.cropSelectionView.cropSelectionMove(args);
             });
 
             var imageWriter = new Hilo.ImageWriter();
             var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
             var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
-            this.cropPresenter = new Hilo.Crop.CropPresenter(this.image, imageView, cropImageWriter, appBarPresenter);
+            this.cropPresenter = new Hilo.Crop.CropPresenter(this.image, this.imageView, cropImageWriter, appBarPresenter);
 
             this.cropPresenter.addEventListener("imageSaved", function () {
                 WinJS.Navigation.back();
@@ -70,6 +70,9 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
+            this.cropSelectionView.reset();
+            this.imageView.drawImage();
+            this.cropSelectionView.draw(this.cropSelection.getCoords());
         },
 
         unload: function () {
