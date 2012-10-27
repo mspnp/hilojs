@@ -62,11 +62,7 @@
 
             this.cropPresenter.addEventListener("imagePreview", function (args) {
                 var dataUrl = args.detail.dataUrl;
-
                 options.dataUrl = dataUrl;
-                options.cropSelectionCoords = cropSelection.getCoords();
-                options.offset = self.image.offset;
-
                 self.image.setDataUrl(dataUrl);
             });
 
