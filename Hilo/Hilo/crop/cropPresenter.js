@@ -57,7 +57,7 @@
                 .crop(storageFile, selectionRectScaledToImage)
                 .then(function (success) {
                     if (success) {
-                        self.navigation.back();
+                        self.dispatchEvent("imageSaved", {});
                     }
                 });
         },

@@ -52,10 +52,13 @@
 
                 var imageWriter = new Hilo.ImageWriter();
                 var cropImageWriter = new Hilo.Crop.CroppedImageWriter(imageWriter);
-
                 var appBarPresenter = new Hilo.Crop.AppBarPresenter(appBarEl);
-
                 this.cropPresenter = new Hilo.Crop.CropPresenter(image, imageView, cropImageWriter, appBarPresenter);
+
+                this.cropPresenter.addEventListener("imageSaved", function () {
+                    WinJS.Navigation.back();
+                });
+
                 this.cropPresenter.start();
             });
 
