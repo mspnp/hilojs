@@ -25,7 +25,6 @@
         this.canvasSize = canvasEl.getBoundingClientRect();
         this.context = canvasEl.getContext("2d");
         this.image = image;
-        this.offset = { x: 0, y: 0 };
 
         image.addEventListener("sizeUpdated", this.run.bind(this));
         image.addEventListener("urlUpdated", this.drawImage.bind(this));
@@ -87,7 +86,7 @@
         // the canvas based selection out to the original image
         getScaledSelectionRectangle: function () {
             var coords = this.cropSelection.getCoords();
-            return this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.offset);
+            return this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.image.offset);
         },
 
         cropImage: function () {
@@ -101,7 +100,7 @@
             // remember the starting location of the crop on the original image
             // and not relative to the canvas size, so that cropping multiple times
             // will correctly crop to what has been visually selected
-            this.offset = { x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY };
+            this.image.updateOffset({ x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY });
 
             // Get the data Url for the image, and send it along
             return this.canvasEl.toDataURL();

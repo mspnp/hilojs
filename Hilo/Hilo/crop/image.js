@@ -13,9 +13,11 @@
     // Image Constructor
     // -----------------
 
-    function ImageConstructor(imageQuery, dataUrl, expectedFileName) {
+    function ImageConstructor(imageQuery, dataUrl, expectedFileName, offset) {
+        this.offset = offset || { x: 0, y: 0 };
         this.expectedFileName = expectedFileName;
         this.dataUrl = dataUrl;
+
         this.loadImageFromQuery(imageQuery);
     }
 
@@ -55,15 +57,6 @@
             return this.picture.storageFile;
         },
 
-        // Store the size of the original image so the crop process
-        // can use it to calculate scale and position of cropping
-        setOriginalSize: function (height, width) {
-            this.originalImageSize = {
-                height: height,
-                width: width
-            };
-        },
-
         // Store the current image size, based on the cropped area
         // of the image
         setImageSize: function (height, width) {
@@ -93,7 +86,12 @@
             this.dispatchEvent("dataUrlUpdated", {
                 url: dataUrl
             });
-        }
+        },
+
+        updateOffset: function (offset) {
+            this.offset.x = offset.x;
+            this.offset.y = offset.y;
+        },
     };
 
     // Public API

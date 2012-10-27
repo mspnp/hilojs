@@ -17,11 +17,18 @@
     // CropSelection Constructor
     // -------------------------
 
-    function CropSelectionConstructor() {
-        this.addProp("startX", 0, this.adjustStartX.bind(this));
-        this.addProp("startY", 0, this.adjustStartY.bind(this));
-        this.addProp("endX", 0, this.adjustEndX.bind(this));
-        this.addProp("endY", 0, this.adjustEndY.bind(this));
+    function CropSelectionConstructor(initialCoords) {
+        var coords = initialCoords || {
+            startX: 0,
+            startY: 0,
+            endX: 0,
+            endY: 0
+        };
+
+        this.addProp("startX", coords.startX, this.adjustStartX.bind(this));
+        this.addProp("startY", coords.startY, this.adjustStartY.bind(this));
+        this.addProp("endX", coords.endX, this.adjustEndX.bind(this));
+        this.addProp("endY", coords.endY, this.adjustEndY.bind(this));
     }
 
     // CropSelection Members
