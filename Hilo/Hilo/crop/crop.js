@@ -22,7 +22,7 @@
             var self = this;
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
-            var imageQuery = pageOptions.query.execute(pageOptions.selectedIndex),
+            var imageQuery = pageOptions.query.execute(pageOptions.itemIndex),
                 image = new Hilo.Crop.Image(imageQuery, pageOptions.dataUrl, pageOptions.itemName, pageOptions.offset);
 
             // Wait for the image to load so we can get the correct URL
