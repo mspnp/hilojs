@@ -17,7 +17,7 @@
 		var promise;
 
 		if (exists) {
-			promise = WinJS.Promise.wrap(exists); /* this is an empty promise */
+			promise = WinJS.Promise.as(exists); /* this is an empty promise */
 		} else {
 			promise = Shared.copyImagesToIndexedFolder();
 		}

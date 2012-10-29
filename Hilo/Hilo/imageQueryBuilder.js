@@ -393,7 +393,7 @@
         // such as the `WinJS.UI.ListView`.
         // <SnippetHilojs_1109>
         _createViewModels: function (files) {
-            return WinJS.Promise.wrap(files.map(Hilo.Picture.from));
+            return WinJS.Promise.as(files.map(Hilo.Picture.from));
         }
         // </SnippetHilojs_1109>
     };
