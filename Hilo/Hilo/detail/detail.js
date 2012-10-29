@@ -30,7 +30,7 @@
             var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");
 
-            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, hiloAppBar, WinJS.Navigation.navigate);
+            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, hiloAppBar, WinJS.Navigation);
             detailPresenter.addEventListener("pageSelected", function (args) {
                 var itemIndex = args.detail.itemIndex;
                 options.itemIndex = itemIndex;

@@ -51,7 +51,7 @@
             // with the query, we assume that it has been deleted (or modified)
             // and we send the user back to the hub screen.
             if (!this.picture || this.picture.name !== this.expectedFileName) {
-                return WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+                return WinJS.Navigation.back();
             }
         },
 

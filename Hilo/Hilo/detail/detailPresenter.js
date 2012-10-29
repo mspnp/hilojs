@@ -11,11 +11,11 @@
     // Detail Presenter Constructor
     // ----------------------------
     // <SnippetHilojs_1205>
-    function DetailPresenterConstructor(filmstripEl, flipviewEl, hiloAppBar, navigate) {
+    function DetailPresenterConstructor(filmstripEl, flipviewEl, hiloAppBar, navigation) {
         this.flipviewEl = flipviewEl;
         this.filmstripEl = filmstripEl;
         this.hiloAppBar = hiloAppBar;
-        this.navigate = navigate;
+        this.navigation = navigation;
 
         Hilo.bindFunctionsTo(this, [
             "bindImages"
@@ -41,7 +41,7 @@
                     // with the query, we assume that it has been deleted (or modified)
                     // and we send the user back to the hub screen.
                     if (!storageFile || storageFile.name !== options.itemName) {
-                        self.navigate("/Hilo/hub/hub.html");
+                        self.navigation.back();
                     } else {
                         self.bindImages(images)
                         self.gotoImage(options.itemIndex, options.picture);

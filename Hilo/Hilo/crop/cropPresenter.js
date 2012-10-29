@@ -52,7 +52,7 @@
             var selectionRectScaledToImage = this.imageView.getScaledSelectionRectangle();
 
             this.imageWriter.addEventListener("errorOpeningSourceFile", function (error) {
-                WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+                WinJS.Navigation.back();
             });
 
             this.imageWriter

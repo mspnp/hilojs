@@ -51,7 +51,9 @@
         dispose: function () {
             this._unbindEvents();
 
-            this.hiloPicture.dispose();
+            if (this.hiloPicture) {
+                this.hiloPicture.dispose();
+            }
 
             this.el = null;
             this.hiloPicture = null;
@@ -76,7 +78,7 @@
             var imageWriter = new Hilo.ImageWriter();
             var rotateImageWriter = new Hilo.Rotate.RotatedImageWriter(imageWriter);
             rotateImageWriter.addEventListener("errorOpeningSourceFile", function (error) {
-                WinJS.Navigation.navigate("/Hilo/hub/hub.html");
+                self.navigation.back();
             });
 
             rotateImageWriter
@@ -120,7 +122,7 @@
                 self = this;
 
             if (storageFile.name !== this.expectedFileName) {
-                this.navigation.navigate("/Hilo/hub/hub.html");
+                this.navigation.back();
                 return;
             }
 
