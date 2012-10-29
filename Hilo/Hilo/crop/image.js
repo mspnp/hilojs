@@ -36,7 +36,9 @@
                 self.picture.getProperties().then(function (props) {
 
                     self.validateFileName();
-                    self.setUrl(self.picture.getUrl("src"));
+                    var url = self.picture.getUrl("src");
+                    self.setUrl(url);
+                    self.setDataUrl(url);
                     self.setImageSize(props.height, props.width);
 
                 });
