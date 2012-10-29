@@ -42,7 +42,12 @@
 
             this.presenter.dispose();
             this.presenter = null;
-        }
+        },
+
+        updateLayout: function (element, viewState, lastViewState) {
+            this.presenter.adjustImageSize();
+        },
+
     };
 
     Hilo.controls.pages.define("rotate", page);

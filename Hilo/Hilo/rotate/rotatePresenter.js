@@ -130,7 +130,7 @@
             var self = this;
             storageFile.properties.getImagePropertiesAsync().then(function (props) {
                 self.imageProperties = props;
-                self._adjustImageSize();
+                self.adjustImageSize();
             })
         },
         // </SnippetHilojs_1611>
@@ -155,7 +155,7 @@
 
             this.appBarPresenter._enableButtons();
 
-            this._adjustImageSize();
+            this.adjustImageSize();
         },
 
         _rotateImageWithoutTransition: function (absoluteRotation) {
@@ -164,7 +164,7 @@
             this.el.style.transform = rotation;
         },
 
-        _adjustImageSize: function () {
+        adjustImageSize: function () {
             var maxHeight, maxWidth;
 
             var screenSize = Math.min(window.innerHeight, window.innerWidth),
