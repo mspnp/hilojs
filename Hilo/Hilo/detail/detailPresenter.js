@@ -17,7 +17,9 @@
         this.hiloAppBar = hiloAppBar;
         this.navigate = navigate;
 
-        this.bindImages = this.bindImages.bind(this);
+        Hilo.bindFunctionsTo(this, [
+            "bindImages"
+        ]);
     }
     // </SnippetHilojs_1205>
 

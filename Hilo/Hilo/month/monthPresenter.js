@@ -29,15 +29,17 @@
 
         this.queryBuilder = queryBuilder;
 
-        this.selectLayout = this.selectLayout.bind(this);
-        this._buildYearGroups = this._buildYearGroups.bind(this);
-        this._queryImagesPerMonth = this._queryImagesPerMonth.bind(this);
-        this._buildViewModelsForMonths = this._buildViewModelsForMonths.bind(this);
-        this._createDataSources = this._createDataSources.bind(this);
-        this._setupListViews = this._setupListViews.bind(this);
-        this._imageInvoked = this._imageInvoked.bind(this);
-        this._selectionChanged = this._selectionChanged.bind(this);
-        this._groupHeaderTemplate = this._groupHeaderTemplate.bind(this);
+        Hilo.bindFunctionsTo(this, [
+            "selectLayout",
+            "_buildYearGroups",
+            "_queryImagesPerMonth",
+            "_buildViewModelsForMonths",
+            "_createDataSources",
+            "_setupListViews",
+            "_imageInvoked",
+            "_selectionChanged",
+            "_groupHeaderTemplate",
+        ]);
     };
 
     var monthPresenterMembers = {

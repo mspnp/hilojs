@@ -44,18 +44,13 @@
         this.listview = listview;
         this.queryBuilder = queryBuilder;
 
-        // The [ECMASCript5 `bind`][2] function is used to ensure that the
-        // context (the `this` variable) of each of the specified
-        // callback functions is set correctly, when the event triggers
-        // and the callback is executed.
-        // 
-        // [2]: http://msdn.microsoft.com/en-us/library/windows/apps/ff841995
-        //
-        this.loadImages = this.loadImages.bind(this);
-        this.bindImages = this.bindImages.bind(this);
-        this.selectionChanged = this.selectionChanged.bind(this);
-        this.itemClicked = this.itemClicked.bind(this);
-        this.displayLibraryEmpty = this.displayLibraryEmpty.bind(this);
+        Hilo.bindFunctionsTo(this, [
+            "loadImages",
+            "bindImages",
+            "selectionChanged",
+            "itemClicked",
+            "displayLibraryEmpty",
+        ]);
     };
 
     // Hub Presenter Methods

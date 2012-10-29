@@ -123,6 +123,7 @@
     <Content Include="Hilo\Tiles\populateTemplate.js" />
     <Content Include="Hilo\Tiles\TileUpdater.js" />
     <Content Include="Hilo\Tiles\createTileUpdates.js" />
+    <Content Include="Hilo\bindFunctionsTo.js" />
     <Content Include="Hilo\urlCache.js" />
     <Content Include="images\HiloLogo.scale-100.png" />
     <Content Include="images\HiloLogo.scale-80.png" />

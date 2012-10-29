@@ -23,12 +23,15 @@
 
         this.rotationDegrees = 0;
 
-        this.rotateImage = this.rotateImage.bind(this);
-        this._rotateImage = this._rotateImage.bind(this);
-        this._rotateImageWithoutTransition = this._rotateImageWithoutTransition.bind(this);
-        this.saveImage = this.saveImage.bind(this);
-        this.cancel = this.cancel.bind(this);
-        this.unsnap = this.unsnap.bind(this);
+        Hilo.bindFunctionsTo(this, [
+            "rotateImage",
+            "_rotateImage",
+            "_rotateImageWithoutTransition",
+            "saveImage",
+            "cancel",
+            "unsnap"
+        ]);
+
         // <SnippetHilojs_1715>
         touchProvider.setRotation = this._rotateImageWithoutTransition;
         touchProvider.animateRotation = this._rotateImage;
