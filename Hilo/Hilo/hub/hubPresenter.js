@@ -193,6 +193,7 @@
 
             // Build the query for the month and year of the invoked image
             var query = this.queryBuilder
+                .reset()
                 .bindable(true)
                 .forMonthAndYear(picture.itemDate)
                 .build(knownFolders.picturesLibrary);

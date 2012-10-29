@@ -82,19 +82,9 @@
 
     // <SnippetHilojs_1304>
     function ImageQueryBuilderConstructor() {
-        this._settings = {};
-        this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
-        this._set("prefetchOption", fileProperties.PropertyPrefetchOptions.imageProperties);
-
-        this._set("thumbnailOptions", fileProperties.ThumbnailOptions.useCurrentScale);
-        this._set("thumbnailMode", fileProperties.ThumbnailMode.picturesView);
-        this._set("thumbnailSize", 256);
-
-        this._set("sortOrder", commonFileQuery.orderByDate);
-        this._set("indexerOption", search.IndexerOption.useIndexerWhenAvailable);
-        this._set("startingIndex", 0);
-        this._set("bindable", false);
+        this.reset();
     }
+
     // </SnippetHilojs_1304>
 
     // Image Query Builder Type Members
@@ -130,6 +120,23 @@
     // ---------------------------
 
     var imageQueryBuilderMembers = {
+
+        reset: function () {
+            this._settings = {};
+            this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
+            this._set("prefetchOption", fileProperties.PropertyPrefetchOptions.imageProperties);
+
+            this._set("thumbnailOptions", fileProperties.ThumbnailOptions.useCurrentScale);
+            this._set("thumbnailMode", fileProperties.ThumbnailMode.picturesView);
+            this._set("thumbnailSize", 256);
+
+            this._set("sortOrder", commonFileQuery.orderByDate);
+            this._set("indexerOption", search.IndexerOption.useIndexerWhenAvailable);
+            this._set("startingIndex", 0);
+            this._set("bindable", false);
+
+            return this;
+        },
 
         // Build the query object with all of the settings that have
         // been configured for this builder.  
@@ -318,19 +325,19 @@
             var queryPromise;
 
             switch (arguments.length) {
-                case (0): 
+                case (0):
                     start = this.settings.startingIndex;
                     count = this.settings.count;
                     break;
-                case (1): 
+                case (1):
                     start = arguments[0];
                     count = 1;
                     break;
-                case (2): 
+                case (2):
                     start = arguments[0];
                     count = arguments[1];
                     break;
-                default: 
+                default:
                     throw new Error("Unsupported number of arguments passed to `query.execute`.");
                     break;
             }
