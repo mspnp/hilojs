@@ -11,10 +11,13 @@
     // Detail Presenter Constructor
     // ----------------------------
     // <SnippetHilojs_1205>
-    function DetailPresenterConstructor(filmstripEl, flipviewEl, hiloAppBar) {
+    function DetailPresenterConstructor(filmstripEl, flipviewEl, hiloAppBar, navigate) {
         this.flipviewEl = flipviewEl;
         this.filmstripEl = filmstripEl;
         this.hiloAppBar = hiloAppBar;
+        this.navigate = navigate;
+
+        this.bindImages = this.bindImages.bind(this);
     }
     // </SnippetHilojs_1205>
 
@@ -29,11 +32,22 @@
             this.query = options.query;
 
             return this.query.execute()
-                .then(this.bindImages.bind(this))
-                .then(function () {
-                    self.gotoImage(options.itemIndex, options.picture);
+                .then(function (images) {
+
+                    var storageFile = images[options.itemIndex];
+                    // If the file retrieved by index does not match the name associated
+                    // with the query, we assume that it has been deleted (or modified)
+                    // and we send the user back to the hub screen.
+                    if (!storageFile || storageFile.name !== options.itemName) {
+                        self.navigate("/Hilo/hub/hub.html");
+                    } else {
+                        self.bindImages(images)
+                        self.gotoImage(options.itemIndex, options.picture);
+                    }
+
                 });
-            },
+
+        },
         // </SnippetHilojs_1206>
 
         // <SnippetHilojs_1207>

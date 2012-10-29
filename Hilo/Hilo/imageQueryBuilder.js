@@ -10,12 +10,10 @@
 
     // Imports And Constants
     // ---------------------
-
-    var storage = Windows.Storage,
-        promise = WinJS.Promise,
-        knownFolders = Windows.Storage.KnownFolders,
+    var knownFolders = Windows.Storage.KnownFolders,
+        fileProperties = Windows.Storage.FileProperties,
         search = Windows.Storage.Search,
-        commonFileQuery = storage.Search.CommonFileQuery;
+        commonFileQuery = Windows.Storage.Search.CommonFileQuery;
 
     // A list of the folders that query builder supports.
     // This is used primarily for deserializing a query
@@ -86,10 +84,10 @@
     function ImageQueryBuilderConstructor() {
         this._settings = {};
         this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
-        this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.imageProperties);
+        this._set("prefetchOption", fileProperties.PropertyPrefetchOptions.imageProperties);
 
-        this._set("thumbnailOptions", Windows.Storage.FileProperties.ThumbnailOptions.useCurrentScale);
-        this._set("thumbnailMode", storage.FileProperties.ThumbnailMode.picturesView);
+        this._set("thumbnailOptions", fileProperties.ThumbnailOptions.useCurrentScale);
+        this._set("thumbnailMode", fileProperties.ThumbnailMode.picturesView);
         this._set("thumbnailSize", 256);
 
         this._set("sortOrder", commonFileQuery.orderByDate);
@@ -119,15 +117,9 @@
             // about the settings. They allow us to reconstruct the correct query.
             var settings = serializedQuery.settings;
 
-            var folder = supportedFolders[settings.folderKey];
-            if (!folder) {
-                // This is primarily to help any developer who has to extend Hilo.
-                // If they add support for a new folder, but forget to register it
-                // at the head of this module then this error should help them
-                // identify the problem quickly.
-                throw new Error("Attempted to deserialize a query for an unknown folder: " + settings.folderKey);
+            if (typeof settings.monthAndYear === "string") {
+                settings.monthAndYear = new Date(settings.monthAndYear);
             }
-            settings.folder = folder;
 
             return new Query(settings);
         }
@@ -206,7 +198,7 @@
         // [4]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd561977(v=vs.85).aspx
         // <SnippetHilojs_1308>
         prefetchOptions: function (attributeArray) {
-            this._set("prefetchOption", storage.FileProperties.PropertyPrefetchOptions.none);
+            this._set("prefetchOption", fileProperties.PropertyPrefetchOptions.none);
             this._set("prefetchAttributes", attributeArray);
             return this;
         },
@@ -265,11 +257,26 @@
 
         // Freeze the settings to prevent them from being
         // modified in this query object.
-        this.settings = Object.freeze(dupSettings);
+        //this.settings = Object.freeze(dupSettings);
+        this.settings = settings;
 
-        // Build the query options and file query
-        this.queryOptions = this._buildQueryOptions();
-        this.fileQuery = this._buildFileQuery();
+        // Build the query options
+        var queryOptions = this._buildQueryOptions(this.settings);
+        this._queryOptionsString = queryOptions.saveToString();
+
+        if (!this.settings.folder.createFileQueryWithOptions) {
+            var folder = supportedFolders[this.settings.folderKey];
+            if (!folder) {
+                // This is primarily to help any developer who has to extend Hilo.
+                // If they add support for a new folder, but forget to register it
+                // at the head of this module then this error should help them
+                // identify the problem quickly.
+                throw new Error("Attempted to deserialize a query for an unknown folder: " + settings.folderKey);
+            }
+            this.settings.folder = folder;
+        }
+
+        this.fileQuery = this._buildFileQuery(queryOptions);
     }
     // </SnippetHilojs_1302>
 
@@ -365,15 +372,15 @@
         // [6]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.search.queryoptions.aspx
         // <SnippetHilojs_1901>
         // <SnippetHilojs_1311>
-        _buildQueryOptions: function () {
-            var queryOptions = new storage.Search.QueryOptions(this.settings.sortOrder, this.settings.fileTypes);
-            queryOptions.indexerOption = this.settings.indexerOption;
+        _buildQueryOptions: function (settings) {
+            var queryOptions = new search.QueryOptions(settings.sortOrder, settings.fileTypes);
+            queryOptions.indexerOption = settings.indexerOption;
 
-            queryOptions.setPropertyPrefetch(this.settings.prefetchOption, this.settings.prefetchAttributes);
-            //queryOptions.setThumbnailPrefetch(this.settings.thumbnailMode, this.settings.thumbnailSize, this.settings.thumbnailOptions);
+            queryOptions.setPropertyPrefetch(settings.prefetchOption, settings.prefetchAttributes);
+            //queryOptions.setThumbnailPrefetch(settings.thumbnailMode, settings.thumbnailSize, settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
-                queryOptions.applicationSearchFilter = translateToAQSFilter(this.settings.monthAndYear);
+                queryOptions.applicationSearchFilter = translateToAQSFilter(settings.monthAndYear);
             }
 
             return queryOptions;
@@ -383,8 +390,8 @@
 
         // Internal method. Converts a QueryOptions object in to a file query.
         // <SnippetHilojs_1312>
-        _buildFileQuery: function () {
-            return this.settings.folder.createFileQueryWithOptions(this.queryOptions);
+        _buildFileQuery: function (queryOptions) {
+            return this.settings.folder.createFileQueryWithOptions(queryOptions);
         },
         // </SnippetHilojs_1312>
 

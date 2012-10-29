@@ -14,7 +14,7 @@
 
         deserialize = deserialize || Hilo.ImageQueryBuilder.deserialize;
 
-        if (options.query && !options.query.execute) {
+        if (options.query) {
             var original = options.query;
             var query = deserialize(original);
 
