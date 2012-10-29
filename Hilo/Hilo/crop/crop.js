@@ -43,7 +43,7 @@
 
             this.cropSelection = new Hilo.Crop.CropSelection(options.cropSelectionCoords);
             this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, canvasEl, cropSelectionEl);
-            var cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, canvasEl, cropSelectionEl);
+            this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, canvasEl, cropSelectionEl);
             this.imageView = new Hilo.Crop.ImageView(this.image, this.cropSelection, canvasEl, imageEl);
 
             this.cropSelection.addEventListener("move", function (args) {
@@ -73,6 +73,7 @@
             this.cropSelectionView.reset();
             this.imageView.drawImage();
             this.cropSelectionView.draw(this.cropSelection.getCoords());
+            this.cropSelectionController.reset();
         },
 
         unload: function () {
