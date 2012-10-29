@@ -30,6 +30,7 @@
 	#rotate-image {
 	    max-height: none;
 		max-width: 289px;
+        height: auto;
 	}
 
 }
