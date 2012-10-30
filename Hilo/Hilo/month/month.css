@@ -114,7 +114,7 @@
         }
 
 
-.month .win-listview :not(.win-footprint).win-container {
+.month #yeargroup .win-listview :not(.win-footprint).win-container {
     background-color: transparent;
 }
 
