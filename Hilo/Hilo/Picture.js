@@ -78,8 +78,8 @@
             this.updateProperty("isCorrupt", true);
             var urlConfig = {
                 attrName: "url",
-                url: "/Assets/HiloStoreLogo.scale-180.png",
-                backgroundUrl: 'url("/Assets/HiloStoreLogo.scale-180.png")',
+                url: "/Assets/HiloLogo.scale-100.png",
+                backgroundUrl: 'url("/Assets/HiloLogo.scale-100.png")',
             };
 
             this.addUrl(urlConfig);

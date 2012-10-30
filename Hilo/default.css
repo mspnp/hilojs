@@ -17,16 +17,21 @@ a, a:hover {
 
 .win-listview .win-container:hover {
     outline: orange solid 5px;
+    background-color: orange;
 }
 
 :not(.win-selectionstylefilled).win-listview .win-selected.win-container .win-selectionborder, :not(.win-selectionstylefilled).win-listview .win-selected.win-container:hover .win-selectionborder {
     border: orange solid 3px;
+    background-color: orange;
 }
-
 
 :not(.win-selectionstylefilled).win-listview .win-selected.win-container .win-selectioncheckmarkbackground, :not(.win-selectionstylefilled).win-listview .win-selected.win-container:hover .win-selectioncheckmarkbackground {
     border-right-color: orange;
     border-top-color: orange;
+}
+
+.win-listview :not(.win-footprint).win-container.win-selected {
+   background-color: orange;
 }
 
 .fragment {
