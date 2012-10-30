@@ -23,6 +23,27 @@
     }
     // </SnippetHilojs_1205>
 
+    function findImageByIndex(images, expectedIndex, expectedName) {
+        var imageToCheck = images[expectedIndex];
+        var result = {};
+        var i, l;
+
+        if (imageToCheck && imageToCheck.name === expectedName) {
+            result.actualIndex = expectedIndex;
+        } else {
+            l = images.length;
+            for (i = 0; i < l; i++) {
+                imageToCheck = images[i];
+                if (imageToCheck.name === expectedName) {
+                    result.actualIndex = i;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+
     // Detail Presenter Members
     // ------------------------
 
@@ -36,15 +57,16 @@
             return this.query.execute()
                 .then(function (images) {
 
+                    var result = findImageByIndex(images, options.itemIndex, options.itemName);
                     var storageFile = images[options.itemIndex];
                     // If the file retrieved by index does not match the name associated
                     // with the query, we assume that it has been deleted (or modified)
-                    // and we send the user back to the hub screen.
-                    if (!storageFile || storageFile.name !== options.itemName) {
+                    // and we send the user back to the last screen.
+                    if (!result.actualIndex) {
                         self.navigation.back();
                     } else {
                         self.bindImages(images)
-                        self.gotoImage(options.itemIndex, options.picture);
+                        self.gotoImage(result.actualIndex, options.picture);
                     }
 
                 });
