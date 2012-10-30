@@ -62,7 +62,7 @@
                     // If the file retrieved by index does not match the name associated
                     // with the query, we assume that it has been deleted (or modified)
                     // and we send the user back to the last screen.
-                    if (!result.actualIndex) {
+                    if (isNaN(result.actualIndex)) {
                         self.navigation.back();
                     } else {
                         self.bindImages(images)
