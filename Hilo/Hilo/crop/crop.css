@@ -37,9 +37,12 @@
     overflow: hidden;
     border: 0;
     background-color: #fff;
-    opacity: 0.75;
     cursor: crosshair;
 	border-radius: 20px;
+}
+
+.corner:hover {
+    background-color: orange;
 }
 
 #topLeft {
