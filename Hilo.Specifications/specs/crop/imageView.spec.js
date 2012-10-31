@@ -7,23 +7,26 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("picture view", function () {
+describe("image view", function () {
 
-    var url, cropSelection, canvasEl, view;
+    var view, image, cropSelection, canvasEl, imageEl;
 
     function setupDOMElements() {
         var frag = document.createDocumentFragment();
         frag.appendChild(document.createElement("canvas"));
 
+        var img = document.createElement("img");
+        frag.appendChild(img);
+
         canvasEl = frag.querySelector("canvas");
+        imageEl = img;
     }
 
     beforeEach(function () {
         setupDOMElements();
 
+        image = new Specs.EventStub();
         cropSelection = new Specs.EventStub();
-
-        url = "http://placekitten.com/300/200";
     });
 
     describe("when initializing", function () {
@@ -36,14 +39,16 @@ describe("picture view", function () {
                 done();
             };
 
-            this.original_drawImage = Hilo.Crop.PictureView.prototype.drawImage;
-            Hilo.Crop.PictureView.prototype.drawImage = drawImageStub;
+            this.original_drawImage = Hilo.Crop.ImageView.prototype.drawImage;
+            Hilo.Crop.ImageView.prototype.drawImage = drawImageStub;
 
-            view = new Hilo.Crop.PictureView(canvasEl, cropSelection, url);
+            view = new Hilo.Crop.ImageView(image, cropSelection, canvasEl, imageEl);
+
+            image.dispatchEvent("urlUpdated");
         });
 
         afterEach(function () {
-            Hilo.Crop.PictureView.prototype.drawImage = this.original_drawImage;
+            Hilo.Crop.ImageView.prototype.drawImage = this.original_drawImage;
         });
 
         it("should show the picture", function () {

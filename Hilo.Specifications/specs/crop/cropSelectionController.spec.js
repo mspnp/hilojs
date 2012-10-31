@@ -39,7 +39,7 @@ describe("crop selection controller", function () {
 
     beforeEach(function () {
         setupDOMElements();
-        cropSelection = {};
+        cropSelection = new Specs.EventStub();
 
         controller = new Hilo.Crop.CropSelectionController(cropSelection, canvasEl, cropSelectionEl);
     });

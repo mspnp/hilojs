@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("image nav presenter", function () {
+describe("hilo appbar presenter", function () {
 
     var presenter, el, crop, rotate, nav;
 
@@ -43,7 +43,7 @@ describe("image nav presenter", function () {
         var cropTriggered;
 
         beforeEach(function () {
-            presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" });
+            presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg", picture: {} });
             crop.dispatchEvent("click");
         });
 
@@ -70,7 +70,7 @@ describe("image nav presenter", function () {
         var cropTriggered;
 
         beforeEach(function () {
-            presenter.setNavigationOptions({ itemIndex: 2, query: {}, itemName: "some.jpg" });
+            presenter.setNavigationOptions({ itemIndex: 2, query: {}, itemName: "some.jpg", picture: {} });
             rotate.dispatchEvent("click");
         });
 
@@ -99,7 +99,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.show = function () { isShown = true; };
-                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" }, true);
+                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg", picture: {} }, true);
             });
 
             it("should show the appbar", function () {
@@ -112,7 +112,7 @@ describe("image nav presenter", function () {
 
             beforeEach(function () {
                 el.winControl.show = function () { isShown = true; };
-                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg" });
+                presenter.setNavigationOptions({ itemIndex: 1, query: {}, itemName: "some.jpg", picture: {} });
             });
 
             it("should show not attempt to show the appbar", function () {

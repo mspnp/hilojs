@@ -50,6 +50,9 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="..\Hilo\Hilo\bindFunctionsTo.js">
+      <Link>Hilo\bindFunctionsTo.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\controls\Header\Header.css">
       <Link>Hilo\controls\Header\Header.css</Link>
     </Content>
@@ -86,8 +89,14 @@
     <Content Include="..\Hilo\Hilo\crop\crop.html">
       <Link>Hilo\crop\crop.html</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\crop\crop.html.orig">
+      <Link>Hilo\crop\crop.html.orig</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\crop\crop.js">
       <Link>Hilo\crop\crop.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\crop\croppedImageWriter.js">
+      <Link>Hilo\crop\croppedImageWriter.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\crop\cropPresenter.js">
       <Link>Hilo\crop\cropPresenter.js</Link>
@@ -104,8 +113,11 @@
     <Content Include="..\Hilo\Hilo\crop\cropSelectionView.js">
       <Link>Hilo\crop\cropSelectionView.js</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\crop\pictureView.js">
-      <Link>Hilo\crop\pictureView.js</Link>
+    <Content Include="..\Hilo\Hilo\crop\image.js">
+      <Link>Hilo\crop\image.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\crop\imageView.js">
+      <Link>Hilo\crop\imageView.js</Link>
     </Content>
     <Content Include="..\Hilo\Hilo\detail\detail.html">
       <Link>Hilo\detail\detail.html</Link>
@@ -213,7 +225,7 @@
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="specs\crop\appBarPresenter.spec.js" />
-    <Content Include="specs\crop\pictureView.spec.js" />
+    <Content Include="specs\crop\imageView.spec.js" />
     <Content Include="specs\crop\cropSelection.spec.js" />
     <Content Include="specs\crop\cropSelectionController.spec.js" />
     <Content Include="specs\crop\cropSelectionCorner.spec.js" />
@@ -225,7 +237,7 @@
     <Content Include="specs\Helpers\spec.helpers.js" />
     <Content Include="specs\hub\hubPresenter.spec.js" />
     <Content Include="specs\hub\listViewPresenter.spec.js" />
-    <Content Include="specs\ImageNav\imageNavPresenter.spec.js" />
+    <Content Include="specs\HiloAppbar\hiloAppbarPresenter.spec.js" />
     <Content Include="specs\month\month.spec.js" />
     <Content Include="specs\pageControl\pageControlHelper.spec.js" />
     <Content Include="specs\Picture\Picture.spec.js" />
@@ -239,6 +251,7 @@
   <ItemGroup>
     <Folder Include="Hilo\controls\Header\" />
     <Folder Include="Hilo\controls\HiloAppBar\" />
+    <Folder Include="Hilo\crop\" />
     <Folder Include="Hilo\hub\" />
     <Folder Include="Hilo\detail\" />
     <Folder Include="Hilo\month\" />

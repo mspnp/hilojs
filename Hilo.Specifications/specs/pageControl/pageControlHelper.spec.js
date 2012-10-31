@@ -14,6 +14,7 @@ describe("Helper for page controls", function () {
 
         function deserialize() {
             attemptedToDeserialize = true;
+            return {};
         }
 
         beforeEach(function () {

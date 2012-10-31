@@ -12,10 +12,12 @@ describe("Rotate Page Presenter", function () {
     var rotatePresenter,
         el,
         appBarPresenter,
-        imageLoaderPromise,
         picture,
         navigation,
-        imageFiles;
+        imageFiles,
+        fileLoader,
+        expectedFilename,
+        touchProvider;
 
     before(function (done) {
         // Note that this is a `before` block and not a `beforeEach`.
@@ -36,11 +38,12 @@ describe("Rotate Page Presenter", function () {
 
         picture = new Hilo.Picture(imageFiles[0]);
 
-        imageLoaderPromise = new WinJS.Promise(function (done) {
+        fileLoader = new WinJS.Promise(function (done) {
             done([picture]);
         });
 
         appBarPresenter = new Specs.EventStub();
+        appBarPresenter._enableButtons = function () { };
 
         navigation = {
             back: function () {
@@ -52,13 +55,14 @@ describe("Rotate Page Presenter", function () {
             }
         };
 
-        rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, navigation);
+        expectedFilename = "";
+        touchProvider = {};
     });
 
     describe("when the file name matches the expectation", function () {
 
         beforeEach(function (done) {
-            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, "some.jpg", navigation);
+            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, fileLoader, "some.jpg", touchProvider, navigation);
             rotatePresenter.start().then(function () { done(); });
         });
 
@@ -79,7 +83,7 @@ describe("Rotate Page Presenter", function () {
     describe("when the file name does not match the expectation", function () {
 
         beforeEach(function (done) {
-            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, imageLoaderPromise, "different.jpg", navigation);
+            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, fileLoader, "different.jpg", touchProvider, navigation);
             rotatePresenter.start().then(function () { done(); });
         });
 
