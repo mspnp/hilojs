@@ -91,5 +91,10 @@
     }, false);
     // </SnippetHilojs_1801>
 
+    Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function (args) {
+        var tileUpdater = new Hilo.Tiles.TileUpdater();
+        tileUpdater.update();
+    }, false);
+
     app.start();
 })();
