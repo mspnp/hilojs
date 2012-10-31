@@ -65,11 +65,13 @@
                 });
         },
 
+        // <SnippetHilojs_1503>
         _getMonthFoldersFor: function (folder) {
             var queryOptions = new search.QueryOptions(commonFolderQuery.groupByMonth);
             var query = folder.createFolderQueryWithOptions(queryOptions);
             return query.getFoldersAsync(0);
         },
+        // </SnippetHilojs_1503>
 
         _getImageQueryOptions: function () {
             var queryOptions = new search.QueryOptions(search.CommonFileQuery.orderByDate, [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
@@ -127,6 +129,7 @@
                         return files.getAt(0).properties.retrievePropertiesAsync([itemDateProperty]);
                     })
                     .then(function (retrieved) {
+                        // <SnippetHilojs_1505>
                         var date = retrieved[itemDateProperty];
                         var groupKey = (date.getFullYear() * 100) + (date.getMonth());
                         var firstImage;
@@ -140,7 +143,9 @@
                                 firstImage = image;
                             }
                         });
+                        // </SnippetHilojs_1505>
 
+                        // <SnippetHilojs_1507>
                         var monthGroupViewModel = {
                             itemDate: date,
                             name: firstImage.name,
@@ -155,6 +160,7 @@
                         firstItemIndexHint += filesInFolder.size;
                         self.groupsByKey[groupKey] = monthGroupViewModel;
                         groups.push(monthGroupViewModel);
+                        // </SnippetHilojs_1507>
                     });
                 });
             });
@@ -164,6 +170,7 @@
         _createDataSources: function (monthGroups) {
             var self = this;
 
+            // <SnippetHilojs_1506>
             function groupKey(item) {
                 return item.groupKey;
             }
@@ -177,6 +184,7 @@
             }
 
             var imageList = new WinJS.Binding.List(this.displayedImages).createGrouped(groupKey, groupData, groupSort);
+            // </SnippetHilojs_1506>
 
             var yearGroups = this._buildYearGroups(monthGroups);
             var yearList = new WinJS.Binding.List(yearGroups);

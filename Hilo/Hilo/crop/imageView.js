@@ -32,10 +32,11 @@
             self.loadImage(args.detail.url);
         });
 
-        // <SnippetHilojs_1702>
         //cropSelection.addEventListener("move", this.drawImage.bind(this));
-        // </SnippetHilojs_1702>
+
+        // <SnippetHilojs_1702>
         canvasEl.addEventListener("click", this.click.bind(this));
+        // </SnippetHilojs_1702>
 
         this.loadImage(image.dataUrl);
     }
@@ -45,7 +46,9 @@
 
     var imageViewMembers = {
         click: function () {
+            // <SnippetHilojs_1703>
             this.dispatchEvent("preview", {});
+            // </SnippetHilojs_1703>
         },
 
         run: function () {
@@ -89,6 +92,8 @@
             return this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.image.offset);
         },
 
+        // <SnippetHilojs_1705>
+        // <SnippetHilojs_1609>
         cropImage: function () {
             var selectionRectScaledToImage = this.getScaledSelectionRectangle();
             // reset image scale so that it reflects the difference between
@@ -105,6 +110,8 @@
             // Get the data Url for the image, and send it along
             return this.canvasEl.toDataURL();
         },
+        // </SnippetHilojs_1609>
+        // </SnippetHilojs_1705>
 
         // take a rectangle that was based on a scaled canvas size
         // and scale the rect up to the real image size, accounting

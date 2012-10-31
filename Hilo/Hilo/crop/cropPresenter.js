@@ -32,7 +32,9 @@
             this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));
             this.appBarPresenter.addEventListener("unsnap", this.unSnapView.bind(this));
 
+            // <SnippetHilojs_1704>
             this.imageView.addEventListener("preview", this.cropImage.bind(this));
+            // </SnippetHilojs_1704>
         },
 
         cropImage: function(){

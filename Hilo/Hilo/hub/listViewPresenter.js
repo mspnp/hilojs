@@ -105,9 +105,11 @@
         // Bind an array of objects to the `ListView` by converting
         // it in to a bindable list, and data source.
         // <SnippetHilojs_1614>
+        // <SnippetHilojs_1504>
         setDataSource: function (items) {
             this.lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
         },
+        // </SnippetHilojs_1504>
         // </SnippetHilojs_1614>
 
         // Change the layout of the list view based on the application"s

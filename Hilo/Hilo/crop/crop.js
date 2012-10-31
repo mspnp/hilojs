@@ -47,7 +47,9 @@
             this.cropSelection = new Hilo.Crop.CropSelection(cropSelectionCoords);
             this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, canvasEl, cropSelectionEl);
             this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, canvasEl, cropSelectionEl);
+            // <SnippetHilojs_1701>
             this.imageView = new Hilo.Crop.ImageView(image, this.cropSelection, canvasEl, imageEl);
+            // </SnippetHilojs_1701>
 
             // When the crop selection has moved, update the image view and crop selection view
             this.cropSelection.addEventListener("move", function (args) {
