@@ -6,6 +6,7 @@
     }
 
     .hub section[role=main] #picturesLibrary {
+        -ms-grid-row: 2;
         margin-left: 120px;
         height: 100%;
     }
@@ -22,10 +23,18 @@
         color: #999;
     }
 
+    .hub section[role=main] .layoutContainer {
+        width: 100%;
+        height: 100%;
+        display: -ms-grid;
+        -ms-grid-rows: auto 1fr;
+        -ms-grid-columns: 1fr;
+    }
+
 @media screen and (min-width: 400px) {
 
     .hub section[role=main] #picturesLibrary {
-        width: 800px;
+        /*width: 800px;*/
     }
 
     /* <SnippetHilojs_1617> */
@@ -55,6 +64,7 @@
     }
 
         .hub section[role=main] #picturesLibrary {
+            width: 100%;
             margin-left: 0;
         }
 

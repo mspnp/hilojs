@@ -13,39 +13,40 @@
 <body>
     <div class="fragment hub">
 
-        <div data-win-control="WinJS.UI.HtmlControl" 
-             data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'AppName.Text' }">
+        <div data-win-control="WinJS.UI.HtmlControl"
+            data-win-options="{ uri: '/Hilo/Controls/Header/Header.html', titleResource: 'AppName.Text' }">
         </div>
 
         <section aria-label="Main content" role="main">
 
-        <!-- <SnippetHilojs_1612> -->
-        <!-- <SnippetHilojs_2004> -->
-        <!-- <SnippetHilojs_1201> -->
+            <!-- <SnippetHilojs_1612> -->
+            <!-- <SnippetHilojs_2004> -->
+            <!-- <SnippetHilojs_1201> -->
             <div id="hub-image-template" data-win-control="WinJS.Binding.Template">
                 <div data-win-bind="style.backgroundImage: url.backgroundUrl; alt: name; className: className" class="thumbnail">
                 </div>
             </div>
-         <!-- </SnippetHilojs_1201> -->
-         <!-- </SnippetHilojs_2004> -->
-         <!-- </SnippetHilojs_1612> -->
+            <!-- </SnippetHilojs_1201> -->
+            <!-- </SnippetHilojs_2004> -->
+            <!-- </SnippetHilojs_1612> -->
 
-            <div class="empty-library" style="display:none">
-                <span data-win-res="{textContent: 'EmptyPicturesTitle'}"></span>
-            </div>
 
-            <a id="navigateToMonth" href="/Hilo/month/month.html" data-navigate>
-                <h2 data-win-res="{textContent: 'PicturesTitle'}"></h2>
-            </a>
+            <div class="layoutContainer">
+                <div class="empty-library" style="display: none">
+                    <span data-win-res="{textContent: 'EmptyPicturesTitle'}"></span>
+                </div>
 
-            <!-- <SnippetHilojs_1613> -->
-            <div id="picturesLibrary"
-                data-win-control="WinJS.UI.ListView"
-                data-win-options="{ 
+                <a id="navigateToMonth" href="/Hilo/month/month.html" data-navigate>
+                    <h2 data-win-res="{textContent: 'PicturesTitle'}"></h2>
+                </a>
+                <!-- <SnippetHilojs_1613> -->
+                <div id="picturesLibrary"
+                    data-win-control="WinJS.UI.ListView"
+                    data-win-options="{ 
                     itemTemplate: select('#hub-image-template'), 
                     selectionMode: 'single'}" />
-            <!-- </SnippetHilojs_1613> -->
-
+                <!-- </SnippetHilojs_1613> -->
+            </div>
         </section>
         <!-- <SnippetHilojs_1210> -->
         <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/HiloAppBar/hiloAppBar.html'}"></section>
