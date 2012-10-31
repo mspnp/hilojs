@@ -53,18 +53,6 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\HiloLogo.scale-100.png" />
-    <Content Include="Assets\HiloLogo.scale-80.png" />
-    <Content Include="Assets\HiloSmallLogo.scale-100.png" />
-    <Content Include="Assets\HiloSmallLogo.scale-80.png" />
-    <Content Include="Assets\HiloSplash.scale-100.png" />
-    <Content Include="Assets\HiloSplash.scale-140.png" />
-    <Content Include="Assets\HiloSplash.scale-180.png" />
-    <Content Include="Assets\HiloStoreLogo.scale-100.png" />
-    <Content Include="Assets\HiloStoreLogo.scale-140.png" />
-    <Content Include="Assets\HiloStoreLogo.scale-180.png" />
-    <Content Include="Assets\HiloWideLogo.scale-100.png" />
-    <Content Include="Assets\HiloWideLogo.scale-80.png" />
     <Content Include="default.css" />
     <Content Include="default.html" />
     <Content Include="default.js" />
