@@ -34,6 +34,10 @@
             return this.winControl.selection.getIndices();
         },
 
+        selectImageAt: function (itemIndex) {
+            this.winControl.selection.set(itemIndex);
+        },
+
         itemClicked: function (args) {
             this.dispatchEvent("imageInvoked", {
                 itemIndex: args.detail.itemIndex,

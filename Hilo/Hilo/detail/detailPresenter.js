@@ -109,6 +109,7 @@
         gotoImage: function (itemIndex, picture) {
 
             this.flipview.showImageAt(itemIndex);
+            this.filmstrip.selectImageAt(itemIndex);
 
             this.hiloAppBar.setNavigationOptions({
                 itemIndex: itemIndex,
