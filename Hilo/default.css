@@ -11,9 +11,13 @@ body {
     width: 100%;
 }
 
-a, a:hover {
+a {
     color: white;
 }
+
+    a:hover {
+        color: orange;
+    }
 
 .win-listview .win-container:hover {
     outline: orange solid 5px;
@@ -31,7 +35,7 @@ a, a:hover {
 }
 
 .win-listview :not(.win-footprint).win-container.win-selected {
-   background-color: orange;
+    background-color: orange;
 }
 
 .fragment {
