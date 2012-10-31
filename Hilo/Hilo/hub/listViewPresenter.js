@@ -23,6 +23,7 @@
         cellHeight: 200
     };
     // </SnippetHilojs_1616>
+
     // List View Presenter Constructor
     // --------------------------------
 
