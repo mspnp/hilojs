@@ -13,18 +13,6 @@
 	"CancelAppBarButton.Name":	"取り消し",
 	"_CancelAppBarButton.Name.comment":	"App bar button text.",
 
-	"CartoonizeAppBarButton.Name":	"アニメーション効果",
-	"_CartoonizeAppBarButton.Name.comment":	"App bar button text.",
-
-	"CartoonizeImagePageCoarsenessText.Text":	"太さ",
-	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
-
-	"CartoonizeImagePagePassesText.Text":	"回数",
-	"_CartoonizeImagePagePassesText.Text.comment":	"Text below slider for cartoon effect UI.",
-
-	"CartoonizeImagePageTitle.Text":	"アニメーション効果",
-	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
-
 	"CropAppBarButton.Name":	"切り抜き",
 	"_CropAppBarButton.Name.comment":	"App bar button text.",
 

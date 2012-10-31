@@ -16,18 +16,6 @@
 	"CancelAppBarButton.Name":	"Cancel",
 	"_CancelAppBarButton.Name.comment":	"App bar button text.",
 
-	"CartoonizeAppBarButton.Name":	"Cartoon effect",
-	"_CartoonizeAppBarButton.Name.comment":	"App bar button text.",
-
-	"CartoonizeImagePageCoarsenessText.Text":	"Coarseness",
-	"_CartoonizeImagePageCoarsenessText.Text.comment":	"Text below slider for cartoon effect UI.",
-
-	"CartoonizeImagePagePassesText.Text":	"Passes",
-	"_CartoonizeImagePagePassesText.Text.comment":	"Text below slider for cartoon effect UI.",
-
-	"CartoonizeImagePageTitle.Text":	"Cartoon effect",
-	"_CartoonizeImagePageTitle.Text.comment":	"Page title for snap view.",
-
 	"CropAppBarButton.Name":	"Crop",
 	"_CropAppBarButton.Name.comment":	"App bar button text.",
 
