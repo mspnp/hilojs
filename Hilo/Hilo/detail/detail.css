@@ -25,7 +25,6 @@
 }
 
 .detail .flipViewImage {
-	background-image: url('/images/Hilo150b.png');
 	background-size: contain;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -34,7 +33,6 @@
 }
 
 .detail .flipViewBackground {
-	background-image: url('/images/Hilo150b.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
