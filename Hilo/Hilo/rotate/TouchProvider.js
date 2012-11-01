@@ -56,15 +56,12 @@
 
         // <SnippetHilojs_1714>
         _manipulationUpdated: function (args) {
-            var degrees = this.displayRotation + args.cumulative.rotation;
-            this.setRotation(degrees);
+            this.setRotation(args.cumulative.rotation);
         },
 
         _manipulationCompleted: function (args) {
             var degrees = args.cumulative.rotation;
             var adjustment = Math.round(degrees / 90) * 90;
-
-            this.displayRotation = (this.displayRotation + adjustment) % 360;
             this.animateRotation(adjustment);
         }
         // </SnippetHilojs_1714>

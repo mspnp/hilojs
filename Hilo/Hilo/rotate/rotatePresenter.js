@@ -160,8 +160,9 @@
             this.adjustImageSize();
         },
 
-        _rotateImageWithoutTransition: function (absoluteRotation) {
-            var rotation = "rotate(" + absoluteRotation + "deg)";
+        _rotateImageWithoutTransition: function (adjustment) {
+            var degrees = this.rotationDegrees + adjustment;
+            var rotation = "rotate(" + degrees + "deg)";
             this.el.className = "";
             this.el.style.transform = rotation;
         },
