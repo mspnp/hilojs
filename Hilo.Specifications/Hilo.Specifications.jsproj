@@ -89,9 +89,6 @@
     <Content Include="..\Hilo\Hilo\crop\crop.html">
       <Link>Hilo\crop\crop.html</Link>
     </Content>
-    <Content Include="..\Hilo\Hilo\crop\crop.html.orig">
-      <Link>Hilo\crop\crop.html.orig</Link>
-    </Content>
     <Content Include="..\Hilo\Hilo\crop\crop.js">
       <Link>Hilo\crop\crop.js</Link>
     </Content>
