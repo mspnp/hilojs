@@ -15,7 +15,7 @@
     // That is, if changes come in too fast and frequent, they would
     // cause a continuous flicker in the UI. Throttling the changes
     // prevents this from happening by limiting the application event
-    // trigger to once every 15 seconds.
+    // trigger to once in the specified interval.
 
     function throttle(callback, delayInSeconds) {
         var lastRun = Date.now();
