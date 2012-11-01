@@ -173,17 +173,10 @@
                 imageSize = Math.max(this.imageProperties.height, this.imageProperties.width),
                 scale = screenSize / imageSize,
                 height = this.imageProperties.height * scale,
-                width = this.imageProperties.width * scale,
-                rotation = (height > width) ? 0 : 90,
-                rotated = (this.rotationDegrees % 180 === rotation);
+                width = this.imageProperties.width * scale;
 
-            if (rotated) {
-                maxHeight = height * scaleResolution;
-                maxWidth = width * scaleResolution;
-            } else {
-                maxHeight = height;
-                maxWidth = width;
-            }
+            maxHeight = height * scaleResolution;
+            maxWidth = width * scaleResolution;
 
             var style = this.el.style;
             style.height = maxHeight + "px";
