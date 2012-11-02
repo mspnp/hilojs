@@ -15,7 +15,6 @@
 
         // <SnippetHilojs_1203>
         ready: function (element, options) {
-            WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
             var query = options.query;
             var queryDate = query.settings.monthAndYear;
@@ -35,7 +34,12 @@
                 var itemIndex = args.detail.itemIndex;
                 options.itemIndex = itemIndex;
             });
-            detailPresenter.start(options);
+
+            detailPresenter
+                .start(options)
+                .then(function () {
+                    WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+                });
         },
         // </SnippetHilojs_1203>
 
