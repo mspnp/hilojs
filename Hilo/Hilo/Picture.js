@@ -63,6 +63,7 @@
                     if (props.height === 0 && props.width === 0) {
                         self.setCorruptImage();
                     }
+                    self.properties = props;
                 });
             }
         },

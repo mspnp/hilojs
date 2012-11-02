@@ -33,19 +33,17 @@
 
             imageQuery.then(function (results) {
                 self.picture = results[0];
-                self.picture.getProperties().then(function (props) {
+                var props = self.picture.properties;
 
-                    self.validateFileName();
-                    var url = self.picture.getUrl("src");
-                    self.setUrl(url);
-                    self.setDataUrl(url);
-                    self.setImageSize(props.height, props.width);
-
-                });
+                self.validateFileName();
+                var url = self.picture.getUrl("src");
+                self.setUrl(url);
+                self.setDataUrl(url);
+                self.setImageSize(props.height, props.width);
             });
         },
 
-        validateFileName: function(){
+        validateFileName: function () {
 
             // If the file retrieved by index does not match the name associated
             // with the query, we assume that it has been deleted (or modified)

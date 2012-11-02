@@ -68,7 +68,6 @@
                         self.bindImages(images)
                         self.gotoImage(result.actualIndex, options.picture);
                     }
-
                 });
 
         },
