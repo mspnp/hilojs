@@ -17,7 +17,7 @@
 .canvas-wrapper {
     margin: 0 auto;
     max-height: 85%;
-	display: block;
+    display: block;
 }
 
 #cropSelection {
@@ -38,11 +38,17 @@
     border: 0;
     background-color: #fff;
     cursor: crosshair;
-	border-radius: 20px;
+    border-radius: 20px;
 }
 
-.corner:hover {
-    background-color: orange;
+    .corner:hover {
+        background-color: orange;
+    }
+
+@media screen and (-ms-high-contrast) {
+    .corner {
+        -ms-high-contrast-adjust: none;
+    }
 }
 
 #topLeft {
@@ -68,56 +74,55 @@
 #topMiddle {
     top: -20px;
     left: 50%;
-	margin: 0 0 0 -20px;
+    margin: 0 0 0 -20px;
 }
 
 #rightMiddle {
     top: 50%;
     right: -20px;
-	margin: -20px 0 0 0;
+    margin: -20px 0 0 0;
 }
 
 #bottomMiddle {
     bottom: -20px;
     left: 50%;
-	margin: 0 0 0 -20px;
+    margin: 0 0 0 -20px;
 }
 
 #leftMiddle {
     top: 50%;
     left: -20px;
-	margin: -20px 0 0 0;
+    margin: -20px 0 0 0;
 }
 
 #crop-header {
-	display: none;
+    display: none;
 }
 
 #image {
-	display: none;
+    display: none;
 }
 
 @media screen and (-ms-view-state: snapped) {
-	#crop-header { 
-		display: -ms-grid;
-	}
+    #crop-header {
+        display: -ms-grid;
+    }
 
-	#image {
-		max-width: 289px;
-		display: block;
-	}
+    #image {
+        max-width: 289px;
+        display: block;
+    }
 
-	.canvas-wrapper {
-		display: none;
-	}
+    .canvas-wrapper {
+        display: none;
+    }
 
-	#cropSelection {
-	    display: none;
-		border: 0;
-	}
+    #cropSelection {
+        display: none;
+        border: 0;
+    }
 
-	.corner {
-	    display: none;
-	}
-
+    .corner {
+        display: none;
+    }
 }

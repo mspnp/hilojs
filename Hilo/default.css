@@ -61,6 +61,12 @@ a {
     display: none;
 }
 
+@media screen and (-ms-high-contrast) {
+    .thumbnail, .flipViewImage, .filmstrip-thumbnail {
+        -ms-high-contrast-adjust: none;
+    }
+}
+
 @media screen and (-ms-view-state: snapped) {
     .full-screen-button {
         display: none;
