@@ -7,7 +7,7 @@
 	"AppBar.FlowDirection":	"LeftToRight",
 	"_AppBar.FlowDirection.comment":	"FlowDirection for every app bar.",
 
-	"AppName.Text":	"Hilo.js",
+	"AppName.Text":	"Hilo JavaScript",
 	"_AppName.Text.comment":	"Page title on hub page.",
 
 	"CancelAppBarButton.Name":	"Storniere",
@@ -22,7 +22,7 @@
 	"Description":	"Foto Applikation basierent auf JavaScript und HTML",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"Hilo.js",
+	"DisplayName":	"Hilo JavaScript",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
 	"DisplayNameProperty":	"Hilo",

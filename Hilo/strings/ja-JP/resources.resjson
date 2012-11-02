@@ -22,7 +22,7 @@
 	"Description":	"JSとHTMLを用いた写真アプリケーション",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"ヒーロJS",
+	"DisplayName":	"ヒーロJavaScript",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
 	"DisplayNameProperty":	"ヒーロ",

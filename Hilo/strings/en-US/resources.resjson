@@ -25,7 +25,7 @@
 	"Description":	"A photo app using JavaScript, WinJS/WinRT, HTML and CSS",
 	"_Description.comment":	"Description field for the package manifest.",
 
-	"DisplayName":	"Hilo.js",
+	"DisplayName":	"Hilo JavaScript",
 	"_DisplayName.comment":	"DisplayName property value for the Visual Element in the package manifest.",
 
 	"DisplayNameProperty":	"Hilo",
@@ -67,6 +67,6 @@
 	"RotateImagePageTitle.Text":	"Rotate picture",
 	"_RotateImagePageTitle.Text.comment":	"Page title for snap view.",
 
-	"ShortName":	"Hilo.js",
+	"ShortName":	"Hilo JavaScript",
 	"_ShortName.comment":	"ShortName property value in the package manifest. Appears as a tooltip on the Start screen. Also appears on the default wide and square tiles."
 }
