@@ -406,9 +406,11 @@
         // `Hilo.Picture` objects, so that they can be bound to UI controls
         // such as the `WinJS.UI.ListView`.
         // <SnippetHilojs_1109>
+        // <SnippetHilojs_1316>
         _createViewModels: function (files) {
             return WinJS.Promise.as(files.map(Hilo.Picture.from));
         }
+        // </SnippetHilojs_1316>
         // </SnippetHilojs_1109>
     };
 

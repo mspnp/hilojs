@@ -16,6 +16,7 @@
     // Picture Constructor Function
     // ----------------------------
 
+    // <SnippetHilojs_1317>
     function Picture(file) {
         var self = this;
 
@@ -36,6 +37,7 @@
         this.loadFileProperties();
         this.loadUrls();
     }
+    // </SnippetHilojs_1317>
 
     // Picture Instance Methods
     // ------------------------
