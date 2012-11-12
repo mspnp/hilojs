@@ -83,10 +83,8 @@
 
     // <SnippetHilojs_1801>
     app.addEventListener("checkpoint", function (args) {
-        // TODO: This application is about to be suspended. Save any state
-        // that needs to persist across suspensions here. If you need to 
-        // complete an asynchronous operation before your application is 
-        // suspended, call args.setPromise().
+        // The application is about to be suspended, so we save the current
+        // navigation history.
         app.sessionState.history = nav.history;
     }, false);
     // </SnippetHilojs_1801>
