@@ -18,6 +18,7 @@
     var page = {
 
         // <SnippetHilojs_1408>
+        // <SnippetHilojs_1618>
         ready: function (element, options) {
 
             // Handle the app bar button clicks, and showing / hiding the app bar
@@ -42,6 +43,7 @@
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
+        // </SnippetHilojs_1618>
         // </SnippetHilojs_1408>
 
         // <SnippetHilojs_1411>

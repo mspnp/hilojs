@@ -14,6 +14,7 @@
     var page = {
 
         // <SnippetHilojs_1203>
+        // <SnippetHilojs_1619>
         ready: function (element, options) {
 
             var query = options.query;
@@ -41,6 +42,7 @@
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
+        // </SnippetHilojs_1619>
         // </SnippetHilojs_1203>
 
         unload: function () {

@@ -84,7 +84,6 @@
     function ImageQueryBuilderConstructor() {
         this.reset();
     }
-
     // </SnippetHilojs_1304>
 
     // Image Query Builder Type Members
@@ -119,6 +118,7 @@
     // Image Query Builder Members
     // ---------------------------
 
+    // <SnippetHilojs_1318>
     var imageQueryBuilderMembers = {
 
         reset: function () {
@@ -137,6 +137,7 @@
 
             return this;
         },
+    // </SnippetHilojs_1318>
 
         // Build the query object with all of the settings that have
         // been configured for this builder.  
@@ -246,7 +247,6 @@
     // module. It cannot be instnatiated directly, but must be created through
     // the use of the ImageQueryBuilder. 
 
-    // <SnippetHilojs_1302>
     function QueryObjectConstructor(settings) {
         // Duplicate and the settings by copying them
         // from the original, to a new object. This is
@@ -265,6 +265,7 @@
         // Freeze the settings to prevent them from being
         // modified in this query object.
         //this.settings = Object.freeze(dupSettings);
+        // <SnippetHilojs_1302>
         this.settings = settings;
 
         // Build the query options
@@ -284,8 +285,9 @@
         }
 
         this.fileQuery = this._buildFileQuery(queryOptions);
+        // </SnippetHilojs_1302>
     }
-    // </SnippetHilojs_1302>
+
 
 
     function translateToAQSFilter(value) {

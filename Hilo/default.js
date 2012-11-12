@@ -93,10 +93,11 @@
 
     // The `resuming` event is not exposed through `WinJS.Application` like
     // the `activated` event. Instead, we need to use the underlying WinRT API.
+    // <SnippetHilojs_1806>
     Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function (args) {
         var tileUpdater = new Hilo.Tiles.TileUpdater();
         tileUpdater.update();
     }, false);
-
+    // </SnippetHilojs_1806>
     app.start();
 })();
