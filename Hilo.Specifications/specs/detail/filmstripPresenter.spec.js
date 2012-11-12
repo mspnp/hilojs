@@ -12,7 +12,7 @@ describe("Detail Page, Filmstrip Presenter", function () {
     var filmstripPresenter, el;
 
     beforeEach(function () {
-    	el = new Specs.WinControlStub();
+        el = new Specs.WinControlStub();
         filmstripPresenter = new Hilo.Detail.FilmstripPresenter(el);
     });
 
@@ -26,7 +26,7 @@ describe("Detail Page, Filmstrip Presenter", function () {
             filmstripPresenter.addEventListener("imageInvoked", handler);
 
             el.winControl.dispatchEvent("iteminvoked", {
-            	itemIndex: 1
+                itemIndex: 1
             });
         });
 
@@ -35,7 +35,7 @@ describe("Detail Page, Filmstrip Presenter", function () {
         });
 
         it("should tell me the index of the clicked item", function () {
-        	expect(handler.args.itemIndex).equals(1);
+            expect(handler.args.itemIndex).equals(1);
         });
     });
 

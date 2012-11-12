@@ -54,10 +54,10 @@
             this.configureMocha();
 
             this.injectHelpers()
-				.then(this.injectPageControls.bind(this))
-				.then(this.injectSpecList.bind(this))
-				.then(this.startTestHarness.bind(this))
-				.done(null, this.triggerError.bind(this));
+                .then(this.injectPageControls.bind(this))
+                .then(this.injectSpecList.bind(this))
+                .then(this.startTestHarness.bind(this))
+                .done(null, this.triggerError.bind(this));
         },
 
         // If an error occurred, dispatch it so that the
@@ -75,18 +75,18 @@
         // the `src` folder, and inject them in to the DOM
         injectPageControls: function () {
             return this.getFolder(this.srcFolder)
-				.then(this.getJSFileNames.bind(this))
-				.then(this.buildScriptTags.bind(this))
-				.then(this.addScriptsToBody.bind(this));
+                .then(this.getJSFileNames.bind(this))
+                .then(this.buildScriptTags.bind(this))
+                .then(this.addScriptsToBody.bind(this));
         },
 
         // Locate the .js helper files from the `helpers`
         // folder and inject them in to the DOM
         injectHelpers: function () {
             return this.getFolder(this.helperFolder)
-				.then(this.getJSFileNames.bind(this))
-				.then(this.buildScriptTags.bind(this))
-				.then(this.addScriptsToBody.bind(this));
+                .then(this.getJSFileNames.bind(this))
+                .then(this.buildScriptTags.bind(this))
+                .then(this.addScriptsToBody.bind(this));
         },
 
         // Location the *spec.js files for the specs that
@@ -94,9 +94,9 @@
         // folder and inject them in to the DOM
         injectSpecList: function () {
             return this.getFolder(this.specFolder)
-				.then(this.getSpecFileNames.bind(this))
-				.then(this.buildScriptTags.bind(this))
-				.then(this.addScriptsToBody.bind(this));
+                .then(this.getSpecFileNames.bind(this))
+                .then(this.buildScriptTags.bind(this))
+                .then(this.addScriptsToBody.bind(this));
         },
 
         // A recursive function that returns a [StorageFolder][3]

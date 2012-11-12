@@ -44,7 +44,7 @@
             // Keep data in-scope across multiple asynchronous methods.
             var self = this,
                 originalRotation,
-				useEXIFOrientation;
+                useEXIFOrientation;
 
             var decodeProcessor = function (decoder) {
 
@@ -106,9 +106,9 @@
                     // automatically coerces the value to the correct type. System.Photo.Orientation
                     // is defined as a UInt16.
                     var orientationTypedValue = new Windows.Graphics.Imaging.BitmapTypedValue(
-						netExifOrientation,
-						Windows.Foundation.PropertyType.uint16
-					);
+                        netExifOrientation,
+                        Windows.Foundation.PropertyType.uint16
+                    );
 
                     var properties = new Windows.Graphics.Imaging.BitmapPropertySet();
                     properties.insert("System.Photo.Orientation", orientationTypedValue);

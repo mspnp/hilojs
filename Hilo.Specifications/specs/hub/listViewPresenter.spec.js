@@ -36,8 +36,8 @@ describe("listview presenter", function () {
         var el;
 
         beforeEach(function () {
-        	var appView = {};
-        	el = new Specs.WinControlStub();
+            var appView = {};
+            el = new Specs.WinControlStub();
 
             var listviewPresenter = new Hilo.Hub.ListViewPresenter(el, appView);
             listviewPresenter.setViewState(Windows.UI.ViewManagement.ApplicationViewState.filled);

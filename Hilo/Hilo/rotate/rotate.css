@@ -14,23 +14,23 @@
 }
 
 #rotate-header {
-	display: none;
+    display: none;
 }
 
 #rotate-image {
     margin: 0 auto;
-	display: block !important;
+    display: block !important;
 }
 
 @media screen and (-ms-view-state: snapped) {
-	#rotate-header {
-		display: -ms-grid;
-	}
+    #rotate-header {
+        display: -ms-grid;
+    }
 
-	#rotate-image {
-	    max-height: none;
-		max-width: 289px;
+    #rotate-image {
+        max-height: none;
+        max-width: 289px;
         height: auto;
-	}
+    }
 
 }
