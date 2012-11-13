@@ -27,7 +27,7 @@
         // <SnippetHilojs_1106>
         var whenFileIsOpen = targetFile.openAsync(fileAccessMode.readWrite);
         var whenThumbailIsReady = sourceFile.getThumbnailAsync(thumbnailMode.singleItem);
-        var whenEverythingIsReady = WinJS.Promise.join([whenFileIsOpen, whenThumbailIsReady]);
+        var whenEverythingIsReady = WinJS.Promise.join({ opened: whenFileIsOpen, ready: whenThumbailIsReady });
         // </SnippetHilojs_1106>
 
         var inputStream, outputStream;
@@ -36,8 +36,8 @@
         whenEverythingIsReady.then(function (args) {
             // `args` contains the output from both `whenFileIsOpen` and `whenThumbailIsReady`.
             // We can identify them by the order they were in when we joined them.
-            outputStream = args[0];
-            var thumbnail = args[1];
+            outputStream = args.opened
+            var thumbnail = args.ready;
             // </SnippetHilojs_1107>
             inputStream = thumbnail.getInputStreamAt(0);
             return randomAccessStream.copyAsync(inputStream, outputStream);
