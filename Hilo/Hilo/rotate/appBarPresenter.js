@@ -46,7 +46,7 @@
             this.menu = null;
         },
 
-        // Set up all of the button click handlers and initially disable save / cancel
+        // Set up all of the button click handlers and initially disable save / cancel.
         setupButtons: function () {
             this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise);
             this.saveButton = this._addButton("#save", this.saveChanges);
@@ -55,12 +55,12 @@
             this._disableButtons();
         },
 
-        // Unsnap the view, back in to full screen mode
+        // Unsnap the view, back in to full screen mode.
         unSnap: function () {
             this.dispatchEvent("unsnap", {});
         },
 
-        // Rotate clockwise was clicked
+        // Rotate clockwise was clicked.
         rotateClockwise: function (args) {
             this._enableButtons();
 
@@ -69,13 +69,13 @@
             });
         },
 
-        // Save was clicked
+        // Save was clicked.
         saveChanges: function () {
             this._disableButtons();
             this.dispatchEvent("save", {});
         },
 
-        // Cancel was clicked
+        // Cancel was clicked.
         cancelChanges: function () {
             this._disableButtons();
             this.dispatchEvent("cancel", {});
@@ -96,13 +96,13 @@
         },
 
         // Internal method.
-        // Enables the save and cancel buttons
+        // Enables the save and cancel buttons.
         _enableButtons: function () {
             this.saveButton.disabled = false;
         },
 
         // Internal method.
-        // Disables the save and cancel buttons
+        // Disables the save and cancel buttons.
         _disableButtons: function () {
             this.saveButton.disabled = true;
         }

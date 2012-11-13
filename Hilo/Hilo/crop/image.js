@@ -58,7 +58,7 @@
         },
 
         // Store the current image size, based on the cropped area
-        // of the image
+        // of the image.
         setImageSize: function (height, width) {
             this.imageSize = {
                 height: height,

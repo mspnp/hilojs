@@ -29,7 +29,7 @@
 
     var hiloAppBarPresenterMethods = {
 
-        // Find the "crop" and "rotate" buttons and set up click handlers on them
+        // Find the "crop" and "rotate" buttons and set up click handlers on them.
         setupButtons: function () {
             this.rotate = this.el.querySelector("#rotate");
             this.rotate.addEventListener("click", this._rotateClicked.bind(this));
@@ -123,16 +123,16 @@
         //},
 
         // Enable the buttons on the app bar. This method can be called when the
-        // app bar is intended to always be shown on the screen, in order to always
+        // app bar is intended to always be shown on the screen in order to always
         // enable the buttons. It would be preferable to use the `setImageIndex` 
-        // method, though.
+        // method though.
         enableButtons: function () {
             this.rotate.winControl.disabled = false;
             this.crop.winControl.disabled = false;
         },
 
         // Disable the buttons on the app bar. This method can be called when the
-        // buttons on the app bar need to be disabled, regardless of the state of
+        // buttons on the app bar need to be disabled regardless of the state of
         // the app bar.
         disableButtons: function () {
             this.rotate.winControl.disabled = true;

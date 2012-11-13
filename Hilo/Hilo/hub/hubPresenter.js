@@ -12,7 +12,7 @@
     // ---------------------
 
     var knownFolders = Windows.Storage.KnownFolders;
-    // The maximum number of images to display on the hub page 
+    // The maximum number of images to display on the hub page .
     var maxImageCount = 6;
 
     // Hub Presenter Constructor
@@ -67,7 +67,7 @@
             this.listview.addEventListener("selectionChanged", this.selectionChanged);
             this.listview.addEventListener("itemInvoked", this.itemClicked);
 
-            // Configure and then build the query for this page
+            // Configure and then build the query for this page.
             // <SnippetHilojs_1301>
             this.queryBuilder
                 .bindable(true)
@@ -75,7 +75,7 @@
                 .count(maxImageCount);
             // </SnippetHilojs_1301>
 
-            // Retrieve and display the images
+            // Retrieve and display the images.
             return this.loadImages();
         },
 
@@ -157,15 +157,15 @@
 
                 var picture = args.detail.item;
 
-                // build the query for the selected item
+                // Build the query for the selected item.
                 var options = this.buildQueryForPicture(picture);
 
-                // If an image is selected, show the image nav
-                // app bar with the "crop" and "rotate" buttons
+                // If an image is selected, show the app bar 
+                // with the "crop" and "rotate" buttons.
                 this.hiloAppBar.setNavigationOptions(options, true);
 
             } else {
-                // If no images are selected, hide the app bar
+                // If no images are selected, hide the app bar.
                 this.hiloAppBar.clearNavigationOptions(true);
             }
         },
@@ -176,22 +176,22 @@
         // <SnippetHilojs_1402>
         itemClicked: function (args) {
 
-            // get the `Hilo.Picture` item that was bound to the invoked image,
-            // and the item index from the list view
+            // Get the `Hilo.Picture` item that was bound to the invoked image,
+            // and the item index from the list view control.
             var picture = args.detail.item.data;
 
-            // build the query that can find this picture within it's month group
+            // Build the query that can find this picture within it's month group.
             var options = this.buildQueryForPicture(picture);
 
             // Navigate to the detail view, specifying the month query to
-            // show, and the index of the individual item that was invoked
+            // show, and the index of the individual item that was invoked.
             this.nav.navigate("/Hilo/detail/detail.html", options);
         },
         // </SnippetHilojs_1402>
 
         buildQueryForPicture: function (picture) {
 
-            // Build the query for the month and year of the invoked image
+            // Build the query for the month and year of the invoked image.
             var query = this.queryBuilder
                 .reset()
                 .bindable(true)

@@ -20,11 +20,11 @@
     // ---------------
 
     function bindFunctionsTo(context, functions) {
-        // Cycle through the specified members on the given object,
+        // Cycle through the specified members on the given object.
         functions.forEach(function (key) {
             var fn = context[key];
             if (typeof fn === "function") {
-                // If the member really is a function, bind it to the context
+                // If the member really is a function, bind it to the context.
                 context[key] = fn.bind(context);
             } else {
                 throw new Error(key + " is not of type function");

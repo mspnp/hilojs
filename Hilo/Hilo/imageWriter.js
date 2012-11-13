@@ -11,9 +11,13 @@
     // Much of this code and the comments found within it are borrowed from the 
     // [Simple imaging sample][1] for building a simple image processing 
     // application. See that sample for a more complete list of what can be done 
-    // with imaging in Metro applications.
+    // with imaging in Windows Store apps.
     //
     // [1]: http://code.msdn.microsoft.com/windowsapps/Simple-Imaging-Sample-a2dec2b0
+
+    // Imports
+    var fileAccessMode = Windows.Storage.FileAccessMode,
+        imaging = Windows.Graphics.Imaging;
 
     // Helper Methods
     // --------------
@@ -60,22 +64,22 @@
 
         // Open the filepicker, defaulting it to the currently
         // used source file, allowing another file name to be
-        // selected if desired
+        // selected if desired.
         pickFile: function (sourceFile, fileNameSuffix) {
             var savePicker = new Windows.Storage.Pickers.FileSavePicker();
 
-            // default to saving in the pictures library, with the original filename
+            // Default to saving in the pictures library with the original filename.
             savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.picturesLibrary;
             savePicker.suggestedFileName = sourceFile.displayName + "-" + fileNameSuffix + sourceFile.fileType;
 
-            // Dropdown of file types the user can save the file as
+            // Dropdown of file types available to the user for saving files.
             savePicker.fileTypeChoices.insert("BMP", [".bmp"]);
             savePicker.fileTypeChoices.insert("GIF", [".gif"]);
             savePicker.fileTypeChoices.insert("JPG", [".jpg", ".jpeg"]);
             savePicker.fileTypeChoices.insert("PNG", [".png"]);
             savePicker.fileTypeChoices.insert("TIFF", [".tiff"]);
 
-            // run the picker and get the filename that the person chose
+            // Run the picker and get the filename that the user chose.
             return savePicker.pickSaveFileAsync();
         },
 
@@ -91,7 +95,7 @@
 
             var self = this;
 
-            // save the source to the destination
+            // Save the source to the destination.
 
             // Keep data in-scope across multiple asynchronous methods.
             var originalWidth,
@@ -108,10 +112,10 @@
             // This allows the application to perform in-place editing of the file: any unedited data
             // is copied directly to the destination, and the original file is overwritten
             // with updated data.
-            sourceFile.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (stream) {
+            sourceFile.openAsync(fileAccessMode.readWrite).then(function (stream) {
 
                 sourceStream = stream;
-                return Windows.Graphics.Imaging.BitmapDecoder.createAsync(sourceStream)
+                return imaging.BitmapDecoder.createAsync(sourceStream)
                     .then(function (_decoder) {
                         decoder = _decoder;
 
@@ -122,7 +126,7 @@
                     }).then(function () {
 
                         // Set the encoder's destination to the temporary, in-memory stream.
-                        return Windows.Graphics.Imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
+                        return imaging.BitmapEncoder.createForTranscodingAsync(memStream, decoder);
 
                     }).then(function (_encoder) {
                         encoder = _encoder;
@@ -153,12 +157,12 @@
                         }
 
                     }).then(function () {
-                        // open the destination stream
-                        return destFile.openAsync(Windows.Storage.FileAccessMode.readWrite);
+                        // Open the destination stream.
+                        return destFile.openAsync(fileAccessMode.readWrite);
                     }).then(function (_destStream) {
                         destStream = _destStream;
 
-                        // copy the contents of the memory stream to the destination
+                        // Copy the contents of the memory stream to the destination.
                         memStream.seek(0);
                         destStream.seek(0);
                         destStream.size = 0;

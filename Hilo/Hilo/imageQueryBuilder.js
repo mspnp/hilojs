@@ -159,7 +159,7 @@
         //
         // <SnippetHilojs_1307>
         bindable: function (bindable) {
-            // !! is a JavaScript coersion trick to convert any value
+            // `!!` is a JavaScript coersion trick to convert any value
             // in to a true boolean value. 
             //
             // When checking equality and boolean values, JavaScript 
@@ -262,13 +262,10 @@
             }
         }
 
-        // Freeze the settings to prevent them from being
-        // modified in this query object.
-        //this.settings = Object.freeze(dupSettings);
         // <SnippetHilojs_1302>
-        this.settings = settings;
+        this.settings = dupSettings;
 
-        // Build the query options
+        // Build the query options.
         var queryOptions = this._buildQueryOptions(this.settings);
         this._queryOptionsString = queryOptions.saveToString();
 
@@ -386,7 +383,6 @@
             queryOptions.indexerOption = settings.indexerOption;
 
             queryOptions.setPropertyPrefetch(settings.prefetchOption, settings.prefetchAttributes);
-            //queryOptions.setThumbnailPrefetch(settings.thumbnailMode, settings.thumbnailSize, settings.thumbnailOptions);
 
             if (this.settings.monthAndYear) {
                 queryOptions.applicationSearchFilter = translateToAQSFilter(settings.monthAndYear);

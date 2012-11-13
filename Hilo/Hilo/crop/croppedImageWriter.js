@@ -28,8 +28,8 @@
 
     var croppedImageWriterMembers = {
 
-        // choose a destination file, then crop the image down to the
-        // specified crop selection, saving it to the selected destination
+        // Choose a destination file, then crop the image down to the
+        // specified crop selection, saving it to the selected destination.
         crop: function (sourceFile, cropSelection) {
             var self = this;
             return this.imageWriter.pickFile(sourceFile, "Cropped")
@@ -44,7 +44,7 @@
 
         },
 
-        // Do the actual file cropping and save it to the destination file
+        // Do the actual file cropping and save it to the destination file.
         saveCroppedImage: function (sourceFile, destFile, cropSelection) {
 
             var self = this,
@@ -52,7 +52,7 @@
                 imageSize;
 
             var decodeProcessor = function (decoder) {
-                // get the image size
+                // Get the image size.
                 imageSize = {
                     width: decoder.pixelWidth,
                     height: decoder.pixelHeight
@@ -68,7 +68,7 @@
                     }
                 });
 
-                // get the EXIF orientation (if it's supported)
+                // Get the EXIF orientation (if it's supported).
                 // <SnippetHilojs_1110>
                 var decoderPromise = getOrientation
                     .then(function (retrievedProps) {
@@ -81,12 +81,12 @@
                             : photoOrientation.normal;
 
                     }, function (error) {
-                        // the file format does not support EXIF properties, continue 
+                        // The file format does not support EXIF properties, continue 
                         // without applying EXIF orientation.
                         switch (error.number) {
                             case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
                             case Hilo.ImageWriter.WINCODEC_ERR_PROPERTYNOTSUPPORTED:
-                                // the image does not support EXIF orientation, so
+                                // The image does not support EXIF orientation, so
                                 // set it to normal. this allows the getRotatedBounds
                                 // to work propertly.
                                 exifOrientation = photoOrientation.normal;
@@ -101,9 +101,9 @@
             };
 
             var encodeProcessor = function (encoder) {
-                // set the bounds (crop position / size) of the encoder, 
+                // Set the bounds (crop position / size) of the encoder, 
                 // so that we only get the crop selection in the final
-                // result
+                // result.
                 var bounds = self.getRotatedBounds(exifOrientation, imageSize, cropSelection);
                 encoder.bitmapTransform.bounds = bounds;
             };

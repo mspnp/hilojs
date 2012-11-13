@@ -99,7 +99,7 @@
         },
 
         // Internal method.
-        // Bind to the appbar presenter's events, to handle the button clicks
+        // Bind to the appbar presenter's events, to handle the button clicks.
         _bindToEvents: function () {
             this.appBarPresenter.addEventListener("rotate", this.rotateImage);
             this.appBarPresenter.addEventListener("save", this.saveImage);
@@ -140,14 +140,14 @@
         // Internal method
         // Sets the CSS rotation of the image element. A CSS transition has also
         // been defined in the CSS file so that the image will turn instead of just 
-        // appearing in the new orientation, suddenly.
+        // appearing in the new orientation suddenly.
         _rotateImage: function (rotateDegrees) {
             if (rotateDegrees) {
                 this.rotationDegrees += rotateDegrees;
             }
 
-            // build a [CSS transform][1] to rotate the image by the specified
-            // number of degrees, and apply it to the image
+            // Build a [CSS transform][1] to rotate the image by the specified
+            // number of degrees and apply it to the image.
             //
             // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/ff974936.aspx
 

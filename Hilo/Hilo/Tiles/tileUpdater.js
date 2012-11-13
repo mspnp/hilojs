@@ -45,7 +45,7 @@
     // ---------------
 
     // <SnippetHilojs_1002>
-    // The constructor function for `TileUpdater`
+    // The constructor function for `TileUpdater`.
     var TileUpdater = function () {
         this.tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
         this.tileUpdater.clear();
@@ -81,7 +81,7 @@
             var queueTileUpdates = this.queueTileUpdates.bind(this);
             // </SnippetHilojs_1102>
 
-            // Build a query to get the number of images needed for the tiles
+            // Build a query to get the number of images needed for the tiles.
             var queryBuilder = new Hilo.ImageQueryBuilder();
             queryBuilder.count(numberOfImagesToRetrieve);
 

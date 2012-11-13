@@ -7,6 +7,7 @@
 
 // For an introduction to the Page Control template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkId=232511
+
 (function () {
     "use strict";
 
@@ -33,13 +34,13 @@
         ready: function (element, options) {
             var pageTitle, title;
 
-            // If the `titleResource` was provided, set the page title
+            // If the `titleResource` was provided, set the page title.
             if (options.titleResource) {
 
-                // find the `#pageTitle` HTML element
+                // Find the `#pageTitle` HTML element.
                 pageTitle = element.querySelector("#pageTitle");
 
-                // Load and set the localized resource for the page title
+                // Load and set the localized resource for the page title.
                 title = WinJS.Resources.getString(options.titleResource);
                 pageTitle.textContent = title.value;
             }

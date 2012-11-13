@@ -32,8 +32,6 @@
             self.loadImage(args.detail.url);
         });
 
-        //cropSelection.addEventListener("move", this.drawImage.bind(this));
-
         // <SnippetHilojs_1702>
         canvasEl.addEventListener("click", this.click.bind(this));
         // </SnippetHilojs_1702>
@@ -67,10 +65,10 @@
             this.context.drawImage(
                 this.imageToPaint,
 
-                // cropped area of the image to draw
+                // Cropped area of the image to draw.
                 this.imageSubset.startX, this.imageSubset.startY, imageWidth, imageHeight,
 
-                // scale the cropped area in to the entire canvas
+                // Scale the cropped area in to the entire canvas.
                 0, 0, this.canvasSize.width, this.canvasSize.height
             );
         },
@@ -79,14 +77,14 @@
             this.canvasSize = this.canvasEl.getBoundingClientRect();
             this.setImageSubset(scaledImageCoordinates);
 
-            // build a DOM image object that the canvas can paint
+            // Build a DOM image object that the canvas can paint.
             this.imageToPaint = new Image();
             this.imageToPaint.onload = this.drawImage.bind(this);
             this.imageToPaint.src = this.image.url;
         },
         
-        // calculate the selected area of the original image by scaling
-        // the canvas based selection out to the original image
+        // Calculate the selected area of the original image by scaling
+        // the canvas based selection out to the original image.
         getScaledSelectionRectangle: function () {
             var coords = this.cropSelection.getCoords();
             return this.scaleCanvasRectToImage(this.imageToScreenScale, coords, this.image.offset);
@@ -96,26 +94,26 @@
         // <SnippetHilojs_1609>
         cropImage: function () {
             var selectionRectScaledToImage = this.getScaledSelectionRectangle();
-            // reset image scale so that it reflects the difference between
-            // the current canvas size (the crop selection), and the original 
-            // image size, then re-draw everything at that new scale
+            // Reset image scale so that it reflects the difference between
+            // the current canvas size (the crop selection) and the original 
+            // image size, then re-draw everything at that new scale.
             this.imageToScreenScale = this.calculateScaleToScreen(selectionRectScaledToImage);
             this.drawImageSelectionToScale(selectionRectScaledToImage, this.imageToScreenScale);
 
-            // remember the starting location of the crop on the original image
+            // Remember the starting location of the crop on the original image
             // and not relative to the canvas size, so that cropping multiple times
-            // will correctly crop to what has been visually selected
+            // will correctly crop to what has been visually selected.
             this.image.updateOffset({ x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY });
 
-            // Get the data Url for the image, and send it along
+            // Get the data Url for the image and send it along.
             return this.canvasEl.toDataURL();
         },
         // </SnippetHilojs_1609>
         // </SnippetHilojs_1705>
 
-        // take a rectangle that was based on a scaled canvas size
+        // Take a rectangle that was based on a scaled canvas size
         // and scale the rect up to the real image size, accounting
-        // for the offset of the rectangle location
+        // for the offset of the rectangle location.
         scaleCanvasRectToImage: function (imageToScreenScale, canvasCoords, offset) {
             var startX = canvasCoords.startX / imageToScreenScale,
                 startY = canvasCoords.startY / imageToScreenScale,
@@ -134,7 +132,7 @@
             };
         },
 
-        // convert a size (height/width) in to a rect
+        // Convert a size (height/width) in to a rect.
         sizeToRect: function (size) {
             return {
                 height: size.height,
@@ -146,10 +144,10 @@
             };
         },
 
-        // take a given size (height and width) and
+        // Take a given size (height and width) and
         // calculate the scale that will correctly
         // re-size it to fit the available display
-        // area of the screen
+        // area of the screen.
         calculateScaleToScreen: function (size) {
             var heightScale = (window.innerHeight / size.height) * scaleResolution,
                 widthScale = (window.innerWidth / size.width) * scaleResolution;
@@ -163,16 +161,16 @@
             var canvasSize = this.calculateSizeFromScale(cropRect, imageToScreenScale);
             this.resizeCanvas(canvasSize);
 
-            // reset and re-draw all of the controllers and presenters
+            // Reset and re-draw all of the controllers and presenters.
             this.reset(cropRect);
             this.cropSelection.reset(canvasSize);
 
-            // draw the background image once everything is set up
+            // Draw the background image once everything is set up.
             this.drawImage();
         },
 
-        // calculate the final size by multiplying 
-        // an original size by a specified scale
+        // Calculate the final size by multiplying the original
+        // size by a specified scale
         calculateSizeFromScale: function (originalSize, scale) {
             var height = originalSize.height * scale;
             var width = originalSize.width * scale;
@@ -191,8 +189,8 @@
             this.imageSubset = imageCoords;
         },
 
-        // change the size of the specified canvas element to the calculated
-        // size, and return the new size
+        // Change the size of the specified canvas element to the calculated
+        // size and return the new size.
         resizeCanvas: function (canvasSize) {
             this.canvasEl.height = canvasSize.height;
             this.canvasEl.width = canvasSize.width;

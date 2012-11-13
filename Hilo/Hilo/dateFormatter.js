@@ -20,7 +20,7 @@
         format = Windows.Globalization.DateTimeFormatting,
         globalizationPreferences = Windows.System.UserProfile.GlobalizationPreferences;
 
-    // Construct a calendar that we can use for formatting dates
+    // Construct a calendar that we can use for formatting dates.
     var resolvedCalendar = new global.Calendar();
 
     // Instatiate a throw-away instance of `DateTimeFormatter`

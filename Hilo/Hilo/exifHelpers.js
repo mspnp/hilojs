@@ -29,7 +29,7 @@
             var width = bitmapSize.width;
             var height = bitmapSize.height;
 
-            // calculate rotated translation point for image
+            // Calculate rotated translation point for image.
             var x1 = width * angleCos;
             var y1 = width * angleSin;
             var x2 = (width * angleCos) - (height * angleSin);
@@ -40,7 +40,7 @@
             var minX = Math.min(x1, x2, x3);
             var minY = Math.min(y1, y2, y3);
 
-            // Adjust rotate and adjust original rect bounding box
+            // Adjust rotate and adjust original rect bounding box.
             var xOrigin = (rect.startX * angleCos) - (rect.startY * angleSin) - minX;
             var yOrigin = (rect.startX * angleSin) + (rect.startY * angleCos) - minY;
 
@@ -82,7 +82,7 @@
             }
         },
 
-        // Convert a clockwise rotation in degrees, to an EXIF rotation enumeration
+        // Convert a clockwise rotation in degrees, to an EXIF rotation enumeration.
         convertDegreesRotationToExifOrientation: function (angle) {
             switch (angle) {
                 case 90:
@@ -92,7 +92,7 @@
                 case 270:
                     return photoOrientation.rotate90;
                 default:
-                    // Ignore flip/mirroring values, and 0degree rotation
+                    // Ignore flip/mirroring values, and 0degree rotation.
                     return photoOrientation.normal;
             }
 

@@ -32,10 +32,6 @@
 
 @media screen and (min-width: 400px) {
 
-    .hub section[role=main] #picturesLibrary {
-        /*width: 800px;*/
-    }
-
     /* <SnippetHilojs_1617> */
     .hub section[role=main] .thumbnail {
         width: 200px;

@@ -11,7 +11,7 @@
     // Private Members
     // ---------------
 
-    // Determine whether or not the specified target is a function
+    // Determine whether or not the specified target is a function.
     function isFunction(target) {
         return (typeof target === "function");
     }
@@ -35,22 +35,23 @@
 
     // The `Hilo.UrlCache` object exists to maintain control over the memory used
     // by `URL.createObjectUrl`. This function, by design, uses a chunk of memory
-    // for each url it creates, and does not clean that memory up automatically.
+    // for each URL it creates and does not necessarily clean that memory up
+    // automatically.
     //
     // For more information on the memory leaks that can be caused by the use of
-    // URL.createObjectUrl, see the MSDN article on [Accessing The File System Efficiently][1]
+    // URL.createObjectUrl, see the MSDN article on [Accessing The File System Efficiently][1].
     //
     // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/hh781216.aspx
     var urlCache = {
 
-        // Hold a list of keys with an array of url's for any given key
+        // Hold a list of keys with an array of URL's for any given key.
         urlList: {},
 
-        // Cache, build and retreve a a `urlconfig` object, storing it for the given
+        // Cache, build, and retreve a a `urlconfig` object for the given
         // key and attribute name combination. Uses the `target` attribute to
-        // build the object url. 
+        // build the object URL. 
         //
-        // If a url for the request key / attrName exists, it is returned.
+        // If a URL for the request key and attrName exists, it is returned.
         // If one does not exist, it is created and stored in cache.
         getUrl: function (key, attrName, target) {
             var self = this,
@@ -60,15 +61,15 @@
             // key and attribute name
             if (this.urlList[key] && this.urlList[key][attrName]) {
 
-                // We have it already. Return it as a promise
+                // We have it already. Return it as a promise.
                 promise = WinJS.Promise.as(this.urlList[key][attrName]);
 
             } else {
 
-                // We don't have it yet, so get the target object
+                // We don't have it yet, so get the target object.
                 promise = resultAsPromise(target).then(function (obj) {
 
-                    // build the url configuration and store it
+                    // Build the URL configuration and store it.
                     var urlConfig = self._buildUrlConfig(attrName, obj);
                     self._storeUrlConfig(key, attrName, urlConfig);
 
@@ -77,12 +78,12 @@
             }
 
             // Return the resulting promise, whether it's cached or
-            // building a new `urlconfig`
+            // building a new `urlconfig`.
             return promise;
         },
 
-        // Clear all url configurations for the given key, destroying the
-        // object url for each one.
+        // Clear all URL configurations for the given key, destroying the
+        // object URL for each one.
         clear: function (key) {
             var urlConfigs, urlConfig, urlName;
             urlConfigs = this.urlList[key];
@@ -94,23 +95,23 @@
             }
         },
 
-        // Clear all url configurations, destroying the object url
+        // Clear all URL configurations, destroying the object URL
         // for each one.
         clearAll: function () {
             var urlConfigs, urlName, urlConfig, attr;
 
-            // clear the url's for the individual key
+            // Clear the URL's for the individual key.
             for (attr in this.urlList) {
                 this.clear(attr);
             }
 
-            // reset the url list back to a new, empty object,
-            // to ensure every last bit has been released
+            // Reset the URL list back to a new empty object
+            // to ensure every last bit has been released.
             this.urlList = {};
         },
 
-        // Internal method. Builds a url configuration object
-        // based on the key, provided
+        // Internal method. Builds a URL configuration object
+        // based on the attribute name.
         _buildUrlConfig: function (attrName, obj) {
             var url = (obj) ? URL.createObjectURL(obj) : "";
 
@@ -126,12 +127,12 @@
         // Internal method. Stores the provided configuration
         // for the specified key and attribute name.
         _storeUrlConfig: function (key, attrName, config) {
-            // if we don't have this key, add it
+            // If we don't have this key, add it.
             if (!this.urlList[key]) {
                 this.urlList[key] = {};
             }
 
-            // store the url config for the key / attribute name
+            // Store the url config for the key and attribute name.
             this.urlList[key][attrName] = config;
         }
     };

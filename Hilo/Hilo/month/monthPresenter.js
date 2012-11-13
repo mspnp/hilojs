@@ -124,7 +124,7 @@
                     .then(function (files) {
                         filesInFolder = files;
                         // Since we filtered for zero count, we 
-                        // can assume that we have at least 1 file
+                        // can assume that we have at least one file.
 
                         return files.getAt(0).properties.retrievePropertiesAsync([itemDateProperty]);
                     })
@@ -221,10 +221,10 @@
 
             var picture = item.data;
 
-            // Build a query to represent the month/year group that was selected
+            // Build a query to represent the month/year group that was selected.
             var query = this.queryBuilder
-                .bindable(true)                     // ensure the images are data-bind-able
-                .forMonthAndYear(picture.itemDate)     // only load images for the month and year group we selected
+                .bindable(true)                    // Ensure the images are bindable.
+                .forMonthAndYear(picture.itemDate) // Only load images for the selected month and year.
                 .build(this.targetFolder);
 
             var group = this.groupsByKey[item.groupKey];
@@ -255,7 +255,7 @@
 
                 var options = self._buildQueryForPicture(item);
                 // Navigate to the detail page to show the results
-                // of this query with the selected item
+                // of this query with the selected item.
                 self._navigate("/Hilo/detail/detail.html", options);
             });
         },

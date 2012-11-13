@@ -65,7 +65,7 @@
             this.context.save();
             this.context.beginPath();
 
-            // outer box, clockwise
+            // Outer box, clockwise.
             this.context.moveTo(0, 0);
 
             this.context.lineTo(boundWidth, 0);
@@ -74,7 +74,7 @@
 
             this.context.closePath();
 
-            // inner box, counter-clockwise
+            // Inner box, counter-clockwise.
 
             this.context.moveTo(coords.startX + offset, coords.startY + offset);
 
@@ -84,7 +84,7 @@
 
             this.context.closePath();
 
-            // Fill & cutout
+            // Fill and cutout.
             this.context.fillStyle = "rgba(0, 0, 0, 0.75)";
             this.context.fill();
 

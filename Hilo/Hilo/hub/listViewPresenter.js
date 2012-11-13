@@ -69,7 +69,7 @@
             this.lv.addEventListener("selectionchanged", this.imageSelected.bind(this));
         },
 
-        // Event handler for selecting an image
+        // Event handler for selecting an image.
         imageSelected: function (args) {
             var itemLoader, itemIndex, hasItemSelected;
 
@@ -90,7 +90,7 @@
             });
         },
 
-        // Event handler for "invoking" (clicking or tapping) an image
+        // Event handler for "invoking" (clicking or tapping) an image.
         // <SnippetHilojs_1212>
         imageNavigated: function (args) {
             var self = this;
@@ -113,7 +113,7 @@
         // </SnippetHilojs_1504>
         // </SnippetHilojs_1614>
 
-        // Change the layout of the list view based on the application"s
+        // Change the layout of the list view based on the application's
         // [application view state][4]. 
         // 
         // [4]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.viewmanagement.applicationviewstate
@@ -146,12 +146,12 @@
         // </SnippetHilojs_1615>
         // </SnippetHilojs_1413>
 
-        // Get the indices of the selected items from the ListView
+        // Get the indices of the selected items from the ListView.
         getIndices: function () {
             return this.lv.selection.getIndices();
         },
 
-        // Get the selected items
+        // Get the selected items.
         getItems: function () {
             return this.lv.selection.getItems();
         },

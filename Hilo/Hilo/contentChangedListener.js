@@ -20,7 +20,7 @@
     function throttle(callback, delayInSeconds) {
         var lastRun = Date.now();
 
-        // Return the throttled version of the callback function
+        // Return the throttled version of the callback function.
         return function () {
             var args = arguments,
                 delay = delayInSeconds * 1000,
@@ -44,12 +44,12 @@
 
     var contentChangedListener = {
 
-        // Create the file system query and listen for file system changes
+        // Create the file system query and listen for file system changes.
         listen: function (folder) {
-            // Build the query and listen to the contentschanged event
+            // Build the query and listen to the contentschanged event.
             var builder = new Hilo.ImageQueryBuilder();
 
-            // throttle the event handler so that it only runs once every 10 seconds
+            // Throttle the event handler so that it only runs once every 10 seconds.
             var handler = throttle(this.raiseEvent, 10);
 
             // We need to hold a reference to the query object so that our event

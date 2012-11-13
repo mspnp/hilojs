@@ -21,15 +21,15 @@
         // <SnippetHilojs_1618>
         ready: function (element, options) {
 
-            // Handle the app bar button clicks, and showing / hiding the app bar
+            // Handle the app bar button clicks for showing and hiding the app bar.
             var appBarEl = document.querySelector("#appbar");
             var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(appBarEl, WinJS.Navigation);
 
-            // Handle selecting and invoking (clicking) images
+            // Handle selecting and invoking (clicking) images.
             var listViewEl = document.querySelector("#picturesLibrary");
             this.listViewPresenter = new Hilo.Hub.ListViewPresenter(listViewEl, Windows.UI.ViewManagement.ApplicationView);
 
-            // Coordinate the parts of the hub view
+            // Coordinate the parts of the hub page.
             this.hubViewPresenter = new Hilo.Hub.HubViewPresenter(
                 WinJS.Navigation,
                 hiloAppBar,

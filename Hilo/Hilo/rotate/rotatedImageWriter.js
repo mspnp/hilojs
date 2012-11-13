@@ -24,7 +24,7 @@
 
     var rotatedImageWriterMembers = {
 
-        // Pick a file to save the rotated version to, then save it
+        // Pick a file to save the rotated version to, then save it.
         rotate: function (sourceFile, degrees) {
             var self = this;
             return this.imageWriter.pickFile(sourceFile, "Rotated")
@@ -38,7 +38,7 @@
                 });
         },
 
-        // Rotate an image to the specified degrees
+        // Rotate an image to the specified degrees.
         saveRotatedImage: function (sourceFile, destFile, degrees) {
 
             // Keep data in-scope across multiple asynchronous methods.
@@ -58,7 +58,7 @@
                     }
                 });
 
-                // get the EXIF orientation (if it's supported)
+                // Get the EXIF orientation (if it's supported).
                 var decoderPromise = getOrientation
                     .then(function (retrievedProps) {
 
@@ -77,7 +77,7 @@
                         }
 
                     }, function (error) {
-                        // the file format does not support EXIF properties, continue 
+                        // The file format does not support EXIF properties, continue 
                         // without applying EXIF orientation.
                         switch (error.number) {
                             case Hilo.ImageWriter.WINCODEC_ERR_UNSUPPORTEDOPERATION:
@@ -116,7 +116,7 @@
                     return encoder.bitmapProperties.setPropertiesAsync(properties);
                 } else {
 
-                    // EXIF is not supported, so rever to bitmap rotation
+                    // EXIF is not supported, so rever to bitmap rotation.
                     var rotation = self.getBitmapRotation(adjustedDegrees);
                     return encoder.bitmapTransform.rotation = rotation;
 
@@ -161,13 +161,12 @@
         normalizeDegrees: function (degrees) {
             var result;
 
-            // convert negative (counter-clockwise 
-            // rotation) to positive (clockwise)
+            // Convert negative rotation (counter-clockwise) to positive (clockwise).
             if (degrees < 0) {
                 degrees = 360 - Math.abs(degrees);
             }
 
-            // round to the nearest 90 degrees
+            // Round to the nearest 90 degrees.
             var remainder = degrees % 90;
             if (remainder < 45) {
                 result = degrees - remainder;
@@ -175,7 +174,7 @@
                 result = degrees + (90 - remainder);
             }
 
-            // Normalize to 0..359
+            // Normalize to values between 0 and 359.
             return result % 360;
         }
     };

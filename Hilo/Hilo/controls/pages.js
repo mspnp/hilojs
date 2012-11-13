@@ -24,13 +24,13 @@
 
     // <SnippetHilojs_1603>
     function bindPageTitle(title) {
-        // bind the title based on the query's month/year
+        // Bind the title based on the query's month/year.
         var pageTitleEl = document.querySelector("#pageTitle");
         WinJS.Binding.processAll(pageTitleEl, { title: title });
     }
     // </SnippetHilojs_1603>
 
-    // Examines the page for `a` tags, extracting the url and wiring
+    // Examines the page for `a` tags, extracting the URL and wiring
     // a handler that invokes the built-in navigation logic.
     function processLinks() {
 
@@ -59,7 +59,7 @@
 
             processLinks();
 
-            // Handle localized string resources for the page
+            // Handle localized string resources for the page.
             WinJS.Resources.processAll();
 
             // Ensure that the `options` argument is consistent with expectations,
@@ -71,7 +71,7 @@
             // it will not resolve `this` correctly at execution time.
             var ready = pageSpecificReadyFunction.bind(this);
 
-            // Invoke the custom `ready`
+            // Invoke the custom `ready`.
             return ready(element, options);
         };
     }

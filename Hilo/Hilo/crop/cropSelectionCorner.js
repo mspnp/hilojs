@@ -31,7 +31,7 @@
     // of the corners is click-and-draggable, to set the
     // position of the corner. 
 
-    // The contructor for a CropSelectionCorner. Takes 2 
+    // The contructor for a CropSelectionCorner. Takes two 
     // parameters:
     // 
     // * el - the DOM element that this corner controls
@@ -77,12 +77,12 @@
 
     var cropSelectionCornerMembers = {
 
-        // Initializes the "mousedown" event for the corner's DOM element
+        // Initializes the "mousedown" event for the corner's DOM element.
         listenToMouseDown: function () {
             this.el.addEventListener("mousedown", this.mouseDown);
         },
 
-        // Removes the "mousedown" event for the corner's DOM element
+        // Removes the "mousedown" event for the corner's DOM element.
         ignoreMouseDown: function () {
             this.el.removeEventListener("mousedown", this.mouseDown);
         },
@@ -95,7 +95,7 @@
             this.window.addEventListener("mouseup", this.mouseUp);
         },
 
-        // Removes the "mouseup" event for the DOM
+        // Removes the "mouseup" event for the DOM.
         ignoreMouseUp: function () {
             this.window.removeEventListener("mouseup", this.mouseUp);
         },
@@ -108,7 +108,7 @@
             this.window.addEventListener("mousemove", this.mouseMove);
         },
 
-        // Removes the "mousemove" event for the DOM
+        // Removes the "mousemove" event for the DOM.
         ignoreMouseMove: function () {
             this.window.removeEventListener("mousemove", this.mouseMove);
         },
@@ -141,7 +141,7 @@
         },
 
         // The "mouseup" event handler. Dispatches a "stop"
-        // event that signifies this corner is no longer being moved
+        // event that signifies this corner is no longer being moved.
         mouseUp: function (e) {
             e.preventDefault();
 
@@ -184,42 +184,42 @@
 
     var positionalCoordFunctions = {};
 
-    // The "top left" corner
+    // The "top left" corner.
     positionalCoordFunctions[topLeft] = function (point) {
         return { startX: point.x, startY: point.y };
     };
 
-    // The "top right" corner
+    // The "top right" corner.
     positionalCoordFunctions[topRight] = function (point) {
         return { endX: point.x, startY: point.y };
     };
 
-    // The "bottom left" corner
+    // The "bottom left" corner.
     positionalCoordFunctions[bottomLeft] = function (point) {
         return { startX: point.x, endY: point.y };
     };
 
-    // The "bottom right" corner
+    // The "bottom right" corner.
     positionalCoordFunctions[bottomRight] = function (point) {
         return { endX: point.x, endY: point.y };
     };
 
-    // The "top middle" corner
+    // The "top middle" corner.
     positionalCoordFunctions[topMiddle] = function (point) {
         return { startY: point.y };
     };
 
-    // The "right middle" corner
+    // The "right middle" corner.
     positionalCoordFunctions[rightMiddle] = function (point) {
         return { endX: point.x };
     };
 
-    // The "bottom middle" corner
+    // The "bottom middle" corner.
     positionalCoordFunctions[bottomMiddle] = function (point) {
         return { endY: point.y };
     };
 
-    // The "left middle" corner
+    // The "left middle" corner.
     positionalCoordFunctions[leftMiddle] = function (point) {
         return { startX: point.x };
     };

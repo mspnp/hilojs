@@ -26,7 +26,7 @@
 
     var cropPresenterMembers = {
 
-        // register event listeners for all of the app bar buttons
+        // Register event listeners for all of the app bar buttons.
         start: function () {
             this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
             this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));

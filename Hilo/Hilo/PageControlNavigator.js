@@ -163,6 +163,9 @@
                         });
                 },
 
+                // This function was added specifically for Hilo. It allows the app to 
+                // reload the current page without creating any additional navigation
+                // history.
                 reload: function () {
                     var afterNavigationPromise = WinJS.Promise.as();
 

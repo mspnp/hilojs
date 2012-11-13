@@ -12,8 +12,8 @@
     // ---------------------
 
     var populateTemplateFor = Hilo.Tiles.populateTemplate,
-        maxNumberOfSets = 5,          // WinRT limits 5 tile notifications per app
-        numberOfImagesPerSet = 5;     // `TileWideImageCollection` supports 5 images per tile
+        maxNumberOfSets = 5,          // WinRT limits 5 tile notifications per app.
+        numberOfImagesPerSet = 5;     // `TileWideImageCollection` supports 5 images per tile.
 
     // For more information about the `TileWideImageCollection` template, see:
     // http://msdn.microsoft.com/en-us/library/windows/apps/hh761491.aspx#TileWideImageCollection
@@ -60,7 +60,7 @@
             // This ensure that each item is choosen at least once.
             current = set[i];
 
-            // swap the items
+            // Swap the items.
             set[i] = temp;
             set[randmon_spot] = current;
         }

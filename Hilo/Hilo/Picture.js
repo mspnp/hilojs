@@ -8,10 +8,17 @@
 (function () {
     "use strict";
 
+    // We define a "class" that is used to wrap an instance of
+    // `Windows.Storage.StorageFile` for use with data binding.
+    // Since some properties are calculated or otherwise loaded
+    // asychronously, we `WinJS.Binding.dynamicObservableMixin`
+    // to provide change notification for the binding system.
+
     // Imports And Constants
     // ---------------------
 
     var thumbnailMode = Windows.Storage.FileProperties.ThumbnailMode;
+    var corruptImageFile = "/images/HiloLogo.scale-100.png";
 
     // Picture Constructor Function
     // ----------------------------
@@ -43,6 +50,8 @@
     // ------------------------
 
     var pictureMethods = {
+
+        // Ensures that all of the picture's resources have been released.
         dispose: function () {
             if (this.isDisposed) { return; }
             this.isDisposed = true;
@@ -52,6 +61,10 @@
             this.urlList = null;
         },
 
+        // There are some properties that the app needs which are immediately available,
+        // even though they may have been prefetched.
+        // We explicitly retrieve these properties and raise the corresponding change
+        // notifications.
         loadFileProperties: function () {
             var file = this.storageFile,
                 self = this;
@@ -70,12 +83,16 @@
             }
         },
 
-        setCorruptImage: function(){
+        // If we have detected that the underlying `StorageFile` is not 
+        // actually an image (or perhaps it is a corrupt image), we
+        // want to ensure that something meaningful is displayed for
+        // the user.
+        setCorruptImage: function () {
             this.updateProperty("isCorrupt", true);
             var urlConfig = {
                 attrName: "url",
-                url: "/images/HiloLogo.scale-100.png",
-                backgroundUrl: 'url("/images/HiloLogo.scale-100.png")',
+                url: corruptImageFile,
+                backgroundUrl: 'url("' + corruptImageFile + ' ")',
             };
 
             this.addUrl(urlConfig);
@@ -83,10 +100,14 @@
             this.addUrl(urlConfig);
         },
 
+        // Ensures that the `UrlCache` has the associated URLs for
+        // the `StorageFile` and its thumbnail. The primary URL uses 
+        // the key `src` and the thumbnail uses the key `url`.
         loadUrls: function () {
             var file = this.storageFile;
             var self = this;
 
+            // Ensure the thumbnail URL is present in the cache.
             if (file && file.getThumbnailAsync) {
                 Hilo.UrlCache.getUrl(file.path, "url", function () {
                     return file.getThumbnailAsync(thumbnailMode.picturesView);
@@ -97,6 +118,7 @@
                 });
             }
 
+            // Ensure the primary image URL is present in the cache.
             Hilo.UrlCache
                 .getUrl(file.name, "src", file)
                 .then(function (urlConfig) {
