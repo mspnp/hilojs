@@ -112,10 +112,10 @@
             // and scale the rect up to the real image size, accounting
             // for the offset of the rectangle location.
             scaleCanvasRectToImage: function (imageToScreenScale, canvasCoords, offset) {
-                var startX = canvasCoords.startX / imageToScreenScale,
-                    startY = canvasCoords.startY / imageToScreenScale,
-                    endX = canvasCoords.endX / imageToScreenScale,
-                    endY = canvasCoords.endY / imageToScreenScale,
+                var startX = Math.round(canvasCoords.startX / imageToScreenScale),
+                    startY = Math.round(canvasCoords.startY / imageToScreenScale),
+                    endX = Math.round(canvasCoords.endX / imageToScreenScale),
+                    endY = Math.round(canvasCoords.endY / imageToScreenScale),
                     height = endY - startY,
                     width = endX - startX;
 
