@@ -32,7 +32,9 @@
             if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
 
                 // When the app is launched, we want to update its tile
-                // on the start screen
+                // on the start screen. Since this API is not accessible 
+                // inside of Blend, we only invoke it when we are not in
+                // design mode.
                 if (!Windows.ApplicationModel.DesignMode.designModeEnabled) {
                     // <SnippetHilojs_1010>
                     var tileUpdater = new Hilo.Tiles.TileUpdater();
@@ -65,12 +67,8 @@
                 .then(function () {
 
                     // <SnippetHilojs_1409>
-                    if (nav.location) {
-                        nav.history.current.initialPlaceholder = true;
-                        return nav.navigate(nav.location, nav.state);
-                    } else {
-                        return nav.navigate(Hilo.navigator.home);
-                    }
+                    nav.history.current.initialPlaceholder = !!nav.location;
+                    return nav.navigate(nav.location || Hilo.navigator.home, nav.state);
                     // </SnippetHilojs_1409>
                 });
 

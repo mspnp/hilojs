@@ -24,7 +24,7 @@
     // ----------------------------
 
     // <SnippetHilojs_1317>
-    function Picture(file) {
+    function PictureConstructor(file) {
         var self = this;
 
         this.addUrl = this.addUrl.bind(this);
@@ -177,10 +177,10 @@
     // Public API
     // ----------
 
-    var PictureBase = WinJS.Class.define(Picture, pictureMethods, pictureTypeMethods);
+    var PictureBaseClass = WinJS.Class.define(PictureConstructor, pictureMethods, pictureTypeMethods);
 
     WinJS.Namespace.define("Hilo", {
-        Picture: WinJS.Class.mix(PictureBase, WinJS.Binding.dynamicObservableMixin, WinJS.Utilities.eventMixin)
+        Picture: WinJS.Class.mix(PictureBaseClass, WinJS.Binding.dynamicObservableMixin, WinJS.Utilities.eventMixin)
     });
 
 }());

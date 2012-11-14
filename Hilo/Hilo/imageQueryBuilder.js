@@ -137,7 +137,7 @@
 
             return this;
         },
-    // </SnippetHilojs_1318>
+        // </SnippetHilojs_1318>
 
         // Build the query object with all of the settings that have
         // been configured for this builder.  
@@ -174,7 +174,8 @@
             // The second ! then inverts the negated value to the
             // correct boolean form, as a true boolean value. For example,
             // `!!""` returns `false` and `!!"something"` returns true.
-            return this._set("bindable", !!bindable);
+            this._set("bindable", !!bindable);
+            return this;
         },
         // </SnippetHilojs_1307>
 
@@ -182,7 +183,8 @@
         // override the `imageAt` setting.
         count: function (count) {
             this._set("startingIndex", 0);
-            return this._set("count", count);
+            this._set("count", count);
+            return this;
         },
 
         // Load a specific image by the image's index. The index
@@ -217,7 +219,8 @@
         // contains both the month's name and the year in 4-digit form:
         // `Jan 2012`, `August 2001`, etc.
         forMonthAndYear: function (monthAndYear) {
-            return this._set("monthAndYear", monthAndYear);
+            this._set("monthAndYear", monthAndYear);
+            return this;
         },
 
         // Internal method to set a key / value pair, used for
@@ -225,7 +228,6 @@
         // <SnippetHilojs_1305>
         _set: function (key, value) {
             this._settings[key] = value;
-            return this;
         }
         // </SnippetHilojs_1305>
     };
@@ -256,11 +258,9 @@
         // from modifying the settings that have been
         // sent to this query object.
         var dupSettings = {};
-        for (var attr in settings) {
-            if (settings.hasOwnProperty(attr)) {
-                dupSettings[attr] = settings[attr];
-            }
-        }
+        Object.keys(settings).forEach(function (key) {
+            dupSettings[key] = settings[key];
+        });
 
         // <SnippetHilojs_1302>
         this.settings = dupSettings;

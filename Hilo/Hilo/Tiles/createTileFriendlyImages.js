@@ -45,7 +45,7 @@
         }).then(function () {
             return outputStream.flushAsync();
 
-        }).then(function () {
+        }).done(function () {
             inputStream.close();
             outputStream.close();
         });
