@@ -10,7 +10,10 @@
 
 .content-wrapper {
     width: 100%;
-    text-align: center;
+    height: 100%;
+    display: -ms-grid;
+    -ms-grid-columns: 1fr;
+    -ms-grid-rows: 1fr 200px;
 }
 
 #rotate-header {
@@ -18,8 +21,9 @@
 }
 
 #rotate-image {
-    margin: 0 auto;
     display: block !important;
+    -ms-grid-row-align: center;
+    -ms-grid-column-align: center;
 }
 
 @media screen and (-ms-view-state: snapped) {
@@ -32,5 +36,4 @@
         max-width: 289px;
         height: auto;
     }
-
 }
