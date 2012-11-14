@@ -8,6 +8,14 @@
 (function () {
     "use strict";
 
+    // `YearList` is a custom control. The majority of its functionality is 
+    // essentially the same as the ListView. We decided to implement this 
+    // control as a thin wrapper over the ListView and extend it in two ways:
+    // * provide an `itemTemplate` responsible for rendering an item in calendat layout
+    // * provide an implementation of `WinJS.UI.IZoomableView`
+    //
+    // Due to the necessary interaction between the item template and the zoomable
+    // view we decided that this was the simplest approach.
     var YearList = WinJS.Class.define(function YearList_ctor(element, options) {
         var self = this;
 
@@ -26,6 +34,9 @@
         listView.layout.maxRows = 3;
         // </SnippetHilojs_1709>
 
+        // The function for the itemTemplate is responsible for taking an
+        // item with a `year` and `months` properties and rendering in the 
+        // form of a "calendar".
         listView.itemTemplate = function (itemPromise, recycledElement) {
 
             var container = recycledElement || document.createElement("div");
@@ -39,6 +50,8 @@
             container.appendChild(body);
             container.className = "year-group";
 
+            // This handler will be used whenever an individual month 
+            // is invoked.
             var handler = function (item, args) {
                 WinJS.UI.Animation.pointerDown(this);
                 self.zoomableView._selectedItem = {
@@ -46,11 +59,12 @@
                     firstItemIndexHint: item.firstItemIndexHint
                 };
                 self.zoomableView._triggerZoom();
-
             };
 
             return itemPromise.then(function (item) {
 
+                // This is where we actually begin constructing
+                // the DOM elements to render the year.
                 header.innerText = item.data.year;
 
                 var monthsInYear = 12;
@@ -99,6 +113,11 @@
             this.listView.layout = layout;
         },
 
+        // In order to function with the SemanticZoom control, our custom control 
+        // must provide a `zoomableView` property that implements [`WinJS.UI.IZoomableView`][1].
+        // Note that we choose not to fully implement the interface in order to limit the 
+        // scope of the project. Ommisions are noted below.
+        // [1]: http://msdn.microsoft.com/en-us/library/windows/apps/br229794.aspx
         zoomableView: {
 
             beginZoom: function () {
@@ -121,10 +140,18 @@
             getPanAxis: function () { return "Horizontal"; },
 
             positionItem: function (item, position) {
+                // This function is called when when navigating from the default view 
+                // to the zoomed-out view. It should position thezoomed-out view 
+                // such that the group associated with `item` is in view.
             },
 
-            handlePointer: function () { debugger; },
-            setCurrentItem: function () { debugger; }
+            setCurrentItem: function (x, y) {
+                // This function is called when when navigating from the zoomed-out view 
+                // to the default view. Specifically, in the case when an item is not 
+                // explcitily invoke. The position data passed in `x` and `y` should be
+                // be to determine with group was under the mouse and thus which item
+                // should be in view when returning to the default view.
+            }
         }
     });
 
