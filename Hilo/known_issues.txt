@@ -1,7 +1,6 @@
 ﻿Known Issues
 ------------
 
-September 21 2012
+November 14 2012
 
-* Touch gestures are not working for the rotate page.
-* The month group page falls into an infinite when using the semanitc if there is a year with no pictures in between years with pictures.
+* When you save a file as a result cropping or rotating, the user is navigated back to the previous page in the history. However, saving the file also produces a `contentsChanged` event. This event is likely to be handled after the navigation completes. In those cases, the page reloads after then navigation. This gives the user the impression of the page loading twice.

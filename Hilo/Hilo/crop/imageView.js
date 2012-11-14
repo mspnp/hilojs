@@ -105,7 +105,6 @@
             // will correctly crop to what has been visually selected.
             this.image.updateOffset({ x: selectionRectScaledToImage.startX, y: selectionRectScaledToImage.startY });
 
-            // Get the data Url for the image and send it along.
             return this.canvasEl.toDataURL();
         },
         // </SnippetHilojs_1609>

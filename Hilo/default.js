@@ -9,7 +9,7 @@
     "use strict";
 
     // # Bootstrapper
-    // This script is responsible for bootstrapping the application.
+    // This script is responsible for bootstrapping the app.
 
     var activation = Windows.ApplicationModel.Activation,
         app = WinJS.Application,
@@ -31,7 +31,7 @@
 
             if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
 
-                // When the app is launched, we want to update its tile
+                // When the app is started, we want to update its tile
                 // on the start screen. Since this API is not accessible 
                 // inside of Blend, we only invoke it when we are not in
                 // design mode.
@@ -42,24 +42,24 @@
                     // </SnippetHilojs_1010>
                 }
 
-                // Begin listening for changes in the `picturesLibrary`,
-                // if files are added, deleted, or modified, then we'll
-                // want to update the current screen accordingly.
+                // Begin listening for changes in the `picturesLibrary`.
+                // If files are added, deleted, or modified, update the 
+                // current screen accordingly.
                 Hilo.contentChangedListener
                     .listen(Windows.Storage.KnownFolders.picturesLibrary);
 
             } else {
-                // This application has been reactivated from suspension.
-                // Restore application state here.
+                // This app has been reactivated from suspension.
+                // Restore app state here.
             }
 
             // If any history is found in the `sessionState`, we need to
-            // restore it for WinJS.
+            // restore it.
             if (app.sessionState.history) {
                 nav.history = app.sessionState.history;
             }
 
-            // After we process the UI (search the DOM for winControls),
+            // After we process the UI (search the DOM for data-win-control),
             // we'll navigate to the current page. These are async operations
             // and they will return a promise.
             var processAndNavigate = WinJS.UI
@@ -72,8 +72,6 @@
                     // </SnippetHilojs_1409>
                 });
 
-            // Pass along the promise we just created so that WinJS will know 
-            // when our bootstrapping work has completed.
             args.setPromise(processAndNavigate);
         }
     }, false);
@@ -81,7 +79,7 @@
 
     // <SnippetHilojs_1801>
     app.addEventListener("checkpoint", function (args) {
-        // The application is about to be suspended, so we save the current
+        // The app is about to be suspended, so we save the current
         // navigation history.
         app.sessionState.history = nav.history;
     }, false);
