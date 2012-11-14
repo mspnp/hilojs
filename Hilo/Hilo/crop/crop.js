@@ -16,7 +16,7 @@
     // Page Control
     // ------------
 
-    var page = {
+    Hilo.controls.pages.define("crop", {
 
         ready: function (element, pageOptions) {
             var self = this;
@@ -104,7 +104,6 @@
         getAnimationElements: function () {
             return [];
         }
-    };
+    });
 
-    Hilo.controls.pages.define("crop", page);
 }());

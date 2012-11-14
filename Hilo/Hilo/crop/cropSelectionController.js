@@ -8,96 +8,94 @@
 (function () {
     "use strict";
 
-    // Rubber Band Controller Constructor
+    // Rubber Band Controller Definition
     // ----------------------------------
 
-    function CropSelectionControllerConstructor(cropSelection, canvasEl, cropSelectionEl) {
-        this.canvas = canvasEl;
-        this.cropSelectionEl = cropSelectionEl;
-        this.cropSelection = cropSelection;
+    var CropSelectionController = WinJS.Class.define(
 
-        this.reset();
-        this.setupCorners();
-        cropSelection.addEventListener("reset", this.reset.bind(this));
-    }
+        function CropSelectionControllerConstructor(cropSelection, canvasEl, cropSelectionEl) {
+            this.canvas = canvasEl;
+            this.cropSelectionEl = cropSelectionEl;
+            this.cropSelection = cropSelection;
 
-    // Rubber Band Controller Members
-    // ------------------------------
-
-    var cropSelectionControllerMembers = {
-
-        reset: function () {
-            this.boundingRect = this.canvas.getBoundingClientRect();
+            this.reset();
+            this.setupCorners();
+            cropSelection.addEventListener("reset", this.reset.bind(this));
         },
 
-        setupCorners: function () {
-            var position = Hilo.Crop.CropSelectionCorner.position;
+        {
+            reset: function () {
+                this.boundingRect = this.canvas.getBoundingClientRect();
+            },
 
-            this.addCorner("#topLeft", position.topLeft);
-            this.addCorner("#topRight", position.topRight);
-            this.addCorner("#bottomLeft", position.bottomLeft);
-            this.addCorner("#bottomRight", position.bottomRight);
-            this.addCorner("#topMiddle", position.topMiddle);
-            this.addCorner("#rightMiddle", position.rightMiddle);
-            this.addCorner("#bottomMiddle", position.bottomMiddle);
-            this.addCorner("#leftMiddle", position.leftMiddle);
-        },
+            setupCorners: function () {
+                var position = Hilo.Crop.CropSelectionCorner.position;
 
-        addCorner: function (selector, position) {
-            if (!this.corners) { this.corners = {}; }
+                this.addCorner("#topLeft", position.topLeft);
+                this.addCorner("#topRight", position.topRight);
+                this.addCorner("#bottomLeft", position.bottomLeft);
+                this.addCorner("#bottomRight", position.bottomRight);
+                this.addCorner("#topMiddle", position.topMiddle);
+                this.addCorner("#rightMiddle", position.rightMiddle);
+                this.addCorner("#bottomMiddle", position.bottomMiddle);
+                this.addCorner("#leftMiddle", position.leftMiddle);
+            },
 
-            var el = this.cropSelectionEl.querySelector(selector);
-            var corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
-            this.corners[position] = corner;
+            addCorner: function (selector, position) {
+                if (!this.corners) { this.corners = {}; }
 
-            corner.addEventListener("start", this.startCornerMove.bind(this));
-            corner.addEventListener("move", this.cornerMove.bind(this));
-            corner.addEventListener("stop", this.stopCornerMove.bind(this));
-        },
+                var el = this.cropSelectionEl.querySelector(selector);
+                var corner = new Hilo.Crop.CropSelectionCorner(window, el, position);
+                this.corners[position] = corner;
 
-        startCornerMove: function (args) {
-            this._currentCorner = args.detail.corner;
-        },
+                corner.addEventListener("start", this.startCornerMove.bind(this));
+                corner.addEventListener("move", this.cornerMove.bind(this));
+                corner.addEventListener("stop", this.stopCornerMove.bind(this));
+            },
 
-        stopCornerMove: function () {
-            this._currentCorner = null;
-        },
+            startCornerMove: function (args) {
+                this._currentCorner = args.detail.corner;
+            },
 
-        cornerMove: function (args) {
-            var coords = args.detail.coords;
-            var point = this.getCanvasPoint(coords);
-            this.moveCropSelection(this._currentCorner, point);
-        },
+            stopCornerMove: function () {
+                this._currentCorner = null;
+            },
 
-        moveCropSelection: function (cornerToMove, moveToPoint) {
-            var coords = cornerToMove.getUpdatedCoords(moveToPoint);
+            cornerMove: function (args) {
+                var coords = args.detail.coords;
+                var point = this.getCanvasPoint(coords);
+                this.moveCropSelection(this._currentCorner, point);
+            },
 
-            for (var attr in coords) {
-                if (coords.hasOwnProperty(attr)) {
-                    this.cropSelection[attr] = coords[attr];
+            moveCropSelection: function (cornerToMove, moveToPoint) {
+                var coords = cornerToMove.getUpdatedCoords(moveToPoint);
+
+                for (var attr in coords) {
+                    if (coords.hasOwnProperty(attr)) {
+                        this.cropSelection[attr] = coords[attr];
+                    }
                 }
+            },
+
+            getCanvasPoint: function (coords) {
+                var rect = this.boundingRect;
+
+                var x = (coords.x - rect.left);
+                var y = (coords.y - rect.top);
+
+                return {
+                    x: x,
+                    y: y
+                };
             }
-        },
 
-        getCanvasPoint: function (coords) {
-            var rect = this.boundingRect;
-
-            var x = (coords.x - rect.left);
-            var y = (coords.y - rect.top);
-
-            return {
-                x: x,
-                y: y
-            };
-        }
-
-    };
+        });
 
     // Public API
     // ----------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        CropSelectionController: WinJS.Class.mix(CropSelectionControllerConstructor, cropSelectionControllerMembers, WinJS.Utilities.eventMixin)
+        CropSelectionController: WinJS.Class.mix(CropSelectionController, WinJS.Utilities.eventMixin)
     });
 
 })();

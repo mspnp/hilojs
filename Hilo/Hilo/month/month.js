@@ -16,7 +16,7 @@
     // Page Control
     // ------------
 
-    var monthPageControlMembers = {
+    Hilo.controls.pages.define("month", {
 
         ready: function (element, options) {
             var self = this;
@@ -49,8 +49,6 @@
             Hilo.UrlCache.clearAll();
         }
 
-    };
-
-    Hilo.controls.pages.define("month", monthPageControlMembers);
+    });
 
 })();

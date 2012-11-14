@@ -9,66 +9,75 @@
     "use strict";
     var pointerDeviceType = Windows.Devices.Input.PointerDeviceType;
 
-    // <SnippetHilojs_1713>
-    function TouchProviderConstructor(inputElement) {
+    // TouchProvider Definition
+    // ------------------------
 
-        var recognizer = new Windows.UI.Input.GestureRecognizer();
-        recognizer.gestureSettings = Windows.UI.Input.GestureSettings.manipulationRotate;
+    var TouchProvider = WinJS.Class.define(
 
-        this._manipulationUpdated = this._manipulationUpdated.bind(this);
-        this._manipulationCompleted = this._manipulationCompleted.bind(this);
+        // <SnippetHilojs_1713>
+        function TouchProviderConstructor(inputElement) {
 
-        inputElement.addEventListener("MSPointerDown", function (evt) {
-            var pp = evt.currentPoint;
-            if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-            recognizer.processDownEvent(pp);
-            }
-        }, false);
+            var recognizer = new Windows.UI.Input.GestureRecognizer();
+            recognizer.gestureSettings = Windows.UI.Input.GestureSettings.manipulationRotate;
 
-        inputElement.addEventListener("MSPointerMove", function (evt) {
-            var pps = evt.intermediatePoints;
-            if (pps[0] && pps[0].pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-            recognizer.processMoveEvents(pps);
-            }
-        }, false);
+            this._manipulationUpdated = this._manipulationUpdated.bind(this);
+            this._manipulationCompleted = this._manipulationCompleted.bind(this);
 
-        inputElement.addEventListener("MSPointerUp", function (evt) {
-            var pp = evt.currentPoint;
-            if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
-            recognizer.processUpEvent(pp);
-            }
-        }, false);
+            inputElement.addEventListener("MSPointerDown", function (evt) {
+                var pp = evt.currentPoint;
+                if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                    recognizer.processDownEvent(pp);
+                }
+            }, false);
 
-        recognizer.addEventListener("manipulationupdated", this._manipulationUpdated);
-        recognizer.addEventListener("manipulationcompleted", this._manipulationCompleted);
+            inputElement.addEventListener("MSPointerMove", function (evt) {
+                var pps = evt.intermediatePoints;
+                if (pps[0] && pps[0].pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                    recognizer.processMoveEvents(pps);
+                }
+            }, false);
 
-        this.displayRotation = 0;
-    }
-    // </SnippetHilojs_1713>
+            inputElement.addEventListener("MSPointerUp", function (evt) {
+                var pp = evt.currentPoint;
+                if (pp.pointerDevice.pointerDeviceType === pointerDeviceType.touch) {
+                    recognizer.processUpEvent(pp);
+                }
+            }, false);
 
-    var touchProviderMembers = {
+            recognizer.addEventListener("manipulationupdated", this._manipulationUpdated);
+            recognizer.addEventListener("manipulationcompleted", this._manipulationCompleted);
 
-        setRotation: function () {
+            this.displayRotation = 0;
         },
+        // </SnippetHilojs_1713> 
 
-        animateRotation: function () {
-        },
+        {
+            setRotation: function () {
+                // We expect this function to be replaced by the consumer of this object.
+            },
 
-        // <SnippetHilojs_1714>
-        _manipulationUpdated: function (args) {
-            this.setRotation(args.cumulative.rotation);
-        },
+            animateRotation: function () {
+                // We expect this function to be replaced by the consumer of this object.
+            },
 
-        _manipulationCompleted: function (args) {
-            var degrees = args.cumulative.rotation;
-            var adjustment = Math.round(degrees / 90) * 90;
-            this.animateRotation(adjustment);
-        }
-        // </SnippetHilojs_1714>
-    };
+            // <SnippetHilojs_1714>
+            _manipulationUpdated: function (args) {
+                this.setRotation(args.cumulative.rotation);
+            },
+
+            _manipulationCompleted: function (args) {
+                var degrees = args.cumulative.rotation;
+                var adjustment = Math.round(degrees / 90) * 90;
+                this.animateRotation(adjustment);
+            }
+            // </SnippetHilojs_1714>
+        });
+
+    // Public API
+    // ----------
 
     WinJS.Namespace.define("Hilo.Rotate", {
-        TouchProvider: WinJS.Class.define(TouchProviderConstructor, touchProviderMembers)
+        TouchProvider: TouchProvider
     });
 
 })();

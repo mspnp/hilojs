@@ -1,52 +1,51 @@
 ﻿(function () {
     "use strict";
 
-    // AppBar Presenter Constructor
-    // --------------------------
+    // AppBarPresenter Definition
+    // ----------
 
-    function AppBarPresenterConstructor(el) {
-        this.el = el;
-        this.menu = el.winControl;
+    var AppBarPresenter = WinJS.Class.define(
 
-        this.setupButtons();
-        this.menu.show();
-    }
+        function AppBarPresenterConstructor(el) {
+            this.el = el;
+            this.menu = el.winControl;
 
-    // AppBar Presenter Members
-    // ----------------------
-
-    var appBarPresenterMembers = {
-        setupButtons: function () {
-            this.addButtonHandler("#save", this.saveClicked.bind(this));
-            this.addButtonHandler("#reset", this.cancelClicked.bind(this));
-            this.addButtonHandler("#unSnap", this.unSnapClicked.bind(this));
+            this.setupButtons();
+            this.menu.show();
         },
 
-        addButtonHandler: function (selector, handler) {
-            var button = this.el.querySelector(selector);
-            button.addEventListener("click", handler);
-        },
+        {
+            setupButtons: function () {
+                this.addButtonHandler("#save", this.saveClicked.bind(this));
+                this.addButtonHandler("#reset", this.cancelClicked.bind(this));
+                this.addButtonHandler("#unSnap", this.unSnapClicked.bind(this));
+            },
 
-        unSnapClicked: function () {
-            this.dispatchEvent("unsnap", {});
-        },
+            addButtonHandler: function (selector, handler) {
+                var button = this.el.querySelector(selector);
+                button.addEventListener("click", handler);
+            },
 
-        saveClicked: function (e) {
-            e.preventDefault();
-            this.dispatchEvent("save", {});
-        },
+            unSnapClicked: function () {
+                this.dispatchEvent("unsnap", {});
+            },
 
-        cancelClicked: function (e) {
-            e.preventDefault();
-            this.dispatchEvent("cancel", {});
-        }
-    };
+            saveClicked: function (e) {
+                e.preventDefault();
+                this.dispatchEvent("save", {});
+            },
 
-    // AppBar Presenter Definition
-    // -------------------------
+            cancelClicked: function (e) {
+                e.preventDefault();
+                this.dispatchEvent("cancel", {});
+            }
+        });
+
+    // Public API
+    // ----------
 
     WinJS.Namespace.define("Hilo.Crop", {
-        AppBarPresenter: WinJS.Class.mix(AppBarPresenterConstructor, appBarPresenterMembers, WinJS.Utilities.eventMixin)
+        AppBarPresenter: WinJS.Class.mix(AppBarPresenter, WinJS.Utilities.eventMixin)
     });
 
 })();

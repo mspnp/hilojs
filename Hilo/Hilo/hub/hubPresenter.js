@@ -15,7 +15,7 @@
     // The maximum number of images to display on the hub page .
     var maxImageCount = 6;
 
-    // Hub Presenter Constructor
+    // Hub Presenter Definition
     // -------------------------------
 
     // The Hub presenter is an implementation of [the mediator pattern][1],
@@ -38,180 +38,179 @@
     //
     // [1]: http://en.wikipedia.org/wiki/Mediator_pattern
     //
-    function HubPresenterConstructor(nav, hiloAppBar, listview, queryBuilder) {
-        this.nav = nav;
-        this.hiloAppBar = hiloAppBar;
-        this.listview = listview;
-        this.queryBuilder = queryBuilder;
 
-        Hilo.bindFunctionsTo(this, [
-            "loadImages",
-            "bindImages",
-            "selectionChanged",
-            "itemClicked",
-            "displayLibraryEmpty",
-        ]);
-    };
+    var HubViewPresenter = WinJS.Class.define(
 
-    // Hub Presenter Methods
-    // ---------------------------
+        function HubPresenterConstructor(nav, hiloAppBar, listview, queryBuilder) {
+            this.nav = nav;
+            this.hiloAppBar = hiloAppBar;
+            this.listview = listview;
+            this.queryBuilder = queryBuilder;
 
-    var hubPresenterMembers = {
-
-        // Starts processing the events from individual components, to 
-        // facilitate the functionality of the other components.
-        start: function (folder) {
-
-            this.folder = folder;
-
-            this.listview.addEventListener("selectionChanged", this.selectionChanged);
-            this.listview.addEventListener("itemInvoked", this.itemClicked);
-
-            // Configure and then build the query for this page.
-            // <SnippetHilojs_1301>
-            this.queryBuilder
-                .bindable(true)
-                .prefetchOptions(["System.ItemDate"])
-                .count(maxImageCount);
-            // </SnippetHilojs_1301>
-
-            // Retrieve and display the images.
-            return this.loadImages();
+            Hilo.bindFunctionsTo(this, [
+                "loadImages",
+                "bindImages",
+                "selectionChanged",
+                "itemClicked",
+                "displayLibraryEmpty",
+            ]);
         },
 
-        dispose: function () {
-            if (this.dataSource) {
-                this.dataSource.forEach(function (img) {
-                    img.dispose();
-                });
-            }
-        },
+        {
+            // Starts processing the events from individual components, to 
+            // facilitate the functionality of the other components.
+            start: function (folder) {
 
-        loadImages: function () {
-            var self = this;
+                this.folder = folder;
 
-            // <SnippetHilojs_1309>
-            var query = this.queryBuilder.build(this.folder);
-            // </SnippetHilojs_1309>
+                this.listview.addEventListener("selectionChanged", this.selectionChanged);
+                this.listview.addEventListener("itemInvoked", this.itemClicked);
 
-            // <SnippetHilojs_1313>
-            return query.execute()
-                .then(function (items) {
-                    if (items.length === 0) {
-                        self.displayLibraryEmpty();
-                    } else {
-                        self.bindImages(items);
-                        self.animateEnterPage();
-                    }
-                });
-            // </SnippetHilojs_1313>
-        },
+                // Configure and then build the query for this page.
+                // <SnippetHilojs_1301>
+                this.queryBuilder
+                    .bindable(true)
+                    .prefetchOptions(["System.ItemDate"])
+                    .count(maxImageCount);
+                // </SnippetHilojs_1301>
 
-        // <SnippetHilojs_1315>
-        bindImages: function (items) {
-            this.dataSource = items;
+                // Retrieve and display the images.
+                return this.loadImages();
+            },
 
-            if (items.length > 0) {
-                items[0].className = items[0].className + " first";
-            }
+            dispose: function () {
+                if (this.dataSource) {
+                    this.dataSource.forEach(function (img) {
+                        img.dispose();
+                    });
+                }
+            },
 
-            // We need to know the index of the image with respect to
-            // to the group (month/year) so that we can select it
-            // when we navigate to the detail page.
-            var lastGroup = "";
-            var indexInGroup = 0;
-            items.forEach(function (item) {
-                var group = item.itemDate.getMonth() + " " + item.itemDate.getFullYear();
-                if (group !== lastGroup) {
-                    lastGroup = group;
-                    indexInGroup = 0;
+            loadImages: function () {
+                var self = this;
+
+                // <SnippetHilojs_1309>
+                var query = this.queryBuilder.build(this.folder);
+                // </SnippetHilojs_1309>
+
+                // <SnippetHilojs_1313>
+                return query.execute()
+                    .then(function (items) {
+                        if (items.length === 0) {
+                            self.displayLibraryEmpty();
+                        } else {
+                            self.bindImages(items);
+                            self.animateEnterPage();
+                        }
+                    });
+                // </SnippetHilojs_1313>
+            },
+
+            // <SnippetHilojs_1315>
+            bindImages: function (items) {
+                this.dataSource = items;
+
+                if (items.length > 0) {
+                    items[0].className = items[0].className + " first";
                 }
 
-                item.groupIndex = indexInGroup;
-                indexInGroup++;
-            });
+                // We need to know the index of the image with respect to
+                // to the group (month/year) so that we can select it
+                // when we navigate to the detail page.
+                var lastGroup = "";
+                var indexInGroup = 0;
+                items.forEach(function (item) {
+                    var group = item.itemDate.getMonth() + " " + item.itemDate.getFullYear();
+                    if (group !== lastGroup) {
+                        lastGroup = group;
+                        indexInGroup = 0;
+                    }
 
-            this.listview.setDataSource(items);
-        },
-        // </SnippetHilojs_1315>
+                    item.groupIndex = indexInGroup;
+                    indexInGroup++;
+                });
 
-        displayLibraryEmpty: function () {
-            this.hiloAppBar.disableButtons();
-            this.listview.hide();
+                this.listview.setDataSource(items);
+            },
+            // </SnippetHilojs_1315>
 
-            document.querySelector("#navigateToMonth").style.display = "none";
-            document.querySelector(".empty-library").style.display = "block";
-        },
+            displayLibraryEmpty: function () {
+                this.hiloAppBar.disableButtons();
+                this.listview.hide();
 
-        animateEnterPage: function () {
-            var elements = document.querySelectorAll(".titlearea, section[role=main]");
-            WinJS.UI.Animation.enterPage(elements);
-        },
+                document.querySelector("#navigateToMonth").style.display = "none";
+                document.querySelector(".empty-library").style.display = "block";
+            },
 
-        // The callback method for item selection in the listview changing.
-        // This function coordinates the selection changes with the 
-        // HiloAppBarPresenter to show and hide it appropriately.
-        selectionChanged: function (args) {
+            animateEnterPage: function () {
+                var elements = document.querySelectorAll(".titlearea, section[role=main]");
+                WinJS.UI.Animation.enterPage(elements);
+            },
 
-            if (args.detail.hasItemSelected) {
+            // The callback method for item selection in the listview changing.
+            // This function coordinates the selection changes with the 
+            // HiloAppBarPresenter to show and hide it appropriately.
+            selectionChanged: function (args) {
 
-                var picture = args.detail.item;
+                if (args.detail.hasItemSelected) {
 
-                // Build the query for the selected item.
+                    var picture = args.detail.item;
+
+                    // Build the query for the selected item.
+                    var options = this.buildQueryForPicture(picture);
+
+                    // If an image is selected, show the app bar 
+                    // with the "crop" and "rotate" buttons.
+                    this.hiloAppBar.setNavigationOptions(options, true);
+
+                } else {
+                    // If no images are selected, hide the app bar.
+                    this.hiloAppBar.clearNavigationOptions(true);
+                }
+            },
+
+            // When an item is "invoked" (clicked or tapped), navigate to
+            // the detail screen to display this image in the month-group
+            // that it belongs to, based on the "ItemDate" of the picture.
+            // <SnippetHilojs_1402>
+            itemClicked: function (args) {
+
+                // Get the `Hilo.Picture` item that was bound to the invoked image,
+                // and the item index from the list view control.
+                var picture = args.detail.item.data;
+
+                // Build the query that can find this picture within it's month group.
                 var options = this.buildQueryForPicture(picture);
 
-                // If an image is selected, show the app bar 
-                // with the "crop" and "rotate" buttons.
-                this.hiloAppBar.setNavigationOptions(options, true);
+                // Navigate to the detail view, specifying the month query to
+                // show, and the index of the individual item that was invoked.
+                this.nav.navigate("/Hilo/detail/detail.html", options);
+            },
+            // </SnippetHilojs_1402>
 
-            } else {
-                // If no images are selected, hide the app bar.
-                this.hiloAppBar.clearNavigationOptions(true);
+            buildQueryForPicture: function (picture) {
+
+                // Build the query for the month and year of the invoked image.
+                var query = this.queryBuilder
+                    .reset()
+                    .bindable(true)
+                    .forMonthAndYear(picture.itemDate)
+                    .build(knownFolders.picturesLibrary);
+
+                return {
+                    query: query,
+                    itemIndex: picture.groupIndex,
+                    itemName: picture.name,
+                    picture: picture
+                };
             }
-        },
-
-        // When an item is "invoked" (clicked or tapped), navigate to
-        // the detail screen to display this image in the month-group
-        // that it belongs to, based on the "ItemDate" of the picture.
-        // <SnippetHilojs_1402>
-        itemClicked: function (args) {
-
-            // Get the `Hilo.Picture` item that was bound to the invoked image,
-            // and the item index from the list view control.
-            var picture = args.detail.item.data;
-
-            // Build the query that can find this picture within it's month group.
-            var options = this.buildQueryForPicture(picture);
-
-            // Navigate to the detail view, specifying the month query to
-            // show, and the index of the individual item that was invoked.
-            this.nav.navigate("/Hilo/detail/detail.html", options);
-        },
-        // </SnippetHilojs_1402>
-
-        buildQueryForPicture: function (picture) {
-
-            // Build the query for the month and year of the invoked image.
-            var query = this.queryBuilder
-                .reset()
-                .bindable(true)
-                .forMonthAndYear(picture.itemDate)
-                .build(knownFolders.picturesLibrary);
-
-            return {
-                query: query,
-                itemIndex: picture.groupIndex,
-                itemName: picture.name,
-                picture: picture
-            };
-        }
-    };
+        });
 
     // Public API
     // ----------
 
     WinJS.Namespace.define("Hilo.Hub", {
-        HubViewPresenter: WinJS.Class.define(HubPresenterConstructor, hubPresenterMembers)
+        HubViewPresenter: HubViewPresenter
     });
 
 })();

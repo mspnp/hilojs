@@ -11,8 +11,7 @@
     // Page Control
     // ------------
 
-    var page = {
-
+    Hilo.controls.pages.define("rotate", {
 
         ready: function (element, options) {
 
@@ -49,10 +48,8 @@
 
         updateLayout: function (element, viewState, lastViewState) {
             this.presenter.adjustImageSize();
-        },
+        }
 
-    };
-
-    Hilo.controls.pages.define("rotate", page);
+    });
 
 }());

@@ -11,7 +11,7 @@
     // Page Control
     // ------------
 
-    var page = {
+    Hilo.controls.pages.define("detail", {
 
         // <SnippetHilojs_1203>
         // <SnippetHilojs_1619>
@@ -30,7 +30,11 @@
             var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");
 
-            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripEl, flipviewEl, hiloAppBar, WinJS.Navigation);
+            var flipviewPresenter = new Hilo.Detail.FlipviewPresenter(flipviewEl);
+            var filmstripPresenter = new Hilo.Detail.FilmstripPresenter(filmstripEl);
+
+
+            var detailPresenter = new Hilo.Detail.DetailPresenter(filmstripPresenter, flipviewPresenter, hiloAppBar, WinJS.Navigation);
             detailPresenter.addEventListener("pageSelected", function (args) {
                 var itemIndex = args.detail.itemIndex;
                 options.itemIndex = itemIndex;
@@ -49,8 +53,6 @@
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
         }
-    };
-
-    Hilo.controls.pages.define("detail", page);
+    });
 
 }());

@@ -15,7 +15,9 @@
 
     // Page Control
     // ---------------
-    var page = {
+
+    // <SnippetHilojs_1403>
+    Hilo.controls.pages.define("hub", {
 
         // <SnippetHilojs_1408>
         // <SnippetHilojs_1618>
@@ -58,12 +60,7 @@
             this.hubViewPresenter.dispose();
             this.hubViewPresenter = null;
         }
-    };
-
-    // Public API
-    // ----------
-    // <SnippetHilojs_1403>
-    Hilo.controls.pages.define("hub", page);
+    });
     // </SnippetHilojs_1403>
 
 }());
