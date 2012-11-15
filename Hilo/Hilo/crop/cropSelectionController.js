@@ -13,8 +13,8 @@
 
     var CropSelectionController = WinJS.Class.define(
 
-        function CropSelectionControllerConstructor(cropSelection, canvasEl, cropSelectionEl) {
-            this.canvas = canvasEl;
+        function CropSelectionControllerConstructor(cropSelection, imageView, cropSelectionEl) {
+            this.imageView = imageView;
             this.cropSelectionEl = cropSelectionEl;
             this.cropSelection = cropSelection;
 
@@ -25,7 +25,10 @@
 
         {
             reset: function () {
-                this.boundingRect = this.canvas.getBoundingClientRect();
+                if (this.imageView.tooSmallTooCrop) {
+                    this.cropSelectionEl.style.display = "none";
+                }
+                this.boundingRect = this.imageView.getBoundingClientRect();
             },
 
             setupCorners: function () {

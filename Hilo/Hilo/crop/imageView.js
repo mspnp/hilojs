@@ -37,7 +37,7 @@
             canvasEl.addEventListener("click", this.click.bind(this));
             // </SnippetHilojs_1702>
 
-            this.loadImage(image.dataUrl);
+            //this.loadImage(image.dataUrl);
         },
 
         {
@@ -50,6 +50,7 @@
             run: function () {
                 this.imageToScreenScale = this.calculateScaleToScreen(this.image.imageSize);
                 var imageRect = this.sizeToRect(this.image.imageSize);
+                this.tooSmallTooCrop = (imageRect.height < 10 || imageRect.width < 10);
                 this.drawImageSelectionToScale(imageRect, this.imageToScreenScale);
                 this.drawImage();
             },
@@ -191,6 +192,10 @@
             resizeCanvas: function (canvasSize) {
                 this.canvasEl.height = canvasSize.height;
                 this.canvasEl.width = canvasSize.width;
+            },
+
+            getBoundingClientRect: function () {
+                return this.canvasEl.getBoundingClientRect();
             }
         });
 
