@@ -67,8 +67,12 @@
                 .then(function () {
 
                     // <SnippetHilojs_1409>
-                    nav.history.current.initialPlaceholder = !!nav.location;
-                    return nav.navigate(nav.location || Hilo.navigator.home, nav.state);
+                    if (nav.location) {
+                        nav.history.current.initialPlaceholder = true;
+                        return nav.navigate(nav.location, nav.state);
+                    } else {
+                        return nav.navigate(Hilo.navigator.home);
+                    }
                     // </SnippetHilojs_1409>
                 });
 
