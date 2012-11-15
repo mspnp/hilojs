@@ -11,7 +11,9 @@
             this.menu = el.winControl;
 
             this.setupButtons();
+
             this.menu.show();
+            this.menu.sticky = true;
         },
 
         {
