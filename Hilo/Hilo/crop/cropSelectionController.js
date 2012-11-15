@@ -69,12 +69,11 @@
 
             moveCropSelection: function (cornerToMove, moveToPoint) {
                 var coords = cornerToMove.getUpdatedCoords(moveToPoint);
+                var cropSelection = this.cropSelection;
 
-                for (var attr in coords) {
-                    if (coords.hasOwnProperty(attr)) {
-                        this.cropSelection[attr] = coords[attr];
-                    }
-                }
+                Object.keys(coords).forEach(function (key) {
+                    cropSelection[key] = coords[key];
+                });
             },
 
             getCanvasPoint: function (coords) {
