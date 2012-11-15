@@ -185,6 +185,7 @@
 
             setImageSubset: function (imageCoords) {
                 this.imageSubset = imageCoords;
+                this.tooSmallTooCrop = (this.imageSubset.height < 10 || this.imageSubset.width < 10);
             },
 
             // Change the size of the specified canvas element to the calculated
