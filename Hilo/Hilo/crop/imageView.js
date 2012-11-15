@@ -57,8 +57,8 @@
             drawImage: function () {
                 if (!this.image) { return; }
 
-                var imageHeight = this.imageSubset.endY - this.imageSubset.startY;
-                var imageWidth = this.imageSubset.endX - this.imageSubset.startX;
+                var imageHeight = Math.max(this.imageSubset.endY - this.imageSubset.startY, 1);
+                var imageWidth = Math.max(this.imageSubset.endX - this.imageSubset.startX, 1);
 
                 this.context.drawImage(
                     this.imageToPaint,
@@ -116,8 +116,8 @@
                     startY = Math.round(canvasCoords.startY / imageToScreenScale),
                     endX = Math.round(canvasCoords.endX / imageToScreenScale),
                     endY = Math.round(canvasCoords.endY / imageToScreenScale),
-                    height = endY - startY,
-                    width = endX - startX;
+                    height = Math.max(endY - startY, 1),
+                    width = Math.max(endX - startX, 1);
 
                 return {
                     startX: startX + offset.x,
