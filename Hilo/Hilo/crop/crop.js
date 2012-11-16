@@ -25,6 +25,8 @@
             var imageQuery = pageOptions.query.execute(pageOptions.itemIndex),
                 image = new Hilo.Crop.Image(imageQuery, pageOptions.dataUrl, pageOptions.itemName, pageOptions.offset);
 
+            image.addEventListener("imageNotLoaded", function () { WinJS.Navigation.back(); });
+
             // Wait for the image to load so we can get the correct URL
             // and display it in the crop area.
             image.addEventListener("urlUpdated", function () {

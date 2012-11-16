@@ -116,22 +116,30 @@
             // Take the query result from the image query and display the image that it loaded.
             // <SnippetHilojs_1611>
             _loadAndShowImage: function (queryResult) {
-                var storageFile = queryResult[0].storageFile,
-                    self = this;
-
-                if (storageFile.name !== this.expectedFileName) {
-                    this.navigation.back();
-                    return;
-                }
-
-                this.hiloPicture = new Hilo.Picture(storageFile);
-                this.el.src = this.hiloPicture.src.url;
-
                 var self = this;
-                storageFile.properties.getImagePropertiesAsync().then(function (props) {
-                    self.imageProperties = props;
-                    self.adjustImageSize();
-                })
+
+                if (queryResult.length === 0) {
+                    this.navigation.back();
+
+                } else {
+
+                    var storageFile = queryResult[0].storageFile;
+
+                    if (storageFile.name !== this.expectedFileName) {
+                        this.navigation.back();
+
+                    } else {
+
+                        this.hiloPicture = new Hilo.Picture(storageFile);
+                        this.el.src = this.hiloPicture.src.url;
+
+                        storageFile.properties.getImagePropertiesAsync()
+                            .done(function (props) {
+                                self.imageProperties = props;
+                                self.adjustImageSize();
+                            });
+                    }
+                }
             },
             // </SnippetHilojs_1611>
 

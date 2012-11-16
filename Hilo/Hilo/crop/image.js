@@ -30,14 +30,18 @@
                 var self = this;
 
                 imageQuery.then(function (results) {
-                    self.picture = results[0];
-                    var props = self.picture.properties;
+                    if (results.length === 0) {
+                        self.dispatchEvent("imageNotLoaded");
+                    } else {
+                        self.picture = results[0];
+                        var props = self.picture.properties;
 
-                    self.validateFileName();
-                    var url = self.picture.getUrl("src");
-                    self.setUrl(url);
-                    self.setDataUrl(url);
-                    self.setImageSize(props.height, props.width);
+                        self.validateFileName();
+                        var url = self.picture.getUrl("src");
+                        self.setUrl(url);
+                        self.setDataUrl(url);
+                        self.setImageSize(props.height, props.width);
+                    }
                 });
             },
 
