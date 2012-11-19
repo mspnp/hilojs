@@ -125,6 +125,12 @@
         outline: transparent none 5px;
     }
 
+@media screen and (-ms-high-contrast) {
+    .month-item {
+        -ms-high-contrast-adjust: none;
+    }
+}
+
 @media screen and (-ms-view-state: snapped) {
     .month section[role=main] {
     }
