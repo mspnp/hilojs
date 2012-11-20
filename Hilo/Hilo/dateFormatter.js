@@ -143,7 +143,7 @@
     }
 
     function createFilterFromDate(date) {
-        return createFilterFromYearAndMonth(date.getFullYear(), date.getMonth());
+        return createFilterFromYearAndMonth(date.getFullUTCYear(), date.getUTCMonth());
     }
 
     // Public API

@@ -75,6 +75,7 @@ describe("Image Query Builder", function () {
 
         beforeEach(function () {
             var query = queryBuilder
+                // Query for January 2012.
                 .forMonthAndYear(new Date(2012, 0))
                 .build(storageFolder);
 
@@ -83,7 +84,13 @@ describe("Image Query Builder", function () {
         });
 
         it("should configure the query for the specified month and year", function () {
-            expect(queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T08:00:00Z..2012-02-01T07:59:59Z");
+            // The resulting query will always be against the local time zone.
+            // This means that we need to adjust our spec to test for a local time.
+            // Start with January 1st 2012 (local time).
+            var start = new Date(2012, 0, 1, 0, 0, 0).toISOString().replace(/\.\d\d\dZ$/, "Z");
+            //End on one second before February 1st 2012 (local time).
+            var end = new Date(2012, 0, 31, 23, 59, 59).toISOString().replace(/\.\d\d\dZ$/, "Z");
+            expect(queryOptions.applicationSearchFilter).equals("System.ItemDate:" + start + ".." + end);
         });
     });
     // </SnippetHilojs_2003>
