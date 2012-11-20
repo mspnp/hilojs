@@ -100,7 +100,7 @@
 
             this.zoomableView.beginZoom = function () {
                 self.listView.itemDataSource = self._dataSource;
-            }
+            };
 
             this._initialized = false;
         },

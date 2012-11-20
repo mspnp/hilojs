@@ -286,7 +286,7 @@
                 var self = this;
 
                 return function (itemPromise, recycledElement) {
-                    var template = document.querySelector("#" + templateId)
+                    var template = document.querySelector("#" + templateId);
                     var instance = document.createElement("div");
                     return itemPromise.then(function (item) {
                         instance.innerHTML = template.innerHTML;
@@ -297,7 +297,7 @@
                         });
                         return instance;
                     });
-                }
+                };
             },
 
             selectLayout: function (viewState) {

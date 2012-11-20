@@ -63,7 +63,7 @@
                         if (isNaN(result.actualIndex)) {
                             self.navigation.back();
                         } else {
-                            self.bindImages(images)
+                            self.bindImages(images);
                             self.gotoImage(result.actualIndex, options.picture);
                         }
                     });

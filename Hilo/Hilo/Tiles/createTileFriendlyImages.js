@@ -30,13 +30,14 @@
         var whenEverythingIsReady = WinJS.Promise.join({ opened: whenFileIsOpen, ready: whenThumbailIsReady });
         // </SnippetHilojs_1106>
 
-        var inputStream, outputStream;
+        var inputStream,
+            outputStream;
 
         // <SnippetHilojs_1107>
         whenEverythingIsReady.then(function (args) {
             // `args` contains the output from both `whenFileIsOpen` and `whenThumbailIsReady`.
             // We can identify them by the order they were in when we joined them.
-            outputStream = args.opened
+            outputStream = args.opened;
             var thumbnail = args.ready;
             // </SnippetHilojs_1107>
             inputStream = thumbnail.getInputStreamAt(0);

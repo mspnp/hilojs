@@ -335,7 +335,6 @@
                         break;
                     default:
                         throw new Error("Unsupported number of arguments passed to `query.execute`.");
-                        break;
                 }
 
                 if (count) {

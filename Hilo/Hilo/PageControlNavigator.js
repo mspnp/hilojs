@@ -149,7 +149,7 @@
                     // This logic was customised from the original code provided by the
                     // template to accomodate pages with multiple back buttons. Specifically,
                     // the detail page.
-                    var elements = this.pageElement.querySelectorAll(".win-backbutton")
+                    var elements = this.pageElement.querySelectorAll(".win-backbutton");
 
                     Array.prototype.forEach
                         .call(elements, function (backButton) {
