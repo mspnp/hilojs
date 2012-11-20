@@ -142,7 +142,7 @@
         // Use a regex to find all *spec.js files in the specified folder,
         // including all sub-folders.
         getSpecFileNames: function (folder) {
-            var specTest = /[Ss][Pp][Ee][Cc].*js/;
+            var specTest = /spec.*js/i;
             return this._buildFileListFromRegex(specTest, folder);
         },
 
