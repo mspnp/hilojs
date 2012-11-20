@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("crop selection", function () {
+describe("Crop Selection", function () {
 
     var cropSelection;
 

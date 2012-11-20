@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("live tile", function () {
+describe("Live Tiles", function () {
 
     describe("when updating the tile", function () {
 
@@ -25,22 +25,6 @@ describe("live tile", function () {
                     filesNames = result;
                 })
                 .then(done);
-        });
-
-        xit("should write the thumbnails to the tile thumbnails folder", function (done) {
-
-            // The helper is looking in the wrong folder. However, the problem is that 
-            // even if we correct the folder, the folder we need to look in is not indexed
-            // and we might not get the expect results.
-            // TODO: we need to reevaluate how to test this.
-            var all = filesNames.map(function (file) {
-                return Shared.thumbnailFileExists(file).then(function (fileExists) {
-                    expect(fileExists).equal(true);
-                });
-            });
-
-            Shared.join(all).then(done);
-
         });
 
         // For official specifications on tile image sizes, see:

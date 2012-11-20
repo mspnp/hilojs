@@ -8,7 +8,7 @@
 // ===============================================================================
 
 // <SnippetHilojs_2001>
-describe("image query builder", function () {
+describe("Image Query Builder", function () {
 
     var queryBuilder, storageFolder;
 
@@ -21,7 +21,7 @@ describe("image query builder", function () {
             done();
         });
     });
-// </SnippetHilojs_2001>
+    // </SnippetHilojs_2001>
 
     describe("when building a query", function () {
         var query;
@@ -71,16 +71,19 @@ describe("image query builder", function () {
 
     // <SnippetHilojs_2003>
     describe("when specifying a month and year for images", function () {
-        var query;
+        var queryOptions;
 
         beforeEach(function () {
-            query = queryBuilder
+            var query = queryBuilder
                 .forMonthAndYear(new Date(2012, 0))
                 .build(storageFolder);
+
+            queryOptions = new Windows.Storage.Search.QueryOptions();
+            queryOptions.loadFromString(query._queryOptionsString);
         });
 
         it("should configure the query for the specified month and year", function () {
-            expect(query.queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T06:00:00Z..2012-02-01T05:59:59Z");
+            expect(queryOptions.applicationSearchFilter).equals("System.ItemDate:2012-01-01T08:00:00Z..2012-02-01T07:59:59Z");
         });
     });
     // </SnippetHilojs_2003>

@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("crop selection view", function () {
+describe("Crop Selection View", function () {
 
     var canvasEl, cropSelectionEl, cropSelection, cropSelectionView;
 
@@ -41,7 +41,12 @@ describe("crop selection view", function () {
     beforeEach(function () {
         setupDOMElements();
         var canvasSize = canvasEl.getBoundingClientRect();
-        cropSelection = new Hilo.Crop.CropSelection(canvasSize);
+        cropSelection = new Hilo.Crop.CropSelection({
+            startX: 10,
+            startY: 10,
+            endX: 60,
+            endY: 60
+        });
 
         cropSelectionView = new Hilo.Crop.CropSelectionView(cropSelection, canvasEl, cropSelectionEl);
     });
@@ -56,12 +61,12 @@ describe("crop selection view", function () {
         });
 
         it("should move the cropSelectionEl to the cropSelection's coordinates", function () {
-            var bounds = cropSelectionEl.getBoundingClientRect();
+            var style = cropSelectionEl.style;
 
-            expect(bounds.top).equals(cropSelectionCoords.startX);
-            expect(bounds.left).equals(cropSelectionCoords.startY);
-            expect(bounds.width).equals(cropSelectionCoords.endX - cropSelectionCoords.startX);
-            expect(bounds.height).equals(cropSelectionCoords.endY - cropSelectionCoords.startY);
+            expect(style.top).equals(cropSelectionCoords.startX + "px");
+            expect(style.left).equals(cropSelectionCoords.startY + "px");
+            expect(style.width).equals((cropSelectionCoords.endX - cropSelectionCoords.startX) + "px");
+            expect(style.height).equals((cropSelectionCoords.endY - cropSelectionCoords.startY) + "px");
         });
     });
 

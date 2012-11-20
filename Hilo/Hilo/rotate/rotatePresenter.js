@@ -133,8 +133,9 @@
                         this.hiloPicture = new Hilo.Picture(storageFile);
                         this.el.src = this.hiloPicture.src.url;
 
-                        storageFile.properties.getImagePropertiesAsync()
-                            .done(function (props) {
+                        return storageFile.properties
+                            .getImagePropertiesAsync()
+                            .then(function (props) {
                                 self.imageProperties = props;
                                 self.adjustImageSize();
                             });

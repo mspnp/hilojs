@@ -36,7 +36,10 @@ describe("Rotate Page Presenter", function () {
         el = new Specs.WinControlStub();
         el.style = {};
 
-        picture = new Hilo.Picture(imageFiles[0]);
+        picture = {
+            storageFile: imageFiles[0],
+            getUrl: function () { return "/some/url"; }
+        };
 
         fileLoader = new WinJS.Promise(function (done) {
             done([picture]);
@@ -48,10 +51,6 @@ describe("Rotate Page Presenter", function () {
         navigation = {
             back: function () {
                 navigation.back.wasCalled = true;
-            },
-            navigate: function () {
-                navigation.navigate.wasCalled = true;
-                navigation.navigate.url = arguments[0];
             }
         };
 
@@ -62,7 +61,7 @@ describe("Rotate Page Presenter", function () {
     describe("when the file name matches the expectation", function () {
 
         beforeEach(function (done) {
-            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, fileLoader, "some.jpg", touchProvider, navigation);
+            rotatePresenter = new Hilo.Rotate.RotatePresenter(el, appBarPresenter, fileLoader, "001.jpg", touchProvider, navigation);
             rotatePresenter.start().then(function () { done(); });
         });
 
@@ -87,9 +86,8 @@ describe("Rotate Page Presenter", function () {
             rotatePresenter.start().then(function () { done(); });
         });
 
-        it("should navigate back to the hub page", function () {
-            expect(navigation.navigate.url).equal("/Hilo/hub/hub.html");
-            expect(navigation.navigate.wasCalled).equal(true);
+        it("should navigate back a page", function () {
+            expect(navigation.back.wasCalled).equal(true);
 
         });
     });

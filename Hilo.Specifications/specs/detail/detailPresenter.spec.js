@@ -7,40 +7,62 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-xdescribe("Detail Presenter", function () {
+describe("Detail Presenter", function () {
 
-    var detailPresenter, filmstripPresenter, flipviewPresenter, hiloAppBar;
+    var detailPresenter,
+        filmstripPresenter,
+        flipviewPresenter,
+        hiloAppBar,
+        picture,
+        navigation;
 
-    beforeEach(function () {
+    beforeEach(function (done) {
         filmstripPresenter = new Specs.WinControlStub();
+        filmstripPresenter.bindImages = function () { };
+        filmstripPresenter.selectImageAt = function () { };
+
+        flipviewPresenter = new Specs.WinControlStub();
+        flipviewPresenter.bindImages = function () { };
+        flipviewPresenter.showImageAt = function (index) {
+            flipviewPresenter.showImageAt.wasCalled = true;
+            flipviewPresenter.showImageAt.itemIndex = index;
+        };
 
         hiloAppBar = {
-            setImageIndex: function (index) {
-                hiloAppBar.setImageIndex.wasCalled = true;
-                hiloAppBar.setImageIndex.itemIndex = index;
-            }
-        }
+            setNavigationOptions: function (options) {
+                hiloAppBar.setNavigationOptions.wasCalled = true;
+                hiloAppBar.setNavigationOptions.options = options;
+            },
+            enableButtons: function () { }
+        };
 
-        flipviewPresenter = {
-            showImageAt: function (index) {
-                flipviewPresenter.showImageAt.wasCalled = true;
-                flipviewPresenter.showImageAt.itemIndex = index;
+        navigation = {
+            back: function () {
+                navigation.back.wasCalled = true;
             }
         };
 
-        detailPresenter = new Hilo.Detail.DetailPresenter(flipviewPresenter, filmstripPresenter, hiloAppBar);
+        detailPresenter = new Hilo.Detail.DetailPresenter(filmstripPresenter, flipviewPresenter, hiloAppBar, navigation);
+
+        picture = { name: "some.jpg" };
 
         var query = {
             execute: function () {
-                return WinJS.Promise.as([]);
+                return WinJS.Promise.as([picture]);
             }
         };
-        detailPresenter.start({ query: query, itemIndex: 0, itemName: "some.jpg" });
+
+        detailPresenter
+            .start({ query: query, itemIndex: 0, itemName: "some.jpg", picture: picture })
+            .then(function () { done(); });
     });
 
     describe("when an image has been activated", function () {
         beforeEach(function () {
-            filmstripPresenter.dispatchEvent("imageInvoked", { itemIndex: 1 });
+            filmstripPresenter.dispatchEvent("imageInvoked", {
+                itemIndex: 1,
+                itemPromise: WinJS.Promise.as({ data: picture })
+            });
         });
 
         it("should show the image", function () {
@@ -49,8 +71,11 @@ xdescribe("Detail Presenter", function () {
         });
 
         it("should set the selected image for the image navigation presenter", function () {
-            expect(hiloAppBar.setImageIndex.wasCalled).true;
-            expect(hiloAppBar.setImageIndex.itemIndex).equals(1);
+            var options = hiloAppBar.setNavigationOptions.options;
+
+            expect(hiloAppBar.setNavigationOptions.wasCalled).true;
+            expect(options.itemIndex).equals(1);
+            expect(options.itemName).equals(picture.name);
         });
     });
 

@@ -152,6 +152,12 @@
     <Content Include="..\Hilo\Hilo\imageQueryBuilder.js">
       <Link>Hilo\imageQueryBuilder.js</Link>
     </Content>
+    <Content Include="..\Hilo\Hilo\month\monthPresenter.js">
+      <Link>Hilo\month\monthPresenter.js</Link>
+    </Content>
+    <Content Include="..\Hilo\Hilo\month\yearList.js">
+      <Link>Hilo\month\yearList.js</Link>
+    </Content>
     <Content Include="..\Hilo\Hilo\PageControlNavigator.js">
       <Link>Hilo\PageControlNavigator.js</Link>
     </Content>
@@ -222,12 +228,12 @@
     <Content Include="sampleImages\016.tiff" />
     <Content Include="sampleImages\too-big-for-tile-image.png" />
     <Content Include="specs\crop\appBarPresenter.spec.js" />
+    <Content Include="specs\crop\image.spec.js" />
     <Content Include="specs\crop\imageView.spec.js" />
     <Content Include="specs\crop\cropSelection.spec.js" />
     <Content Include="specs\crop\cropSelectionController.spec.js" />
     <Content Include="specs\crop\cropSelectionCorner.spec.js" />
     <Content Include="specs\crop\cropSelectionView.spec.js" />
-    <Content Include="specs\crop\cropPresenter.spec.js" />
     <Content Include="specs\detail\detailPresenter.spec.js" />
     <Content Include="specs\detail\filmstripPresenter.spec.js" />
     <Content Include="specs\detail\flipviewPresenter.spec.js" />
@@ -235,7 +241,7 @@
     <Content Include="specs\hub\hubPresenter.spec.js" />
     <Content Include="specs\hub\listViewPresenter.spec.js" />
     <Content Include="specs\HiloAppbar\hiloAppbarPresenter.spec.js" />
-    <Content Include="specs\month\month.spec.js" />
+    <Content Include="specs\month\monthPresenter.spec.js" />
     <Content Include="specs\pageControl\pageControlHelper.spec.js" />
     <Content Include="specs\Picture\Picture.spec.js" />
     <Content Include="specs\queries\imageQueryBuilder.spec.js" />

@@ -7,25 +7,41 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-xdescribe("View model for a picture", function () {
+describe("Picture View Model", function () {
     "use strict";
 
-    var viewmodel;
-    var file;
+    var viewmodel,
+        file,
+        imageFiles;
+
+    before(function (done) {
+        // Note that this is a `before` block and not a `beforeEach`.
+        // This is because we only need to copy the thumbnails once
+        // for the entire set of assertions.
+        // If we were to copy the files in a `beforeEach`, the tests
+        // would run slower and we would risk creation collisions.
+        Shared.getImages()
+            .then(function (images) {
+                imageFiles = images;
+            })
+            .then(done);
+    });
 
     beforeEach(function () {
 
-        var retrieveProperties = WinJS.Promise.as({ lookup: function () { } });
-        var imageBlob = new Blob();
+        //var retrieveProperties = WinJS.Promise.as({ lookup: function () { } });
+        //var imageBlob = new Blob();
 
-        file = {
-            name: "my-image",
-            addEventListener: function () { },
-            getThumbnailAsync: function () { return WinJS.Promise.as(imageBlob); },
-            properties: {
-                retrievePropertiesAsync: function () { return retrieveProperties; }
-            }
-        };
+        //file = {
+        //    name: "my-image",
+        //    addEventListener: function () { },
+        //    getThumbnailAsync: function () { return WinJS.Promise.as(imageBlob); },
+        //    properties: {
+        //        retrievePropertiesAsync: function () { return retrieveProperties; }
+        //    }
+        //};
+
+        file = imageFiles[0];
 
         viewmodel = new Hilo.Picture(file);
     });
@@ -37,23 +53,9 @@ xdescribe("View model for a picture", function () {
         });
 
         it("should have a url pointing to a blob url", function () {
-            expect(viewmodel.url).match(/url\(blob:[\dA-F]{8}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{12}\)/);
+            expect(viewmodel.url.backgroundUrl).match(/url\(blob:[\dA-F]{8}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{12}\)/);
         });
 
-    });
-
-    describe("when the underlying thumbnail is not present", function () {
-
-        beforeEach(function () {
-            file.thumbnail = null;
-            file.getThumbnailAsync = function () { return WinJS.Promise.as(null); };
-
-            viewmodel = new Hilo.Picture(file);
-        });
-
-        it("should set the thumbnail url to an empty string", function () {
-            expect(viewmodel.url).equal("");
-        });
     });
 
     describe("when using the convenience method for contructing a view model", function () {
@@ -66,7 +68,7 @@ xdescribe("View model for a picture", function () {
         });
 
         it("should have a url pointing to a blob url", function () {
-            expect(viewmodel.url).match(/url\(blob:[\dA-F]{8}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{12}\)/);
+            expect(viewmodel.url.backgroundUrl).match(/url\(blob:[\dA-F]{8}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{4}-[\dA-F]{12}\)/);
         });
     });
 

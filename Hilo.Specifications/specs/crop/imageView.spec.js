@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("image view", function () {
+describe("Crop Page Image View", function () {
 
     var view, image, cropSelection, canvasEl, imageEl;
 

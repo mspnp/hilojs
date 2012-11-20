@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("hilo appbar presenter", function () {
+describe("Hilo AppBar Control Presenter", function () {
 
     var presenter, el, crop, rotate, nav;
 

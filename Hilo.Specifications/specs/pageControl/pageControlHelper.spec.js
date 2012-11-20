@@ -35,7 +35,7 @@ describe("Helper for page controls", function () {
             });
         });
 
-        describe("with a dehydrated query", function () {
+        describe("with a query is present", function () {
 
             beforeEach(function () {
                 var options = {
@@ -50,22 +50,5 @@ describe("Helper for page controls", function () {
                 expect(attemptedToDeserialize).equal(true);
             });
         });
-
-        describe("with a fully realized query", function () {
-
-            beforeEach(function () {
-                var options = {
-                    query: {
-                        execute: function () { }
-                    }
-                };
-                Hilo.controls.checkOptions(options, deserialize);
-            });
-
-            it("should not attempt to deserialize the query", function () {
-                expect(attemptedToDeserialize).equal(false);
-            });
-        });
-
     });
 });

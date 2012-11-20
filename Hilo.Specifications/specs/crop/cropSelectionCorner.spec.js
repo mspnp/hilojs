@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("crop selection corner", function () {
+describe("Crop Selection Corner Model", function () {
 
     var corner;
 

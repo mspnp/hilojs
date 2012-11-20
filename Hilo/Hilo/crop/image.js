@@ -15,11 +15,14 @@
 
     var Image = WinJS.Class.define(
 
-        function ImageConstructor(imageQuery, dataUrl, expectedFileName, offset) {
+        function ImageConstructor(imageQuery, dataUrl, expectedFileName, offset, navigation) {
             this.offset = offset || { x: 0, y: 0 };
             this.expectedFileName = expectedFileName;
             this.dataUrl = dataUrl;
 
+            this.navigation = navigation || WinJS.Navigation;
+
+            // Begin loaded the image from the query.
             this.loadImageFromQuery(imageQuery);
         },
 
@@ -51,7 +54,7 @@
                 // with the query, we assume that it has been deleted (or modified)
                 // and we send the user back to the hub screen.
                 if (!this.picture || this.picture.name !== this.expectedFileName) {
-                    return WinJS.Navigation.back();
+                    return this.navigation.back();
                 }
             },
 

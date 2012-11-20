@@ -7,7 +7,7 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-describe("crop selection controller", function () {
+describe("Crop Selection Controller", function () {
 
     function setupDOMElements() {
         var frag = document.createDocumentFragment();

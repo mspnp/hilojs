@@ -48,7 +48,7 @@
         },
 
         {
-            _navigate: WinJS.Navigation.navigate,
+            _navigation: WinJS.Navigation,
 
             start: function (targetFolder) {
                 var self = this;
@@ -62,7 +62,7 @@
                     .then(this._queryImagesPerMonth)
                     .then(this._buildViewModelsForMonths)
                     .then(this._createDataSources)
-                    .done(function (dataSources) {
+                    .then(function (dataSources) {
                         self._setupListViews(dataSources.images, dataSources.years);
                         self.loadingIndicatorEl.style.display = "none";
                         self.selectLayout();
@@ -260,7 +260,7 @@
                     var options = self._buildQueryForPicture(item);
                     // Navigate to the detail page to show the results
                     // of this query with the selected item.
-                    self._navigate("/Hilo/detail/detail.html", options);
+                    self._navigation.navigate("/Hilo/detail/detail.html", options);
                 });
             },
 
@@ -291,7 +291,7 @@
                         WinJS.Binding.processAll(instance, item.data);
                         instance.querySelector("a").addEventListener("click", function () {
                             var options = self._buildQueryForPicture(item);
-                            self._navigate("/Hilo/detail/detail.html", options);
+                            self._navigation.navigate("/Hilo/detail/detail.html", options);
                         });
                         return instance;
                     });
