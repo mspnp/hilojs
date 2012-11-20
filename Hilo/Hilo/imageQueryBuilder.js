@@ -265,6 +265,7 @@
 
     var QueryObject = WinJS.Class.define(
 
+        // <SnippetHilojs_1302>
         function QueryObjectConstructor(settings) {
             // Duplicate and the settings by copying them
             // from the original, to a new object. This is
@@ -278,7 +279,6 @@
                 dupSettings[key] = settings[key];
             });
 
-            // <SnippetHilojs_1302>
             this.settings = dupSettings;
 
             // Build the query options.
@@ -298,8 +298,8 @@
             }
 
             this.fileQuery = this._buildFileQuery(queryOptions);
-            // </SnippetHilojs_1302>
         },
+        // </SnippetHilojs_1302>
 
         {
             // Execute the query object. Returns a promise that provides
