@@ -58,6 +58,7 @@
                 this.groupsByKey = {};
                 this.displayedImages = [];
 
+                // <SnippetHilojs_1111>
                 return this._getMonthFoldersFor(targetFolder)
                     .then(this._queryImagesPerMonth)
                     .then(this._buildViewModelsForMonths)
@@ -67,6 +68,7 @@
                         self.loadingIndicatorEl.style.display = "none";
                         self.selectLayout();
                     });
+                // </SnippetHilojs_1111>
             },
 
             // <SnippetHilojs_1503>
@@ -121,6 +123,7 @@
 
                 var foldersWithImages = foldersWithCount.filter(function (data) { return data.count > 0; });
 
+                // <SnippetHilojs_1505>
                 var buildViewModels = foldersWithImages.map(function (folder) {
                     promise = promise.then(function () {
                         return folder.query
@@ -133,7 +136,6 @@
                             return files.getAt(0).properties.retrievePropertiesAsync([itemDateProperty]);
                         })
                         .then(function (retrieved) {
-                            // <SnippetHilojs_1505>
                             var date = retrieved[itemDateProperty];
                             var groupKey = (date.getFullYear() * 100) + (date.getMonth());
                             var firstImage;
@@ -147,7 +149,7 @@
                                     firstImage = image;
                                 }
                             });
-                            // </SnippetHilojs_1505>
+                        // </SnippetHilojs_1505>
 
                             // <SnippetHilojs_1507>
                             var monthGroupViewModel = {
@@ -171,10 +173,10 @@
                 return promise.then(function () { return groups; });
             },
 
+            // <SnippetHilojs_1506>
             _createDataSources: function (monthGroups) {
                 var self = this;
 
-                // <SnippetHilojs_1506>
                 function groupKey(item) {
                     return item.groupKey;
                 }
