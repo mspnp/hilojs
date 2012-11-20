@@ -25,7 +25,7 @@
     "DisplayName":    "ヒーロJavaScript",
     "_DisplayName.comment":    "DisplayName property value for the Visual Element in the package manifest.",
 
-    "DisplayNameProperty":    "ヒーロ",
+    "DisplayNameProperty":    "ヒーロJavaScript",
     "_DisplayNameProperty.comment":    "DisplayName property value for the package manifest. (Hilo)",
 
     "EmptyPicturesTitle":    "フォルダーに写真がありません",
