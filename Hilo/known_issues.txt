@@ -1,6 +1,0 @@
-﻿Known Issues
-------------
-
-November 14 2012
-
-* When you save a file as a result cropping or rotating, the user is navigated back to the previous page in the history. However, saving the file also produces a `contentsChanged` event. This event is likely to be handled after the navigation completes. In those cases, the page reloads after then navigation. This gives the user the impression of the page loading twice.
