@@ -39,6 +39,11 @@ describe("Detail Presenter", function () {
         navigation = {
             back: function () {
                 navigation.back.wasCalled = true;
+            },
+            history: {
+                current: {
+                    state: {}
+                }
             }
         };
 
@@ -76,6 +81,26 @@ describe("Detail Presenter", function () {
             expect(hiloAppBar.setNavigationOptions.wasCalled).true;
             expect(options.itemIndex).equals(1);
             expect(options.itemName).equals(picture.name);
+        });
+    });
+
+    describe("when the loads the initial image", function () {
+        it("should have the corresponding values in the current history", function () {
+            expect(navigation.history.current.state.itemIndex).equals(0);
+            expect(navigation.history.current.state.itemName).equals(picture.name);
+        });
+    });
+
+    describe("when selecting an image (and displaying it)", function () {
+        var pictureName = "pictureAtIndex99.jpg";
+
+        beforeEach(function () {
+            detailPresenter.gotoImage(99, { name: pictureName });
+        });
+
+        it("should override the current history state", function () {
+            expect(navigation.history.current.state.itemIndex).equals(99);
+            expect(navigation.history.current.state.itemName).equals(pictureName);
         });
     });
 

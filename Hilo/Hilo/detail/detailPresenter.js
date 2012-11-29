@@ -105,6 +105,11 @@
 
             gotoImage: function (itemIndex, picture) {
 
+                var state = this.navigation.history.current.state;
+                state.itemIndex = itemIndex;
+                state.itemName = picture.name;
+                state.picture = picture;
+
                 this.flipview.showImageAt(itemIndex);
                 this.filmstrip.selectImageAt(itemIndex);
 
