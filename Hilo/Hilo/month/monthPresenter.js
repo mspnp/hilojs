@@ -79,6 +79,7 @@
             },
             // </SnippetHilojs_1503>
 
+            // <SnippetHilojs_1901>
             _getImageQueryOptions: function () {
                 var queryOptions = new search.QueryOptions(search.CommonFileQuery.orderByDate, [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
                 queryOptions.setPropertyPrefetch(fileProperties.PropertyPrefetchOptions.none, [itemDateProperty]);
@@ -86,6 +87,7 @@
                 queryOptions.indexerOption = search.IndexerOption.useIndexerWhenAvailable;
                 return queryOptions;
             },
+            // </SnippetHilojs_1901>
 
             _queryImagesPerMonth: function (monthFolders) {
                 var self = this;

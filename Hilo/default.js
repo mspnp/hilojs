@@ -27,6 +27,7 @@
 
         var currentState = args.detail;
 
+        // <SnippetHilojs_1010>
         if (currentState.kind === activation.ActivationKind.launch) {
 
             if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
@@ -36,11 +37,10 @@
                 // inside of Blend, we only invoke it when we are not in
                 // design mode.
                 if (!Windows.ApplicationModel.DesignMode.designModeEnabled) {
-                    // <SnippetHilojs_1010>
                     var tileUpdater = new Hilo.Tiles.TileUpdater();
                     tileUpdater.update();
-                    // </SnippetHilojs_1010>
                 }
+            // </SnippetHilojs_1010>
 
                 // Begin listening for changes in the `picturesLibrary`.
                 // If files are added, deleted, or modified, update the 

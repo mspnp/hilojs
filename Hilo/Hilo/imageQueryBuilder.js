@@ -372,7 +372,6 @@
             // `execute` method, instead.
             //
             // [6]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.search.queryoptions.aspx
-            // <SnippetHilojs_1901>
             // <SnippetHilojs_1311>
             _buildQueryOptions: function (settings) {
                 var queryOptions = new search.QueryOptions(settings.sortOrder, settings.fileTypes);
@@ -387,7 +386,6 @@
                 return queryOptions;
             },
             // </SnippetHilojs_1311>
-            // </SnippetHilojs_1901>
 
             // Internal method. Converts a QueryOptions object in to a file query.
             // <SnippetHilojs_1312>
