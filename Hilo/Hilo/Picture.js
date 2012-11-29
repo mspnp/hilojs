@@ -118,7 +118,7 @@
 
                 // Ensure the primary image URL is present in the cache.
                 Hilo.UrlCache
-                    .getUrl(file.name, "src", file)
+                    .getUrl(file.path, "src", file)
                     .then(function (urlConfig) {
                         if (!self.isCorrupt) {
                             self.addUrl(urlConfig);
