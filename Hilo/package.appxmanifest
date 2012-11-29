@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="Microsoft.SDKSamples.Hilo.JS" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" Version="1.0.0.0" />
+  <Identity Name="Microsoft.SDKSamples.Hilo.JS" Publisher="CN=test" Version="1.0.0.0" />
   <Properties>
     <DisplayName>ms-resource:DisplayNameProperty</DisplayName>
     <Logo>images\HiloStoreLogo.png</Logo>

@@ -48,6 +48,8 @@
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <TargetPlatformVersion>8.0</TargetPlatformVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
+    <PackageCertificateThumbprint>75F7E0189F9DA0BB7862BE384E577B4DF68D040A</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>Hilo_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="package.appxmanifest">
@@ -113,6 +115,9 @@
     <Content Include="Hilo\Tiles\createTileUpdates.js" />
     <Content Include="Hilo\bindFunctionsTo.js" />
     <Content Include="Hilo\urlCache.js" />
+    <None Include="Hilo_TemporaryKey.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="images\HiloLogo.scale-100.png" />
     <Content Include="images\HiloLogo.scale-80.png" />
     <Content Include="images\HiloSmallLogo.scale-100.png" />
