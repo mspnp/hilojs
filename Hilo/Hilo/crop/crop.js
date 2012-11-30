@@ -88,10 +88,15 @@
         },
 
         updateLayout: function (element, viewState, lastViewState) {
-            this.cropSelectionView.reset();
-            this.imageView.drawImage();
-            this.cropSelectionView.draw(this.cropSelection.getCoords());
-            this.cropSelectionController.reset();
+            if (viewState === Windows.UI.ViewManagement.ApplicationViewState.snapped) {
+                this.cropSelectionView.reset();
+                this.imageView.drawImage();
+                this.cropSelectionView.draw(this.cropSelection.getCoords());
+                this.cropSelectionController.reset();
+            } else {
+                this.cropPresenter.cropImage();
+            }
+
         },
 
         // Unbind the events we've attached to and clear any image URL

@@ -125,4 +125,8 @@
     .corner {
         display: none;
     }
+
+    .content-wrapper {
+        margin-left: 8px;
+    }
 }
