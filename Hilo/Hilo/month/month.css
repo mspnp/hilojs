@@ -132,19 +132,18 @@
 }
 
 @media screen and (-ms-view-state: snapped) {
-    .month section[role=main] {
-    }
 
     .month .semanticZoomContainer .win-viewport .win-surface {
         margin-left: 0;
     }
 
-    .month .win-item {
-        padding-left: 40px;
+    .win-listview :not(.win-footprint).win-container {
+        background-color: transparent;
     }
 
     .month .thumbnail {
-        width: 232px;
-        height: 160px;
+        margin-top: 2px;
+        width: auto;
+        height: 200px;
     }
 }

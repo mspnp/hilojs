@@ -29,6 +29,8 @@
             this.semanticZoom = semanticZoom;
             this.hiloAppBar = hiloAppBar;
 
+            this.isLoading = true;
+
             this.zoomedOutListView = zoomedOutListView;
             this.zoomedInListView = zoomedInListView;
 
@@ -66,6 +68,7 @@
                     .then(function (dataSources) {
                         self._setupListViews(dataSources.images, dataSources.years);
                         self.loadingIndicatorEl.style.display = "none";
+                        self.isLoading = false;
                         self.selectLayout();
                     });
                 // </SnippetHilojs_1111>
@@ -305,6 +308,8 @@
             selectLayout: function (viewState) {
 
                 viewState = viewState || Windows.UI.ViewManagement.ApplicationView.value;
+
+                if (this.isLoading) { return; }
 
                 if (viewState === Windows.UI.ViewManagement.ApplicationViewState.snapped) {
 

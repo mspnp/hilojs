@@ -36,7 +36,7 @@ describe("Month Presenter", function () {
             .then(done);
     });
 
-    beforeEach(function (done) {
+    beforeEach(function () {
 
         loadingIndicatorEl = { style: { display: "" } };
         semanticZoom = { enableButton: function () { } };
@@ -87,14 +87,54 @@ describe("Month Presenter", function () {
 
         presenter = new Hilo.month.MonthPresenter(loadingIndicatorEl, semanticZoom, zoomedInListView, zoomedOutListView, hiloAppBar, queryBuilder);
         presenter._navigation = navigation;
-        presenter
-            .start(targetFolder)
-            .then(function () { done(); });
+
+    });
+
+    describe("when the layout changes before initialization", function () {
+
+        beforeEach(function () {
+            // We won't invoke `presenter.start` in order to prevent
+            // the initialization from completing. This is not ideal,
+            // but the current design makes it difficult to change 
+            // layout _during_ intialization.
+            presenter.selectLayout(Windows.UI.ViewManagement.ApplicationViewState.snapped);
+        });
+
+        it("should set a new layout", function () {
+            expect(zoomedInListView.layout).equal(undefined);
+        });
     });
 
     describe("when the presenter is finished initializing", function () {
+
+        beforeEach(function (done) {
+            presenter
+            .start(targetFolder)
+            .then(function () { done(); });
+        });
+
         it("should hide the loading element", function () {
             expect(loadingIndicatorEl.style.display).equal("none");
+        });
+
+        describe("when the layout changes to snap", function () {
+            beforeEach(function () {
+                presenter.selectLayout(Windows.UI.ViewManagement.ApplicationViewState.snapped);
+            });
+
+            it("should layout the ListView as a list", function () {
+                expect(zoomedInListView.layout instanceof WinJS.UI.ListLayout).true;
+            });
+        });
+
+        describe("when the layout changes to full", function () {
+            beforeEach(function () {
+                presenter.selectLayout(Windows.UI.ViewManagement.ApplicationViewState.fullScreenLandscape);
+            });
+
+            it("should layout the ListView as a grid", function () {
+                expect(zoomedInListView.layout instanceof WinJS.UI.GridLayout).true;
+            });
         });
     });
 
@@ -102,9 +142,14 @@ describe("Month Presenter", function () {
 
         var itemDate = new Date(1975, 0, 1);
 
-        beforeEach(function () {
-            zoomedInListView.dispatchEvent("iteminvoked", {
-                itemPromise: WinJS.Promise.as({ data: { itemDate: itemDate } })
+        beforeEach(function (done) {
+            presenter
+            .start(targetFolder)
+            .then(function () {
+                zoomedInListView.dispatchEvent("iteminvoked", {
+                    itemPromise: WinJS.Promise.as({ data: { itemDate: itemDate } })
+                });
+                done();
             });
         });
 
