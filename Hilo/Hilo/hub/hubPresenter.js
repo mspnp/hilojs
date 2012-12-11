@@ -100,7 +100,6 @@
                             self.displayLibraryEmpty();
                         } else {
                             self.bindImages(items);
-                            self.animateEnterPage();
                         }
                     });
                 // </SnippetHilojs_1313>
@@ -140,11 +139,6 @@
 
                 document.querySelector("#navigateToMonth").style.display = "none";
                 document.querySelector(".empty-library").style.display = "block";
-            },
-
-            animateEnterPage: function () {
-                var elements = document.querySelectorAll(".titlearea, section[role=main]");
-                WinJS.UI.Animation.enterPage(elements);
             },
 
             // The callback method for item selection in the listview changing.
