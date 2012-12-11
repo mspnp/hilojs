@@ -39,7 +39,7 @@
             // <SnippetHilojs_1320>
             this.presenter = new Hilo.month.MonthPresenter(loadingIndicator, this.semanticZoom, this.zoomInListView, zoomOutListView, hiloAppBar, this.queryBuilder);
             // </SnippetHilojs_1320>
-            this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
+            this.promise = this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
         },
 
         updateLayout: function (element, viewState, lastViewState) {
@@ -49,6 +49,7 @@
         },
 
         unload: function () {
+            this.promise.cancel();
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
         }
