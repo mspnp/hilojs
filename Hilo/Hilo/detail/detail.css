@@ -69,3 +69,8 @@
 }
 
 
+.detail progress {
+    -ms-grid-column-align: center;
+    -ms-grid-row-align: center;
+    -ms-grid-row: 2;
+}

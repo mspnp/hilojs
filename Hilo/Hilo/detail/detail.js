@@ -21,6 +21,8 @@
             var pageTitle = Hilo.dateFormatter.getMonthFrom(queryDate) + " " + Hilo.dateFormatter.getYearFrom(queryDate);
             this.bindPageTitle(pageTitle);
 
+            var progressIndicator = document.querySelector("progress");
+
             // <SnippetHilojs_1711>
             var hiloAppBarEl = document.querySelector("#appbar");
             var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(hiloAppBarEl, WinJS.Navigation, query);
@@ -41,7 +43,7 @@
             this.promise = detailPresenter
                 .start(options)
                 .then(function () {
-
+                    progressIndicator.style.display = "none";
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
