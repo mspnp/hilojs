@@ -400,7 +400,35 @@
             // <SnippetHilojs_1109>
             // <SnippetHilojs_1316>
             _createViewModels: function (files) {
-                return WinJS.Promise.as(files.map(Hilo.Picture.from));
+
+                var count = files.length;
+                var results = new Array(count);
+                var index = count - 1;
+                var proceed = true;
+
+                function onCancellation() {
+                    proceed = false;
+                }
+
+                return new WinJS.Promise(function (complete, error) {
+
+                    function processNextFile() {
+                        var file = files[index];
+                        results[index] = new Hilo.Picture(file);
+                        index--;
+
+                        if (index < 0) {
+                            complete(results);
+                        } else if (!proceed) {
+                            error("Cancel");
+                        } else {
+                            setImmediate(processNextFile);
+                        }
+                    }
+
+                    processNextFile();
+
+                }, onCancellation);
             }
             // </SnippetHilojs_1316>
             // </SnippetHilojs_1109>
