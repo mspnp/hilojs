@@ -16,7 +16,6 @@
         // <SnippetHilojs_1203>
         // <SnippetHilojs_1619>
         ready: function (element, options) {
-
             var query = options.query;
             var queryDate = query.settings.monthAndYear;
             var pageTitle = Hilo.dateFormatter.getMonthFrom(queryDate) + " " + Hilo.dateFormatter.getYearFrom(queryDate);
@@ -39,10 +38,10 @@
                 var itemIndex = args.detail.itemIndex;
                 options.itemIndex = itemIndex;
             });
-
-            detailPresenter
+            this.promise = detailPresenter
                 .start(options)
                 .then(function () {
+
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
@@ -50,6 +49,7 @@
         // </SnippetHilojs_1203>
 
         unload: function () {
+            this.promise.cancel();
             WinJS.Application.removeEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
             Hilo.UrlCache.clearAll();
         }
