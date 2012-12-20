@@ -253,9 +253,9 @@
     function translateToAQSFilter(value) {
         var month, year;
 
-        if (value.getUTCFullYear && value.getUTCMonth) {
-            year = value.getUTCFullYear();
-            month = value.getUTCMonth();
+        if (value.getFullYear && value.getMonth) {
+            year = value.getFullYear();
+            month = value.getMonth();
         } else {
             throw new Error("Expected a date value.");
         }
