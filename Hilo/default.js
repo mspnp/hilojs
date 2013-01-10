@@ -18,16 +18,12 @@
     // According to the official documentation, 
     // http://msdn.microsoft.com/en-us/library/windows/apps/jj215606.aspx
     // the following should always be set to true.
-    // <SnippetHilojs_1601>
     WinJS.Binding.optimizeBindingReferences = true;
-    // </SnippetHilojs_1601>
 
-    // <SnippetHilojs_1803>
     app.addEventListener("activated", function (args) {
 
         var currentState = args.detail;
 
-        // <SnippetHilojs_1010>
         if (currentState.kind === activation.ActivationKind.launch) {
 
             if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
@@ -40,7 +36,6 @@
                     var tileUpdater = new Hilo.Tiles.TileUpdater();
                     tileUpdater.update();
                 }
-            // </SnippetHilojs_1010>
 
                 // Begin listening for changes in the `picturesLibrary`.
                 // If files are added, deleted, or modified, update the 
@@ -66,36 +61,29 @@
                 .processAll()
                 .then(function () {
 
-                    // <SnippetHilojs_1409>
                     if (nav.location) {
                         nav.history.current.initialPlaceholder = true;
                         return nav.navigate(nav.location, nav.state);
                     } else {
                         return nav.navigate(Hilo.navigator.home);
                     }
-                    // </SnippetHilojs_1409>
                 });
 
             args.setPromise(processAndNavigate);
         }
     }, false);
-    // </SnippetHilojs_1803>
 
-    // <SnippetHilojs_1801>
     app.addEventListener("checkpoint", function (args) {
         // The app is about to be suspended, so we save the current
         // navigation history.
         app.sessionState.history = nav.history;
     }, false);
-    // </SnippetHilojs_1801>
 
     // The `resuming` event is not exposed through `WinJS.Application` like
     // the `activated` event. Instead, we need to use the underlying WinRT API.
-    // <SnippetHilojs_1806>
     Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function (args) {
         var tileUpdater = new Hilo.Tiles.TileUpdater();
         tileUpdater.update();
     }, false);
-    // </SnippetHilojs_1806>
     app.start();
 })();

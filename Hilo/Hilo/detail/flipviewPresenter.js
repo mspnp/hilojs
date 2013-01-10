@@ -12,22 +12,16 @@
     // -----------------------------
     var FlipviewPresenter = WinJS.Class.define(
 
-        // <SnippetHilojs_1208>
         function FlipviewPresenterConstructor(el) {
             this.el = el;
             this.winControl = el.winControl;
             this.el.addEventListener("pageselected", this.pageSelected.bind(this));
         },
-        // </SnippetHilojs_1208>
         {
-            // <SnippetHilojs_1606>
-            // <SnippetHilojs_1209>
             bindImages: function (images) {
                 this.bindingList = new WinJS.Binding.List(images);
                 this.winControl.itemDataSource = this.bindingList.dataSource;
             },
-            // </SnippetHilojs_1209>
-            // </SnippetHilojs_1606>
 
             pageSelected: function (args) {
                 var itemIndex = this.winControl.currentPage;

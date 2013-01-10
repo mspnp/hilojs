@@ -17,7 +17,6 @@
         </div>
 
         <section aria-label="Main content" role="main" data-win-design-locked="true">
-            <!-- <SnippetHilojs_1502> -->
             <div id="monthItemTemplate" data-win-control="WinJS.Binding.Template">
                 <div data-win-bind="style.backgroundImage: url.backgroundUrl; className: className"></div>
             </div>
@@ -30,7 +29,6 @@
                 <span data-win-bind="innerHTML: title"></span>&nbsp;(<span data-win-bind="innerText: count"></span>)
                 <div data-win-bind="style.backgroundImage: backgroundUrl;" class="thumbnail"></div>
             </div>
-            <!-- </SnippetHilojs_1502> -->
 
             <div id="yearItemTemplate" data-win-control="WinJS.Binding.Template">
                 <div class="yearMonthItem"><span data-win-bind="innerHTML: title"></span></div>
@@ -39,7 +37,6 @@
             <div id="yearGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
                 <span data-win-bind="innerHTML: title"></span>
             </div>
-            <!-- <SnippetHilojs_1501> -->
             <div class="semanticZoomContainer" data-win-control="WinJS.UI.SemanticZoom">
 
                 <div id="monthgroup" data-win-control="WinJS.UI.ListView" data-win-options="{ 
@@ -47,13 +44,10 @@
                     selectionMode: 'single'}">
                 </div>
 
-                <!-- <SnippetHilojs_1707> -->
                 <div id="yeargroup" data-win-control="Hilo.month.YearList">
                 </div>
-                <!-- </SnippetHilojs_1707> -->
 
             </div>
-            <!-- </SnippetHilojs_1501> -->
 
         </section>
         <progress id="loadingProgress" class="win-ring"></progress>

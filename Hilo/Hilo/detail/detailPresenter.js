@@ -33,7 +33,6 @@
     // Detail Presenter Definition
     // ---------------------------
     var DetailPresenter = WinJS.Class.define(
-        // <SnippetHilojs_1205>
         function DetailPresenterConstructor(filmstripPresenter, flipviewPresenter, hiloAppBar, navigation) {
             this.flipview = flipviewPresenter;
             this.filmstrip = filmstripPresenter;
@@ -44,10 +43,8 @@
                 "bindImages"
             ]);
         },
-        // </SnippetHilojs_1205>
 
         {
-            // <SnippetHilojs_1206>
             start: function (options) {
                 var self = this;
                 this.query = options.query;
@@ -69,9 +66,7 @@
                     });
 
             },
-            // </SnippetHilojs_1206>
 
-            // <SnippetHilojs_1207>
             bindImages: function (images) {
 
                 this.flipview.bindImages(images);
@@ -82,7 +77,6 @@
 
                 this.hiloAppBar.enableButtons();
             },
-            // </SnippetHilojs_1207>
 
             imageClicked: function (args) {
                 var self = this,
@@ -125,9 +119,7 @@
     // Public API
     // ----------
 
-    // <SnippetHilojs_1204>
     WinJS.Namespace.define("Hilo.Detail", {
         DetailPresenter: WinJS.Class.mix(DetailPresenter, WinJS.Utilities.eventMixin)
     });
-    // </SnippetHilojs_1204>
 })();

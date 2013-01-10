@@ -13,8 +13,6 @@
 
     Hilo.controls.pages.define("detail", {
 
-        // <SnippetHilojs_1203>
-        // <SnippetHilojs_1619>
         ready: function (element, options) {
             var query = options.query;
             var queryDate = query.settings.monthAndYear;
@@ -23,10 +21,8 @@
 
             var progressIndicator = document.querySelector("progress");
 
-            // <SnippetHilojs_1711>
             var hiloAppBarEl = document.querySelector("#appbar");
             var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(hiloAppBarEl, WinJS.Navigation, query);
-            // </SnippetHilojs_1711>
 
             var filmstripEl = document.querySelector("#filmstrip");
             var flipviewEl = document.querySelector("#flipview");
@@ -47,8 +43,6 @@
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
-        // </SnippetHilojs_1619>
-        // </SnippetHilojs_1203>
 
         unload: function () {
             this.promise.cancel();

@@ -21,7 +21,6 @@
         function YearList_ctor(element, options) {
             var self = this;
 
-            // <SnippetHilojs_1709>
             var listViewEl = document.createElement("div");
 
             element.appendChild(listViewEl);
@@ -34,7 +33,6 @@
 
             this.listView = listView;
             listView.layout.maxRows = 3;
-            // </SnippetHilojs_1709>
 
             // The function for the itemTemplate is responsible for taking an
             // item with a `year` and `months` properties and rendering in the 

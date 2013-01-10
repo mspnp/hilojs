@@ -149,11 +149,9 @@
                         }).done(function () {
 
                             // Finally, close each stream to release any locks.
-                            // <SnippetHilojs_1902>
                             if (memStream) { memStream.close(); }
                             if (sourceStream) { sourceStream.close(); }
                             if (destStream) { destStream.close(); }
-                            // </SnippetHilojs_1902>
                         });
 
                 }, function (error) {

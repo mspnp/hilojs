@@ -13,12 +13,10 @@
 </head>
 <body>
     <div class="detail fragment">
-        <!-- <SnippetHilojs_1706> -->
         <div id="filmstrip-thumbnail" data-win-control="WinJS.Binding.Template">
             <div class="filmstrip-thumbnail" data-win-bind="style.backgroundImage: url.backgroundUrl;">
             </div>
         </div>
-        <!-- </SnippetHilojs_1706> -->
 
         <div id="nav" data-win-control="WinJS.UI.AppBar" data-win-options="{ layout:'custom', placement:'top'}">
             <button id="filmstrip-backbutton" class="win-backbutton" aria-label="Back"></button>
@@ -35,37 +33,27 @@
         <header aria-label="Header content" role="banner">
             <button id="backButton" class="win-backbutton" aria-label="Back" disabled></button>
             <h1 class="titlearea win-type-ellipsis">
-                <!-- <SnippetHilojs_1602> -->
                 <span id="pageTitle" class="pagetitle" data-win-bind="innerText: title">[Month Year]</span>
-                <!-- </SnippetHilojs_1602> -->
             </h1>
         </header>
 
         <section aria-label="Main content" role="main">
-            <!-- <SnippetHilojs_1604> -->
             <div id="image-template" data-win-control="WinJS.Binding.Template">
                 <div class="flipViewBackground">
                     <div class="flipViewImage" data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc">
                     </div>
                 </div>
             </div>
-            <!-- </SnippetHilojs_1604> -->
 
-            <!-- <SnippetHilojs_1605> -->
             <div id="flipview"
                 data-win-control="WinJS.UI.FlipView"
                 data-win-options="{ 
                     itemTemplate: select('#image-template')}">
             </div>
-            <!-- </SnippetHilojs_1605> -->
         </section>
     	<progress class="win-ring win-large"></progress>
     </div>
 
-    <!-- <SnippetHilojs_1607> -->
-    <!-- <SnippetHilojs_1710> -->
     <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/HiloAppBar/hiloAppBar.html'}"></section>
-    <!-- </SnippetHilojs_1710> -->
-    <!-- </SnippetHilojs_1607> -->
 </body>
 </html>

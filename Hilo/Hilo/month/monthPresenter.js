@@ -60,7 +60,6 @@
                 this.groupsByKey = {};
                 this.displayedImages = [];
 
-                // <SnippetHilojs_1111>
                 return this._getMonthFoldersFor(targetFolder)
                     .then(this._queryImagesPerMonth)
                     .then(this._buildViewModelsForMonths)
@@ -71,18 +70,14 @@
                         self.isLoading = false;
                         self.selectLayout();
                     });
-                // </SnippetHilojs_1111>
             },
 
-            // <SnippetHilojs_1503>
             _getMonthFoldersFor: function (folder) {
                 var queryOptions = new search.QueryOptions(commonFolderQuery.groupByMonth);
                 var query = folder.createFolderQueryWithOptions(queryOptions);
                 return query.getFoldersAsync(0);
             },
-            // </SnippetHilojs_1503>
 
-            // <SnippetHilojs_1901>
             _getImageQueryOptions: function () {
                 var queryOptions = new search.QueryOptions(search.CommonFileQuery.orderByDate, [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
                 queryOptions.setPropertyPrefetch(fileProperties.PropertyPrefetchOptions.none, [itemDateProperty]);
@@ -90,7 +85,6 @@
                 queryOptions.indexerOption = search.IndexerOption.useIndexerWhenAvailable;
                 return queryOptions;
             },
-            // </SnippetHilojs_1901>
 
             _queryImagesPerMonth: function (monthFolders) {
                 var self = this;
@@ -128,7 +122,6 @@
 
                 var foldersWithImages = foldersWithCount.filter(function (data) { return data.count > 0; });
 
-                // <SnippetHilojs_1505>
                 var buildViewModels = foldersWithImages.map(function (folder) {
                     promise = promise.then(function () {
                         return folder.query
@@ -154,9 +147,7 @@
                                     firstImage = image;
                                 }
                             });
-                        // </SnippetHilojs_1505>
 
-                            // <SnippetHilojs_1507>
                             var monthGroupViewModel = {
                                 itemDate: date,
                                 name: firstImage.name,
@@ -171,14 +162,12 @@
                             firstItemIndexHint += filesInFolder.size;
                             self.groupsByKey[groupKey] = monthGroupViewModel;
                             groups.push(monthGroupViewModel);
-                            // </SnippetHilojs_1507>
                         });
                     });
                 });
                 return promise.then(function () { return groups; });
             },
 
-            // <SnippetHilojs_1506>
             _createDataSources: function (monthGroups) {
                 var self = this;
 
@@ -195,7 +184,6 @@
                 }
 
                 var imageList = new WinJS.Binding.List(this.displayedImages).createGrouped(groupKey, groupData, groupSort);
-                // </SnippetHilojs_1506>
 
                 var yearGroups = this._buildYearGroups(monthGroups);
                 var yearList = new WinJS.Binding.List(yearGroups);

@@ -25,7 +25,6 @@
 
     var Picture = WinJS.Class.define(
 
-        // <SnippetHilojs_1317>
         function PictureConstructor(file) {
             var self = this;
 
@@ -46,7 +45,6 @@
             this.loadFileProperties();
             this.loadUrls();
         },
-        // </SnippetHilojs_1317>
 
         {
             // Ensures that all of the picture's resources have been released.

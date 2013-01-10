@@ -21,9 +21,7 @@
         ready: function (element, options) {
             var self = this;
 
-            // <SnippetHilojs_1319>
             this.queryBuilder = new Hilo.ImageQueryBuilder();
-            // </SnippetHilojs_1319>
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
 
@@ -36,9 +34,7 @@
             this.zoomInListView = document.querySelector("#monthgroup").winControl;
             var zoomOutListView = document.querySelector("#yeargroup").winControl;
 
-            // <SnippetHilojs_1320>
             this.presenter = new Hilo.month.MonthPresenter(loadingIndicator, this.semanticZoom, this.zoomInListView, zoomOutListView, hiloAppBar, this.queryBuilder);
-            // </SnippetHilojs_1320>
             this.promise = this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
         },
 

@@ -16,11 +16,8 @@
     // Page Control
     // ---------------
 
-    // <SnippetHilojs_1403>
     Hilo.controls.pages.define("hub", {
 
-        // <SnippetHilojs_1408>
-        // <SnippetHilojs_1618>
         ready: function (element, options) {
 
             // Handle the app bar button clicks for showing and hiding the app bar.
@@ -45,14 +42,10 @@
                     WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
                 });
         },
-        // </SnippetHilojs_1618>
-        // </SnippetHilojs_1408>
 
-        // <SnippetHilojs_1411>
         updateLayout: function (element, viewState, lastViewState) {
             this.listViewPresenter.setViewState(viewState, lastViewState);
         },
-        // </SnippetHilojs_1411>
 
         unload: function () {
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
@@ -61,6 +54,5 @@
             this.hubViewPresenter = null;
         }
     });
-    // </SnippetHilojs_1403>
 
 }());

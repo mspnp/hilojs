@@ -10,7 +10,6 @@
 describe("listview presenter", function () {
     "use strict";
 
-    // <SnippetHilojs_1202>
     describe("when snapped", function () {
 
         var el;
@@ -29,7 +28,6 @@ describe("listview presenter", function () {
         });
 
     });
-    // </SnippetHilojs_1202>
 
     describe("when filled", function () {
 

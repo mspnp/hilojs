@@ -16,13 +16,11 @@
     // These settings must correspond to the height and width values specified 
     // in the css for the items. They need to be the greatest common demoninator
     // of the various widths and heights.
-    // <SnippetHilojs_1616>
     var listViewLayoutSettings = {
         enableCellSpanning: true,
         cellWidth: 200,
         cellHeight: 200
     };
-    // </SnippetHilojs_1616>
 
     // List View Presenter Definition
     // --------------------------------
@@ -90,7 +88,6 @@
             },
 
             // Event handler for "invoking" (clicking or tapping) an image.
-            // <SnippetHilojs_1212>
             imageNavigated: function (args) {
                 var self = this;
                 args.detail.itemPromise.then(function (item) {
@@ -100,34 +97,25 @@
                     });
                 });
             },
-            // </SnippetHilojs_1212>
 
             // Bind an array of objects to the `ListView` by converting
             // it in to a bindable list, and data source.
-            // <SnippetHilojs_1614>
-            // <SnippetHilojs_1504>
             setDataSource: function (items) {
                 this.lv.itemDataSource = new WinJS.Binding.List(items).dataSource;
             },
-            // </SnippetHilojs_1504>
-            // </SnippetHilojs_1614>
 
             // Change the layout of the list view based on the application's
             // [application view state][4]. 
             // 
             // [4]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.viewmanagement.applicationviewstate
-            // <SnippetHilojs_1412>
             setViewState: function (viewState) {
                 this.lv.layout = this.selectLayout(viewState);
             },
-            // </SnippetHilojs_1412>
 
             // Determines the correct layout for the screen based
             // on the current view state and last view state. If the
             // current view state is the same as the last view state,
             // no changes are made to the layout.
-            // <SnippetHilojs_1413>
-            // <SnippetHilojs_1615>
             selectLayout: function (viewState, lastViewState) {
 
                 if (lastViewState === viewState) { return; }
@@ -142,8 +130,6 @@
                     return layout;
                 }
             },
-            // </SnippetHilojs_1615>
-            // </SnippetHilojs_1413>
 
             // Get the indices of the selected items from the ListView.
             getIndices: function () {

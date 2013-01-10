@@ -34,10 +34,8 @@
                 "unsnap"
             ]);
 
-            // <SnippetHilojs_1715>
             touchProvider.setRotation = this._rotateImageWithoutTransition;
             touchProvider.animateRotation = this._rotateImage;
-            // </SnippetHilojs_1715>
         },
 
         {
@@ -114,7 +112,6 @@
 
             // Internal method.
             // Take the query result from the image query and display the image that it loaded.
-            // <SnippetHilojs_1611>
             _loadAndShowImage: function (queryResult) {
                 var self = this;
 
@@ -142,7 +139,6 @@
                     }
                 }
             },
-            // </SnippetHilojs_1611>
 
             // Internal method
             // Sets the CSS rotation of the image element. A CSS transition has also

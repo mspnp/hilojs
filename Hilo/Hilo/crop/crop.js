@@ -47,9 +47,7 @@
 
             // Build the crop selection and related items.
             this.cropSelection = new Hilo.Crop.CropSelection(cropSelectionCoords);
-            // <SnippetHilojs_1701>
             this.imageView = new Hilo.Crop.ImageView(image, this.cropSelection, canvasEl, imageEl);
-            // </SnippetHilojs_1701>
             this.cropSelectionView = new Hilo.Crop.CropSelectionView(this.cropSelection, canvasEl, cropSelectionEl);
             this.cropSelectionController = new Hilo.Crop.CropSelectionController(this.cropSelection, this.imageView, cropSelectionEl);
 

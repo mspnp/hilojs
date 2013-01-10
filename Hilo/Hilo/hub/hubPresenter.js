@@ -67,12 +67,10 @@
                 this.listview.addEventListener("itemInvoked", this.itemClicked);
 
                 // Configure and then build the query for this page.
-                // <SnippetHilojs_1301>
                 this.queryBuilder
                     .bindable(true)
                     .prefetchOptions(["System.ItemDate"])
                     .count(maxImageCount);
-                // </SnippetHilojs_1301>
 
                 // Retrieve and display the images.
                 return this.loadImages();
@@ -89,11 +87,8 @@
             loadImages: function () {
                 var self = this;
 
-                // <SnippetHilojs_1309>
                 var query = this.queryBuilder.build(this.folder);
-                // </SnippetHilojs_1309>
 
-                // <SnippetHilojs_1313>
                 return query.execute()
                     .then(function (items) {
                         if (items.length === 0) {
@@ -102,10 +97,8 @@
                             self.bindImages(items);
                         }
                     });
-                // </SnippetHilojs_1313>
             },
 
-            // <SnippetHilojs_1315>
             bindImages: function (items) {
                 this.dataSource = items;
 
@@ -131,7 +124,6 @@
 
                 this.listview.setDataSource(items);
             },
-            // </SnippetHilojs_1315>
 
             displayLibraryEmpty: function () {
                 this.hiloAppBar.disableButtons();
@@ -166,7 +158,6 @@
             // When an item is "invoked" (clicked or tapped), navigate to
             // the detail screen to display this image in the month-group
             // that it belongs to, based on the "ItemDate" of the picture.
-            // <SnippetHilojs_1402>
             itemClicked: function (args) {
 
                 // Get the `Hilo.Picture` item that was bound to the invoked image,
@@ -180,7 +171,6 @@
                 // show, and the index of the individual item that was invoked.
                 this.nav.navigate("/Hilo/detail/detail.html", options);
             },
-            // </SnippetHilojs_1402>
 
             buildQueryForPicture: function (picture) {
 

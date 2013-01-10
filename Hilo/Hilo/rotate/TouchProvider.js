@@ -14,7 +14,6 @@
 
     var TouchProvider = WinJS.Class.define(
 
-        // <SnippetHilojs_1713>
         function TouchProviderConstructor(inputElement) {
 
             var recognizer = new Windows.UI.Input.GestureRecognizer();
@@ -49,7 +48,6 @@
 
             this.displayRotation = 0;
         },
-        // </SnippetHilojs_1713> 
 
         {
             setRotation: function () {
@@ -60,7 +58,6 @@
                 // We expect this function to be replaced by the consumer of this object.
             },
 
-            // <SnippetHilojs_1714>
             _manipulationUpdated: function (args) {
                 this.setRotation(args.cumulative.rotation);
             },
@@ -70,7 +67,6 @@
                 var adjustment = Math.round(degrees / 90) * 90;
                 this.animateRotation(adjustment);
             }
-            // </SnippetHilojs_1714>
         });
 
     // Public API

@@ -133,14 +133,12 @@
 
                 // Responds to resize events and call the updateLayout function
                 // on the currently loaded page.
-                // <SnippetHilojs_1410>
                 _resized: function (args) {
                     if (this.pageControl && this.pageControl.updateLayout) {
                         this.pageControl.updateLayout.call(this.pageControl, this.pageElement, appView.value, this._lastViewstate);
                     }
                     this._lastViewstate = appView.value;
                 },
-                // </SnippetHilojs_1410>
 
                 // Updates the back button state. Called after navigation has
                 // completed.

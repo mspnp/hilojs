@@ -7,7 +7,6 @@
 //  Microsoft patterns & practices license (http://hilojs.codeplex.com/license)
 // ===============================================================================
 
-// <SnippetHilojs_2001>
 describe("Image Query Builder", function () {
 
     var queryBuilder, storageFolder;
@@ -21,7 +20,6 @@ describe("Image Query Builder", function () {
             done();
         });
     });
-    // </SnippetHilojs_2001>
 
     describe("when building a query", function () {
         var query;
@@ -69,7 +67,6 @@ describe("Image Query Builder", function () {
         });
     });
 
-    // <SnippetHilojs_2003>
     describe("when specifying a month and year for images", function () {
         var queryOptions;
 
@@ -93,9 +90,7 @@ describe("Image Query Builder", function () {
             expect(queryOptions.applicationSearchFilter).equals("System.ItemDate:" + start + ".." + end);
         });
     });
-    // </SnippetHilojs_2003>
 
-    // <SnippetHilojs_2002>
     describe("when executing a query that specifies the number of images to load", function () {
         var queryResult;
 
@@ -113,7 +108,6 @@ describe("Image Query Builder", function () {
             }).done(null, done);
         });
     });
-    // </SnippetHilojs_2002>
 
     describe("when executing a query that does not specifies the number of images to load", function () {
         var queryResult;

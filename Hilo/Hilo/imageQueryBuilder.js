@@ -83,14 +83,11 @@
 
     var ImageQueryBuilder = WinJS.Class.define(
 
-            // <SnippetHilojs_1304>
             function ImageQueryBuilderConstructor() {
                 this.reset();
             },
-            // </SnippetHilojs_1304>
 
             {
-                // <SnippetHilojs_1318>
                 reset: function () {
                     this._settings = {};
                     this._set("fileTypes", [".jpg", ".jpeg", ".tiff", ".png", ".bmp", ".gif"]);
@@ -107,7 +104,6 @@
 
                     return this;
                 },
-                // </SnippetHilojs_1318>
 
                 // Build the query object with all of the settings that have
                 // been configured for this builder.  
@@ -127,7 +123,6 @@
                 // or not bindable `Picture` objects are returned. If no
                 // parameter is specified, it defaults to `false`.
                 //
-                // <SnippetHilojs_1307>
                 bindable: function (bindable) {
                     // `!!` is a JavaScript coersion trick to convert any value
                     // in to a true boolean value. 
@@ -147,7 +142,6 @@
                     this._set("bindable", !!bindable);
                     return this;
                 },
-                // </SnippetHilojs_1307>
 
                 // Set the number of images to retrieve. Setting this will
                 // override the `imageAt` setting.
@@ -176,13 +170,11 @@
                 // with this method, as an array, using the [attribute names][4].
                 //
                 // [4]: http://msdn.microsoft.com/en-us/library/windows/desktop/dd561977(v=vs.85).aspx
-                // <SnippetHilojs_1308>
                 prefetchOptions: function (attributeArray) {
                     this._set("prefetchOption", fileProperties.PropertyPrefetchOptions.none);
                     this._set("prefetchAttributes", attributeArray);
                     return this;
                 },
-                // </SnippetHilojs_1308>
 
                 // Only pictures taken within the specified month and year will
                 // be loaded. The `monthAndYear` parameter should be a string that
@@ -195,11 +187,9 @@
 
                 // Internal method to set a key / value pair, used for
                 // building the final query.
-                // <SnippetHilojs_1305>
                 _set: function (key, value) {
                     this._settings[key] = value;
                 }
-                // </SnippetHilojs_1305>
             },
 
             // Type members are often called "static" members, though in JavaScript
@@ -213,7 +203,6 @@
                 // var deserializedQuery = Hilo.ImageQueryBuilder.deserialize(serializedQuery);
                 // deserializedQuery.execute();
                 // ```
-                // <SnippetHilojs_1804>
                 deserialize: function (serializedQuery) {
                     // Even though we pass in the entire query object, we really only care
                     // about the settings. They allow us to reconstruct the correct query.
@@ -225,15 +214,12 @@
 
                     return new QueryObject(settings);
                 }
-                // </SnippetHilojs_1804>
             }
         );
 
-    // <SnippetHilojs_1303>
     WinJS.Namespace.define("Hilo", {
         ImageQueryBuilder: ImageQueryBuilder
     });
-    // </SnippetHilojs_1303>
 
 
     // QueryObject Definition
@@ -265,7 +251,6 @@
 
     var QueryObject = WinJS.Class.define(
 
-        // <SnippetHilojs_1302>
         function QueryObjectConstructor(settings) {
             // Duplicate and the settings by copying them
             // from the original, to a new object. This is
@@ -299,7 +284,6 @@
 
             this.fileQuery = this._buildFileQuery(queryOptions);
         },
-        // </SnippetHilojs_1302>
 
         {
             // Execute the query object. Returns a promise that provides
@@ -315,7 +299,6 @@
             // ```
             //
             // [5]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.storagefile.aspx
-            // <SnippetHilojs_1314>
             execute: function () {
                 var start, count;
                 var queryPromise;
@@ -352,17 +335,14 @@
 
                 return queryPromise;
             },
-            // </SnippetHilojs_1314>
 
             // This method is called by convention when this object is serialized.
             // This implementation does not add anything beyond the builtin logic,
             // however we include it in order to demonstrate were you could 
             // customize the serialization if you needed.
-            // <SnippetHilojs_1802>
             toJSON: function () {
                 return this;
             },
-            // </SnippetHilojs_1802>
 
             // Internal method to take the options specified in the query builder
             // and turn them in to a [QueryOptions][6] object. 
@@ -372,7 +352,6 @@
             // `execute` method, instead.
             //
             // [6]: http://msdn.microsoft.com/en-us/library/windows/apps/windows.storage.search.queryoptions.aspx
-            // <SnippetHilojs_1311>
             _buildQueryOptions: function (settings) {
                 var queryOptions = new search.QueryOptions(settings.sortOrder, settings.fileTypes);
                 queryOptions.indexerOption = settings.indexerOption;
@@ -385,20 +364,15 @@
 
                 return queryOptions;
             },
-            // </SnippetHilojs_1311>
 
             // Internal method. Converts a QueryOptions object in to a file query.
-            // <SnippetHilojs_1312>
             _buildFileQuery: function (queryOptions) {
                 return this.settings.folder.createFileQueryWithOptions(queryOptions);
             },
-            // </SnippetHilojs_1312>
 
             // Internal method. Wraps the original `StorageFile` objects in 
             // `Hilo.Picture` objects, so that they can be bound to UI controls
             // such as the `WinJS.UI.ListView`.
-            // <SnippetHilojs_1109>
-            // <SnippetHilojs_1316>
             _createViewModels: function (files) {
 
                 var count = files.length;
@@ -430,8 +404,6 @@
 
                 }, onCancellation);
             }
-            // </SnippetHilojs_1316>
-            // </SnippetHilojs_1109>
         });
 
 })();

@@ -16,7 +16,6 @@
     // Private Methods
     // ---------------
 
-    // <SnippetHilojs_1007>
     function buildWideTile(thumbnailFilePaths) {
 
         // For more information about the `TileWideImageCollection` template, see:
@@ -32,7 +31,6 @@
 
         return xml;
     }
-    // </SnippetHilojs_1007>
 
     function buildSquareTile(thumbnailFilePath) {
         // For more information about the `TileSquareImage` template, see:
