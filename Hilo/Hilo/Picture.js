@@ -41,9 +41,18 @@
             this.addProperty("src", "");
             this.addProperty("itemDate", "");
             this.addProperty("className", "thumbnail");
+            this.addProperty("preview", "");
+            if (file.isAvailable) {
+                this.addProperty("opacity", 1);
+                this.addProperty("isOffline", 0);
+            } else {
+                this.addProperty("opacity", 0.4);
+                this.addProperty("isOffline", 1);
+            }
 
-            this.loadFileProperties();
-            this.loadUrls();
+            this.loadFileProperties().then(function () {;
+                self.loadUrls();
+            });
         },
 
         {
@@ -70,7 +79,7 @@
                         if (self.isDisposed) { return; }
                         self.updateProperty("itemDate", retrieved.lookup("System.ItemDate"));
                     });
-                    file.properties.getImagePropertiesAsync().then(function (props) {
+                    return file.properties.getImagePropertiesAsync().then(function (props) {
                         if (props.height === 0 && props.width === 0) {
                             self.setCorruptImage();
                         }
@@ -90,10 +99,15 @@
                     url: corruptImageFile,
                     backgroundUrl: 'url("' + corruptImageFile + ' ")',
                 };
-
                 this.addUrl(urlConfig);
+
                 urlConfig.attrName = "src";
                 this.addUrl(urlConfig);
+
+                if (this.preview != undefined) {
+                    urlConfig.attrName = "preview";
+                    this.addUrl(urlConfig);
+                }
             },
 
             // Ensures that the `UrlCache` has the associated URLs for
@@ -107,6 +121,25 @@
                 if (file && file.getThumbnailAsync) {
                     Hilo.UrlCache.getUrl(file.path, "url", function () {
                         return file.getThumbnailAsync(thumbnailMode.picturesView);
+                    }).then(function (urlConfig) {
+                        if (!self.isCorrupt) {
+                            self.addUrl(urlConfig);
+                        }
+                    });
+                }
+
+                // Ensure the optimized preview URL is present in the cache.
+                if (file && file.getScaledImageAsThumbnailAsync) {
+                    Hilo.UrlCache.getUrl(file.path, "preview", function () {
+                        var maxThumbSize = 1600;
+                        var previewSize = maxThumbSize;
+                        if ((self.properties.width >= self.properties.height
+                                && document.documentElement.offsetWidth * 2 / 3 > maxThumbSize)
+                                || (self.properties.width < self.properties.height
+                                && document.documentElement.offsetHeight * 2 / 3 > maxThumbSize)) {
+                            previewSize = document.documentElement.offsetWidth;
+                        }
+                        return file.getScaledImageAsThumbnailAsync(thumbnailMode.singleItem, previewSize);
                     }).then(function (urlConfig) {
                         if (!self.isCorrupt) {
                             self.addUrl(urlConfig);
@@ -163,8 +196,34 @@
                 // We are assuming that we'll always extract the `src` property from the `source`
                 // and bind it to the `style.backgroundImage` of the `target` (which we expect to be a div tag).
                 // We are not using img tags because a bad file results in a broken image
-                target.style.backgroundImage = source.src.backgroundUrl;
+                if (source.src.backgroundUrl) {
+                    target.style.backgroundImage = source.src.backgroundUrl;
+                } else {
+                    source.addEventListener("url:set:src", function (e) {
+                        if (source.isDisposed) { return; }
+                        target.style.backgroundImage = source.src.backgroundUrl;
+                    });
+                }
             }),
+
+            bindToImagePreview: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
+                if (source.preview.backgroundUrl) {
+                    target.style.backgroundImage = source.preview.backgroundUrl;
+                } else {
+                    source.addEventListener("url:set:preview", function (e) {
+                        if (source.isDisposed) { return; }
+                        target.style.backgroundImage = source.preview.backgroundUrl;
+                    });
+                }
+            }),
+
+            bindToAvailability: WinJS.Binding.initializer(function (source, sourceProperties, target, targetProperties) {
+                if (source.isOffline || source.isCorrupt) {
+                    target.disabled = true;
+                } else {
+                    target.disabled = false;
+                }
+            })
         }
     );
 
