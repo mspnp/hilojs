@@ -85,8 +85,8 @@
             return cropPresenter;
         },
 
-        updateLayout: function (element, viewState, lastViewState) {
-            if (viewState === Windows.UI.ViewManagement.ApplicationViewState.snapped) {
+        updateLayout: function (element, width, lastWidth) {
+            if (width <= 500) {
                 this.cropSelectionView.reset();
                 this.imageView.drawImage();
                 this.cropSelectionView.draw(this.cropSelection.getCoords());

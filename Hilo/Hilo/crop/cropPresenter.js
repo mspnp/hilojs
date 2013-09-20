@@ -27,7 +27,6 @@
             start: function () {
                 this.appBarPresenter.addEventListener("cancel", this.cancel.bind(this));
                 this.appBarPresenter.addEventListener("save", this.saveImageAs.bind(this));
-                this.appBarPresenter.addEventListener("unsnap", this.unSnapView.bind(this));
 
                 this.imageView.addEventListener("preview", this.cropImage.bind(this));
             },
@@ -37,10 +36,6 @@
                 this.dispatchEvent("imagePreview", {
                     dataUrl: dataUrl
                 });
-            },
-
-            unSnapView: function () {
-                Windows.UI.ViewManagement.ApplicationView.tryUnsnap();
             },
 
             saveImageAs: function () {
