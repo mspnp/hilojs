@@ -9,7 +9,7 @@
     "use strict";
 
     function checkOptions(options, deserialize) {
-        if (!options) { return; }
+        if (!options || options.validationOverride) { return; }
 
         deserialize = deserialize || Hilo.ImageQueryBuilder.deserialize;
 
