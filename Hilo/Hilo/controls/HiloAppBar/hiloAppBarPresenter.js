@@ -30,6 +30,11 @@
 
                 this.crop = this.el.querySelector("#crop");
                 this.crop.addEventListener("click", this._cropClicked.bind(this));
+
+                this.add = this.el.querySelector("#add");
+                if (this.add) {
+                    this.add.addEventListener("click", this._addClicked.bind(this));
+                }
             },
 
             // Internal method. Handles the `click` event of the "#rotate" HTML element
@@ -43,11 +48,20 @@
             _cropClicked: function () {
                 this.nav.navigate("/Hilo/crop/crop.html", this.navigationOptions);
             },
+            
+            // Internal method. Handles the `click` event of the "#add" HTML element
+            // and calls the folder picker in its add to library mode.
+            _addClicked: function () {
+                var picturesLibraryId = Windows.Storage.KnownLibraryId.pictures;
+                Windows.Storage.StorageLibrary.getLibraryAsync(picturesLibraryId).done(function (library) {
+                    library.requestAddFolderAsync();
+                });
+            },
 
             setNavigationOptions: function (options, shouldShow) {
                 this.navigationOptions = options;
 
-                if (options.picture.isCorrupt) {
+                if (options.picture.isCorrupt || options.picture.isOffline) {
                     this.disableButtons();
                 } else {
                     this.enableButtons();

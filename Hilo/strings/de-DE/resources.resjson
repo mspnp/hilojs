@@ -4,6 +4,9 @@
     "AcceptAppBarButton.Name":    "annehmen",
     "_AcceptAppBarButton.Name.comment":    "App bar button text.",
 
+    "AddFolderAppBarButton.Name":    "Hinzufügen",
+    "_AddFolderAppBarButton.Name.comment":    "App bar button text.",
+
     "AppBar.FlowDirection":    "LeftToRight",
     "_AppBar.FlowDirection.comment":    "FlowDirection for every app bar.",
 

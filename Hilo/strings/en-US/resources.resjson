@@ -4,6 +4,9 @@
     "AcceptAppBarButton.Name":    "Accept",
     "_AcceptAppBarButton.Name.comment":    "App bar button text.",
 
+    "AddFolderAppBarButton.Name":    "Add pictures",
+    "_AddFolderAppBarButton.Name.comment":    "App bar button text.",
+
     "AppBar.FlowDirection":    "LeftToRight",
     "_AppBar.FlowDirection.comment":    "Choose LeftToRight or RightToLeft, depending on your language.",
 
