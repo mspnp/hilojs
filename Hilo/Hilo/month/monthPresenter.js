@@ -12,8 +12,7 @@
     // ---------------------
     var search = Windows.Storage.Search,
         fileProperties = Windows.Storage.FileProperties,
-        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery,
-        viewStates = Windows.UI.ViewManagement.ApplicationViewState;
+        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
     var itemDateProperty = "System.ItemDate";
     var maxImagesPerGroup = 8;
@@ -65,6 +64,10 @@
                     .then(this._buildViewModelsForMonths)
                     .then(this._createDataSources)
                     .then(function (dataSources) {
+                        var splash = document.querySelector("#extendedSplash");
+                        WinJS.UI.Animation.fadeOut(splash).done(function () {
+                            splash.style.display = "none";
+                        });
                         self._setupListViews(dataSources.images, dataSources.years);
                         self.loadingIndicatorEl.style.display = "none";
                         self.isLoading = false;
@@ -293,13 +296,13 @@
                 };
             },
 
-            selectLayout: function (viewState) {
+            selectLayout: function (width) {
 
-                viewState = viewState || Windows.UI.ViewManagement.ApplicationView.value;
+                width = width || document.documentElement.offsetWidth;
 
                 if (this.isLoading) { return; }
 
-                if (viewState === Windows.UI.ViewManagement.ApplicationViewState.snapped) {
+                if (width < 500) {
 
                     this.zoomedInListView.layout = new WinJS.UI.ListLayout();
                     this.zoomedInListView.itemDataSource = this.imageList.groups.dataSource;

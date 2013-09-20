@@ -10,8 +10,7 @@
     // Imports And Constants
     // ---------------------
     var search = Windows.Storage.Search,
-        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery,
-        viewStates = Windows.UI.ViewManagement.ApplicationViewState;
+        commonFolderQuery = Windows.Storage.Search.CommonFolderQuery;
 
     // Page Control
     // ------------
@@ -19,11 +18,22 @@
     Hilo.controls.pages.define("month", {
 
         ready: function (element, options) {
+            if (options && options.fileOpen) {
+                options.fileOpen = false;
+                WinJS.Navigation.navigate("/Hilo/fileopen/fileopen.html", options);
+            }
+
             var self = this;
 
             this.queryBuilder = new Hilo.ImageQueryBuilder();
 
             WinJS.Application.addEventListener("Hilo:ContentsChanged", Hilo.navigator.reload);
+            // F5 support
+            document.onkeydown = function (e) {
+                if (e.keyCode === 116) {
+                    Hilo.navigator.reload();
+                }
+            };
 
             var appBarEl = document.querySelector("#appbar");
             var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(appBarEl, WinJS.Navigation);
@@ -38,9 +48,9 @@
             this.promise = this.presenter.start(Windows.Storage.KnownFolders.picturesLibrary);
         },
 
-        updateLayout: function (element, viewState, lastViewState) {
-            if (viewState !== lastViewState) {
-                this.presenter.selectLayout(viewState);
+        updateLayout: function (element, width, lastWidth) {
+            if ((width <= 500 && lastWidth > 500)||(width >= 500 && lastWidth < 500)) {
+                this.presenter.selectLayout(width);
             }
         },
 

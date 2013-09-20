@@ -18,7 +18,9 @@
 
         <section aria-label="Main content" role="main" data-win-design-locked="true">
             <div id="monthItemTemplate" data-win-control="WinJS.Binding.Template">
-                <div data-win-bind="style.backgroundImage: url.backgroundUrl; className: className"></div>
+                <span class="availability" data-win-bind="style.opacity: isOffline;">Available online only</span>
+                <div data-win-bind="style.backgroundImage: url.backgroundUrl; className: className; style.opacity: opacity;"></div>
+                
             </div>
 
             <div id="monthGroupHeaderTemplate" data-win-control="WinJS.Binding.Template">
