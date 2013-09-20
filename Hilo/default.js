@@ -24,7 +24,23 @@
 
         var currentState = args.detail;
 
-        if (currentState.kind === activation.ActivationKind.launch) {
+        if (currentState.kind === activation.ActivationKind.launch || currentState.kind === activation.ActivationKind.file) {
+
+            // Extended splash screen setup
+            var splash = currentState.splashScreen;
+            var coordinates = { x: 0, y: 0, width: 0, height: 0 };
+            var img = document.querySelector("#extendedSplash img"),
+                div = document.querySelector("#extendedSplash"),
+                progress = document.querySelector("#extendedSplash progress");
+            // Retrieve the window coordinates of the splash screen image
+            coordinates = splash.imageLocation;
+            // Position the image used for the extended splash screen in the same location as the splash screen image.
+            img.style.left = coordinates.x + "px";
+            img.style.top = coordinates.y + "px";
+            img.style.height = coordinates.height + "px";
+            img.style.width = coordinates.width + "px";
+            progress.style.left = (coordinates.x + coordinates.width / 2 - 30) + "px";
+            progress.style.top = (coordinates.y + coordinates.height + 20) + "px";
 
             if (currentState.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
 
@@ -60,7 +76,25 @@
             var processAndNavigate = WinJS.UI
                 .processAll()
                 .then(function () {
-
+                    if (currentState.kind === activation.ActivationKind.file) {
+                        var itemLaunched = args.detail.files.getAt(0);
+                        var query = args.detail.neighboringFilesQuery;
+                        if (query) {
+                            query.findStartIndexAsync(itemLaunched).done(function (index) {
+                                var options = {
+                                    query: query,
+                                    itemIndex: index,
+                                    itemName: itemLaunched.name,
+                                    validationOverride: true,
+                                    fileOpen: true
+                                };
+                                // Navigate to the home page , which will redirect
+                                // to the details page for the launched item
+                                // with the neighboring files query.
+                                return nav.navigate(Hilo.navigator.home, options);
+                            });
+                        }
+                    } else
                     if (nav.location) {
                         nav.history.current.initialPlaceholder = true;
                         return nav.navigate(nav.location, nav.state);

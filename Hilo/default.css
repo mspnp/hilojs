@@ -6,6 +6,26 @@ body {
     background-color: #292929;
 }
 
+#extendedSplash {
+    position: absolute;
+    width:  100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10000; /* Need to be on top of the app bars */
+    background-color: #292929;
+}
+    
+#extendedSplash img {
+    position: absolute;
+}
+
+    #extendedSplash progress {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+    }
+
 #contenthost {
     height: 100%;
     width: 100%;
