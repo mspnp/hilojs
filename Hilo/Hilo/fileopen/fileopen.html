@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>fileopen</title>
+
+    <link href="fileopen.css" rel="stylesheet" />
+    <script src="..\detail\filmstripPresenter.js"></script>
+    <script src="..\detail\flipviewPresenter.js"></script>
+    <script src="fileopenPresenter.js"></script>
+    <script src="fileopen.js"></script>
+</head>
+<body>
+    <div class="detail fragment">
+        <div id="filmstrip-thumbnail" data-win-control="WinJS.Binding.Template">
+            <div class="filmstrip-thumbnail" data-win-bind="style.backgroundImage: url.backgroundUrl;">
+            </div>
+        </div>
+
+        <div id="nav" data-win-control="WinJS.UI.AppBar" data-win-options="{ layout:'custom', placement:'top'}">
+            <button id="filmstrip-backbutton" class="win-backbutton" aria-label="Back"></button>
+            <div id="filmstrip"
+                data-win-control="WinJS.UI.ListView"
+                data-win-options="{
+                    itemTemplate: select('#filmstrip-thumbnail'),
+                    selectionMode: 'single',
+                    tapBehavior: 'directSelect'
+                }">
+            </div>
+        </div>
+
+        <header aria-label="Header content" role="banner">
+            <button id="backButton" class="win-backbutton" aria-label="Back" disabled></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span id="pageTitle" class="pagetitle">Hilo Viewer</span>
+            </h1>
+        </header>
+
+        <section aria-label="Main content" role="main">
+            <div id="image-template" data-win-control="WinJS.Binding.Template">
+                <div class="flipViewBackground">
+                    <div class="flipViewImage" data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc;">
+                    </div>
+                </div>
+            </div>
+
+            <div id="flipview"
+                data-win-control="WinJS.UI.FlipView"
+                data-win-options="{ 
+                    itemTemplate: select('#image-template')}">
+            </div>
+        </section>
+    	<progress class="win-ring win-large"></progress>
+    </div>
+
+    <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/HiloAppBar/hiloAppBar.html'}"></section>
+</body>
+</html>
