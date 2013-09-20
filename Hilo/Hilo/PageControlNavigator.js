@@ -18,7 +18,7 @@
 (function () {
     "use strict";
 
-    var appView = Windows.UI.ViewManagement.ApplicationView;
+    var appView = Windows.UI.ViewManagement.ApplicationView.getForCurrentView();
     var nav = WinJS.Navigation;
 
     WinJS.Namespace.define("Hilo", {
@@ -30,7 +30,7 @@
                 this._element.appendChild(this._createPageElement());
 
                 this.home = options.home;
-                this._lastViewstate = appView.value;
+                this._lastWidth = document.documentElement.offsetWidth;
 
                 nav.onnavigated = this._navigated.bind(this);
                 window.onresize = this._resized.bind(this);
@@ -47,7 +47,7 @@
                 /// <field domElement="true" />
                 _element: null,
                 _lastNavigationPromise: WinJS.Promise.as(),
-                _lastViewstate: 0,
+                _lastWidth: 0,
 
                 // This is the currently loaded Page object.
                 pageControl: {
@@ -135,9 +135,9 @@
                 // on the currently loaded page.
                 _resized: function (args) {
                     if (this.pageControl && this.pageControl.updateLayout) {
-                        this.pageControl.updateLayout.call(this.pageControl, this.pageElement, appView.value, this._lastViewstate);
+                        this.pageControl.updateLayout.call(this.pageControl, this.pageElement, document.documentElement.offsetWidth, this._lastWidth);
                     }
-                    this._lastViewstate = appView.value;
+                    this._lastWidth = document.documentElement.offsetWidth;
                 },
 
                 // Updates the back button state. Called after navigation has
