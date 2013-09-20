@@ -42,7 +42,7 @@
             this.presenter = null;
         },
 
-        updateLayout: function (element, viewState, lastViewState) {
+        updateLayout: function (element, width, lastWidth) {
             this.presenter.adjustImageSize();
         }
 

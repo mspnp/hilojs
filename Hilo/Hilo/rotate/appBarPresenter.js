@@ -27,7 +27,6 @@
             this.rotateClockwise = this.rotateClockwise.bind(this);
             this.saveChanges = this.saveChanges.bind(this);
             this.cancelChanges = this.cancelChanges.bind(this);
-            this.unSnap = this.unSnap.bind(this);
 
             this.setupButtons();
             this.menu.show();
@@ -38,7 +37,6 @@
                 this._removeButton("#clockwise", this.rotateClockwise);
                 this._removeButton("#save", this.saveChanges);
                 this._removeButton("#cancel", this.cancelChanges);
-                this._removeButton("#unSnap", this.unSnap);
 
                 this.el = null;
                 this.menu = null;
@@ -49,13 +47,7 @@
                 this.clockwiseButton = this._addButton("#clockwise", this.rotateClockwise);
                 this.saveButton = this._addButton("#save", this.saveChanges);
                 this.cancelButton = this._addButton("#cancel", this.cancelChanges);
-                this.unSnapButton = this._addButton("#unSnap", this.unSnap);
                 this._disableButtons();
-            },
-
-            // Unsnap the view, back in to full screen mode.
-            unSnap: function () {
-                this.dispatchEvent("unsnap", {});
             },
 
             // Rotate clockwise was clicked.

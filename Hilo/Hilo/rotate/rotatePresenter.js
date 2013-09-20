@@ -30,8 +30,7 @@
                 "_rotateImage",
                 "_rotateImageWithoutTransition",
                 "saveImage",
-                "cancel",
-                "unsnap"
+                "cancel"
             ]);
 
             touchProvider.setRotation = this._rotateImageWithoutTransition;
@@ -90,24 +89,18 @@
                 this.navigation.back();
             },
 
-            unsnap: function () {
-                Windows.UI.ViewManagement.ApplicationView.tryUnsnap();
-            },
-
             // Internal method.
             // Bind to the appbar presenter's events, to handle the button clicks.
             _bindToEvents: function () {
                 this.appBarPresenter.addEventListener("rotate", this.rotateImage);
                 this.appBarPresenter.addEventListener("save", this.saveImage);
                 this.appBarPresenter.addEventListener("cancel", this.cancel);
-                this.appBarPresenter.addEventListener("unsnap", this.unsnap);
             },
 
             _unbindEvents: function () {
                 this.appBarPresenter.removeEventListener("rotate", this.rotateImage);
                 this.appBarPresenter.removeEventListener("save", this.saveImage);
                 this.appBarPresenter.removeEventListener("cancel", this.cancel);
-                this.appBarPresenter.removeEventListener("unsnap", this.unsnap);
             },
 
             // Internal method.
