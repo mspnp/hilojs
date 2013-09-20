@@ -55,7 +55,8 @@
             // We need to hold a reference to the query object so that our event
             // listener does not fall out of scope and get garbage collected. 
             this.query = builder.build(folder);
-            this.query.fileQuery.addEventListener("contentschanged", handler);
+            // this.query.fileQuery.addEventListener("contentschanged", handler);
+            this.query.fileQuery.oncontentschanged = handler;
 
             // Run the file load and grab the first image in the set. This sets
             // up the file system watchers behind the scenes, allowing the
