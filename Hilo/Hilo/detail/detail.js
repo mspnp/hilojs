@@ -19,7 +19,7 @@
             var pageTitle = Hilo.dateFormatter.getMonthFrom(queryDate) + " " + Hilo.dateFormatter.getYearFrom(queryDate);
             this.bindPageTitle(pageTitle);
 
-            var progressIndicator = document.querySelector("progress");
+            var progressIndicator = document.querySelector("#contenthost progress");
 
             var hiloAppBarEl = document.querySelector("#appbar");
             var hiloAppBar = new Hilo.Controls.HiloAppBar.HiloAppBarPresenter(hiloAppBarEl, WinJS.Navigation, query);

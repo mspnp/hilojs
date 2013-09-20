@@ -64,6 +64,16 @@
     background-repeat: no-repeat;
 }
 
+    .detail .filmstrip-thumbnail .availability {
+        position: absolute;
+        left: 0;
+        top: 80px;
+        width: 100%;
+        padding-left: 5px;
+        background-color: #282828;
+        z-index: 2;
+    }
+
 .detail .win-flipview {
     height: 100%;
 }

@@ -40,7 +40,8 @@
         <section aria-label="Main content" role="main">
             <div id="image-template" data-win-control="WinJS.Binding.Template">
                 <div class="flipViewBackground">
-                    <div class="flipViewImage" data-win-bind="backgroundImage: src Hilo.Picture.bindToImageSrc">
+                    <!-- AVAILABILITY: add opacity binding (opacity), bind to preview thumbnail (Hilo.Picture.bindToImagePreview) -->
+                    <div class="flipViewImage" data-win-bind="backgroundImage: src Hilo.Picture.bindToImagePreview;">
                     </div>
                 </div>
             </div>
@@ -51,7 +52,7 @@
                     itemTemplate: select('#image-template')}">
             </div>
         </section>
-    	<progress class="win-ring win-large"></progress>
+        <progress class="win-ring win-large"></progress>
     </div>
 
     <section id="image-nav" data-win-control="WinJS.UI.HtmlControl" data-win-options="{uri: '/Hilo/controls/HiloAppBar/hiloAppBar.html'}"></section>

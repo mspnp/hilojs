@@ -84,8 +84,7 @@
 
                 args.detail.itemPromise.then(function (item) {
                     self.gotoImage(itemIndex, item.data);
-
-                    if (item.data.isCorrupt) {
+                    if (item.data.isCorrupt || item.data.isOffline) {
                         self.hiloAppBar.disableButtons();
                     } else {
                         self.hiloAppBar.enableButtons();
